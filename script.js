@@ -83,3 +83,6 @@ document.querySelectorAll(".map-location").forEach(loc => {
 
   renderQuest();
 });
+
+renderQuest();
+questPanel.classList.remove("hidden"); // buka quest saat awal game
