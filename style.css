@@ -80,23 +80,36 @@ body {
 .market         { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   CHARACTER BASE
+   CHARACTER BASE (SUPER IMPORTANT)
 ===================== */
 .person {
   position: absolute;
   bottom: 20px;
   pointer-events: none;
   z-index: 5;
+
+  /* 🔥 RESET TOTAL (anti raksasa) */
+  transform: none !important;
+  scale: 1 !important;
 }
 
-/* 🔒 KUNCI UKURAN KARAKTER */
+/* =====================
+   CHARACTER SIZE (KUNCI)
+===================== */
+.person img {
+  display: block;
+  transform: none !important;
+}
+
+/* Syabil */
 .child img {
   height: 200px;
 }
 
+/* Papa & Mama — FIX RAKSASA */
 .papa img,
 .mama img {
-  height: 240px; /* lebih besar tapi NORMAL */
+  height: 230px;   /* NORMAL & PROPORSIONAL */
 }
 
 /* =====================
@@ -104,13 +117,26 @@ body {
 ===================== */
 
 /* HOME */
-.home .child { left: 52%; }
-.home .papa  { left: 40%; }
-.home .mama  { left: 60%; }
+.home .child {
+  left: 52%;
+}
+
+.home .papa {
+  left: 38%;
+}
+
+.home .mama {
+  left: 62%;
+}
 
 /* KAMAR SYABIL */
 .bedroom-child .child {
   left: 62%;
+}
+
+/* DAPUR → 1/4 DARI KIRI */
+.kitchen .child {
+  left: 25%;
 }
 
 /* SEKOLAH → TENGAH */
@@ -119,13 +145,8 @@ body {
   transform: translateX(-50%);
 }
 
-/* DAPUR → 1/3 dari kiri */
-.kitchen .child {
-  left: 32%;
-}
-
 /* =====================
-   ITEM (BED, FOOD)
+   ITEMS
 ===================== */
 .item {
   position: absolute;
@@ -135,13 +156,17 @@ body {
   user-select: none;
 }
 
+/* BED */
 .bed {
   left: 40px;
   bottom: 40px;
 }
 
-/* MAKANAN */
+/* =====================
+   FOOD (DIBESARKAN)
+===================== */
 .food {
+  font-size: 44px;      /* 🔼 LEBIH BESAR */
   cursor: pointer;
   user-select: none;
 }
@@ -162,16 +187,16 @@ body {
 }
 
 /* =====================
-   QUEST PANEL (SMALLER & CLEAN)
+   QUEST PANEL (RAPI & KECIL)
 ===================== */
 .quest-panel {
   position: absolute;
   top: 110px;
   right: 16px;
-  width: 160px;          /* 🔽 diperkecil */
+  width: 150px;
   background: white;
   border-radius: 14px;
-  padding: 10px 12px;    /* 🔽 lebih ramping */
+  padding: 10px 12px;
   box-shadow: 0 10px 22px rgba(0,0,0,0.18);
   font-size: 13px;
   z-index: 9999;
@@ -180,9 +205,6 @@ body {
 .quest-panel h3 {
   font-size: 14px;
   margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .quest-panel ul {
