@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  // =====================
+  // ELEMENTS
+  // =====================
   const starEl = document.getElementById("star-count");
   const navButtons = document.querySelectorAll(".nav button");
   const rooms = document.querySelectorAll(".room");
@@ -15,6 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const qEat = document.getElementById("q-eat");
   const qSchool = document.getElementById("q-school");
 
+  // =====================
+  // STATE
+  // =====================
   let stars = 0;
   let dressOn = false;
 
@@ -24,7 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
     school: false
   };
 
-  /* UTIL */
+  // =====================
+  // UTIL
+  // =====================
   function addStar(n = 1) {
     stars += n;
     starEl.textContent = stars;
@@ -46,27 +54,61 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => child.classList.remove("jump"), 300);
   }
 
-  function updateQuestUI() {
-    if (quest.wakeUp) qWake.classList.add("done");
-    if (quest.eat) qEat.classList.add("done");
-    if (quest.school) qSchool.classList.add("done");
+  // =====================
+  // QUEST UI + ANIMATION
+  // =====================
+  function sparkle(el) {
+    const star = document.createElement("span");
+    star.textContent = "✨";
+    star.style.position = "absolute";
+    star.style.right = "-10px";
+    star.style.top = "0";
+    star.style.opacity = "1";
+    star.style.transition = "all 0.6s ease";
+    el.appendChild(star);
+
+    setTimeout(() => {
+      star.style.top = "-20px";
+      star.style.opacity = "0";
+    }, 50);
+
+    setTimeout(() => star.remove(), 700);
   }
 
-  /* QUEST PANEL */
+  function markDone(el) {
+    if (!el.classList.contains("done")) {
+      el.classList.add("done");
+      sparkle(el);
+    }
+  }
+
+  function updateQuestUI() {
+    if (quest.wakeUp) markDone(qWake);
+    if (quest.eat) markDone(qEat);
+    if (quest.school) markDone(qSchool);
+  }
+
+  // =====================
+  // QUEST PANEL TOGGLE
+  // =====================
   btnQuest.addEventListener("click", () => {
     questPanel.classList.toggle("hidden");
   });
 
-  /* NAV */
+  // =====================
+  // NAVIGATION
+  // =====================
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const target = btn.dataset.area;
 
+      // Cegah sekolah kalau quest belum siap
       if (target === "school" && !quest.wakeUp) return;
       if (target === "school" && !quest.eat) return;
 
       switchRoom(target);
 
+      // Masuk sekolah = quest selesai
       if (target === "school" && !quest.school) {
         quest.school = true;
         addStar(2);
@@ -75,19 +117,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* BED */
-  bed.addEventListener("click", () => {
+  // =====================
+  // 🛏️ BANGUN TIDUR
+  // =====================
+  bed?.addEventListener("click", () => {
     switchRoom("bedroom");
     setTimeout(() => {
       quest.wakeUp = true;
-      addStar();
+      addStar(1);
       jump();
       updateQuestUI();
     }, 100);
   });
 
-  /* DRESS */
-  wardrobe.addEventListener("click", () => {
+  // =====================
+  // 👗 GANTI BAJU (OPSIONAL)
+  // =====================
+  wardrobe?.addEventListener("click", () => {
     switchRoom("bedroom");
     setTimeout(() => {
       const child = getChild();
@@ -95,19 +141,22 @@ document.addEventListener("DOMContentLoaded", () => {
       child.src = dressOn
         ? "./assets/child-dress.png"
         : "./assets/child.png";
-      addStar();
+      addStar(1);
       jump();
     }, 100);
   });
 
-  /* FOOD */
+  // =====================
+  // 🍎 MAKAN
+  // =====================
   foods.forEach(food => {
     food.addEventListener("click", () => {
       if (!quest.wakeUp) return;
+
       switchRoom("kitchen");
       setTimeout(() => {
         quest.eat = true;
-        addStar();
+        addStar(1);
         jump();
         updateQuestUI();
       }, 100);
