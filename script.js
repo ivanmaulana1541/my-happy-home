@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const starCountEl = document.getElementById("star-count");
-
-  const btnRumah = document.getElementById("btn-rumah");
-  const btnSekolah = document.getElementById("btn-sekolah");
-
+  const navButtons = document.querySelectorAll(".nav button");
   const rooms = document.querySelectorAll(".room");
 
   const bed = document.querySelector(".bed");
@@ -18,10 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   // HELPERS
   // =====================
-  function getActiveRoom() {
-    return document.querySelector(".room.active");
-  }
-
   function getActiveChild() {
     return document.querySelector(".room.active .person img");
   }
@@ -32,105 +25,53 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function jump(child) {
+    if (!child) return;
     child.classList.add("jump");
     setTimeout(() => child.classList.remove("jump"), 300);
   }
 
   // =====================
-  // JALAN KE OBJEK
+  // SWITCH ROOM (INSTANT)
   // =====================
-  function walkTo(targetEl, callback) {
-    const child = getActiveChild();
-    if (!child || !targetEl) return;
-
-    const childRect = child.getBoundingClientRect();
-    const targetRect = targetEl.getBoundingClientRect();
-
-    const distance = targetRect.left - childRect.left - 40;
-
-    child.style.transition = "transform 0.6s linear";
-    child.style.transform = `translateX(${distance}px)`;
-
-    setTimeout(() => {
-      child.style.transition = "";
-      child.style.transform = "";
-      callback && callback(child);
-    }, 650);
+  function switchRoom(name) {
+    rooms.forEach(r => r.classList.remove("active"));
+    document.querySelector(`.${name}`)?.classList.add("active");
   }
 
   // =====================
-  // PINDAH AREA (ANIMASI)
+  // NAVIGATION (FIX)
   // =====================
-  function moveArea(targetRoomClass) {
-    if (isMovingArea) return;
-    isMovingArea = true;
-
-    const currentRoom = getActiveRoom();
-    const child = getActiveChild();
-    if (!child) return;
-
-    // keluar ke kanan
-    child.style.transition = "transform 0.7s linear";
-    child.style.transform = "translateX(600px)";
-
-    setTimeout(() => {
-      rooms.forEach(r => r.classList.remove("active"));
-      const targetRoom = document.querySelector(`.${targetRoomClass}`);
-      targetRoom.classList.add("active");
-
-      const newChild = targetRoom.querySelector(".person img");
-
-      // masuk dari kiri
-      newChild.style.transition = "none";
-      newChild.style.transform = "translateX(-600px)";
-
-      requestAnimationFrame(() => {
-        newChild.style.transition = "transform 0.7s linear";
-        newChild.style.transform = "translateX(0)";
-      });
-
-      setTimeout(() => {
-        newChild.style.transition = "";
-        newChild.style.transform = "";
-        isMovingArea = false;
-      }, 750);
-
-    }, 750);
-  }
-
-  // =====================
-  // NAV AREA
-  // =====================
-  btnRumah?.addEventListener("click", () => {
-    moveArea("home");
-  });
-
-  btnSekolah?.addEventListener("click", () => {
-    moveArea("school");
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.area;
+      if (!target) return;
+      switchRoom(target);
+    });
   });
 
   // =====================
   // BED
   // =====================
   bed?.addEventListener("click", () => {
-    walkTo(bed, (child) => {
-      addStar();
-      jump(child);
-    });
+    const child = getActiveChild();
+    addStar();
+    jump(child);
   });
 
   // =====================
   // WARDROBE
   // =====================
   wardrobe?.addEventListener("click", () => {
-    walkTo(wardrobe, (child) => {
-      addStar();
-      child.src = dressOn
-        ? "./assets/child.png"
-        : "./assets/child-dress.png";
-      dressOn = !dressOn;
-      jump(child);
-    });
+    const child = getActiveChild();
+    if (!child) return;
+
+    dressOn = !dressOn;
+    child.src = dressOn
+      ? "./assets/child-dress.png"
+      : "./assets/child.png";
+
+    addStar();
+    jump(child);
   });
 
   // =====================
@@ -138,10 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================
   foods.forEach(food => {
     food.addEventListener("click", () => {
-      walkTo(food, (child) => {
-        addStar();
-        jump(child);
-      });
+      const child = getActiveChild();
+      addStar();
+      jump(child);
     });
   });
 
