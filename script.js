@@ -10,13 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let stars = 0;
   let dressOn = false;
-  let isMoving = false;
+
+  // =====================
+  // QUEST STATE
+  // =====================
+  const quest = {
+    wakeUp: false,
+    eat: false,
+    school: false
+  };
 
   // =====================
   // UTIL
   // =====================
-  function addStar() {
-    stars++;
+  function addStar(n = 1) {
+    stars += n;
     starEl.textContent = stars;
   }
 
@@ -34,49 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => child.classList.remove("jump"), 300);
   }
 
-  function switchRoomInstant(name) {
+  function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
     document.querySelector(`.${name}`)?.classList.add("active");
   }
 
   // =====================
-  // ANIMASI PINDAH AREA
+  // QUEST HELPER
   // =====================
-  function switchAreaWithWalk(target) {
-    if (isMoving) return;
-    isMoving = true;
-
-    const currentRoom = getActiveRoom();
-    const child = getChild(currentRoom);
-    if (!child) return;
-
-    // keluar ke kanan
-    child.style.transition = "transform 0.6s linear";
-    child.style.transform = "translateX(600px)";
-
-    setTimeout(() => {
-      // ganti room
-      switchRoomInstant(target);
-
-      const newRoom = getActiveRoom();
-      const newChild = getChild(newRoom);
-
-      // masuk dari kiri
-      newChild.style.transition = "none";
-      newChild.style.transform = "translateX(-600px)";
-
-      requestAnimationFrame(() => {
-        newChild.style.transition = "transform 0.6s linear";
-        newChild.style.transform = "translateX(0)";
-      });
-
-      setTimeout(() => {
-        newChild.style.transition = "";
-        newChild.style.transform = "";
-        isMoving = false;
-      }, 650);
-
-    }, 650);
+  function showMessage(text) {
+    alert(text); // sederhana & aman untuk anak
   }
 
   // =====================
@@ -87,56 +62,88 @@ document.addEventListener("DOMContentLoaded", () => {
       const target = btn.dataset.area;
       const current = getActiveRoom()?.classList[1];
 
-      // HOME ⇄ SCHOOL pakai animasi
-      if (
-        (current === "home" && target === "school") ||
-        (current === "school" && target === "home")
-      ) {
-        switchAreaWithWalk(target);
-      } else {
-        switchRoomInstant(target);
+      // Cegah sekolah kalau belum siap
+      if (target === "school" && !quest.wakeUp) {
+        showMessage("Syabil harus bangun dulu 🛏️");
+        return;
       }
+
+      if (target === "school" && !quest.eat) {
+        showMessage("Syabil harus makan dulu 🍎");
+        return;
+      }
+
+      switchRoom(target);
     });
   });
 
   // =====================
-  // BED → BEDROOM
+  // 🛏️ BANGUN TIDUR
   // =====================
   bed?.addEventListener("click", () => {
-    switchRoomInstant("bedroom");
+    switchRoom("bedroom");
+
     setTimeout(() => {
-      addStar();
-      jump(getChild());
+      const child = getChild();
+      quest.wakeUp = true;
+      addStar(1);
+      jump(child);
+      showMessage("Syabil bangun tidur 😊");
     }, 100);
   });
 
   // =====================
-  // WARDROBE
+  // 👗 GANTI BAJU (OPSIONAL)
   // =====================
   wardrobe?.addEventListener("click", () => {
-    switchRoomInstant("bedroom");
+    switchRoom("bedroom");
+
     setTimeout(() => {
       const child = getChild();
       dressOn = !dressOn;
       child.src = dressOn
         ? "./assets/child-dress.png"
         : "./assets/child.png";
-      addStar();
+      addStar(1);
       jump(child);
     }, 100);
   });
 
   // =====================
-  // FOOD → KITCHEN
+  // 🍎 MAKAN
   // =====================
   foods.forEach(food => {
     food.addEventListener("click", () => {
-      switchRoomInstant("kitchen");
+      if (!quest.wakeUp) {
+        showMessage("Syabil harus bangun dulu 🛏️");
+        return;
+      }
+
+      switchRoom("kitchen");
+
       setTimeout(() => {
-        addStar();
-        jump(getChild());
+        const child = getChild();
+        quest.eat = true;
+        addStar(1);
+        jump(child);
+        showMessage("Syabil sudah makan 🍎");
       }, 100);
     });
+  });
+
+  // =====================
+  // 🏫 MASUK SEKOLAH
+  // =====================
+  navButtons.forEach(btn => {
+    if (btn.dataset.area === "school") {
+      btn.addEventListener("click", () => {
+        if (quest.wakeUp && quest.eat && !quest.school) {
+          quest.school = true;
+          addStar(2);
+          showMessage("Syabil siap sekolah! 🏫🎒");
+        }
+      });
+    }
   });
 
 });
