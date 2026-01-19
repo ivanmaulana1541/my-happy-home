@@ -24,24 +24,43 @@ body {
   flex-direction: column;
 }
 
+/* TOP BAR */
 .top-bar {
-  height: 50px;
+  height: 60px;
   background: #ff7aa2;
   color: #ffffff;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 20px;
   font-size: 20px;
-  flex-shrink: 0;
 }
 
+.nav button {
+  margin-left: 10px;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* ROOMS */
 .room {
   flex: 1;
+  display: none;
   position: relative;
+}
+
+.room.active {
+  display: block;
+}
+
+/* BEDROOM */
+.bedroom {
   background: linear-gradient(#ffe5ec, #ffffff);
 }
 
-/* OBJECTS */
 .bed {
   position: absolute;
   bottom: 40px;
@@ -58,6 +77,28 @@ body {
   cursor: pointer;
 }
 
+/* KITCHEN */
+.kitchen {
+  background: linear-gradient(#fff4d6, #ffffff);
+}
+
+.food {
+  position: absolute;
+  bottom: 40px;
+  left: 80px;
+  font-size: 70px;
+  cursor: pointer;
+}
+
+.food:nth-child(2) {
+  left: 200px;
+}
+
+.food:nth-child(3) {
+  left: 320px;
+}
+
+/* GIRL */
 .girl {
   position: absolute;
   bottom: 40px;
