@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let outfitIndex = savedData.outfitIndex;
   let isSleeping = false;
 
-  const outfits = ["👧", "👧🏻", "👧🏽"];
+  // 👧 outfit hanya untuk ANAK
+  const childOutfits = ["👧", "👧🏻", "👧🏽"];
 
   const starCountEl = document.getElementById("star-count");
 
@@ -25,7 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnKitchen = document.getElementById("btn-kitchen");
 
   const bedroomChild = document.querySelector(".bedroom .child");
-  const familyMembers = document.querySelectorAll(".family .person");
+
+  const fatherEl = document.querySelector(".father");
+  const motherEl = document.querySelector(".mother");
+  const kitchenChild = document.querySelector(".kitchen .child");
 
   function saveGame() {
     localStorage.setItem(
@@ -45,12 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateChild() {
-    bedroomChild.textContent = outfits[outfitIndex];
-    familyMembers.forEach(member => {
-      if (member.classList.contains("child")) {
-        member.textContent = outfits[outfitIndex];
-      }
-    });
+    const outfit = childOutfits[outfitIndex];
+    bedroomChild.textContent = outfit;
+    kitchenChild.textContent = outfit;
   }
 
   function sleepAction() {
@@ -70,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function changeClothes() {
-    outfitIndex = (outfitIndex + 1) % outfits.length;
+    outfitIndex = (outfitIndex + 1) % childOutfits.length;
     updateChild();
     stars++;
     updateStars();
@@ -82,19 +83,14 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStars();
     saveGame();
 
-    familyMembers.forEach(member => {
-      member.textContent = "😋";
-      member.style.transform = "scale(1.1)";
-    });
+    fatherEl.textContent = "😋";
+    motherEl.textContent = "😋";
+    kitchenChild.textContent = "😋";
 
     setTimeout(() => {
-      familyMembers.forEach(member => {
-        if (member.classList.contains("father")) member.textContent = "👨";
-        if (member.classList.contains("mother")) member.textContent = "👩";
-        if (member.classList.contains("child"))
-          member.textContent = outfits[outfitIndex];
-        member.style.transform = "scale(1)";
-      });
+      fatherEl.textContent = "👨";
+      motherEl.textContent = "👩";
+      updateChild();
     }, 1000);
   }
 
@@ -109,5 +105,5 @@ document.addEventListener("DOMContentLoaded", () => {
   updateChild();
   showRoom(bedroom);
 
-  console.log("Family system ready 👨‍👩‍👧");
+  console.log("Family roles fixed 👨‍👩‍👧");
 });
