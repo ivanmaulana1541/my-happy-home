@@ -122,3 +122,11 @@ body {
 .person img.jump {
   transform: translateY(-40px);
 }
+
+/* ======================
+   EFEK TIDUR / REBAHAN
+====================== */
+
+.person img.sleep {
+  transform: rotate(90deg) scale(0.9);
+}
