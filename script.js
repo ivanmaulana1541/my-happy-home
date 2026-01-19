@@ -50,8 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getActiveChild() {
-    return document.querySelector(".room.active .child img");
-  }
+  return document.querySelector(".room.active .person img");
+}
+
 
   // ============================
   // LONCAT
