@@ -74,12 +74,15 @@ body {
 .home {
   background-image: url("assets/background/home.png");
 }
+
 .bedroom {
   background-image: url("assets/background/room.png");
 }
+
 .kitchen {
   background-image: url("assets/background/kitchen.png");
 }
+
 .school {
   background-image: url("assets/background/school.png");
 }
@@ -98,30 +101,33 @@ body {
 }
 
 /* =====================
-   POSISI & UKURAN (HOME)
+   POSISI KARAKTER DI HOME
+   (child TETAP, ortu mendekat)
 ===================== */
 
-/* 👦 Child – tengah, lebih kecil */
+/* 👦 Child — POSISI LAMA (ANCHOR UTAMA) */
 .person.child {
-  left: 50%;
-  transform: translateX(-50%);
+  right: 40px;
 }
+
 .person.child img {
-  height: 200px;
+  height: 220px;
 }
 
-/* 👨 Father – kiri anak, lebih besar */
+/* 👨 Father — di kiri child */
 .person.father {
-  left: calc(50% - 160px);
-}
-.person.father img {
-  height: 240px;
+  right: 200px;
 }
 
-/* 👩 Mother – kanan anak, lebih besar */
-.person.mother {
-  left: calc(50% + 80px);
+.person.father img {
+  height: 245px;
 }
+
+/* 👩 Mother — di kanan child */
+.person.mother {
+  right: 120px;
+}
+
 .person.mother img {
   height: 235px;
 }
