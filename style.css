@@ -35,7 +35,7 @@ body {
   justify-content: space-between;
   padding: 0 20px;
   font-size: 18px;
-  z-index: 5;
+  z-index: 100;
 }
 
 .nav button {
@@ -60,4 +60,77 @@ body {
   display: block;
 }
 
-/* ===============*
+/* ================= BEDROOM */
+.bedroom {
+  background: linear-gradient(#ffe5ec, #ffffff);
+}
+
+.bed,
+.wardrobe {
+  position: absolute;
+  bottom: 32px;
+  font-size: 72px;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.bed { left: 60px; }
+.wardrobe { left: 180px; }
+
+/* ================= KITCHEN */
+.kitchen {
+  background: linear-gradient(#fff4d6, #ffffff);
+}
+
+.food {
+  position: absolute;
+  bottom: 32px;
+  font-size: 64px;
+  cursor: pointer;
+  z-index: 50;
+}
+
+.food:nth-child(1) { left: 80px; }
+.food:nth-child(2) { left: 200px; }
+.food:nth-child(3) { left: 320px; }
+
+/* ================= CHARACTERS — TOTAL LOCK */
+.person {
+  position: absolute;
+  bottom: 32px;
+
+  /* 🔥 INI KUNCI UTAMA */
+  width: auto;
+  max-width: 180px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.person img {
+  display: block;
+  max-height: 200px;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+
+  pointer-events: none;
+  user-select: none;
+  background: transparent;
+}
+
+/* ================= POSITIONS */
+.bedroom .child {
+  right: 80px;
+}
+
+/* FAMILY CONTAINER JUGA DIMATIKAN */
+.family {
+  position: absolute;
+  bottom: 32px;
+  right: 60px;
+  display: flex;
+  gap: 20px;
+
+  pointer-events: none;
+  z-index: 1;
+}
