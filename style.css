@@ -1,48 +1,116 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <title>My Happy Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css" />
-</head>
-<body>
+/* RESET DASAR */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+}
 
-<div class="game">
+/* BODY */
+body {
+  background: #fdecef;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
 
-  <!-- TOP BAR -->
-  <header class="top-bar">
-    ⭐ <span id="star-count">0</span>
+/* GAME CONTAINER */
+.game {
+  width: 100%;
+  max-width: 900px;
+  background: #fff0f5;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
 
-    <div class="nav">
-      <button id="btn-bedroom">🛏️ Kamar</button>
-      <button id="btn-kitchen">🍳 Dapur</button>
-    </div>
-  </header>
+/* TOP BAR */
+.top-bar {
+  background: #ff7fa7;
+  color: white;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+}
 
-  <!-- BEDROOM -->
-  <div class="room bedroom active">
-    <div class="item bed">🛏️</div>
-    <div class="item wardrobe">👗</div>
+/* NAV BUTTON */
+.nav button {
+  border: none;
+  background: white;
+  padding: 6px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 8px;
+}
 
-    <div class="person">
-      <img id="child" src="./assets/child.png" alt="Syabil">
-    </div>
-  </div>
+.nav button:hover {
+  background: #ffe3ec;
+}
 
-  <!-- KITCHEN -->
-  <div class="room kitchen">
-    <div class="food" data-name="apple">🍎</div>
-    <div class="food" data-name="bread">🍞</div>
-    <div class="food" data-name="cake">🍰</div>
+/* ROOM */
+.room {
+  position: relative;
+  height: 360px;
+  padding: 20px;
+  display: none;
+}
 
-    <div class="person">
-      <img src="./assets/child.png" alt="Syabil">
-    </div>
-  </div>
+.room.active {
+  display: block;
+}
 
-</div>
+/* ITEM (BED & DRESS) */
+.item {
+  font-size: 48px;
+  cursor: pointer;
+  position: absolute;
+}
 
-<script src="./script.js"></script>
-</body>
-</html>
+.bed {
+  left: 40px;
+  bottom: 40px;
+}
+
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
+
+/* FOOD AREA */
+.food-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+
+.food {
+  font-size: 36px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.food:hover {
+  transform: scale(1.2);
+}
+
+/* PERSON */
+.person {
+  position: absolute;
+  right: 40px;
+  bottom: 20px;
+  pointer-events: none; /* INI KUNCI PENTING */
+}
+
+/* IMAGE ANAK */
+.person img {
+  height: 220px;
+  width: auto;
+  user-select: none;
+}
