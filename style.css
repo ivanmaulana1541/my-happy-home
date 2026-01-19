@@ -113,12 +113,17 @@ body {
   height: 220px;
   width: auto;
   user-select: none;
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  transition: transform 0.2s ease;
 }
 
-/* ANIMASI LOMPAT */
-.jump {
-  animation: jump 0.4s ease;
+/* EFEK LONCAT (AMAN, TANPA BENTROK) */
+.person img.jump {
+  transform: translateY(-30px);
 }
+
 
 @keyframes jump {
   0%   { transform: translateY(0); }
