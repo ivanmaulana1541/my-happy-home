@@ -225,3 +225,15 @@ body {
 .school-characters img {
   height: 220px;
 }
+
+.world {
+  display: none;
+}
+
+.world.active {
+  display: block;
+}
+
+.sub-nav {
+  padding: 10px 20px;
+}
