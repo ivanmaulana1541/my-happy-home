@@ -15,14 +15,27 @@
     ⭐ <span id="star-count">0</span>
 
     <div class="nav">
-      <button data-area="home">🏡 Rumah</button>
-      <button data-area="school">🏫 Sekolah</button>
+      <button data-area="home">🏠 Rumah</button>
       <button data-area="bedroom">🛏️ Kamar</button>
       <button data-area="kitchen">🍳 Dapur</button>
+      <button data-area="school">🏫 Sekolah</button>
     </div>
   </header>
 
-  <!-- HOME -->
+  <!-- QUEST BUTTON -->
+  <button id="btn-quest" class="quest-btn">📋 Quest</button>
+
+  <!-- QUEST PANEL -->
+  <div id="quest-panel" class="quest-panel hidden">
+    <h3>📋 Misi Hari Ini</h3>
+    <ul>
+      <li id="q-wakeup">⬜ Bangun tidur</li>
+      <li id="q-eat">⬜ Makan pagi</li>
+      <li id="q-school">⬜ Berangkat sekolah</li>
+    </ul>
+  </div>
+
+  <!-- 🏠 HOME -->
   <div class="room home active">
     🌳
     <div class="person">
@@ -30,41 +43,33 @@
     </div>
   </div>
 
-  <!-- SCHOOL -->
-  <div class="room school">
-    🎒 🧠 🤝
-    <div class="person">
-      <img src="./assets/child.png" alt="Syabil">
-    </div>
-  </div>
-
-  <!-- BEDROOM -->
+  <!-- 🛏️ BEDROOM -->
   <div class="room bedroom">
     <div class="item bed">🛏️</div>
     <div class="item wardrobe">👗</div>
-
     <div class="person">
       <img src="./assets/child.png" alt="Syabil">
     </div>
   </div>
 
-  <!-- KITCHEN -->
+  <!-- 🍳 KITCHEN -->
   <div class="room kitchen">
     <div class="food-container">
       <div class="food">🍎</div>
       <div class="food">🍞</div>
       <div class="food">🍰</div>
     </div>
-
     <div class="person">
       <img src="./assets/child.png" alt="Syabil">
     </div>
   </div>
 
-  <!-- WALK CONTROL -->
-  <div class="walk-control">
-    <button id="walk-left">⬅️ Jalan</button>
-    <button id="walk-right">➡️ Jalan</button>
+  <!-- 🏫 SCHOOL -->
+  <div class="room school">
+    🎒 🧠 🤝
+    <div class="person">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
   </div>
 
 </div>
