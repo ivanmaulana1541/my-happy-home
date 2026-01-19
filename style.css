@@ -12,9 +12,7 @@ body {
   height: 100vh;
 }
 
-/* =======================
-   GAME CONTAINER
-======================= */
+/* ================= GAME */
 .game {
   width: 90vw;
   max-width: 1100px;
@@ -27,19 +25,39 @@ body {
   flex-direction: column;
 }
 
-/* =======================
-   TOP BAR
-======================= */
+/* ================= TOP BAR */
 .top-bar {
-  height: 60px;
+  height: 56px;
   background: #ff7aa2;
-  color: #ffffff;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  font-size: 20px;
+  font-size: 18px;
+  z-index: 5;
 }
 
 .nav button {
-  margin-l
+  margin-left: 8px;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  background: #fff;
+}
+
+/* ================= ROOMS */
+.room {
+  flex: 1;
+  display: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.room.active {
+  display: block;
+}
+
+/* ===============*
