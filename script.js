@@ -2,62 +2,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rooms = document.querySelectorAll(".room");
   const navButtons = document.querySelectorAll(".nav button");
-  const mapLocations = document.querySelectorAll(".map-location");
+  const questBtn = document.getElementById("btn-quest");
+  const questPanel = document.getElementById("quest-panel");
+  const questTitle = document.getElementById("quest-title");
+  const questList = document.getElementById("quest-list");
 
-  const quest = {
-    wake: false,
-    eat: false,
-    school: false
+  let activeCharacter = "syabil";
+
+  const quests = {
+    syabil: [
+      { text: "Bangun (kamar)", done: false },
+      { text: "Makan", done: false },
+      { text: "Sekolah", done: false },
+      { text: "Pulang ke Home", done: false }
+    ],
+    papa: [
+      { text: "Bangun (kamar orang tua)", done: false },
+      { text: "Makan", done: false },
+      { text: "Ke Kantor", done: false },
+      { text: "Pulang ke Home", done: false }
+    ],
+    mama: [
+      { text: "Bangun (kamar orang tua)", done: false },
+      { text: "Makan", done: false },
+      { text: "Ke Market", done: false },
+      { text: "Pulang ke Home", done: false }
+    ]
   };
 
-  const qWake = document.getElementById("q-wakeup");
-  const qEat = document.getElementById("q-eat");
-  const qSchool = document.getElementById("q-school");
-
-  const bed = document.querySelector(".bed");
-  const foods = document.querySelectorAll(".food");
-
   function switchRoom(name) {
-    const target = document.querySelector(`.room.${name}`);
-    if (!target) return;
     rooms.forEach(r => r.classList.remove("active"));
-    target.classList.add("active");
+    document.querySelector(`.room.${name}`)?.classList.add("active");
   }
+
+  function renderQuest() {
+    questList.innerHTML = "";
+    questTitle.textContent = `📋 Quest ${activeCharacter.charAt(0).toUpperCase() + activeCharacter.slice(1)}`;
+
+    quests[activeCharacter].forEach(q => {
+      const li = document.createElement("li");
+      li.textContent = q.text;
+      if (q.done) li.style.textDecoration = "line-through";
+      questList.appendChild(li);
+    });
+  }
+
+  questBtn.onclick = () => {
+    questPanel.classList.toggle("hidden");
+  };
 
   navButtons.forEach(btn => {
     btn.onclick = () => switchRoom(btn.dataset.area);
   });
 
-  bed.onclick = () => {
-    quest.wake = true;
-    qWake.classList.add("done");
-    updateMap();
-  };
-
-  foods.forEach(f => {
-    f.onclick = () => {
-      if (!quest.wake) return;
-      quest.eat = true;
-      qEat.classList.add("done");
-      updateMap();
+  document.querySelectorAll("[data-action='wake']").forEach(el => {
+    el.onclick = () => {
+      quests[activeCharacter][0].done = true;
+      renderQuest();
     };
   });
 
-  function updateMap() {
-    mapLocations.forEach(loc => {
-      loc.classList.remove("locked","active-quest");
-      if (loc.dataset.target === "school" && !quest.eat) {
-        loc.classList.add("locked","active-quest");
-      }
-    });
-  }
-
-  mapLocations.forEach(loc => {
-    loc.onclick = () => {
-      if (loc.classList.contains("locked")) return;
-      switchRoom(loc.dataset.target);
+  document.querySelectorAll("[data-action='eat']").forEach(el => {
+    el.onclick = () => {
+      quests[activeCharacter][1].done = true;
+      renderQuest();
     };
   });
 
-  updateMap();
+  renderQuest();
 });
