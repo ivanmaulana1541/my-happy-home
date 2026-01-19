@@ -39,24 +39,29 @@ body {
   color: white;
   padding: 14px 18px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  z-index: 1000;
+  gap: 14px;
   position: relative;
+  z-index: 1000;
+}
+
+.top-bar .left {
+  position: absolute;
+  left: 18px;
 }
 
 .nav button {
   border: none;
   background: white;
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: 6px 14px;
+  border-radius: 14px;
   cursor: pointer;
-  margin-left: 6px;
   font-weight: bold;
 }
 
 /* =====================
-   ROOM (LAYER BAWAH)
+   ROOM (WORLD LAYER)
 ===================== */
 .room {
   position: relative;
@@ -64,7 +69,7 @@ body {
   display: none;
   background-size: cover;
   background-position: center;
-  z-index: 1; /* 🔑 penting agar UI di atas */
+  z-index: 1;
 }
 
 .room.active {
@@ -74,27 +79,25 @@ body {
 /* =====================
    BACKGROUND PER ROOM
 ===================== */
-.map     { background-image: url("assets/background/map.png"); }
-.home    { background-image: url("assets/background/home.png"); }
+.map            { background-image: url("assets/background/map.png"); }
+.home           { background-image: url("assets/background/home.png"); }
 .bedroom-child  { background-image: url("assets/background/room.png"); }
 .bedroom-parent { background-image: url("assets/background/room-parent.png"); }
-.kitchen { background-image: url("assets/background/kitchen.png"); }
-.school  { background-image: url("assets/background/school.png"); }
-.office  { background-image: url("assets/background/office.png"); }
-.market  { background-image: url("assets/background/market.png"); }
+.kitchen        { background-image: url("assets/background/kitchen.png"); }
+.school         { background-image: url("assets/background/school.png"); }
+.office         { background-image: url("assets/background/office.png"); }
+.market         { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   MAP LOCATION (INVISIBLE HIT AREA)
+   MAP CLICK AREA (INVISIBLE)
 ===================== */
 .map-location {
   position: absolute;
   width: 140px;
   height: 50px;
   background: transparent;
-  border-radius: 8px;
   cursor: pointer;
-  pointer-events: auto;
-  z-index: 2;
+  z-index: 3;
 }
 
 /* posisi map */
@@ -104,14 +107,16 @@ body {
 .map-location.market { top: 66%; left: 71%; }
 
 /* =====================
-   CHARACTER
+   CHARACTER (TIDAK BLOK KLIK)
 ===================== */
 .person {
   position: absolute;
   bottom: 20px;
   z-index: 2;
+  pointer-events: none; /* 🔑 klik tembus */
 }
 
+/* ukuran karakter */
 .father img,
 .mother img {
   height: 240px;
@@ -121,18 +126,24 @@ body {
   height: 200px;
 }
 
-/* posisi di home */
-.home .father { left: 48%; }
-.home .child  { left: 53%; z-index: 3; }
+/* posisi karakter di HOME */
+.home .father { left: 46%; }
+.home .child  { left: 52%; z-index: 3; }
 .home .mother { left: 58%; }
 
+/* posisi Syabil di kamar (GESER KE KANAN) */
+.bedroom-child .child {
+  left: 70%; /* 🔥 ini kuncinya */
+}
+
 /* =====================
-   ITEM & FOOD
+   ITEM INTERAKTIF
 ===================== */
 .item {
   font-size: 42px;
   cursor: pointer;
   position: absolute;
+  z-index: 5; /* di atas karakter */
 }
 
 .bed {
@@ -140,6 +151,9 @@ body {
   bottom: 40px;
 }
 
+/* =====================
+   FOOD
+===================== */
 .food-container {
   position: absolute;
   left: 20px;
@@ -163,11 +177,11 @@ body {
   padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
-  z-index: 10000; /* 🔥 selalu di atas */
+  z-index: 10000;
 }
 
 /* =====================
-   QUEST PANEL (FIX UTAMA)
+   QUEST PANEL
 ===================== */
 .quest-panel {
   position: absolute;
@@ -179,7 +193,7 @@ body {
   width: 220px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   font-size: 14px;
-  z-index: 9999; /* 🔥 DI ATAS SEMUA */
+  z-index: 9999;
 }
 
 .quest-panel h3 {
