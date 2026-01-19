@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // =====================
-  // ELEMENTS
-  // =====================
+  /* =====================
+     ELEMENTS
+  ===================== */
   const starEl = document.getElementById("star-count");
   const navButtons = document.querySelectorAll(".nav button");
   const rooms = document.querySelectorAll(".room");
@@ -18,21 +18,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const qEat = document.getElementById("q-eat");
   const qSchool = document.getElementById("q-school");
 
-  // =====================
-  // STATE
-  // =====================
+  /* =====================
+     STATE
+  ===================== */
   let stars = 0;
   let dressOn = false;
 
   const quest = {
-    wakeUp: false,
-    eat: false,
-    school: false
+    child: {
+      wakeUp: false,
+      eat: false,
+      school: false
+    },
+    father: {
+      eat: false,
+      office: false
+    }
   };
 
-  // =====================
-  // UTIL
-  // =====================
+  /* =====================
+     UTIL
+  ===================== */
   function addStar(n = 1) {
     stars += n;
     starEl.textContent = stars;
@@ -44,95 +50,75 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getChild() {
-    return document.querySelector(".room.active .person img");
+    return document.querySelector(".room.active .person.child img");
   }
 
-  function jump() {
+  function jumpChild() {
     const child = getChild();
     if (!child) return;
     child.classList.add("jump");
     setTimeout(() => child.classList.remove("jump"), 300);
   }
 
-  // =====================
-  // QUEST UI + ANIMATION
-  // =====================
-  function sparkle(el) {
-    const star = document.createElement("span");
-    star.textContent = "✨";
-    star.style.position = "absolute";
-    star.style.right = "-10px";
-    star.style.top = "0";
-    star.style.opacity = "1";
-    star.style.transition = "all 0.6s ease";
-    el.appendChild(star);
-
-    setTimeout(() => {
-      star.style.top = "-20px";
-      star.style.opacity = "0";
-    }, 50);
-
-    setTimeout(() => star.remove(), 700);
-  }
-
   function markDone(el) {
     if (!el.classList.contains("done")) {
       el.classList.add("done");
-      sparkle(el);
     }
   }
 
-  function updateQuestUI() {
-    if (quest.wakeUp) markDone(qWake);
-    if (quest.eat) markDone(qEat);
-    if (quest.school) markDone(qSchool);
-  }
-
-  // =====================
-  // QUEST PANEL TOGGLE
-  // =====================
+  /* =====================
+     QUEST PANEL
+  ===================== */
   btnQuest.addEventListener("click", () => {
     questPanel.classList.toggle("hidden");
   });
 
-  // =====================
-  // NAVIGATION
-  // =====================
+  /* =====================
+     NAVIGATION
+  ===================== */
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const target = btn.dataset.area;
 
-      // Cegah sekolah kalau quest belum siap
-      if (target === "school" && !quest.wakeUp) return;
-      if (target === "school" && !quest.eat) return;
+      // 🔒 Gate: Father ke Office harus makan dulu
+      if (target === "office" && !quest.father.eat) return;
+
+      // 🔒 Child ke School harus bangun & makan
+      if (target === "school" && (!quest.child.wakeUp || !quest.child.eat)) return;
 
       switchRoom(target);
 
-      // Masuk sekolah = quest selesai
-      if (target === "school" && !quest.school) {
-        quest.school = true;
+      // ✅ Masuk sekolah (Child)
+      if (target === "school" && !quest.child.school) {
+        quest.child.school = true;
         addStar(2);
-        updateQuestUI();
+        markDone(qSchool);
+      }
+
+      // ✅ Masuk kantor (Father)
+      if (target === "office" && !quest.father.office) {
+        quest.father.office = true;
+        addStar(2);
       }
     });
   });
 
-  // =====================
-  // 🛏️ BANGUN TIDUR
-  // =====================
+  /* =====================
+     🛏️ CHILD: BANGUN TIDUR
+  ===================== */
   bed?.addEventListener("click", () => {
     switchRoom("bedroom");
     setTimeout(() => {
-      quest.wakeUp = true;
+      quest.child.wakeUp = true;
       addStar(1);
-      jump();
-      updateQuestUI();
+      markDone(qWake);
+      jumpChild();
     }, 100);
   });
 
-  // =====================
-  // 👗 GANTI BAJU (OPSIONAL)
-  // =====================
+  /* =====================
+     👗 CHILD: GANTI BAJU
+  ===================== */
   wardrobe?.addEventListener("click", () => {
     switchRoom("bedroom");
     setTimeout(() => {
@@ -142,23 +128,32 @@ document.addEventListener("DOMContentLoaded", () => {
         ? "./assets/child-dress.png"
         : "./assets/child.png";
       addStar(1);
-      jump();
+      jumpChild();
     }, 100);
   });
 
-  // =====================
-  // 🍎 MAKAN
-  // =====================
+  /* =====================
+     🍎 MAKAN (CHILD & FATHER)
+  ===================== */
   foods.forEach(food => {
     food.addEventListener("click", () => {
-      if (!quest.wakeUp) return;
-
       switchRoom("kitchen");
       setTimeout(() => {
-        quest.eat = true;
-        addStar(1);
-        jump();
-        updateQuestUI();
+
+        // Child makan
+        if (!quest.child.eat) {
+          quest.child.eat = true;
+          addStar(1);
+          markDone(qEat);
+          jumpChild();
+        }
+
+        // Father makan
+        if (!quest.father.eat) {
+          quest.father.eat = true;
+          addStar(1);
+        }
+
       }, 100);
     });
   });
