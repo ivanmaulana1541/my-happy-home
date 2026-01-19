@@ -53,14 +53,13 @@ body {
 }
 
 /* =====================
-   ROOM (NETRAL)
+   ROOM
 ===================== */
 .room {
   position: relative;
   height: 360px;
   padding: 20px;
   display: none;
-
   background-size: cover;
   background-position: center;
 }
@@ -75,15 +74,12 @@ body {
 .home {
   background-image: url("assets/background/home.png");
 }
-
 .bedroom {
   background-image: url("assets/background/room.png");
 }
-
 .kitchen {
   background-image: url("assets/background/kitchen.png");
 }
-
 .school {
   background-image: url("assets/background/school.png");
 }
@@ -98,27 +94,40 @@ body {
 }
 
 .person img {
-  height: 220px;
   transition: transform .25s ease;
 }
 
 /* =====================
-   POSISI KARAKTER DI HOME
+   POSISI & UKURAN (HOME)
 ===================== */
-.person.father {
-  left: 40px;
-}
 
-.person.mother {
-  left: 140px;
-}
-
+/* 👦 Child – tengah, lebih kecil */
 .person.child {
-  right: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.person.child img {
+  height: 200px;
 }
 
-/* LOMPAT (UNTUK ANAK) */
-.person img.jump {
+/* 👨 Father – kiri anak, lebih besar */
+.person.father {
+  left: calc(50% - 160px);
+}
+.person.father img {
+  height: 240px;
+}
+
+/* 👩 Mother – kanan anak, lebih besar */
+.person.mother {
+  left: calc(50% + 80px);
+}
+.person.mother img {
+  height: 235px;
+}
+
+/* LOMPAT (anak saja) */
+.person.child img.jump {
   transform: translateY(-40px);
 }
 
