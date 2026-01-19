@@ -100,3 +100,32 @@ body {
 .sleep {
   transform: rotate(90deg) translateY(-40px);
 }
+/* ======================
+   ANIMASI SYABIL
+====================== */
+
+.person img {
+  transition: transform 0.4s ease;
+}
+
+/* posisi tidur */
+.sleep {
+  transform: rotate(90deg) translateY(-40px);
+}
+
+/* loncat kecil saat ganti baju */
+.jump {
+  animation: jump 0.4s ease;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-40px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
