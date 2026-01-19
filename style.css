@@ -77,6 +77,13 @@ body {
   cursor: pointer;
 }
 
+.bedroom .child {
+  position: absolute;
+  bottom: 40px;
+  right: 120px;
+  font-size: 80px;
+}
+
 /* KITCHEN */
 .kitchen {
   background: linear-gradient(#fff4d6, #ffffff);
@@ -98,11 +105,16 @@ body {
   left: 320px;
 }
 
-/* GIRL */
-.girl {
+/* FAMILY */
+.family {
   position: absolute;
   bottom: 40px;
-  right: 120px;
+  right: 80px;
+  display: flex;
+  gap: 20px;
+}
+
+.person {
   font-size: 80px;
   transition: transform 0.3s;
 }
