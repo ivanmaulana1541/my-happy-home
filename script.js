@@ -90,12 +90,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // MAKAN
   // ============================
   foods.forEach(food => {
-    food.addEventListener("click", () => {
-      addStar();
-      const child = document.querySelector(".child img");
-      if (child) jump(child);
-    });
+  food.addEventListener("click", () => {
+    addStar();
+
+    const activeChild = document.querySelector(
+      ".room.active .person img"
+    );
+
+    if (activeChild) jump(activeChild);
   });
+});
+
 
   // ============================
   // INTERAKSI AYAH & IBU
