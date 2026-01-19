@@ -1,9 +1,9 @@
-/* RESET DASAR */
+/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Arial", sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 /* BODY */
@@ -14,7 +14,7 @@ body {
   padding: 30px;
 }
 
-/* GAME CONTAINER */
+/* GAME */
 .game {
   width: 100%;
   max-width: 900px;
@@ -32,18 +32,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
 }
 
-/* NAV BUTTON */
+/* NAV */
 .nav button {
   border: none;
   background: white;
   padding: 6px 14px;
   border-radius: 12px;
   cursor: pointer;
-  font-size: 14px;
-  margin-left: 8px;
+  margin-left: 6px;
 }
 
 .nav button:hover {
@@ -53,7 +51,7 @@ body {
 /* ROOM */
 .room {
   position: relative;
-  height: 360px;
+  height: 380px;
   padding: 20px;
   display: none;
 }
@@ -62,42 +60,29 @@ body {
   display: block;
 }
 
-/* ITEM (BED & DRESS) */
+/* ITEM */
 .item {
   font-size: 48px;
   cursor: pointer;
   position: absolute;
 }
 
-.bed {
-  left: 40px;
-  bottom: 40px;
-}
+.bed { left: 40px; bottom: 40px; }
+.wardrobe { left: 120px; bottom: 40px; }
 
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
-
-/* FOOD AREA */
+/* FOOD */
 .food-container {
   position: absolute;
-  left: 20px;
-  top: 20px;
+  left: 30px;
+  top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  z-index: 10;
+  gap: 12px;
 }
 
 .food {
   font-size: 36px;
   cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.food:hover {
-  transform: scale(1.2);
 }
 
 /* PERSON */
@@ -105,106 +90,25 @@ body {
   position: absolute;
   right: 40px;
   bottom: 20px;
-  pointer-events: none;
-   transform-origin: bottom center;/* INI KUNCI PENTING */
 }
 
-/* IMAGE ANAK */
 .person img {
   height: 220px;
-  width: auto;
-  user-select: none;
-  transition: transform 0.2s ease;
-  will-change: transform; /* bantu browser */
+  transition: transform 0.25s ease;
 }
 
-/* EFEK LONCAT (PASTI TERLIHAT) */
+/* LONCAT */
 .person img.jump {
   transform: translateY(-40px);
 }
 
-/* ======================
-   EFEK TIDUR / REBAHAN
-====================== */
-
-.person img.sleep {
-  transform: rotate(90deg) scale(0.9);
-}
-
-/* efek halus saat ganti baju */
-.person img {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-/* ======================
-   FAMILY
-====================== */
-
-.family {
-  position: absolute;
-  right: 40px;
-  bottom: 20px;
-  display: flex;
-  gap: 20px;
-}
-
-.family .person {
-  position: relative;
-  pointer-events: auto;
-}
-
-.family .person img {
-  height: 180px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-/* beda ukuran biar natural */
-.family .father img {
-  height: 200px;
-}
-
-.family .mother img {
-  height: 190px;
-}
-
-/* ======================
-   PELUKAN KELUARGA
-====================== */
-
-/* posisi mendekat saat pelukan */
-.family.hug .father img {
-  margin-right: -20px;
-}
-
-.family.hug .mother img {
-  margin-left: -20px;
-}
-
-.family.hug .child img {
-  transform: scale(1.05);
-}
-
-/* =========================
-   SCHOOL AREA
-========================= */
-
-.school {
-  background: #fff7e6;
-}
-
-/* Judul area */
-.area-title {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-/* Item sekolah */
-.school-items {
+/* ================= SEKOLAH ================= */
+.school-area {
   position: absolute;
   left: 40px;
-  bottom: 40px;
+  top: 40px;
   display: flex;
-  gap: 20px;
+  gap: 24px;
 }
 
 .school-item {
@@ -212,28 +116,6 @@ body {
   cursor: pointer;
 }
 
-/* Karakter sekolah */
-.school-characters {
-  position: absolute;
-  right: 40px;
-  bottom: 20px;
-  display: flex;
-  gap: 20px;
-  align-items: flex-end;
-}
-
-.school-characters img {
-  height: 220px;
-}
-
-.world {
-  display: none;
-}
-
-.world.active {
-  display: block;
-}
-
-.sub-nav {
-  padding: 10px 20px;
+.school-item:hover {
+  transform: scale(1.2);
 }
