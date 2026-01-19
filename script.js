@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const starCountEl = document.getElementById("star-count");
+  const starEl = document.getElementById("star-count");
   const navButtons = document.querySelectorAll(".nav button");
   const rooms = document.querySelectorAll(".room");
 
@@ -10,78 +10,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let stars = 0;
   let dressOn = false;
-  let isMovingArea = false;
 
   // =====================
-  // HELPERS
+  // UTIL
   // =====================
-  function getActiveChild() {
+  function addStar() {
+    stars++;
+    starEl.textContent = stars;
+  }
+
+  function switchRoom(name) {
+    rooms.forEach(r => r.classList.remove("active"));
+    document.querySelector(`.${name}`)?.classList.add("active");
+  }
+
+  function getChild() {
     return document.querySelector(".room.active .person img");
   }
 
-  function addStar() {
-    stars++;
-    starCountEl.textContent = stars;
-  }
-
-  function jump(child) {
+  function jump() {
+    const child = getChild();
     if (!child) return;
     child.classList.add("jump");
     setTimeout(() => child.classList.remove("jump"), 300);
   }
 
   // =====================
-  // SWITCH ROOM (INSTANT)
-  // =====================
-  function switchRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`)?.classList.add("active");
-  }
-
-  // =====================
-  // NAVIGATION (FIX)
+  // NAV
   // =====================
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      const target = btn.dataset.area;
-      if (!target) return;
-      switchRoom(target);
+      switchRoom(btn.dataset.area);
     });
   });
 
   // =====================
-  // BED
+  // BED (PAKSA KE BEDROOM)
   // =====================
   bed?.addEventListener("click", () => {
-    const child = getActiveChild();
-    addStar();
-    jump(child);
+    switchRoom("bedroom");
+    setTimeout(() => {
+      addStar();
+      jump();
+    }, 100);
   });
 
   // =====================
-  // WARDROBE
+  // DRESS (BEDROOM)
   // =====================
   wardrobe?.addEventListener("click", () => {
-    const child = getActiveChild();
-    if (!child) return;
+    switchRoom("bedroom");
+    setTimeout(() => {
+      const child = getChild();
+      if (!child) return;
 
-    dressOn = !dressOn;
-    child.src = dressOn
-      ? "./assets/child-dress.png"
-      : "./assets/child.png";
+      dressOn = !dressOn;
+      child.src = dressOn
+        ? "./assets/child-dress.png"
+        : "./assets/child.png";
 
-    addStar();
-    jump(child);
+      addStar();
+      jump();
+    }, 100);
   });
 
   // =====================
-  // FOOD
+  // FOOD (PAKSA KE KITCHEN)
   // =====================
   foods.forEach(food => {
     food.addEventListener("click", () => {
-      const child = getActiveChild();
-      addStar();
-      jump(child);
+      switchRoom("kitchen");
+      setTimeout(() => {
+        addStar();
+        jump();
+      }, 100);
     });
   });
 
