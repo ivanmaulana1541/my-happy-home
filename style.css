@@ -6,7 +6,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* BODY */
 body {
   background: #fdecef;
   display: flex;
@@ -34,11 +33,10 @@ body {
   align-items: center;
 }
 
-/* NAV */
 .nav button {
   border: none;
   background: white;
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
   margin-left: 6px;
@@ -48,33 +46,51 @@ body {
   background: #ffe3ec;
 }
 
-/* ROOM */
-.room {
-  position: relative;
+/* AREA */
+.area {
+  display: none;
   height: 380px;
   padding: 20px;
+  position: relative;
+}
+
+.area.active {
+  display: block;
+}
+
+/* ROOM */
+.room {
   display: none;
+  height: 100%;
+  position: relative;
 }
 
 .room.active {
   display: block;
 }
 
-/* ITEM */
+/* ITEMS */
 .item {
   font-size: 48px;
   cursor: pointer;
   position: absolute;
 }
 
-.bed { left: 40px; bottom: 40px; }
-.wardrobe { left: 120px; bottom: 40px; }
+.bed {
+  left: 40px;
+  bottom: 40px;
+}
+
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
 
 /* FOOD */
 .food-container {
   position: absolute;
   left: 30px;
-  top: 30px;
+  top: 40px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -90,6 +106,7 @@ body {
   position: absolute;
   right: 40px;
   bottom: 20px;
+  pointer-events: none;
 }
 
 .person img {
@@ -97,25 +114,16 @@ body {
   transition: transform 0.25s ease;
 }
 
-/* LONCAT */
+/* JUMP EFFECT */
 .person img.jump {
   transform: translateY(-40px);
 }
 
-/* ================= SEKOLAH ================= */
-.school-area {
-  position: absolute;
-  left: 40px;
-  top: 40px;
-  display: flex;
-  gap: 24px;
+/* SCHOOL */
+.school-title {
+  margin-bottom: 20px;
 }
 
-.school-item {
-  font-size: 48px;
-  cursor: pointer;
-}
-
-.school-item:hover {
-  transform: scale(1.2);
+.school-tools {
+  font-size: 40px;
 }
