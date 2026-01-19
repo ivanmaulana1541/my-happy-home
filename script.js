@@ -55,6 +55,18 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.onclick = () => switchRoom(btn.dataset.area);
   });
 
+  /* =====================
+   MAP CLICK (WAJIB)
+===================== */
+document.querySelectorAll(".map-location").forEach(loc => {
+  loc.addEventListener("click", () => {
+    const target = loc.dataset.target;
+    if (!target) return;
+    switchRoom(target);
+  });
+});
+
+
   document.querySelectorAll("[data-action='wake']").forEach(el => {
     el.onclick = () => {
       quests[activeCharacter][0].done = true;
