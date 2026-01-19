@@ -2,16 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const STORAGE_KEY = "my-happy-home-save";
 
   const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-    stars: 0,
-    outfitIndex: 0
+    stars: 0
   };
 
   let stars = savedData.stars;
-  let outfitIndex = savedData.outfitIndex;
-  let isSleeping = false;
-
-  // 👧 outfit hanya untuk ANAK
-  const childOutfits = ["👧", "👧🏻", "👧🏽"];
 
   const starCountEl = document.getElementById("star-count");
 
@@ -25,16 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
 
-  const bedroomChild = document.querySelector(".bedroom .child");
-
-  const fatherEl = document.querySelector(".father");
-  const motherEl = document.querySelector(".mother");
-  const kitchenChild = document.querySelector(".kitchen .child");
+  const childImgs = document.querySelectorAll(".child img");
+  const fatherImg = document.querySelector(".father img");
+  const motherImg = document.querySelector(".mother img");
 
   function saveGame() {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ stars, outfitIndex })
+      JSON.stringify({ stars })
     );
   }
 
@@ -48,34 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
     room.classList.add("active");
   }
 
-  function updateChild() {
-    const outfit = childOutfits[outfitIndex];
-    bedroomChild.textContent = outfit;
-    kitchenChild.textContent = outfit;
-  }
-
   function sleepAction() {
-    if (isSleeping) return;
-
-    isSleeping = true;
     stars++;
     updateStars();
     saveGame();
 
-    bedroomChild.textContent = "😴";
-
+    childImgs.forEach(img => img.style.transform = "scale(0.9)");
     setTimeout(() => {
-      updateChild();
-      isSleeping = false;
-    }, 2000);
-  }
-
-  function changeClothes() {
-    outfitIndex = (outfitIndex + 1) % childOutfits.length;
-    updateChild();
-    stars++;
-    updateStars();
-    saveGame();
+      childImgs.forEach(img => img.style.transform = "scale(1)");
+    }, 800);
   }
 
   function eatFood() {
@@ -83,27 +56,25 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStars();
     saveGame();
 
-    fatherEl.textContent = "😋";
-    motherEl.textContent = "😋";
-    kitchenChild.textContent = "😋";
+    [fatherImg, motherImg, ...childImgs].forEach(img => {
+      img.style.transform = "scale(1.1)";
+    });
 
     setTimeout(() => {
-      fatherEl.textContent = "👨";
-      motherEl.textContent = "👩";
-      updateChild();
-    }, 1000);
+      [fatherImg, motherImg, ...childImgs].forEach(img => {
+        img.style.transform = "scale(1)";
+      });
+    }, 800);
   }
 
   bedEl.addEventListener("pointerdown", sleepAction);
-  wardrobeEl.addEventListener("pointerdown", changeClothes);
   foodEls.forEach(food => food.addEventListener("pointerdown", eatFood));
 
   btnBedroom.addEventListener("click", () => showRoom(bedroom));
   btnKitchen.addEventListener("click", () => showRoom(kitchen));
 
   updateStars();
-  updateChild();
   showRoom(bedroom);
 
-  console.log("Family roles fixed 👨‍👩‍👧");
+  console.log("Characters upgraded to full body 👨‍👩‍👧");
 });
