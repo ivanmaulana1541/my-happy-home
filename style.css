@@ -80,39 +80,33 @@ body {
 .market         { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   CHARACTER BASE (RESET TOTAL)
+   CHARACTER BASE
 ===================== */
 .person {
   position: absolute;
   bottom: 20px;
   pointer-events: none;
   z-index: 5;
-
-  transform: none !important;
-  scale: 1 !important;
 }
 
-/* =====================
-   CHARACTER IMAGE (ANTI RAKSASA)
-===================== */
+/* 🔥 JANGAN PAKAI max-height 100% */
 .person img {
   display: block;
-  width: auto !important;
-  max-height: 100% !important;
+  width: auto;
+  height: auto;
   transform: none !important;
 }
 
 /* =====================
-   CHARACTER SIZE (DIKUNCI)
+   SIZE (DIKUNCI)
 ===================== */
 .child img {
-  height: 190px;
+  height: 185px;
 }
 
 .papa img,
 .mama img {
-  height: 220px;        /* 🔥 DIPAKSA */
-  max-height: 220px;
+  height: 215px;        /* 🔒 FIXED */
 }
 
 /* =====================
@@ -139,10 +133,10 @@ body {
 
 /* DAPUR — LEBIH KE KIRI */
 .kitchen .child {
-  left: 22%;
+  left: 18%;
 }
 
-/* SEKOLAH — LEBIH KE KIRI */
+/* SEKOLAH */
 .school .child {
   left: 46%;
 }
@@ -155,21 +149,14 @@ body {
   font-size: 42px;
   cursor: pointer;
   z-index: 10;
-  user-select: none;
-}
-
-.bed {
-  left: 40px;
-  bottom: 40px;
 }
 
 /* =====================
-   FOOD (LEBIH BESAR)
+   FOOD
 ===================== */
 .food {
   font-size: 46px;
   cursor: pointer;
-  user-select: none;
 }
 
 /* =====================
@@ -188,13 +175,13 @@ body {
 }
 
 /* =====================
-   QUEST PANEL (RAPI & IMUT)
+   QUEST PANEL
 ===================== */
 .quest-panel {
   position: absolute;
   top: 110px;
   right: 16px;
-  width: 145px;
+  width: 140px;
   background: white;
   border-radius: 14px;
   padding: 10px 12px;
