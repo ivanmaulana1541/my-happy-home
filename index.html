@@ -10,53 +10,83 @@
 
 <div class="game">
 
-  <!-- TOP BAR -->
+  <!-- GLOBAL NAV (PINDAH AREA) -->
   <header class="top-bar">
     ⭐ <span id="star-count">0</span>
 
     <div class="nav">
-      <button id="btn-bedroom">🛏️ Kamar</button>
-      <button id="btn-kitchen">🍳 Dapur</button>
+      <button id="go-home">🏠 Rumah</button>
+      <button id="go-school">🏫 Sekolah</button>
     </div>
   </header>
 
-  <!-- BEDROOM -->
-  <div class="room bedroom active">
-    <div class="item bed">🛏️</div>
-    <div class="item wardrobe">👗</div>
+  <!-- ===================== -->
+  <!-- 🏠 AREA RUMAH -->
+  <!-- ===================== -->
+  <div class="area home active">
 
-    <div class="family">
+    <!-- NAV DALAM RUMAH -->
+    <div class="sub-nav">
+      <button id="btn-bedroom">🛏️ Kamar</button>
+      <button id="btn-kitchen">🍳 Dapur</button>
+    </div>
 
-  <div class="person child">
-    <img src="./assets/child.png" alt="Syabil">
+    <!-- BEDROOM -->
+    <div class="room bedroom active">
+      <div class="item bed">🛏️</div>
+      <div class="item wardrobe">👗</div>
+
+      <!-- KELUARGA -->
+      <div class="family">
+        <div class="person father">
+          <img src="./assets/father.png" alt="Ayah">
+        </div>
+
+        <div class="person child">
+          <img src="./assets/child.png" alt="Syabil">
+        </div>
+
+        <div class="person mother">
+          <img src="./assets/mother.png" alt="Ibu">
+        </div>
+      </div>
+    </div>
+
+    <!-- KITCHEN -->
+    <div class="room kitchen">
+      <div class="food-container">
+        <div class="food">🍎</div>
+        <div class="food">🍞</div>
+        <div class="food">🍰</div>
+      </div>
+
+      <div class="person child">
+        <img src="./assets/child.png" alt="Syabil">
+      </div>
+    </div>
+
   </div>
 
-  <div class="person father">
-    <img src="./assets/father.png" alt="Ayah">
+  <!-- ===================== -->
+  <!-- 🏫 AREA SEKOLAH -->
+  <!-- ===================== -->
+  <div class="area school">
+
+    <div class="school-room">
+      <h2>🏫 Sekolah Syabil</h2>
+
+      <div class="school-items">
+        <div class="desk">🪑</div>
+        <div class="book">📚</div>
+        <div class="teacher">👩‍🏫</div>
+      </div>
+
+      <div class="person child">
+        <img src="./assets/child.png" alt="Syabil">
+      </div>
+    </div>
+
   </div>
-
-  <div class="person mother">
-    <img src="./assets/mother.png" alt="Ibu">
-  </div>
-
-</div>
-
-  </div>
-
-  <!-- KITCHEN -->
- <div class="room kitchen">
-
-  <div class="food-container">
-    <div class="food" data-name="apple">🍎</div>
-    <div class="food" data-name="bread">🍞</div>
-    <div class="food" data-name="cake">🍰</div>
-  </div>
-
-  <div class="person">
-    <img src="./assets/child.png" alt="Syabil">
-  </div>
-</div>
-
 
 </div>
 
