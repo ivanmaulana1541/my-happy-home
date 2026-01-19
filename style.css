@@ -12,6 +12,9 @@ body {
   height: 100vh;
 }
 
+/* =======================
+   GAME CONTAINER
+======================= */
 .game {
   width: 90vw;
   max-width: 1100px;
@@ -24,7 +27,9 @@ body {
   flex-direction: column;
 }
 
-/* TOP BAR */
+/* =======================
+   TOP BAR
+======================= */
 .top-bar {
   height: 60px;
   background: #ff7aa2;
@@ -37,89 +42,4 @@ body {
 }
 
 .nav button {
-  margin-left: 10px;
-  border: none;
-  border-radius: 12px;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/* ROOMS */
-.room {
-  flex: 1;
-  display: none;
-  position: relative;
-}
-
-.room.active {
-  display: block;
-}
-
-/* BEDROOM */
-.bedroom {
-  background: linear-gradient(#ffe5ec, #ffffff);
-}
-
-.bed {
-  position: absolute;
-  bottom: 40px;
-  left: 60px;
-  font-size: 80px;
-  cursor: pointer;
-}
-
-.wardrobe {
-  position: absolute;
-  bottom: 40px;
-  left: 200px;
-  font-size: 80px;
-  cursor: pointer;
-}
-
-/* KITCHEN */
-.kitchen {
-  background: linear-gradient(#fff4d6, #ffffff);
-}
-
-.food {
-  position: absolute;
-  bottom: 40px;
-  left: 80px;
-  font-size: 70px;
-  cursor: pointer;
-}
-
-.food:nth-child(2) { left: 200px; }
-.food:nth-child(3) { left: 320px; }
-
-/* CHARACTERS */
-.person {
-  position: absolute;
-  bottom: 40px;
-  transition: transform 0.3s;
-}
-
-.person img {
-  width: 120px;
-  height: auto;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* POSITIONS */
-.bedroom .child {
-  right: 120px;
-}
-
-.family {
-  position: absolute;
-  bottom: 40px;
-  right: 80px;
-  display: flex;
-  gap: 20px;
-}
-
-.father img { width: 140px; }
-.mother img { width: 135px; }
-.child img  { width: 120px; }
+  margin-l
