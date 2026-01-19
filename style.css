@@ -1,16 +1,10 @@
-/* =====================
-   RESET
-===================== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-/* =====================
-   BODY
-===================== */
 body {
   background: #fdecef;
   display: flex;
@@ -18,47 +12,40 @@ body {
   padding: 30px;
 }
 
-/* =====================
-   GAME CONTAINER
-===================== */
+/* GAME */
 .game {
   width: 100%;
-  max-width: 900px;
+  max-width: 1100px;
   background: #fff0f5;
-  border-radius: 20px;
+  border-radius: 22px;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
   overflow: hidden;
   position: relative;
 }
 
-/* =====================
-   TOP BAR
-===================== */
+/* TOP BAR */
 .top-bar {
   background: #ff7fa7;
+  color: white;
   padding: 14px 18px;
   display: flex;
-  justify-content: center;
-  gap: 12px;
-  position: relative;
-  z-index: 1000;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .nav button {
-  border: none;
   background: white;
+  border: none;
   padding: 6px 14px;
   border-radius: 14px;
+  margin-left: 6px;
   cursor: pointer;
-  font-weight: 600;
 }
 
-/* =====================
-   ROOM
-===================== */
+/* ROOM */
 .room {
   position: relative;
-  height: 360px;
+  height: 420px;
   display: none;
   background-size: cover;
   background-position: center;
@@ -68,136 +55,84 @@ body {
   display: block;
 }
 
-/* =====================
-   BACKGROUND
-===================== */
-.map            { background-image: url("assets/background/map.png"); }
-.home           { background-image: url("assets/background/home.png"); }
-.bedroom-child  { background-image: url("assets/background/room.png"); }
-.kitchen        { background-image: url("assets/background/kitchen.png"); }
-.school         { background-image: url("assets/background/school.png"); }
-.office         { background-image: url("assets/background/office.png"); }
-.market         { background-image: url("assets/background/market.png"); }
+/* BACKGROUND */
+.map { background-image: url("./assets/background/map.png"); }
+.home { background-image: url("./assets/background/home.png"); }
+.kitchen { background-image: url("./assets/background/kitchen.png"); }
+.school { background-image: url("./assets/background/school.png"); }
+.office { background-image: url("./assets/background/office.png"); }
+.market { background-image: url("./assets/background/market.png"); }
 
-/* =====================
-   CHARACTER BASE
-===================== */
+/* PERSON */
 .person {
   position: absolute;
   bottom: 20px;
-  z-index: 5;
-  pointer-events: none; /* karakter tidak menghalangi klik */
+  z-index: 10;
 }
 
 .person img {
-  display: block;
-  width: auto;
-  height: auto;
+  height: 190px;
 }
 
-/* =====================
-   SIZE (PROPORSIONAL)
-===================== */
-.child img {
-  height: 185px;
-}
+/* HOME POSISI */
+.papa { left: 34%; }
+.child { left: 46%; }
+.mama { left: 58%; }
 
-.papa img,
-.mama img {
-  height: 245px;
-}
-
-/* =====================
-   HOME — MAMA JADI PATOKAN
-===================== */
-.home .mama {
-  left: 60%;
-}
-
-.home .child {
-  left: 52%;
-}
-
-.home .papa {
-  left: 44%;
-}
-
-/* =====================
-   KAMAR SYABIL
-===================== */
-.bedroom-child .child {
-  left: 60%;
-}
-
-/* =====================
-   DAPUR (GESER LEBIH KIRI)
-===================== */
+/* DAPUR */
 .kitchen .child {
-  left: 20%;
+  left: 22%;
 }
 
-/* =====================
-   SEKOLAH (SUDAH PAS)
-===================== */
-.school .child {
-  left: 44%;
+/* SEKOLAH */
+.school .child.center {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* =====================
-   ITEMS
-===================== */
-.item {
-  position: absolute;
-  font-size: 42px;
-  cursor: pointer;
-  z-index: 12;
-}
-
-/* =====================
-   FOOD — FIX CLICK (PENTING)
-===================== */
+/* FOOD */
 .food {
   position: absolute;
-  font-size: 56px;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
   cursor: pointer;
-  z-index: 50;              /* PALING ATAS */
-  pointer-events: auto;     /* WAJIB */
+  z-index: 100;
 }
 
-/* =====================
-   QUEST BUTTON
-===================== */
+.food:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* QUEST */
 .quest-btn {
   position: absolute;
   top: 70px;
   right: 20px;
   background: #ffb6c1;
   border: none;
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: 8px 14px;
+  border-radius: 14px;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 1000;
 }
 
-/* =====================
-   QUEST PANEL (LEBIH KECIL & CANTIK)
-===================== */
 .quest-panel {
   position: absolute;
   top: 110px;
-  right: 16px;
-  width: 145px;
+  right: 20px;
   background: white;
+  padding: 14px;
+  width: 220px;
   border-radius: 14px;
-  padding: 10px 12px;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
-  font-size: 13px;
-  z-index: 9999;
+  box-shadow: 0 8px 20px rgba(0,0,0,.2);
+  font-size: 14px;
+  z-index: 1001;
 }
 
 .quest-panel h3 {
-  font-size: 14px;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
 .quest-panel ul {
@@ -205,18 +140,14 @@ body {
 }
 
 .quest-panel li {
-  margin-bottom: 5px;
-  line-height: 1.35;
+  margin-bottom: 6px;
 }
 
 .quest-panel li.done {
-  color: #3a9d6c;
   text-decoration: line-through;
+  color: #2e8b57;
 }
 
-/* =====================
-   UTIL
-===================== */
 .hidden {
   display: none;
 }
