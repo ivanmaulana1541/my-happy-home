@@ -1,13 +1,10 @@
 // ============================
-// MY HAPPY HOME - SCRIPT (FINAL)
+// MY HAPPY HOME - SCRIPT
 // ============================
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("My Happy Home ready");
 
-  // ============================
-  // ELEMENTS
-  // ============================
   const starCountEl = document.getElementById("star-count");
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
@@ -15,9 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const bedroom = document.querySelector(".bedroom");
   const kitchen = document.querySelector(".kitchen");
 
+  const bed = document.querySelector(".bed");
   const foods = document.querySelectorAll(".food");
 
   let stars = 0;
+  let isSleeping = false;
 
   // ============================
   // NAVIGATION
@@ -41,28 +40,49 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ============================
-  // ANIMATION (FIXED TARGET)
+  // AMBIL ANAK DI ROOM AKTIF
+  // ============================
+  function getActiveChild() {
+    return document.querySelector(".room.active .person img");
+  }
+
+  // ============================
+  // LONCAT
   // ============================
   function jumpChild() {
-    // cari gambar anak di room yang aktif
-    const activeChild = document.querySelector(
-      ".room.active .person img"
-    );
+    const child = getActiveChild();
+    if (!child) return;
 
-    if (!activeChild) return;
-
-    activeChild.classList.add("jump");
+    child.classList.add("jump");
     setTimeout(() => {
-      activeChild.classList.remove("jump");
+      child.classList.remove("jump");
     }, 400);
   }
 
   // ============================
-  // FOOD CLICK
+  // TIDUR / BANGUN
+  // ============================
+  bed.addEventListener("click", () => {
+    const child = getActiveChild();
+    if (!child) return;
+
+    addStar();
+
+    if (isSleeping) {
+      child.classList.remove("sleep");
+    } else {
+      child.classList.add("sleep");
+    }
+
+    isSleeping = !isSleeping;
+  });
+
+  // ============================
+  // MAKAN
   // ============================
   foods.forEach(food => {
     food.addEventListener("click", () => {
-      addStar(1);
+      addStar();
       jumpChild();
     });
   });
