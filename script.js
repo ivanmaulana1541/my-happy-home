@@ -3,36 +3,27 @@ console.log("script.js loaded");
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded");
 
-  const bed = document.querySelector(".bed");
-  const wardrobe = document.querySelector(".wardrobe");
-  const starCount = document.getElementById("star-count");
-  const btnBedroom = document.getElementById("btn-bedroom");
-  const btnKitchen = document.getElementById("btn-kitchen");
-
-  const bedroom = document.querySelector(".bedroom");
-  const kitchen = document.querySelector(".kitchen");
-
   let stars = 0;
 
+  const starCount = document.getElementById("star-count");
+  const bed = document.querySelector(".bed");
+  const wardrobe = document.querySelector(".wardrobe");
+  const childImg = document.querySelector(".person img");
+
+  // klik kasur
   bed.addEventListener("click", () => {
     stars++;
     starCount.textContent = stars;
-    alert("Syabil tidur 😴");
+    console.log("Syabil tidur 😴");
   });
 
+  // klik lemari → ganti baju
   wardrobe.addEventListener("click", () => {
     stars++;
     starCount.textContent = stars;
-    alert("Syabil ganti baju 👗");
-  });
 
-  btnBedroom.addEventListener("click", () => {
-    bedroom.classList.add("active");
-    kitchen.classList.remove("active");
-  });
+    childImg.src = "./assets/child-dress.png";
 
-  btnKitchen.addEventListener("click", () => {
-    kitchen.classList.add("active");
-    bedroom.classList.remove("active");
+    console.log("Syabil ganti baju 👗");
   });
 });
