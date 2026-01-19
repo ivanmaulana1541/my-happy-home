@@ -6,7 +6,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* BODY */
 body {
   background: #fdecef;
   display: flex;
@@ -22,6 +21,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
   overflow: hidden;
+  position: relative;
 }
 
 /* TOP BAR */
@@ -37,7 +37,7 @@ body {
 .nav button {
   border: none;
   background: white;
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
   margin-left: 6px;
@@ -55,6 +55,23 @@ body {
   display: block;
 }
 
+/* PERSON */
+.person {
+  position: absolute;
+  right: 40px;
+  bottom: 20px;
+  pointer-events: none;
+}
+
+.person img {
+  height: 220px;
+  transition: transform .25s ease;
+}
+
+.person img.jump {
+  transform: translateY(-40px);
+}
+
 /* ITEMS */
 .item {
   font-size: 42px;
@@ -62,15 +79,8 @@ body {
   position: absolute;
 }
 
-.bed {
-  left: 40px;
-  bottom: 40px;
-}
-
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
+.bed { left: 40px; bottom: 40px; }
+.wardrobe { left: 120px; bottom: 40px; }
 
 /* FOOD */
 .food-container {
@@ -87,43 +97,45 @@ body {
   cursor: pointer;
 }
 
-/* PERSON */
-.person {
+/* QUEST BUTTON */
+.quest-btn {
   position: absolute;
-  right: 40px;
-  bottom: 20px;
-  pointer-events: none;
-}
-
-.person img {
-  height: 220px;
-  transition: transform .25s ease;
-}
-
-/* JUMP */
-.person img.jump {
-  transform: translateY(-40px);
-}
-
-/* WALK */
-.walk-left {
-  transform: translateX(-120px) scaleX(-1);
-}
-
-.walk-right {
-  transform: translateX(120px) scaleX(1);
-}
-
-/* WALK CONTROL */
-.walk-control {
-  text-align: center;
-  padding: 10px;
-}
-
-.walk-control button {
-  padding: 6px 16px;
-  border-radius: 10px;
+  top: 70px;
+  right: 20px;
   border: none;
+  background: #ffb6c1;
+  padding: 6px 12px;
+  border-radius: 12px;
   cursor: pointer;
-  margin: 0 6px;
+}
+
+/* QUEST PANEL */
+.quest-panel {
+  position: absolute;
+  top: 110px;
+  right: 20px;
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  width: 200px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  font-size: 14px;
+}
+
+.quest-panel ul {
+  list-style: none;
+}
+
+.quest-panel li {
+  margin-bottom: 6px;
+  transition: all 0.3s ease;
+}
+
+.quest-panel li.done {
+  color: green;
+  text-decoration: line-through;
+}
+
+.hidden {
+  display: none;
 }
