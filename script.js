@@ -1,51 +1,54 @@
-// ===============================
-// GAME STATE
-// ===============================
-let stars = 0;
-let isSleeping = false;
+document.addEventListener("DOMContentLoaded", () => {
+  // ===============================
+  // GAME STATE
+  // ===============================
+  let stars = 0;
+  let isSleeping = false;
 
-// ===============================
-// ELEMENTS
-// ===============================
-const starCountEl = document.getElementById("star-count");
-const bedEl = document.querySelector(".bed");
-const girlEl = document.querySelector(".girl");
+  // ===============================
+  // ELEMENTS
+  // ===============================
+  const starCountEl = document.getElementById("star-count");
+  const bedEl = document.querySelector(".bed");
+  const girlEl = document.querySelector(".girl");
 
-// ===============================
-// FUNCTIONS
-// ===============================
-function updateStars() {
-  starCountEl.textContent = stars;
-}
+  console.log("Elements:", { bedEl, girlEl, starCountEl });
 
-function sleepAction() {
-  if (isSleeping) return;
+  // ===============================
+  // FUNCTIONS
+  // ===============================
+  function updateStars() {
+    starCountEl.textContent = stars;
+  }
 
-  isSleeping = true;
-  stars += 1;
+  function sleepAction() {
+    console.log("Bed clicked 🛏️");
+
+    if (isSleeping) return;
+
+    isSleeping = true;
+    stars += 1;
+    updateStars();
+
+    // Girl sleeps
+    girlEl.textContent = "😴";
+    girlEl.style.transform = "scale(0.9)";
+
+    setTimeout(() => {
+      girlEl.textContent = "👧";
+      girlEl.style.transform = "scale(1)";
+      isSleeping = false;
+    }, 2000);
+  }
+
+  // ===============================
+  // EVENTS (POINTER = MOUSE + TOUCH)
+  // ===============================
+  bedEl.addEventListener("pointerdown", sleepAction);
+
+  // ===============================
+  // INIT
+  // ===============================
   updateStars();
-
-  // Change girl to sleeping
-  girlEl.textContent = "😴";
-
-  // Simple animation
-  girlEl.style.transform = "scale(0.9)";
-
-  // Wake up after 2 seconds
-  setTimeout(() => {
-    girlEl.textContent = "👧";
-    girlEl.style.transform = "scale(1)";
-    isSleeping = false;
-  }, 2000);
-}
-
-// ===============================
-// EVENTS
-// ===============================
-bedEl.addEventListener("click", sleepAction);
-
-// ===============================
-// INIT
-// ===============================
-updateStars();
-console.log("Sleep system ready ⭐");
+  console.log("Sleep system ready ⭐");
+});
