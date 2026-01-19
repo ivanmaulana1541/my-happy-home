@@ -50,6 +50,7 @@ body {
   border-radius: 12px;
   cursor: pointer;
   margin-left: 6px;
+  font-weight: bold;
 }
 
 /* =====================
@@ -63,7 +64,6 @@ body {
 
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
 }
 
 .room.active {
@@ -73,32 +73,44 @@ body {
 /* =====================
    BACKGROUND PER RUANGAN
 ===================== */
+
+/* 🗺️ MAP */
+.map {
+  background-image: url("assets/background/map.png");
+}
+
+/* 🏠 HOME */
 .home {
-  background-image: url("./assets/background/home.png");
+  background-image: url("assets/background/home.png");
 }
 
+/* 🛏️ BEDROOM */
 .bedroom {
-  background-image: url("./assets/background/room.png");
+  background-image: url("assets/background/room.png");
 }
 
+/* 🍳 KITCHEN */
 .kitchen {
-  background-image: url("./assets/background/kitchen.png");
+  background-image: url("assets/background/kitchen.png");
 }
 
+/* 🏫 SCHOOL */
 .school {
-  background-image: url("./assets/background/school.png");
+  background-image: url("assets/background/school.png");
 }
 
+/* 🏢 OFFICE */
 .office {
-  background-image: url("./assets/background/office.png");
+  background-image: url("assets/background/office.png");
 }
 
+/* 🛒 MARKET */
 .market {
-  background-image: url("./assets/background/market.png");
+  background-image: url("assets/background/market.png");
 }
 
 /* =====================
-   PERSON
+   PERSON (GLOBAL)
 ===================== */
 .person {
   position: absolute;
@@ -106,40 +118,55 @@ body {
   pointer-events: none;
 }
 
-/* Posisi */
-.person.child {
-  right: 40px;
+.person img {
+  transition: transform 0.25s ease;
 }
 
-.person.father {
-  right: 200px;
-}
-
-.person.mother {
-  right: 120px;
-}
-
-/* Ukuran */
-.person.child img {
-  height: 220px;
-}
-
-.person.father img {
-  height: 275px;
-}
-
-.person.mother img {
-  height: 265px;
-}
-
-/* Lompat (anak saja) */
-.person.child img.jump {
+/* LOMPAT */
+.person img.jump {
   transform: translateY(-40px);
-  transition: transform .25s ease;
 }
 
 /* =====================
-   ITEMS (DEKOR)
+   POSISI KARAKTER (HOME)
+===================== */
+.home .father {
+  left: 48%;
+  z-index: 1;
+}
+
+.home .mother {
+  left: 58%;
+  z-index: 1;
+}
+
+.home .child {
+  left: 53%;
+  z-index: 2;
+}
+
+.father img,
+.mother img {
+  height: 240px;
+}
+
+.child img {
+  height: 200px;
+}
+
+/* =====================
+   POSISI KARAKTER (ROOM LAIN)
+===================== */
+.room:not(.home) .person {
+  right: 40px;
+}
+
+.room:not(.home) .person img {
+  height: 220px;
+}
+
+/* =====================
+   ITEMS (DEKOR STATIS)
 ===================== */
 .item {
   font-size: 42px;
@@ -209,6 +236,34 @@ body {
   margin-bottom: 8px;
 }
 
+/* =====================
+   QUEST TABS
+===================== */
+.quest-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.quest-tabs .tab {
+  flex: 1;
+  border: none;
+  padding: 4px 6px;
+  border-radius: 8px;
+  background: #ffe4ec;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.quest-tabs .tab.active {
+  background: #ff7fa7;
+  color: white;
+  font-weight: bold;
+}
+
+/* =====================
+   QUEST LIST
+===================== */
 .quest-panel ul {
   list-style: none;
 }
@@ -222,31 +277,20 @@ body {
 .quest-panel li.done {
   color: #2e8b57;
   text-decoration: line-through;
+  animation: pop 0.35s ease;
+}
+
+.quest-panel li.done::before {
+  content: "✅ ";
 }
 
 /* =====================
-   QUEST TABS
+   QUEST ANIMATION
 ===================== */
-.quest-tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.quest-tabs .tab {
-  flex: 1;
-  border: none;
-  background: #f0f0f0;
-  padding: 6px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.quest-tabs .tab.active {
-  background: #ff7fa7;
-  color: white;
-  font-weight: bold;
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
 /* =====================
