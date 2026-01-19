@@ -1,9 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
   // ===============================
+  // STORAGE KEYS
+  // ===============================
+  const STORAGE_KEY = "my-happy-home-save";
+
+  // ===============================
+  // LOAD SAVE
+  // ===============================
+  const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+    stars: 0,
+    outfitIndex: 0
+  };
+
+  // ===============================
   // STATE
   // ===============================
-  let stars = 0;
-  let outfitIndex = 0;
+  let stars = savedData.stars;
+  let outfitIndex = savedData.outfitIndex;
   let isSleeping = false;
 
   const outfits = ["👧", "👧🏻", "👧🏽"];
@@ -26,7 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnKitchen = document.getElementById("btn-kitchen");
 
   // ===============================
-  // FUNCTIONS
+  // SAVE FUNCTION
+  // ===============================
+  function saveGame() {
+    const data = {
+      stars,
+      outfitIndex
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  // ===============================
+  // UI FUNCTIONS
   // ===============================
   function updateStars() {
     starCountEl.textContent = stars;
@@ -44,12 +68,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ===============================
+  // GAME ACTIONS
+  // ===============================
   function sleepAction() {
     if (isSleeping) return;
 
     isSleeping = true;
     stars++;
     updateStars();
+    saveGame();
 
     girls.forEach(g => g.textContent = "😴");
 
@@ -62,13 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function changeClothes() {
     outfitIndex = (outfitIndex + 1) % outfits.length;
     updateGirls();
+
     stars++;
     updateStars();
+    saveGame();
   }
 
   function eatFood() {
     stars++;
     updateStars();
+    saveGame();
 
     girls.forEach(girl => {
       girl.textContent = "😋";
@@ -101,5 +132,5 @@ document.addEventListener("DOMContentLoaded", () => {
   updateGirls();
   showRoom(bedroom);
 
-  console.log("Kitchen system ready 🍽️");
+  console.log("Game loaded from save 💾", savedData);
 });
