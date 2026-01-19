@@ -72,33 +72,27 @@ body {
 /* =====================
    BACKGROUND PER RUANGAN
 ===================== */
-
-/* 🏠 Rumah */
 .home {
   background-image: url("assets/background/home.png");
 }
 
-/* 🛏️ Kamar */
 .bedroom {
   background-image: url("assets/background/room.png");
 }
 
-/* 🍳 Dapur */
 .kitchen {
   background-image: url("assets/background/kitchen.png");
 }
 
-/* 🏫 Sekolah */
 .school {
   background-image: url("assets/background/school.png");
 }
 
 /* =====================
-   PERSON
+   PERSON (UMUM)
 ===================== */
 .person {
   position: absolute;
-  right: 40px;
   bottom: 20px;
   pointer-events: none;
 }
@@ -108,13 +102,28 @@ body {
   transition: transform .25s ease;
 }
 
-/* LOMPAT */
+/* =====================
+   POSISI KARAKTER DI HOME
+===================== */
+.person.father {
+  left: 40px;
+}
+
+.person.mother {
+  left: 140px;
+}
+
+.person.child {
+  right: 40px;
+}
+
+/* LOMPAT (UNTUK ANAK) */
 .person img.jump {
   transform: translateY(-40px);
 }
 
 /* =====================
-   ITEMS (DEKOR STATIS)
+   ITEMS
 ===================== */
 .item {
   font-size: 42px;
@@ -193,7 +202,6 @@ body {
   transition: all 0.3s ease;
 }
 
-/* QUEST DONE */
 .quest-panel li.done {
   color: #2e8b57;
   text-decoration: line-through;
