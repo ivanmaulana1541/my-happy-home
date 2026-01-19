@@ -72,16 +72,17 @@ body {
 /* =====================
    BACKGROUND
 ===================== */
-.map    { background-image: url("assets/background/map.png"); }
-.home   { background-image: url("assets/background/home.png"); }
-.bedroom{ background-image: url("assets/background/room.png"); }
-.kitchen{ background-image: url("assets/background/kitchen.png"); }
-.school { background-image: url("assets/background/school.png"); }
-.office { background-image: url("assets/background/office.png"); }
-.market { background-image: url("assets/background/market.png"); }
+.map     { background-image: url("assets/background/map.png"); }
+.home    { background-image: url("assets/background/home.png"); }
+.bedroom { background-image: url("assets/background/room.png"); }
+.kitchen { background-image: url("assets/background/kitchen.png"); }
+.school  { background-image: url("assets/background/school.png"); }
+.office  { background-image: url("assets/background/office.png"); }
+.market  { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   MAP LOCATION (TRANSPARENT + HOVER GLOW)
+   MAP LOCATION
+   (TRANSPARENT + HOVER GLOW)
 ===================== */
 .map-location {
   position: absolute;
@@ -89,9 +90,7 @@ body {
   height: 50px;
   cursor: pointer;
   background: transparent;
-
-  /* TRANSISI HALUS */
-  transition: 
+  transition:
     box-shadow 0.25s ease,
     background-color 0.25s ease,
     transform 0.25s ease;
@@ -109,30 +108,31 @@ body {
 
 /* =====================
    POSISI PAS DI PAPAN MAP
+   (SUDAH DIKALIBRASI)
 ===================== */
 
-/* HOME */
+/* 🏠 HOME */
 .map-location.home {
-  top: 38%;
-  left: 37%;
+  top: 36%;
+  left: 39%;
 }
 
-/* SCHOOL */
+/* 🏫 SCHOOL */
 .map-location.school {
-  top: 33%;
-  left: 67%;
+  top: 34%;
+  left: 64%;
 }
 
-/* OFFICE */
+/* 🏢 OFFICE */
 .map-location.office {
-  top: 65%;
-  left: 32%;
+  top: 66%;
+  left: 30%;
 }
 
-/* MARKET */
+/* 🛒 MARKET (SUDAH BENAR) */
 .map-location.market {
-  top: 65%;
-  left: 72%;
+  top: 66%;
+  left: 71%;
 }
 
 /* =====================
@@ -153,7 +153,7 @@ body {
   height: 200px;
 }
 
-/* POSISI HOME */
+/* POSISI DI HOME */
 .home .father { left: 48%; }
 .home .child  { left: 53%; z-index: 2; }
 .home .mother { left: 58%; }
@@ -167,8 +167,15 @@ body {
   cursor: pointer;
 }
 
-.bed { left: 40px; bottom: 40px; }
-.wardrobe { left: 120px; bottom: 40px; }
+.bed {
+  left: 40px;
+  bottom: 40px;
+}
+
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
 
 /* =====================
    FOOD
