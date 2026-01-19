@@ -54,14 +54,13 @@ body {
 }
 
 /* =====================
-   ROOM (GLOBAL)
+   ROOM
 ===================== */
 .room {
   position: relative;
   height: 360px;
   padding: 20px;
   display: none;
-
   background-size: cover;
   background-position: center;
 }
@@ -71,46 +70,33 @@ body {
 }
 
 /* =====================
-   BACKGROUND PER RUANGAN
+   BACKGROUND
 ===================== */
-
-/* 🗺️ MAP */
-.map {
-  background-image: url("assets/background/map.png");
-}
-
-/* 🏠 HOME */
-.home {
-  background-image: url("assets/background/home.png");
-}
-
-/* 🛏️ BEDROOM */
-.bedroom {
-  background-image: url("assets/background/room.png");
-}
-
-/* 🍳 KITCHEN */
-.kitchen {
-  background-image: url("assets/background/kitchen.png");
-}
-
-/* 🏫 SCHOOL */
-.school {
-  background-image: url("assets/background/school.png");
-}
-
-/* 🏢 OFFICE */
-.office {
-  background-image: url("assets/background/office.png");
-}
-
-/* 🛒 MARKET */
-.market {
-  background-image: url("assets/background/market.png");
-}
+.map { background-image: url("assets/background/map.png"); }
+.home { background-image: url("assets/background/home.png"); }
+.bedroom { background-image: url("assets/background/room.png"); }
+.kitchen { background-image: url("assets/background/kitchen.png"); }
+.school { background-image: url("assets/background/school.png"); }
+.office { background-image: url("assets/background/office.png"); }
+.market { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   PERSON (GLOBAL)
+   MAP LOCATION
+===================== */
+.map-location {
+  position: absolute;
+  font-size: 32px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.map-location.home   { top: 35%; left: 35%; }
+.map-location.school { top: 30%; left: 65%; }
+.map-location.office { top: 60%; left: 30%; }
+.map-location.market { top: 60%; left: 70%; }
+
+/* =====================
+   PERSON
 ===================== */
 .person {
   position: absolute;
@@ -118,71 +104,27 @@ body {
   pointer-events: none;
 }
 
-.person img {
-  transition: transform 0.25s ease;
-}
-
-/* LOMPAT */
-.person img.jump {
-  transform: translateY(-40px);
-}
-
-/* =====================
-   POSISI KARAKTER (HOME)
-===================== */
-.home .father {
-  left: 48%;
-  z-index: 1;
-}
-
-.home .mother {
-  left: 58%;
-  z-index: 1;
-}
-
-.home .child {
-  left: 53%;
-  z-index: 2;
-}
-
 .father img,
-.mother img {
-  height: 240px;
-}
+.mother img { height: 240px; }
 
-.child img {
-  height: 200px;
-}
+.child img { height: 200px; }
 
-/* =====================
-   POSISI KARAKTER (ROOM LAIN)
-===================== */
-.room:not(.home) .person {
-  right: 40px;
-}
-
-.room:not(.home) .person img {
-  height: 220px;
-}
+/* HOME POSISI */
+.home .father { left: 48%; }
+.home .child  { left: 53%; z-index: 2; }
+.home .mother { left: 58%; }
 
 /* =====================
-   ITEMS (DEKOR STATIS)
+   ITEMS
 ===================== */
 .item {
   font-size: 42px;
-  cursor: pointer;
   position: absolute;
+  cursor: pointer;
 }
 
-.bed {
-  left: 40px;
-  bottom: 40px;
-}
-
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
+.bed { left: 40px; bottom: 40px; }
+.wardrobe { left: 120px; bottom: 40px; }
 
 /* =====================
    FOOD
@@ -202,7 +144,7 @@ body {
 }
 
 /* =====================
-   QUEST BUTTON
+   QUEST
 ===================== */
 .quest-btn {
   position: absolute;
@@ -216,9 +158,6 @@ body {
   z-index: 1000;
 }
 
-/* =====================
-   QUEST PANEL
-===================== */
 .quest-panel {
   position: absolute;
   top: 110px;
@@ -232,13 +171,6 @@ body {
   z-index: 1001;
 }
 
-.quest-panel h3 {
-  margin-bottom: 8px;
-}
-
-/* =====================
-   QUEST TABS
-===================== */
 .quest-tabs {
   display: flex;
   gap: 6px;
@@ -248,7 +180,7 @@ body {
 .quest-tabs .tab {
   flex: 1;
   border: none;
-  padding: 4px 6px;
+  padding: 4px;
   border-radius: 8px;
   background: #ffe4ec;
   cursor: pointer;
@@ -258,44 +190,6 @@ body {
 .quest-tabs .tab.active {
   background: #ff7fa7;
   color: white;
-  font-weight: bold;
 }
 
-/* =====================
-   QUEST LIST
-===================== */
-.quest-panel ul {
-  list-style: none;
-}
-
-.quest-panel li {
-  margin-bottom: 6px;
-  transition: all 0.3s ease;
-}
-
-/* QUEST DONE */
-.quest-panel li.done {
-  color: #2e8b57;
-  text-decoration: line-through;
-  animation: pop 0.35s ease;
-}
-
-.quest-panel li.done::before {
-  content: "✅ ";
-}
-
-/* =====================
-   QUEST ANIMATION
-===================== */
-@keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-/* =====================
-   UTIL
-===================== */
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
