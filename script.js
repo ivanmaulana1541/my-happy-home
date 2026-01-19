@@ -14,9 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ELEMENTS
   // ======================
   const starCount = document.getElementById("star-count");
+
   const bed = document.querySelector(".bed");
   const wardrobe = document.querySelector(".wardrobe");
-  const childImg = document.querySelector(".person img");
+  const childImg = document.querySelector(".bedroom .person img");
+
+  const foods = document.querySelectorAll(".food");
 
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
@@ -32,9 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function jumpAnimation() {
-    childImg.classList.add("jump");
+    const activeChild = document.querySelector(".room.active .person img");
+    if (!activeChild) return;
+
+    activeChild.classList.add("jump");
     setTimeout(() => {
-      childImg.classList.remove("jump");
+      activeChild.classList.remove("jump");
     }, 400);
   }
 
@@ -42,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // EVENTS
   // ======================
 
-  // 🛏️ Klik kasur → tidur / bangun
+  // 🛏️ Kasur → tidur / bangun
   bed.addEventListener("click", () => {
     addStar();
 
@@ -57,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isSleeping = !isSleeping;
   });
 
-  // 👗 Klik lemari → ganti baju + loncat
+  // 👗 Lemari → ganti baju + loncat
   wardrobe.addEventListener("click", () => {
     addStar();
 
@@ -73,13 +79,22 @@ document.addEventListener("DOMContentLoaded", () => {
     isDressOn = !isDressOn;
   });
 
-  // 🏠 Tombol kamar
+  // 🍎🍞🍰 Makan di dapur
+  foods.forEach((food) => {
+    food.addEventListener("click", () => {
+      addStar();
+      jumpAnimation();
+      console.log("Syabil makan 😋");
+    });
+  });
+
+  // 🏠 Pindah kamar
   btnBedroom.addEventListener("click", () => {
     bedroom.classList.add("active");
     kitchen.classList.remove("active");
   });
 
-  // 🍳 Tombol dapur
+  // 🍳 Pindah dapur
   btnKitchen.addEventListener("click", () => {
     kitchen.classList.add("active");
     bedroom.classList.remove("active");
