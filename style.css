@@ -77,13 +77,6 @@ body {
   cursor: pointer;
 }
 
-.bedroom .child {
-  position: absolute;
-  bottom: 40px;
-  right: 120px;
-  font-size: 80px;
-}
-
 /* KITCHEN */
 .kitchen {
   background: linear-gradient(#fff4d6, #ffffff);
@@ -97,15 +90,28 @@ body {
   cursor: pointer;
 }
 
-.food:nth-child(2) {
-  left: 200px;
+.food:nth-child(2) { left: 200px; }
+.food:nth-child(3) { left: 320px; }
+
+/* CHARACTERS */
+.person {
+  position: absolute;
+  bottom: 40px;
+  transition: transform 0.3s;
 }
 
-.food:nth-child(3) {
-  left: 320px;
+.person img {
+  width: 120px;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
 }
 
-/* FAMILY */
+/* POSITIONS */
+.bedroom .child {
+  right: 120px;
+}
+
 .family {
   position: absolute;
   bottom: 40px;
@@ -114,7 +120,6 @@ body {
   gap: 20px;
 }
 
-.person {
-  font-size: 80px;
-  transition: transform 0.3s;
-}
+.father img { width: 140px; }
+.mother img { width: 135px; }
+.child img  { width: 120px; }
