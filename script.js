@@ -1,11 +1,13 @@
 // ============================
-// MY HAPPY HOME - SCRIPT
+// MY HAPPY HOME - SCRIPT (FINAL)
 // ============================
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("My Happy Home ready");
 
+  // ============================
   // ELEMENTS
+  // ============================
   const starCountEl = document.getElementById("star-count");
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
@@ -13,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const bedroom = document.querySelector(".bedroom");
   const kitchen = document.querySelector(".kitchen");
 
-  const child = document.getElementById("child");
   const foods = document.querySelectorAll(".food");
 
   let stars = 0;
@@ -40,13 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ============================
-  // ANIMATION
+  // ANIMATION (FIXED TARGET)
   // ============================
   function jumpChild() {
-    if (!child) return;
-    child.classList.add("jump");
+    // cari gambar anak di room yang aktif
+    const activeChild = document.querySelector(
+      ".room.active .person img"
+    );
+
+    if (!activeChild) return;
+
+    activeChild.classList.add("jump");
     setTimeout(() => {
-      child.classList.remove("jump");
+      activeChild.classList.remove("jump");
     }, 400);
   }
 
