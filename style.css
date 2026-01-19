@@ -113,21 +113,11 @@ body {
   height: 220px;
   width: auto;
   user-select: none;
-  position: absolute;
-  bottom: 20px;
-  right: 40px;
   transition: transform 0.2s ease;
+  will-change: transform; /* bantu browser */
 }
 
-/* EFEK LONCAT (AMAN, TANPA BENTROK) */
+/* EFEK LONCAT (PASTI TERLIHAT) */
 .person img.jump {
-  transform: translateY(-30px);
+  transform: translateY(-40px);
 }
-
-
-@keyframes jump {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-20px); }
-  100% { transform: translateY(0); }
-}
-
