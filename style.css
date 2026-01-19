@@ -130,3 +130,8 @@ body {
 .person img.sleep {
   transform: rotate(90deg) scale(0.9);
 }
+
+/* efek halus saat ganti baju */
+.person img {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
