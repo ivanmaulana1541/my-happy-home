@@ -70,7 +70,7 @@ body {
 }
 
 /* =====================
-   BACKGROUND
+   BACKGROUND PER AREA
 ===================== */
 .map     { background-image: url("assets/background/map.png"); }
 .home    { background-image: url("assets/background/home.png"); }
@@ -81,8 +81,7 @@ body {
 .market  { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   MAP LOCATION
-   (TRANSPARENT + HOVER GLOW)
+   MAP LOCATION (AREA KLIK)
 ===================== */
 .map-location {
   position: absolute;
@@ -96,7 +95,7 @@ body {
     transform 0.25s ease;
 }
 
-/* ✨ HOVER GLOW EMAS LEMBUT */
+/* ✨ HOVER GLOW EMAS */
 .map-location:hover {
   background-color: rgba(255, 236, 190, 0.35);
   box-shadow:
@@ -107,8 +106,7 @@ body {
 }
 
 /* =====================
-   POSISI PAS DI PAPAN MAP
-   (SUDAH DIKALIBRASI)
+   POSISI MAP (REVISI)
 ===================== */
 
 /* 🏠 HOME */
@@ -117,19 +115,19 @@ body {
   left: 39%;
 }
 
-/* 🏫 SCHOOL */
+/* 🏫 SCHOOL — LEBIH KE ATAS */
 .map-location.school {
-  top: 34%;
+  top: 30%;
   left: 64%;
 }
 
-/* 🏢 OFFICE */
+/* 🏢 OFFICE — LEBIH KE KIRI */
 .map-location.office {
   top: 66%;
-  left: 30%;
+  left: 24%;
 }
 
-/* 🛒 MARKET (SUDAH BENAR) */
+/* 🛒 MARKET */
 .map-location.market {
   top: 66%;
   left: 71%;
@@ -222,6 +220,9 @@ body {
   z-index: 1001;
 }
 
+/* =====================
+   UTIL
+===================== */
 .hidden {
   display: none;
 }
