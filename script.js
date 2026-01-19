@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
 
+  const familyMembers = document.querySelectorAll(".family .person img");
+
   let stars = 0;
   let isSleeping = false;
   let isDressOn = false;
@@ -42,30 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ============================
-  // AMBIL ANAK DI ROOM AKTIF
+  // LONCAT (UNTUK SEMUA)
   // ============================
-  function getActiveChild() {
-    return document.querySelector(".room.active .person img");
+  function jump(el) {
+    el.classList.add("jump");
+    setTimeout(() => el.classList.remove("jump"), 400);
   }
 
   // ============================
-  // LONCAT
-  // ============================
-  function jumpChild() {
-    const child = getActiveChild();
-    if (!child) return;
-
-    child.classList.add("jump");
-    setTimeout(() => {
-      child.classList.remove("jump");
-    }, 400);
-  }
-
-  // ============================
-  // TIDUR / BANGUN
+  // TIDUR / BANGUN (ANAK)
   // ============================
   bed.addEventListener("click", () => {
-    const child = getActiveChild();
+    const child = document.querySelector(".child img");
     if (!child) return;
 
     addStar();
@@ -80,21 +70,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ============================
-  // GANTI BAJU 👗
+  // GANTI BAJU (ANAK)
   // ============================
   wardrobe.addEventListener("click", () => {
-    const child = getActiveChild();
+    const child = document.querySelector(".child img");
     if (!child) return;
 
     addStar();
 
-    if (isDressOn) {
-      child.src = "./assets/child.png";
-    } else {
-      child.src = "./assets/child-dress.png";
-    }
+    child.src = isDressOn
+      ? "./assets/child.png"
+      : "./assets/child-dress.png";
 
-    jumpChild(); // biar ada feedback lucu
+    jump(child);
     isDressOn = !isDressOn;
   });
 
@@ -104,7 +92,18 @@ document.addEventListener("DOMContentLoaded", () => {
   foods.forEach(food => {
     food.addEventListener("click", () => {
       addStar();
-      jumpChild();
+      const child = document.querySelector(".child img");
+      if (child) jump(child);
+    });
+  });
+
+  // ============================
+  // INTERAKSI AYAH & IBU
+  // ============================
+  familyMembers.forEach(member => {
+    member.addEventListener("click", () => {
+      addStar();
+      jump(member);
     });
   });
 });
