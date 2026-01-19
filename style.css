@@ -72,28 +72,50 @@ body {
 /* =====================
    BACKGROUND
 ===================== */
-.map { background-image: url("assets/background/map.png"); }
-.home { background-image: url("assets/background/home.png"); }
-.bedroom { background-image: url("assets/background/room.png"); }
-.kitchen { background-image: url("assets/background/kitchen.png"); }
+.map    { background-image: url("assets/background/map.png"); }
+.home   { background-image: url("assets/background/home.png"); }
+.bedroom{ background-image: url("assets/background/room.png"); }
+.kitchen{ background-image: url("assets/background/kitchen.png"); }
 .school { background-image: url("assets/background/school.png"); }
 .office { background-image: url("assets/background/office.png"); }
 .market { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   MAP LOCATION
+   MAP LOCATION (TRANSPARENT CLICK AREA)
 ===================== */
 .map-location {
   position: absolute;
-  font-size: 32px;
+  width: 140px;
+  height: 50px;
   cursor: pointer;
-  transform: translate(-50%, -50%);
+  background: transparent;
 }
 
-.map-location.home   { top: 35%; left: 35%; }
-.map-location.school { top: 30%; left: 65%; }
-.map-location.office { top: 60%; left: 30%; }
-.map-location.market { top: 60%; left: 70%; }
+/* POSISI PAS DI PAPAN TULISAN */
+
+/* HOME */
+.map-location.home {
+  top: 38%;
+  left: 37%;
+}
+
+/* SCHOOL */
+.map-location.school {
+  top: 33%;
+  left: 67%;
+}
+
+/* OFFICE */
+.map-location.office {
+  top: 65%;
+  left: 32%;
+}
+
+/* MARKET */
+.map-location.market {
+  top: 65%;
+  left: 72%;
+}
 
 /* =====================
    PERSON
@@ -105,11 +127,15 @@ body {
 }
 
 .father img,
-.mother img { height: 240px; }
+.mother img {
+  height: 240px;
+}
 
-.child img { height: 200px; }
+.child img {
+  height: 200px;
+}
 
-/* HOME POSISI */
+/* POSISI HOME */
 .home .father { left: 48%; }
 .home .child  { left: 53%; z-index: 2; }
 .home .mother { left: 58%; }
@@ -192,4 +218,6 @@ body {
   color: white;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
