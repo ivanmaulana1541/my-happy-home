@@ -183,3 +183,45 @@ body {
 .family.hug .child img {
   transform: scale(1.05);
 }
+
+/* =========================
+   SCHOOL AREA
+========================= */
+
+.school {
+  background: #fff7e6;
+}
+
+/* Judul area */
+.area-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Item sekolah */
+.school-items {
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
+  display: flex;
+  gap: 20px;
+}
+
+.school-item {
+  font-size: 48px;
+  cursor: pointer;
+}
+
+/* Karakter sekolah */
+.school-characters {
+  position: absolute;
+  right: 40px;
+  bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.school-characters img {
+  height: 220px;
+}
