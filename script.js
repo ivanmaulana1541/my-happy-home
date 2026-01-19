@@ -33,6 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
     father: {
       eat: false,
       office: false
+    },
+    mother: {
+      eat: false,
+      market: false
     }
   };
 
@@ -80,31 +84,40 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => {
       const target = btn.dataset.area;
 
-      // 🔒 Gate: Father ke Office harus makan dulu
+      // 🔒 Child → School
+      if (target === "school" && (!quest.child.wakeUp || !quest.child.eat)) return;
+
+      // 🔒 Father → Office
       if (target === "office" && !quest.father.eat) return;
 
-      // 🔒 Child ke School harus bangun & makan
-      if (target === "school" && (!quest.child.wakeUp || !quest.child.eat)) return;
+      // 🔒 Mother → Market
+      if (target === "market" && !quest.mother.eat) return;
 
       switchRoom(target);
 
-      // ✅ Masuk sekolah (Child)
+      // ✅ Child masuk sekolah
       if (target === "school" && !quest.child.school) {
         quest.child.school = true;
         addStar(2);
         markDone(qSchool);
       }
 
-      // ✅ Masuk kantor (Father)
+      // ✅ Father masuk kantor
       if (target === "office" && !quest.father.office) {
         quest.father.office = true;
+        addStar(2);
+      }
+
+      // ✅ Mother masuk market
+      if (target === "market" && !quest.mother.market) {
+        quest.mother.market = true;
         addStar(2);
       }
     });
   });
 
   /* =====================
-     🛏️ CHILD: BANGUN TIDUR
+     🛏️ CHILD: BANGUN
   ===================== */
   bed?.addEventListener("click", () => {
     switchRoom("bedroom");
@@ -133,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     🍎 MAKAN (CHILD & FATHER)
+     🍎 MAKAN (SEMUA)
   ===================== */
   foods.forEach(food => {
     food.addEventListener("click", () => {
@@ -151,6 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // Father makan
         if (!quest.father.eat) {
           quest.father.eat = true;
+          addStar(1);
+        }
+
+        // Mother makan
+        if (!quest.mother.eat) {
+          quest.mother.eat = true;
           addStar(1);
         }
 
