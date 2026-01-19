@@ -111,23 +111,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🤗 PELUKAN KELUARGA
   // ============================
   document.addEventListener("click", (e) => {
-    if (!e.target.closest(".father img") && !e.target.closest(".mother img")) {
-      return;
-    }
+  // ❌ JANGAN ganggu klik makanan
+  if (e.target.closest(".food")) return;
 
-    const family = getActiveFamily();
-    const child = getActiveChild();
-    if (!family || !child) return;
+  // 🤗 hanya ayah & ibu
+  if (!e.target.closest(".father img") && !e.target.closest(".mother img")) {
+    return;
+  }
 
-    addStar();
+  const family = getActiveFamily();
+  const child = getActiveChild();
+  if (!family || !child) return;
 
-    if (isHugging) {
-      family.classList.remove("hug");
-    } else {
-      family.classList.add("hug");
-      jump(child);
-    }
+  addStar();
 
-    isHugging = !isHugging;
-  });
+  if (isHugging) {
+    family.classList.remove("hug");
+  } else {
+    family.classList.add("hug");
+    jump(child);
+  }
+
+  isHugging = !isHugging;
 });
+
