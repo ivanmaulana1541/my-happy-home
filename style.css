@@ -166,3 +166,20 @@ body {
 .family .mother img {
   height: 190px;
 }
+
+/* ======================
+   PELUKAN KELUARGA
+====================== */
+
+/* posisi mendekat saat pelukan */
+.family.hug .father img {
+  margin-right: -20px;
+}
+
+.family.hug .mother img {
+  margin-left: -20px;
+}
+
+.family.hug .child img {
+  transform: scale(1.05);
+}
