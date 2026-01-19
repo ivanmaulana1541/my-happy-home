@@ -1,5 +1,5 @@
 // ============================
-// MY HAPPY HOME - SCRIPT
+// MY HAPPY HOME - SCRIPT (FIXED)
 // ============================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -43,16 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ============================
-  // AMBIL FAMILY DI ROOM AKTIF
+  // ACTIVE ELEMENTS
   // ============================
   function getActiveFamily() {
     return document.querySelector(".room.active .family");
   }
 
   function getActiveChild() {
-  return document.querySelector(".room.active .person img");
-}
-
+    return document.querySelector(".room.active .person img");
+  }
 
   // ============================
   // LONCAT
@@ -63,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ============================
-  // TIDUR / BANGUN (ANAK)
+  // TIDUR / BANGUN
   // ============================
   bed.addEventListener("click", () => {
     const child = getActiveChild();
@@ -71,17 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     addStar();
 
-    if (isSleeping) {
-      child.classList.remove("sleep");
-    } else {
-      child.classList.add("sleep");
-    }
-
+    child.classList.toggle("sleep");
     isSleeping = !isSleeping;
   });
 
   // ============================
-  // GANTI BAJU (ANAK)
+  // GANTI BAJU
   // ============================
   wardrobe.addEventListener("click", () => {
     const child = getActiveChild();
@@ -112,27 +106,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🤗 PELUKAN KELUARGA
   // ============================
   document.addEventListener("click", (e) => {
-  // ❌ JANGAN ganggu klik makanan
-  if (e.target.closest(".food")) return;
+    // jangan ganggu klik makanan
+    if (e.target.closest(".food")) return;
 
-  // 🤗 hanya ayah & ibu
-  if (!e.target.closest(".father img") && !e.target.closest(".mother img")) {
-    return;
-  }
+    // hanya ayah & ibu
+    if (
+      !e.target.closest(".father img") &&
+      !e.target.closest(".mother img")
+    ) {
+      return;
+    }
 
-  const family = getActiveFamily();
-  const child = getActiveChild();
-  if (!family || !child) return;
+    const family = getActiveFamily();
+    const child = getActiveChild();
+    if (!family || !child) return;
 
-  addStar();
+    addStar();
 
-  if (isHugging) {
-    family.classList.remove("hug");
-  } else {
-    family.classList.add("hug");
+    family.classList.toggle("hug");
     jump(child);
-  }
+    isHugging = !isHugging;
+  });
 
-  isHugging = !isHugging;
-});
-
+}); // ✅ INI YANG KEMARIN HILANG
