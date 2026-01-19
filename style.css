@@ -1,6 +1,3 @@
-/* =====================
-   RESET
-===================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,9 +5,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* =====================
-   BODY
-===================== */
 body {
   background: #fdecef;
   display: flex;
@@ -18,44 +12,32 @@ body {
   padding: 30px;
 }
 
-/* =====================
-   GAME CONTAINER
-===================== */
 .game {
   width: 100%;
   max-width: 900px;
   background: #fff0f5;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.15);
   overflow: hidden;
   position: relative;
 }
 
-/* =====================
-   TOP BAR
-===================== */
 .top-bar {
   background: #ff7fa7;
   color: white;
-  padding: 14px 18px;
+  padding: 14px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .nav button {
-  border: none;
   background: white;
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 10px;
   margin-left: 6px;
-  font-weight: bold;
+  cursor: pointer;
 }
 
-/* =====================
-   ROOM (BASE)
-===================== */
 .room {
   position: relative;
   height: 360px;
@@ -64,125 +46,50 @@ body {
   background-position: center;
 }
 
-.room.active {
-  display: block;
-}
+.room.active { display: block; }
 
-/* =====================
-   BACKGROUND PER ROOM
-===================== */
 .map     { background-image: url("assets/background/map.png"); }
 .home    { background-image: url("assets/background/home.png"); }
-.bedroom { background-image: url("assets/background/room.png"); }
+.bedroom-child  { background-image: url("assets/background/room.png"); }
+.bedroom-parent { background-image: url("assets/background/room-parent.png"); }
 .kitchen { background-image: url("assets/background/kitchen.png"); }
 .school  { background-image: url("assets/background/school.png"); }
 .office  { background-image: url("assets/background/office.png"); }
 .market  { background-image: url("assets/background/market.png"); }
 
-/* =====================
-   MAP LOCATION (INVISIBLE HIT AREA)
-===================== */
+/* MAP LOCATION */
 .map-location {
   position: absolute;
   width: 140px;
   height: 50px;
   background: transparent;
-  border-radius: 8px;
   cursor: pointer;
-  pointer-events: auto;
   z-index: 2;
 }
 
-/* LOCKED */
-.map-location.locked {
-  cursor: default;
-  pointer-events: none;
-  filter: grayscale(1);
-}
+.map-location.home   { top: 22%; left: 26%; }
+.map-location.school { top: 18%; left: 64%; }
+.map-location.office { top: 66%; left: 18%; }
+.map-location.market { top: 66%; left: 71%; }
 
-/* HOVER */
-.map-location:not(.locked):hover {
-  box-shadow:
-    0 0 12px rgba(255, 215, 120, 0.8),
-    inset 0 0 6px rgba(255, 255, 255, 0.6);
-}
-
-/* ACTIVE QUEST (PULSE) */
-.map-location.active-quest {
-  animation: pulseGlow 1.8s infinite;
-}
-
-/* =====================
-   MAP ANIMATION
-===================== */
-@keyframes pulseGlow {
-  0%   { box-shadow: 0 0 0 rgba(255,215,120,0); }
-  50%  { box-shadow: 0 0 14px rgba(255,215,120,0.9); }
-  100% { box-shadow: 0 0 0 rgba(255,215,120,0); }
-}
-
-/* =====================
-   MAP LOCATION POSITION
-===================== */
-.map-location.home {
-  top: 22%;
-  left: 26%;
-}
-
-.map-location.school {
-  top: 18%;
-  left: 64%;
-}
-
-.map-location.office {
-  top: 66%;
-  left: 18%;
-}
-
-.map-location.market {
-  top: 66%;
-  left: 71%;
-}
-
-/* =====================
-   PERSON (CHARACTER)
-===================== */
 .person {
   position: absolute;
   bottom: 20px;
 }
 
-/* ukuran */
 .father img,
-.mother img {
-  height: 240px;
-}
+.mother img { height: 240px; }
 
-.child img {
-  height: 200px;
-}
+.child img { height: 200px; }
 
-/* posisi di HOME */
-.home .father {
-  left: 48%;
-}
+.home .father { left: 48%; }
+.home .child  { left: 53%; z-index: 2; }
+.home .mother { left: 58%; }
 
-.home .child {
-  left: 53%;
-  z-index: 2;
-}
-
-.home .mother {
-  left: 58%;
-}
-
-/* =====================
-   ITEMS (BEDROOM)
-===================== */
 .item {
   font-size: 42px;
-  cursor: pointer;
   position: absolute;
+  cursor: pointer;
 }
 
 .bed {
@@ -190,21 +97,10 @@ body {
   bottom: 40px;
 }
 
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
-
-/* =====================
-   FOOD (KITCHEN)
-===================== */
 .food-container {
   position: absolute;
   left: 20px;
   top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .food {
@@ -212,58 +108,20 @@ body {
   cursor: pointer;
 }
 
-/* =====================
-   QUEST BUTTON
-===================== */
 .quest-btn {
   position: absolute;
   top: 70px;
   right: 20px;
-  border: none;
-  background: #ffb6c1;
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  z-index: 1000;
 }
 
-/* =====================
-   QUEST PANEL
-===================== */
 .quest-panel {
   position: absolute;
   top: 110px;
   right: 20px;
   background: white;
-  border-radius: 14px;
   padding: 14px;
-  width: 200px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  font-size: 14px;
-  z-index: 1001;
+  border-radius: 10px;
+  width: 220px;
 }
 
-.quest-panel h3 {
-  margin-bottom: 8px;
-}
-
-.quest-panel ul {
-  list-style: none;
-}
-
-.quest-panel li {
-  margin-bottom: 6px;
-  transition: all 0.3s ease;
-}
-
-.quest-panel li.done {
-  color: #2e8b57;
-  text-decoration: line-through;
-}
-
-/* =====================
-   UTIL
-===================== */
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
