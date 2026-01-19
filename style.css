@@ -80,7 +80,7 @@ body {
 .market         { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   CHARACTER BASE (SUPER IMPORTANT)
+   CHARACTER BASE (RESET TOTAL)
 ===================== */
 .person {
   position: absolute;
@@ -88,32 +88,35 @@ body {
   pointer-events: none;
   z-index: 5;
 
-  /* 🔥 RESET TOTAL (anti raksasa) */
   transform: none !important;
   scale: 1 !important;
 }
 
 /* =====================
-   CHARACTER SIZE (KUNCI)
+   CHARACTER IMAGE (ANTI RAKSASA)
 ===================== */
 .person img {
   display: block;
+  width: auto !important;
+  max-height: 100% !important;
   transform: none !important;
 }
 
-/* Syabil */
+/* =====================
+   CHARACTER SIZE (DIKUNCI)
+===================== */
 .child img {
-  height: 200px;
+  height: 190px;
 }
 
-/* Papa & Mama — FIX RAKSASA */
 .papa img,
 .mama img {
-  height: 230px;   /* NORMAL & PROPORSIONAL */
+  height: 220px;        /* 🔥 DIPAKSA */
+  max-height: 220px;
 }
 
 /* =====================
-   CHARACTER POSITION
+   POSITION PER RUANGAN
 ===================== */
 
 /* HOME */
@@ -122,27 +125,26 @@ body {
 }
 
 .home .papa {
-  left: 38%;
+  left: 36%;
 }
 
 .home .mama {
-  left: 62%;
+  left: 64%;
 }
 
 /* KAMAR SYABIL */
 .bedroom-child .child {
-  left: 62%;
+  left: 60%;
 }
 
-/* DAPUR → 1/4 DARI KIRI */
+/* DAPUR — LEBIH KE KIRI */
 .kitchen .child {
-  left: 25%;
+  left: 22%;
 }
 
-/* SEKOLAH → TENGAH */
+/* SEKOLAH — LEBIH KE KIRI */
 .school .child {
-  left: 50%;
-  transform: translateX(-50%);
+  left: 46%;
 }
 
 /* =====================
@@ -156,17 +158,16 @@ body {
   user-select: none;
 }
 
-/* BED */
 .bed {
   left: 40px;
   bottom: 40px;
 }
 
 /* =====================
-   FOOD (DIBESARKAN)
+   FOOD (LEBIH BESAR)
 ===================== */
 .food {
-  font-size: 44px;      /* 🔼 LEBIH BESAR */
+  font-size: 46px;
   cursor: pointer;
   user-select: none;
 }
@@ -187,13 +188,13 @@ body {
 }
 
 /* =====================
-   QUEST PANEL (RAPI & KECIL)
+   QUEST PANEL (RAPI & IMUT)
 ===================== */
 .quest-panel {
   position: absolute;
   top: 110px;
   right: 16px;
-  width: 150px;
+  width: 145px;
   background: white;
   border-radius: 14px;
   padding: 10px 12px;
