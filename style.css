@@ -87,3 +87,16 @@ body {
   height: 180px;
   display: block;
 }
+/* ======================
+   ANIMASI SYABIL
+====================== */
+
+.person img {
+  transition: transform 0.4s ease;
+  cursor: pointer;
+}
+
+/* posisi tidur */
+.sleep {
+  transform: rotate(90deg) translateY(-40px);
+}
