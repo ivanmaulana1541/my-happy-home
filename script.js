@@ -31,6 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
     starCount.textContent = stars;
   }
 
+  function jumpAnimation() {
+    childImg.classList.add("jump");
+    setTimeout(() => {
+      childImg.classList.remove("jump");
+    }, 400);
+  }
+
   // ======================
   // EVENTS
   // ======================
@@ -50,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isSleeping = !isSleeping;
   });
 
-  // 👗 Klik lemari → ganti baju bolak-balik
+  // 👗 Klik lemari → ganti baju + loncat
   wardrobe.addEventListener("click", () => {
     addStar();
 
@@ -62,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Syabil pakai baju pesta 👗");
     }
 
+    jumpAnimation();
     isDressOn = !isDressOn;
   });
 
