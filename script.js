@@ -16,11 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
 
-  const familyMembers = document.querySelectorAll(".family .person img");
-
   let stars = 0;
   let isSleeping = false;
   let isDressOn = false;
+  let isHugging = false;
 
   // ============================
   // NAVIGATION
@@ -44,7 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ============================
-  // LONCAT (UNTUK SEMUA)
+  // AMBIL FAMILY DI ROOM AKTIF
+  // ============================
+  function getActiveFamily() {
+    return document.querySelector(".room.active .family");
+  }
+
+  function getActiveChild() {
+    return document.querySelector(".room.active .child img");
+  }
+
+  // ============================
+  // LONCAT
   // ============================
   function jump(el) {
     el.classList.add("jump");
@@ -55,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // TIDUR / BANGUN (ANAK)
   // ============================
   bed.addEventListener("click", () => {
-    const child = document.querySelector(".child img");
+    const child = getActiveChild();
     if (!child) return;
 
     addStar();
@@ -73,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // GANTI BAJU (ANAK)
   // ============================
   wardrobe.addEventListener("click", () => {
-    const child = document.querySelector(".child img");
+    const child = getActiveChild();
     if (!child) return;
 
     addStar();
@@ -90,25 +100,34 @@ document.addEventListener("DOMContentLoaded", () => {
   // MAKAN
   // ============================
   foods.forEach(food => {
-  food.addEventListener("click", () => {
+    food.addEventListener("click", () => {
+      addStar();
+      const child = getActiveChild();
+      if (child) jump(child);
+    });
+  });
+
+  // ============================
+  // 🤗 PELUKAN KELUARGA
+  // ============================
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".father img") && !e.target.closest(".mother img")) {
+      return;
+    }
+
+    const family = getActiveFamily();
+    const child = getActiveChild();
+    if (!family || !child) return;
+
     addStar();
 
-    const activeChild = document.querySelector(
-      ".room.active .person img"
-    );
+    if (isHugging) {
+      family.classList.remove("hug");
+    } else {
+      family.classList.add("hug");
+      jump(child);
+    }
 
-    if (activeChild) jump(activeChild);
-  });
-});
-
-
-  // ============================
-  // INTERAKSI AYAH & IBU
-  // ============================
-  familyMembers.forEach(member => {
-    member.addEventListener("click", () => {
-      addStar();
-      jump(member);
-    });
+    isHugging = !isHugging;
   });
 });
