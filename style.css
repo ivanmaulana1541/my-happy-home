@@ -81,7 +81,7 @@ body {
 .market { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   MAP LOCATION (TRANSPARENT CLICK AREA)
+   MAP LOCATION (TRANSPARENT + HOVER GLOW)
 ===================== */
 .map-location {
   position: absolute;
@@ -89,9 +89,27 @@ body {
   height: 50px;
   cursor: pointer;
   background: transparent;
+
+  /* TRANSISI HALUS */
+  transition: 
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
 }
 
-/* POSISI PAS DI PAPAN TULISAN */
+/* ✨ HOVER GLOW EMAS LEMBUT */
+.map-location:hover {
+  background-color: rgba(255, 236, 190, 0.35);
+  box-shadow:
+    0 0 12px rgba(255, 215, 120, 0.8),
+    inset 0 0 6px rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  border-radius: 8px;
+}
+
+/* =====================
+   POSISI PAS DI PAPAN MAP
+===================== */
 
 /* HOME */
 .map-location.home {
@@ -195,27 +213,6 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   font-size: 14px;
   z-index: 1001;
-}
-
-.quest-tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.quest-tabs .tab {
-  flex: 1;
-  border: none;
-  padding: 4px;
-  border-radius: 8px;
-  background: #ffe4ec;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.quest-tabs .tab.active {
-  background: #ff7fa7;
-  color: white;
 }
 
 .hidden {
