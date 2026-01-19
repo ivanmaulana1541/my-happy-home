@@ -135,3 +135,34 @@ body {
 .person img {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
+/* ======================
+   FAMILY
+====================== */
+
+.family {
+  position: absolute;
+  right: 40px;
+  bottom: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.family .person {
+  position: relative;
+  pointer-events: auto;
+}
+
+.family .person img {
+  height: 180px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* beda ukuran biar natural */
+.family .father img {
+  height: 200px;
+}
+
+.family .mother img {
+  height: 190px;
+}
