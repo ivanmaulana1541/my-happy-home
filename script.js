@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ======================
   let stars = 0;
   let isDressOn = false;
+  let isSleeping = false;
 
   // ======================
   // ELEMENTS
@@ -34,13 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // EVENTS
   // ======================
 
-  // 🛏️ Klik kasur
+  // 🛏️ Klik kasur → tidur / bangun
   bed.addEventListener("click", () => {
     addStar();
-    console.log("Syabil tidur 😴");
+
+    if (isSleeping) {
+      childImg.classList.remove("sleep");
+      console.log("Syabil bangun ☀️");
+    } else {
+      childImg.classList.add("sleep");
+      console.log("Syabil tidur 😴");
+    }
+
+    isSleeping = !isSleeping;
   });
 
-  // 👗 Klik lemari (ganti baju bolak-balik)
+  // 👗 Klik lemari → ganti baju bolak-balik
   wardrobe.addEventListener("click", () => {
     addStar();
 
