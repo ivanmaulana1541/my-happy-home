@@ -1,22 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ===============================
-  // GAME STATE
-  // ===============================
   let stars = 0;
   let isSleeping = false;
 
-  // ===============================
-  // ELEMENTS
-  // ===============================
   const starCountEl = document.getElementById("star-count");
   const bedEl = document.querySelector(".bed");
   const girlEl = document.querySelector(".girl");
 
-  console.log("Elements:", { bedEl, girlEl, starCountEl });
+  console.log("Script loaded ✅");
+  console.log("Bed element:", bedEl);
 
-  // ===============================
-  // FUNCTIONS
-  // ===============================
   function updateStars() {
     starCountEl.textContent = stars;
   }
@@ -30,25 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
     stars += 1;
     updateStars();
 
-    // Girl sleeps
     girlEl.textContent = "😴";
-    girlEl.style.transform = "scale(0.9)";
 
     setTimeout(() => {
       girlEl.textContent = "👧";
-      girlEl.style.transform = "scale(1)";
       isSleeping = false;
     }, 2000);
   }
 
-  // ===============================
-  // EVENTS (POINTER = MOUSE + TOUCH)
-  // ===============================
-  bedEl.addEventListener("pointerdown", sleepAction);
+  if (bedEl) {
+    bedEl.addEventListener("pointerdown", sleepAction);
+  } else {
+    console.error("❌ Bed element not found");
+  }
 
-  // ===============================
-  // INIT
-  // ===============================
   updateStars();
-  console.log("Sleep system ready ⭐");
 });
