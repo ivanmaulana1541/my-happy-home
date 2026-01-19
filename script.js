@@ -1,37 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* =====================
+     ELEMENTS
+  ===================== */
   const rooms = document.querySelectorAll(".room");
   const navButtons = document.querySelectorAll(".nav button");
+
   const questBtn = document.getElementById("btn-quest");
   const questPanel = document.getElementById("quest-panel");
   const questTitle = document.getElementById("quest-title");
   const questList = document.getElementById("quest-list");
 
+  /* =====================
+     STATE
+  ===================== */
   let activeCharacter = "syabil";
 
   const quests = {
     syabil: [
       { text: "Bangun (kamar Syabil)", done: false },
-      { text: "Makan", done: false },
+      { text: "Makan (dapur)", done: false },
       { text: "Sekolah", done: false },
       { text: "Pulang ke Home", done: false }
     ],
     papa: [
       { text: "Bangun (kamar orang tua)", done: false },
-      { text: "Makan", done: false },
+      { text: "Makan (dapur)", done: false },
       { text: "Ke Kantor", done: false },
       { text: "Pulang ke Home", done: false }
     ],
     mama: [
       { text: "Bangun (kamar orang tua)", done: false },
-      { text: "Makan", done: false },
+      { text: "Makan (dapur)", done: false },
       { text: "Ke Market", done: false },
       { text: "Pulang ke Home", done: false }
     ]
   };
 
   /* =====================
-     ROOM SWITCH
+     BASIC UTIL
   ===================== */
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
@@ -39,9 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target) target.classList.add("active");
   }
 
-  /* =====================
-     QUEST RENDER
-  ===================== */
   function renderQuest() {
     questList.innerHTML = "";
     questTitle.textContent =
@@ -50,13 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
     quests[activeCharacter].forEach(q => {
       const li = document.createElement("li");
       li.textContent = q.text;
-      if (q.done) li.style.textDecoration = "line-through";
+      if (q.done) li.classList.add("done");
       questList.appendChild(li);
     });
   }
 
   /* =====================
-     QUEST BUTTON
+     QUEST PANEL
   ===================== */
   questBtn.addEventListener("click", () => {
     questPanel.classList.toggle("hidden");
@@ -72,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     MAP CLICK (INI WAJIB)
+     MAP CLICK
   ===================== */
   document.querySelectorAll(".map-location").forEach(loc => {
     loc.addEventListener("click", () => {
@@ -83,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     GAME ACTION
+     GAME ACTIONS
   ===================== */
   document.querySelectorAll("[data-action='wake']").forEach(el => {
     el.addEventListener("click", () => {
@@ -100,9 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     INIT (PENTING)
+     INIT GAME
   ===================== */
+  switchRoom("bedroom-child"); // 🔥 Syabil mulai di kamar
   renderQuest();
-  questPanel.classList.remove("hidden"); // buka quest di awal game
+  questPanel.classList.remove("hidden"); // tampilkan quest di awal
 
 });
