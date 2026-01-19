@@ -86,14 +86,13 @@ body {
   position: absolute;
   bottom: 20px;
   z-index: 5;
-  pointer-events: none;
+  pointer-events: none; /* karakter tidak menghalangi klik */
 }
 
 .person img {
   display: block;
   width: auto;
   height: auto;
-  transform: none !important;
 }
 
 /* =====================
@@ -105,44 +104,43 @@ body {
 
 .papa img,
 .mama img {
-  height: 245px; /* 🔥 lebih tinggi dari Syabil */
+  height: 245px;
 }
 
 /* =====================
-   POSITION — HOME (RAPIH & DIAPIT)
+   HOME — MAMA JADI PATOKAN
 ===================== */
+.home .mama {
+  left: 60%;
+}
+
 .home .child {
-  left: 50%;
-  transform: translateX(-50%);
+  left: 52%;
 }
 
 .home .papa {
-  left: 38%;
-}
-
-.home .mama {
-  left: 62%;
+  left: 44%;
 }
 
 /* =====================
-   POSITION — KAMAR SYABIL
+   KAMAR SYABIL
 ===================== */
 .bedroom-child .child {
   left: 60%;
 }
 
 /* =====================
-   POSITION — DAPUR
+   DAPUR (GESER LEBIH KIRI)
 ===================== */
 .kitchen .child {
-  left: 25%;
+  left: 20%;
 }
 
 /* =====================
-   POSITION — SEKOLAH
+   SEKOLAH (SUDAH PAS)
 ===================== */
 .school .child {
-  left: 46%;
+  left: 44%;
 }
 
 /* =====================
@@ -156,13 +154,14 @@ body {
 }
 
 /* =====================
-   FOOD (BISA DI-CLICK)
+   FOOD — FIX CLICK (PENTING)
 ===================== */
 .food {
-  font-size: 50px;
+  position: absolute;
+  font-size: 56px;
   cursor: pointer;
-  z-index: 15; /* 🔥 DI ATAS KARAKTER */
-  position: relative;
+  z-index: 50;              /* PALING ATAS */
+  pointer-events: auto;     /* WAJIB */
 }
 
 /* =====================
@@ -181,7 +180,7 @@ body {
 }
 
 /* =====================
-   QUEST PANEL
+   QUEST PANEL (LEBIH KECIL & CANTIK)
 ===================== */
 .quest-panel {
   position: absolute;
