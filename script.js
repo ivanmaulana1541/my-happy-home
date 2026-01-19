@@ -1,29 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ===============================
-  // STORAGE KEYS
-  // ===============================
   const STORAGE_KEY = "my-happy-home-save";
 
-  // ===============================
-  // LOAD SAVE
-  // ===============================
   const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
     stars: 0,
     outfitIndex: 0
   };
 
-  // ===============================
-  // STATE
-  // ===============================
   let stars = savedData.stars;
   let outfitIndex = savedData.outfitIndex;
   let isSleeping = false;
 
   const outfits = ["👧", "👧🏻", "👧🏽"];
 
-  // ===============================
-  // ELEMENTS
-  // ===============================
   const starCountEl = document.getElementById("star-count");
 
   const bedroom = document.querySelector(".bedroom");
@@ -33,25 +21,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const wardrobeEl = document.querySelector(".wardrobe");
   const foodEls = document.querySelectorAll(".food");
 
-  const girls = document.querySelectorAll(".girl");
-
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
 
-  // ===============================
-  // SAVE FUNCTION
-  // ===============================
+  const bedroomChild = document.querySelector(".bedroom .child");
+  const familyMembers = document.querySelectorAll(".family .person");
+
   function saveGame() {
-    const data = {
-      stars,
-      outfitIndex
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ stars, outfitIndex })
+    );
   }
 
-  // ===============================
-  // UI FUNCTIONS
-  // ===============================
   function updateStars() {
     starCountEl.textContent = stars;
   }
@@ -62,15 +44,15 @@ document.addEventListener("DOMContentLoaded", () => {
     room.classList.add("active");
   }
 
-  function updateGirls() {
-    girls.forEach(girl => {
-      girl.textContent = outfits[outfitIndex];
+  function updateChild() {
+    bedroomChild.textContent = outfits[outfitIndex];
+    familyMembers.forEach(member => {
+      if (member.classList.contains("child")) {
+        member.textContent = outfits[outfitIndex];
+      }
     });
   }
 
-  // ===============================
-  // GAME ACTIONS
-  // ===============================
   function sleepAction() {
     if (isSleeping) return;
 
@@ -79,18 +61,17 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStars();
     saveGame();
 
-    girls.forEach(g => g.textContent = "😴");
+    bedroomChild.textContent = "😴";
 
     setTimeout(() => {
-      updateGirls();
+      updateChild();
       isSleeping = false;
     }, 2000);
   }
 
   function changeClothes() {
     outfitIndex = (outfitIndex + 1) % outfits.length;
-    updateGirls();
-
+    updateChild();
     stars++;
     updateStars();
     saveGame();
@@ -101,36 +82,32 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStars();
     saveGame();
 
-    girls.forEach(girl => {
-      girl.textContent = "😋";
-      girl.style.transform = "scale(1.1)";
+    familyMembers.forEach(member => {
+      member.textContent = "😋";
+      member.style.transform = "scale(1.1)";
     });
 
     setTimeout(() => {
-      updateGirls();
-      girls.forEach(g => g.style.transform = "scale(1)");
+      familyMembers.forEach(member => {
+        if (member.classList.contains("father")) member.textContent = "👨";
+        if (member.classList.contains("mother")) member.textContent = "👩";
+        if (member.classList.contains("child"))
+          member.textContent = outfits[outfitIndex];
+        member.style.transform = "scale(1)";
+      });
     }, 1000);
   }
 
-  // ===============================
-  // EVENTS
-  // ===============================
   bedEl.addEventListener("pointerdown", sleepAction);
   wardrobeEl.addEventListener("pointerdown", changeClothes);
-
-  foodEls.forEach(food => {
-    food.addEventListener("pointerdown", eatFood);
-  });
+  foodEls.forEach(food => food.addEventListener("pointerdown", eatFood));
 
   btnBedroom.addEventListener("click", () => showRoom(bedroom));
   btnKitchen.addEventListener("click", () => showRoom(kitchen));
 
-  // ===============================
-  // INIT
-  // ===============================
   updateStars();
-  updateGirls();
+  updateChild();
   showRoom(bedroom);
 
-  console.log("Game loaded from save 💾", savedData);
+  console.log("Family system ready 👨‍👩‍👧");
 });
