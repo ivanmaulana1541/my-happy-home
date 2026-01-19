@@ -4,133 +4,86 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fcefee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  background: #fdecec;
+  font-family: sans-serif;
 }
 
-/* ================= GAME */
 .game {
-  width: 90vw;
-  max-width: 1100px;
-  height: 70vh;
-  background: #ffffff;
-  border-radius: 24px;
+  width: 90%;
+  max-width: 1000px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
-/* ================= TOP BAR */
+/* ===== TOP BAR ===== */
 .top-bar {
-  height: 56px;
   background: #ff7aa2;
-  color: #fff;
+  color: white;
+  padding: 12px 16px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  font-size: 18px;
-  z-index: 100;
+  align-items: center;
+  z-index: 10;
+  position: relative;
 }
 
 .nav button {
   margin-left: 8px;
   border: none;
-  border-radius: 10px;
+  background: white;
+  color: #ff4f87;
   padding: 6px 12px;
-  font-size: 14px;
+  border-radius: 10px;
   cursor: pointer;
-  background: #fff;
+  font-size: 14px;
 }
 
-/* ================= ROOMS */
+.nav button:hover {
+  background: #ffe1ec;
+}
+
+/* ===== ROOMS ===== */
 .room {
-  flex: 1;
   display: none;
   position: relative;
-  overflow: hidden;
+  height: 350px;
+  background: #fff0f5;
 }
 
 .room.active {
   display: block;
 }
 
-/* ================= BEDROOM */
-.bedroom {
-  background: linear-gradient(#ffe5ec, #ffffff);
+/* ===== OBJECTS ===== */
+.bed, .wardrobe {
+  position: absolute;
+  bottom: 20px;
+  font-size: 48px;
+  cursor: pointer;
+  z-index: 2;
 }
 
-.bed,
+.bed {
+  left: 40px;
+}
+
 .wardrobe {
-  position: absolute;
-  bottom: 32px;
-  font-size: 72px;
-  cursor: pointer;
-  z-index: 50;
+  left: 140px;
 }
 
-.bed { left: 60px; }
-.wardrobe { left: 180px; }
-
-/* ================= KITCHEN */
-.kitchen {
-  background: linear-gradient(#fff4d6, #ffffff);
-}
-
-.food {
-  position: absolute;
-  bottom: 32px;
-  font-size: 64px;
-  cursor: pointer;
-  z-index: 50;
-}
-
-.food:nth-child(1) { left: 80px; }
-.food:nth-child(2) { left: 200px; }
-.food:nth-child(3) { left: 320px; }
-
-/* ================= CHARACTERS — TOTAL LOCK */
+/* ===== PERSON ===== */
 .person {
   position: absolute;
-  bottom: 32px;
-
-  /* 🔥 INI KUNCI UTAMA */
-  width: auto;
-  max-width: 180px;
-  pointer-events: none;
-  z-index: 1;
+  bottom: 10px;
+  right: 60px;
+  z-index: 1; /* PENTING: lebih kecil dari bed */
+  pointer-events: none; /* PENTING: tidak menghalangi klik */
 }
 
 .person img {
+  height: 180px;
   display: block;
-  max-height: 200px;
-  max-width: 100%;
-  height: auto;
-  width: auto;
-
-  pointer-events: none;
-  user-select: none;
-  background: transparent;
-}
-
-/* ================= POSITIONS */
-.bedroom .child {
-  right: 80px;
-}
-
-/* FAMILY CONTAINER JUGA DIMATIKAN */
-.family {
-  position: absolute;
-  bottom: 32px;
-  right: 60px;
-  display: flex;
-  gap: 20px;
-
-  pointer-events: none;
-  z-index: 1;
 }
