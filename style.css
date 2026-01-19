@@ -105,7 +105,8 @@ body {
   position: absolute;
   right: 40px;
   bottom: 20px;
-  pointer-events: none; /* INI KUNCI PENTING */
+  pointer-events: none;
+   transform-origin: bottom center;/* INI KUNCI PENTING */
 }
 
 /* IMAGE ANAK */
