@@ -1,163 +1,48 @@
-* {
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Happy Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
 
-body {
-  margin: 0;
-  background: #fdecec;
-  font-family: sans-serif;
-}
+<div class="game">
 
-.game {
-  width: 90%;
-  max-width: 1000px;
-  margin: 40px auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  overflow: hidden;
-}
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    ⭐ <span id="star-count">0</span>
 
-/* ===== TOP BAR ===== */
-.top-bar {
-  background: #ff7aa2;
-  color: white;
-  padding: 12px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-  position: relative;
-}
+    <div class="nav">
+      <button id="btn-bedroom">🛏️ Kamar</button>
+      <button id="btn-kitchen">🍳 Dapur</button>
+    </div>
+  </header>
 
-.nav button {
-  margin-left: 8px;
-  border: none;
-  background: white;
-  color: #ff4f87;
-  padding: 6px 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-}
+  <!-- BEDROOM -->
+  <div class="room bedroom active">
+    <div class="item bed">🛏️</div>
+    <div class="item wardrobe">👗</div>
 
-.nav button:hover {
-  background: #ffe1ec;
-}
+    <div class="person">
+      <img id="child" src="./assets/child.png" alt="Syabil">
+    </div>
+  </div>
 
-/* ===== ROOMS ===== */
-.room {
-  display: none;
-  position: relative;
-  height: 350px;
-  background: #fff0f5;
-}
+  <!-- KITCHEN -->
+  <div class="room kitchen">
+    <div class="food" data-name="apple">🍎</div>
+    <div class="food" data-name="bread">🍞</div>
+    <div class="food" data-name="cake">🍰</div>
 
-.room.active {
-  display: block;
-}
+    <div class="person">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
+  </div>
 
-/* ===== OBJECTS ===== */
-.bed, .wardrobe {
-  position: absolute;
-  bottom: 20px;
-  font-size: 48px;
-  cursor: pointer;
-  z-index: 2;
-}
+</div>
 
-.bed {
-  left: 40px;
-}
-
-.wardrobe {
-  left: 140px;
-}
-
-/* ===== PERSON ===== */
-.person {
-  position: absolute;
-  bottom: 10px;
-  right: 60px;
-  z-index: 1; /* PENTING: lebih kecil dari bed */
-  pointer-events: none; /* PENTING: tidak menghalangi klik */
-}
-
-.person img {
-  height: 180px;
-  display: block;
-}
-/* ======================
-   ANIMASI SYABIL
-====================== */
-
-.person img {
-  transition: transform 0.4s ease;
-  cursor: pointer;
-}
-
-/* posisi tidur */
-.sleep {
-  transform: rotate(90deg) translateY(-40px);
-}
-/* ======================
-   ANIMASI SYABIL
-====================== */
-
-.person img {
-  transition: transform 0.4s ease;
-}
-
-/* posisi tidur */
-.sleep {
-  transform: rotate(90deg) translateY(-40px);
-}
-
-/* loncat kecil saat ganti baju */
-.jump {
-  animation: jump 0.4s ease;
-}
-
-@keyframes jump {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-40px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-/* ===============================
-   FIX FOOD CLICK & CURSOR
-================================ */
-
-/* pastikan makanan bisa diklik */
-.food {
-  cursor: pointer;
-  pointer-events: auto;
-  z-index: 10;
-  position: relative;
-  font-size: 32px;
-}
-
-/* efek hover biar anak tahu ini bisa diklik */
-.food:hover {
-  transform: scale(1.15);
-}
-
-/* jangan biarkan layer lain menutup klik */
-.room {
-  position: relative;
-}
-
-/* karakter tidak menutup makanan */
-.person {
-  pointer-events: none;
-}
-
-/* tapi gambar karakter tetap bisa dianimasikan */
-.person img {
-  pointer-events: auto;
-}
+<script src="./script.js"></script>
+</body>
+</html>
