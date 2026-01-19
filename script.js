@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapLocations = document.querySelectorAll(".map-location");
 
   // =====================
-  // STATE QUEST (SIMULASI)
-  // nanti sambungkan ke quest asli kamu
+  // STATE QUEST (CONTOH)
+  // sambungkan nanti ke quest asli
   // =====================
   const quest = {
     syabilEat: false,
@@ -20,25 +20,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================
-  // UPDATE LOCK MAP
+  // UPDATE LOCK
   // =====================
   function updateMapLock() {
     mapLocations.forEach(loc => {
-      const target = loc.dataset.target;
       loc.classList.remove("locked");
 
-      if (target === "school" && !quest.syabilEat) {
-        loc.classList.add("locked");
-      }
-
-      if (target === "office" && !quest.papaEat) {
-        loc.classList.add("locked");
-      }
-
-      if (target === "market" && !quest.mamaEat) {
-        loc.classList.add("locked");
-      }
+      const target = loc.dataset.target;
+      if (target === "school" && !quest.syabilEat) loc.classList.add("locked");
+      if (target === "office" && !quest.papaEat) loc.classList.add("locked");
+      if (target === "market" && !quest.mamaEat) loc.classList.add("locked");
     });
+  }
+
+  // =====================
+  // UPDATE QUEST HIGHLIGHT
+  // =====================
+  function updateQuestHighlight() {
+    mapLocations.forEach(loc => loc.classList.remove("active-quest"));
+
+    if (!quest.syabilEat) {
+      document.querySelector('.map-location.school')?.classList.add("active-quest");
+      return;
+    }
+
+    if (!quest.papaEat) {
+      document.querySelector('.map-location.office')?.classList.add("active-quest");
+      return;
+    }
+
+    if (!quest.mamaEat) {
+      document.querySelector('.map-location.market')?.classList.add("active-quest");
+    }
   }
 
   // =====================
@@ -64,12 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // INIT
   // =====================
   updateMapLock();
+  updateQuestHighlight();
 
-  // 🔧 TESTING CEPAT (BOLEH HAPUS NANTI)
-  // buka satu-satu buat lihat efek lock
+  // 🔧 TESTING MANUAL (BOLEH KOMEN/HAPUS)
   // quest.syabilEat = true;
-  // quest.papaEat = true;
-  // quest.mamaEat = true;
-  // updateMapLock();
+  // updateMapLock(); updateQuestHighlight();
 
 });
