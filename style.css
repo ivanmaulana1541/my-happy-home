@@ -81,7 +81,7 @@ body {
 .market  { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   MAP LOCATION (AREA KLIK)
+   MAP LOCATION (AREA KLIK + HOVER)
 ===================== */
 .map-location {
   position: absolute;
@@ -106,28 +106,28 @@ body {
 }
 
 /* =====================
-   POSISI MAP (REVISI)
+   POSISI MAP (REVISI BESAR)
 ===================== */
 
-/* 🏠 HOME */
+/* 🏠 HOME — KE KIRI JAUH + KE ATAS JAUH */
 .map-location.home {
-  top: 36%;
-  left: 39%;
+  top: 28%;
+  left: 32%;
 }
 
-/* 🏫 SCHOOL — LEBIH KE ATAS */
+/* 🏫 SCHOOL — NAIK JAUH */
 .map-location.school {
-  top: 30%;
+  top: 24%;
   left: 64%;
 }
 
-/* 🏢 OFFICE — LEBIH KE KIRI */
+/* 🏢 OFFICE — KE KIRI LAGI AGAK BANYAK */
 .map-location.office {
   top: 66%;
-  left: 24%;
+  left: 18%;
 }
 
-/* 🛒 MARKET */
+/* 🛒 MARKET — SUDAH PAS (TIDAK DIUBAH) */
 .map-location.market {
   top: 66%;
   left: 71%;
