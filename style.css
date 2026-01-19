@@ -73,20 +73,24 @@ body {
    BACKGROUND PER RUANGAN
 ===================== */
 
-/* Rumah & Kamar */
-.home,
+/* 🏠 Rumah */
+.home {
+  background-image: url("assets/background/home.png");
+}
+
+/* 🛏️ Kamar */
 .bedroom {
   background-image: url("assets/background/room.png");
 }
 
-/* Dapur */
+/* 🍳 Dapur */
 .kitchen {
   background-image: url("assets/background/kitchen.png");
 }
 
-/* Sekolah (sementara polos) */
+/* 🏫 Sekolah */
 .school {
-  background: #f0f8ff;
+  background-image: url("assets/background/school.png");
 }
 
 /* =====================
