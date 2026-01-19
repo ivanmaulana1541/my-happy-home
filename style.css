@@ -139,3 +139,37 @@ body {
 .hidden {
   display: none;
 }
+
+/* =========================
+   QUEST CHECKLIST ANIMATION
+========================= */
+
+.quest-panel li {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* efek pop saat selesai */
+.quest-panel li.done {
+  color: #2e8b57;
+  text-decoration: line-through;
+  animation: pop 0.35s ease;
+}
+
+/* icon centang */
+.quest-panel li.done::before {
+  content: "✅ ";
+}
+
+/* animasi pop */
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
