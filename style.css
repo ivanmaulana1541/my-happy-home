@@ -106,28 +106,28 @@ body {
 }
 
 /* =====================
-   POSISI MAP (REVISI BESAR)
+   POSISI MAP (FINAL KALIBRASI)
 ===================== */
 
 /* 🏠 HOME — KE KIRI JAUH + KE ATAS JAUH */
 .map-location.home {
-  top: 28%;
-  left: 32%;
+  top: 22%;
+  left: 26%;
 }
 
-/* 🏫 SCHOOL — NAIK JAUH */
+/* 🏫 SCHOOL — NAIK JAUH LAGI */
 .map-location.school {
-  top: 24%;
+  top: 18%;
   left: 64%;
 }
 
-/* 🏢 OFFICE — KE KIRI LAGI AGAK BANYAK */
+/* 🏢 OFFICE — SUDAH PAS (JANGAN UBAH) */
 .map-location.office {
   top: 66%;
   left: 18%;
 }
 
-/* 🛒 MARKET — SUDAH PAS (TIDAK DIUBAH) */
+/* 🛒 MARKET — SUDAH PAS (JANGAN UBAH) */
 .map-location.market {
   top: 66%;
   left: 71%;
