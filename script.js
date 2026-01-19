@@ -8,15 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
 
-  const walkLeftBtn = document.getElementById("walk-left");
-  const walkRightBtn = document.getElementById("walk-right");
-
   let stars = 0;
   let dressOn = false;
 
-  // ======================
+  // =====================
   // HELPERS
-  // ======================
+  // =====================
+  function getActiveRoom() {
+    return document.querySelector(".room.active");
+  }
+
   function getActiveChild() {
     return document.querySelector(".room.active .person img");
   }
@@ -31,9 +32,32 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => child.classList.remove("jump"), 300);
   }
 
-  // ======================
+  // =====================
+  // JALAN KE TARGET
+  // =====================
+  function walkTo(targetEl, callback) {
+    const child = getActiveChild();
+    if (!child || !targetEl) return;
+
+    const childRect = child.getBoundingClientRect();
+    const targetRect = targetEl.getBoundingClientRect();
+
+    const distance =
+      targetRect.left - childRect.left - 40;
+
+    child.style.transition = "transform 0.6s linear";
+    child.style.transform = `translateX(${distance}px)`;
+
+    setTimeout(() => {
+      child.style.transition = "";
+      child.style.transform = "";
+      callback && callback(child);
+    }, 650);
+  }
+
+  // =====================
   // NAVIGATION
-  // ======================
+  // =====================
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const area = btn.dataset.area;
@@ -42,59 +66,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ======================
-  // BED
-  // ======================
+  // =====================
+  // BED → JALAN → LOMPAT
+  // =====================
   bed?.addEventListener("click", () => {
-    const child = getActiveChild();
-    if (!child) return;
-    addStar();
-    jump(child);
-  });
-
-  // ======================
-  // DRESS
-  // ======================
-  wardrobe?.addEventListener("click", () => {
-    const child = getActiveChild();
-    if (!child) return;
-
-    addStar();
-    child.src = dressOn
-      ? "./assets/child.png"
-      : "./assets/child-dress.png";
-
-    dressOn = !dressOn;
-    jump(child);
-  });
-
-  // ======================
-  // FOOD
-  // ======================
-  foods.forEach(food => {
-    food.addEventListener("click", () => {
-      const child = getActiveChild();
-      if (!child) return;
+    walkTo(bed, (child) => {
       addStar();
       jump(child);
     });
   });
 
-  // ======================
-  // WALK
-  // ======================
-  walkLeftBtn.addEventListener("click", () => {
-    const child = getActiveChild();
-    if (!child) return;
-    child.classList.remove("walk-right");
-    child.classList.add("walk-left");
+  // =====================
+  // WARDROBE → JALAN → GANTI BAJU
+  // =====================
+  wardrobe?.addEventListener("click", () => {
+    walkTo(wardrobe, (child) => {
+      addStar();
+      child.src = dressOn
+        ? "./assets/child.png"
+        : "./assets/child-dress.png";
+      dressOn = !dressOn;
+      jump(child);
+    });
   });
 
-  walkRightBtn.addEventListener("click", () => {
-    const child = getActiveChild();
-    if (!child) return;
-    child.classList.remove("walk-left");
-    child.classList.add("walk-right");
+  // =====================
+  // FOOD → JALAN → MAKAN
+  // =====================
+  foods.forEach(food => {
+    food.addEventListener("click", () => {
+      walkTo(food, (child) => {
+        addStar();
+        jump(child);
+      });
+    });
   });
 
 });
