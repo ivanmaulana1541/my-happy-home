@@ -129,3 +129,35 @@ body {
     transform: translateY(0);
   }
 }
+/* ===============================
+   FIX FOOD CLICK & CURSOR
+================================ */
+
+/* pastikan makanan bisa diklik */
+.food {
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 10;
+  position: relative;
+  font-size: 32px;
+}
+
+/* efek hover biar anak tahu ini bisa diklik */
+.food:hover {
+  transform: scale(1.15);
+}
+
+/* jangan biarkan layer lain menutup klik */
+.room {
+  position: relative;
+}
+
+/* karakter tidak menutup makanan */
+.person {
+  pointer-events: none;
+}
+
+/* tapi gambar karakter tetap bisa dianimasikan */
+.person img {
+  pointer-events: auto;
+}
