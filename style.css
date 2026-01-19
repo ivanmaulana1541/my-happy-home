@@ -85,11 +85,10 @@ body {
 .person {
   position: absolute;
   bottom: 20px;
-  pointer-events: none;
   z-index: 5;
+  pointer-events: none;
 }
 
-/* 🔥 JANGAN PAKAI max-height 100% */
 .person img {
   display: block;
   width: auto;
@@ -98,7 +97,7 @@ body {
 }
 
 /* =====================
-   SIZE (DIKUNCI)
+   SIZE (PROPORSIONAL)
 ===================== */
 .child img {
   height: 185px;
@@ -106,37 +105,42 @@ body {
 
 .papa img,
 .mama img {
-  height: 215px;        /* 🔒 FIXED */
+  height: 245px; /* 🔥 lebih tinggi dari Syabil */
 }
 
 /* =====================
-   POSITION PER RUANGAN
+   POSITION — HOME (RAPIH & DIAPIT)
 ===================== */
-
-/* HOME */
 .home .child {
-  left: 52%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .home .papa {
-  left: 36%;
+  left: 38%;
 }
 
 .home .mama {
-  left: 64%;
+  left: 62%;
 }
 
-/* KAMAR SYABIL */
+/* =====================
+   POSITION — KAMAR SYABIL
+===================== */
 .bedroom-child .child {
   left: 60%;
 }
 
-/* DAPUR — LEBIH KE KIRI */
+/* =====================
+   POSITION — DAPUR
+===================== */
 .kitchen .child {
-  left: 18%;
+  left: 25%;
 }
 
-/* SEKOLAH */
+/* =====================
+   POSITION — SEKOLAH
+===================== */
 .school .child {
   left: 46%;
 }
@@ -148,15 +152,17 @@ body {
   position: absolute;
   font-size: 42px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 12;
 }
 
 /* =====================
-   FOOD
+   FOOD (BISA DI-CLICK)
 ===================== */
 .food {
-  font-size: 46px;
+  font-size: 50px;
   cursor: pointer;
+  z-index: 15; /* 🔥 DI ATAS KARAKTER */
+  position: relative;
 }
 
 /* =====================
@@ -181,7 +187,7 @@ body {
   position: absolute;
   top: 110px;
   right: 16px;
-  width: 140px;
+  width: 145px;
   background: white;
   border-radius: 14px;
   padding: 10px 12px;
