@@ -74,6 +74,9 @@ body {
 .office {
   background-image: url("assets/background/office.png");
 }
+.market {
+  background-image: url("assets/background/market.png");
+}
 
 /* PERSON */
 .person {
