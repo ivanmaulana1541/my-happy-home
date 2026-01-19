@@ -3,89 +3,89 @@ document.addEventListener("DOMContentLoaded", () => {
   let stars = 0;
   const starEl = document.getElementById("star-count");
 
-  const rooms = document.querySelectorAll(".room");
-
   const btnHome = document.getElementById("btn-home");
   const btnSchool = document.getElementById("btn-school");
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
 
+  const homeArea = document.querySelector(".home");
+  const schoolArea = document.querySelector(".school");
+
+  const bedroom = document.querySelector(".bedroom");
+  const kitchen = document.querySelector(".kitchen");
+
   const bed = document.querySelector(".bed");
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
-  const schoolItems = document.querySelectorAll(".school-item");
 
-  let dressed = false;
-  let sleeping = false;
+  let isDress = false;
+  let isSleeping = false;
 
-  function showRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector("." + name).classList.add("active");
-  }
-
-  function addStar(n = 1) {
-    stars += n;
+  /* UTIL */
+  function addStar() {
+    stars++;
     starEl.textContent = stars;
   }
 
   function getActiveChild() {
-    return document.querySelector(".room.active .person img");
+    return document.querySelector(".area.active .room.active .person img, .area.active .person img");
   }
 
   function jump(child) {
     if (!child) return;
     child.classList.add("jump");
-    setTimeout(() => child.classList.remove("jump"), 300);
+    setTimeout(() => child.classList.remove("jump"), 250);
   }
 
-  // NAV
-  btnHome.onclick = () => showRoom("home");
-  btnSchool.onclick = () => showRoom("school");
-  btnBedroom.onclick = () => showRoom("bedroom");
-  btnKitchen.onclick = () => showRoom("kitchen");
+  /* NAV AREA */
+  btnHome.onclick = () => {
+    homeArea.classList.add("active");
+    schoolArea.classList.remove("active");
+  };
 
-  // BED
+  btnSchool.onclick = () => {
+    schoolArea.classList.add("active");
+    homeArea.classList.remove("active");
+  };
+
+  /* ROOM NAV */
+  btnBedroom.onclick = () => {
+    bedroom.classList.add("active");
+    kitchen.classList.remove("active");
+  };
+
+  btnKitchen.onclick = () => {
+    kitchen.classList.add("active");
+    bedroom.classList.remove("active");
+  };
+
+  /* BED */
   bed.onclick = () => {
     const child = getActiveChild();
     addStar();
     jump(child);
+    isSleeping = !isSleeping;
   };
 
-  // DRESS
+  /* DRESS */
   wardrobe.onclick = () => {
     const child = getActiveChild();
     if (!child) return;
 
-    dressed = !dressed;
-    child.src = dressed
-      ? "./assets/child-dress.png"
-      : "./assets/child.png";
-
     addStar();
+    child.src = isDress
+      ? "./assets/child.png"
+      : "./assets/child-dress.png";
+
     jump(child);
+    isDress = !isDress;
   };
 
-  // FOOD
+  /* FOOD */
   foods.forEach(food => {
     food.onclick = () => {
       const child = getActiveChild();
       addStar();
-      jump(child);
-    };
-  });
-
-  // SCHOOL
-  schoolItems.forEach(item => {
-    item.onclick = () => {
-      const child = getActiveChild();
-      if (!child) return;
-
-      if (item.classList.contains("board")) {
-        addStar(2);
-      } else {
-        addStar(1);
-      }
-
       jump(child);
     };
   });
