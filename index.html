@@ -10,14 +10,17 @@
 
 <div class="game">
 
-  <!-- TOP BAR -->
+  <!-- =====================
+       TOP BAR
+  ====================== -->
   <header class="top-bar">
-    ⭐ <span id="star-count">0</span>
+    <div class="left">
+      ⭐ <span id="star-count">0</span>
+    </div>
+
     <div class="nav">
       <button data-area="map">🗺️ Map</button>
       <button data-area="home">🏠 Home</button>
-      <button data-area="bedroom-child">🛏️ Kamar Syabil</button>
-      <button data-area="bedroom-parent">🛏️ Kamar Orang Tua</button>
       <button data-area="kitchen">🍳 Dapur</button>
       <button data-area="school">🏫 Sekolah</button>
       <button data-area="office">🏢 Kantor</button>
@@ -25,63 +28,129 @@
     </div>
   </header>
 
-  <!-- QUEST -->
+  <!-- =====================
+       QUEST BUTTON
+  ====================== -->
   <button id="btn-quest" class="quest-btn">📋 Quest</button>
 
+  <!-- =====================
+       QUEST PANEL
+  ====================== -->
   <div id="quest-panel" class="quest-panel hidden">
-    <h3 id="quest-title">📋 Quest Syabil</h3>
+    <h3 id="quest-title">📋 Quest</h3>
     <ul id="quest-list"></ul>
   </div>
 
-  <!-- MAP -->
+  <!-- =====================
+       MAP
+  ====================== -->
   <div class="room map active">
+
+    <!-- invisible clickable areas -->
     <div class="map-location home" data-target="home"></div>
     <div class="map-location school" data-target="school"></div>
     <div class="map-location office" data-target="office"></div>
     <div class="map-location market" data-target="market"></div>
+
   </div>
 
-  <!-- HOME -->
+  <!-- =====================
+       HOME
+  ====================== -->
   <div class="room home">
-    <div class="person father"><img src="./assets/father.png"></div>
-    <div class="person child"><img src="./assets/child.png"></div>
-    <div class="person mother"><img src="./assets/mother.png"></div>
-  </div>
 
-  <!-- BEDROOM CHILD -->
-  <div class="room bedroom-child">
-    <div class="item bed" data-action="wake">🛏️</div>
-    <div class="person child"><img src="./assets/child.png"></div>
-  </div>
-
-  <!-- BEDROOM PARENT -->
-  <div class="room bedroom-parent">
-    <div class="item bed" data-action="wake">🛏️</div>
-    <div class="person father"><img src="./assets/father.png"></div>
-    <div class="person mother"><img src="./assets/mother.png"></div>
-  </div>
-
-  <!-- KITCHEN -->
-  <div class="room kitchen">
-    <div class="food-container">
-      <div class="food" data-action="eat">🍳</div>
+    <div class="person father">
+      <img src="./assets/father.png" alt="Papa">
     </div>
-    <div class="person child"><img src="./assets/child.png"></div>
+
+    <div class="person child">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
+
+    <div class="person mother">
+      <img src="./assets/mother.png" alt="Mama">
+    </div>
+
   </div>
 
-  <!-- SCHOOL -->
+  <!-- =====================
+       KAMAR SYABIL
+  ====================== -->
+  <div class="room bedroom-child">
+
+    <div class="item bed" data-action="wake">🛏️</div>
+
+    <div class="person child">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
+
+  </div>
+
+  <!-- =====================
+       KAMAR ORANG TUA
+  ====================== -->
+  <div class="room bedroom-parent">
+
+    <div class="item bed" data-action="wake">🛏️</div>
+
+    <div class="person father">
+      <img src="./assets/father.png" alt="Papa">
+    </div>
+
+    <div class="person mother">
+      <img src="./assets/mother.png" alt="Mama">
+    </div>
+
+  </div>
+
+  <!-- =====================
+       DAPUR
+  ====================== -->
+  <div class="room kitchen">
+
+    <div class="food-container">
+      <div class="food" data-action="eat">🍎</div>
+      <div class="food" data-action="eat">🍞</div>
+      <div class="food" data-action="eat">🍰</div>
+    </div>
+
+    <div class="person child">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
+
+  </div>
+
+  <!-- =====================
+       SEKOLAH
+  ====================== -->
   <div class="room school">
-    <div class="person child"><img src="./assets/child.png"></div>
+
+    <div class="person child">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
+
   </div>
 
-  <!-- OFFICE -->
+  <!-- =====================
+       KANTOR
+  ====================== -->
   <div class="room office">
-    <div class="person father"><img src="./assets/father.png"></div>
+
+    <div class="person father">
+      <img src="./assets/father.png" alt="Papa">
+    </div>
+
   </div>
 
-  <!-- MARKET -->
+  <!-- =====================
+       MARKET
+  ====================== -->
   <div class="room market">
-    <div class="person mother"><img src="./assets/mother.png"></div>
+
+    <div class="person mother">
+      <img src="./assets/mother.png" alt="Mama">
+    </div>
+
   </div>
 
 </div>
