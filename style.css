@@ -1,3 +1,4 @@
+/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,6 +6,7 @@
   font-family: Arial, sans-serif;
 }
 
+/* BODY */
 body {
   background: #fdecef;
   display: flex;
@@ -32,18 +34,13 @@ body {
   align-items: center;
 }
 
-/* NAV */
 .nav button {
   border: none;
   background: white;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 12px;
   cursor: pointer;
   margin-left: 6px;
-}
-
-.nav button:hover {
-  background: #ffe3ec;
 }
 
 /* ROOM */
@@ -58,6 +55,38 @@ body {
   display: block;
 }
 
+/* ITEMS */
+.item {
+  font-size: 42px;
+  cursor: pointer;
+  position: absolute;
+}
+
+.bed {
+  left: 40px;
+  bottom: 40px;
+}
+
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
+
+/* FOOD */
+.food-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.food {
+  font-size: 34px;
+  cursor: pointer;
+}
+
 /* PERSON */
 .person {
   position: absolute;
@@ -68,40 +97,33 @@ body {
 
 .person img {
   height: 220px;
-  transition: transform .2s ease;
+  transition: transform .25s ease;
 }
 
+/* JUMP */
 .person img.jump {
   transform: translateY(-40px);
 }
 
-/* ITEMS */
-.item, .yard-item, .school-item, .food {
+/* WALK */
+.walk-left {
+  transform: translateX(-120px) scaleX(-1);
+}
+
+.walk-right {
+  transform: translateX(120px) scaleX(1);
+}
+
+/* WALK CONTROL */
+.walk-control {
+  text-align: center;
+  padding: 10px;
+}
+
+.walk-control button {
+  padding: 6px 16px;
+  border-radius: 10px;
+  border: none;
   cursor: pointer;
-  font-size: 36px;
-  position: absolute;
+  margin: 0 6px;
 }
-
-/* KAMAR */
-.bed { left: 40px; bottom: 40px; }
-.wardrobe { left: 120px; bottom: 40px; }
-
-/* HALAMAN */
-.tree { left: 40px; top: 40px; }
-.door-bedroom { left: 40px; bottom: 40px; }
-.door-kitchen { left: 160px; bottom: 40px; }
-
-/* DAPUR */
-.food-container {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* SEKOLAH */
-.school-item:nth-child(1) { left: 40px; top: 40px; }
-.school-item:nth-child(2) { left: 40px; top: 100px; }
-.school-item:nth-child(3) { left: 40px; top: 160px; }
