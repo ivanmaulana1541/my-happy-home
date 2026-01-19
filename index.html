@@ -4,50 +4,45 @@
   <meta charset="UTF-8" />
   <title>My Happy Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- CSS -->
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
-  <div class="game">
+<div class="game">
 
-    <!-- TOP BAR -->
-    <header class="top-bar">
-      ⭐ <span id="star-count">0</span>
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    ⭐ <span id="star-count">0</span>
 
-      <div class="nav">
-        <button id="btn-bedroom">🛏️ Kamar</button>
-        <button id="btn-kitchen">🍳 Dapur</button>
-      </div>
-    </header>
-
-    <!-- BEDROOM -->
-    <div class="room bedroom active">
-      <div class="bed">🛏️</div>
-      <div class="wardrobe">👗</div>
-
-      <div class="person child">
-        <img src="./assets/child.png" alt="Syabil">
-      </div>
+    <div class="nav">
+      <button id="btn-bedroom">🛏️ Kamar</button>
+      <button id="btn-kitchen">🍳 Dapur</button>
     </div>
+  </header>
 
-       <!-- KITCHEN -->
-<div class="room kitchen">
-  <div class="food">🍎</div>
-  <div class="food">🍞</div>
-  <div class="food">🍰</div>
+  <!-- BEDROOM -->
+  <div class="room bedroom active">
+    <div class="item bed">🛏️</div>
+    <div class="item wardrobe">👗</div>
 
-  <div class="person child">
-    <img src="./assets/child.png" alt="Syabil">
+    <div class="person">
+      <img id="child" src="./assets/child.png" alt="Syabil">
+    </div>
   </div>
+
+  <!-- KITCHEN -->
+  <div class="room kitchen">
+    <div class="food" data-name="apple">🍎</div>
+    <div class="food" data-name="bread">🍞</div>
+    <div class="food" data-name="cake">🍰</div>
+
+    <div class="person">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
+  </div>
+
 </div>
 
-
-  </div>
-
-  <!-- SCRIPT (WAJIB ADA) -->
-  <script src="./script.js"></script>
+<script src="./script.js"></script>
 </body>
 </html>
-
