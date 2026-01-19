@@ -15,25 +15,30 @@
     ⭐ <span id="star-count">0</span>
 
     <div class="nav">
-      <button data-room="home">🏠 Rumah</button>
-      <button data-room="school">🏫 Sekolah</button>
-      <button data-room="bedroom">🛏️ Kamar</button>
-      <button data-room="kitchen">🍳 Dapur</button>
+      <button data-area="home">🏡 Rumah</button>
+      <button data-area="school">🏫 Sekolah</button>
+      <button data-area="bedroom">🛏️ Kamar</button>
+      <button data-area="kitchen">🍳 Dapur</button>
     </div>
   </header>
 
-  <!-- 🏠 HALAMAN RUMAH -->
+  <!-- HOME -->
   <div class="room home active">
-    <div class="yard-item tree">🌳</div>
-    <div class="yard-item door-bedroom">🚪 Kamar</div>
-    <div class="yard-item door-kitchen">🍽️ Dapur</div>
-
+    🌳
     <div class="person">
       <img src="./assets/child.png" alt="Syabil">
     </div>
   </div>
 
-  <!-- 🛏️ KAMAR -->
+  <!-- SCHOOL -->
+  <div class="room school">
+    🎒 🧠 🤝
+    <div class="person">
+      <img src="./assets/child.png" alt="Syabil">
+    </div>
+  </div>
+
+  <!-- BEDROOM -->
   <div class="room bedroom">
     <div class="item bed">🛏️</div>
     <div class="item wardrobe">👗</div>
@@ -43,7 +48,7 @@
     </div>
   </div>
 
-  <!-- 🍳 DAPUR -->
+  <!-- KITCHEN -->
   <div class="room kitchen">
     <div class="food-container">
       <div class="food">🍎</div>
@@ -56,15 +61,10 @@
     </div>
   </div>
 
-  <!-- 🏫 SEKOLAH -->
-  <div class="room school">
-    <div class="school-item">🎒</div>
-    <div class="school-item">🧠</div>
-    <div class="school-item">🤝</div>
-
-    <div class="person">
-      <img src="./assets/child.png" alt="Syabil">
-    </div>
+  <!-- WALK CONTROL -->
+  <div class="walk-control">
+    <button id="walk-left">⬅️ Jalan</button>
+    <button id="walk-right">➡️ Jalan</button>
   </div>
 
 </div>
