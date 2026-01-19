@@ -73,33 +73,26 @@ body {
 /* =====================
    BACKGROUND PER RUANGAN
 ===================== */
-
-/* 🏠 HOME */
 .home {
   background-image: url("./assets/background/home.png");
 }
 
-/* 🛏️ BEDROOM */
 .bedroom {
   background-image: url("./assets/background/room.png");
 }
 
-/* 🍳 KITCHEN */
 .kitchen {
   background-image: url("./assets/background/kitchen.png");
 }
 
-/* 🏫 SCHOOL */
 .school {
   background-image: url("./assets/background/school.png");
 }
 
-/* 🏢 OFFICE */
 .office {
   background-image: url("./assets/background/office.png");
 }
 
-/* 🛒 MARKET */
 .market {
   background-image: url("./assets/background/market.png");
 }
@@ -113,30 +106,40 @@ body {
   pointer-events: none;
 }
 
-/* POSISI */
+/* Posisi */
 .person.child {
   right: 40px;
 }
+
 .person.father {
   right: 200px;
 }
+
 .person.mother {
   right: 120px;
 }
 
-/* UKURAN */
+/* Ukuran */
 .person.child img {
   height: 220px;
 }
+
 .person.father img {
   height: 275px;
 }
+
 .person.mother img {
   height: 265px;
 }
 
+/* Lompat (anak saja) */
+.person.child img.jump {
+  transform: translateY(-40px);
+  transition: transform .25s ease;
+}
+
 /* =====================
-   ITEMS
+   ITEMS (DEKOR)
 ===================== */
 .item {
   font-size: 42px;
@@ -196,12 +199,59 @@ body {
   background: white;
   border-radius: 14px;
   padding: 14px;
-  width: 200px;
+  width: 220px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   font-size: 14px;
   z-index: 1001;
 }
 
+.quest-panel h3 {
+  margin-bottom: 8px;
+}
+
+.quest-panel ul {
+  list-style: none;
+}
+
+.quest-panel li {
+  margin-bottom: 6px;
+  transition: all 0.3s ease;
+}
+
+/* QUEST DONE */
+.quest-panel li.done {
+  color: #2e8b57;
+  text-decoration: line-through;
+}
+
+/* =====================
+   QUEST TABS
+===================== */
+.quest-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.quest-tabs .tab {
+  flex: 1;
+  border: none;
+  background: #f0f0f0;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.quest-tabs .tab.active {
+  background: #ff7fa7;
+  color: white;
+  font-weight: bold;
+}
+
+/* =====================
+   UTIL
+===================== */
 .hidden {
   display: none;
 }
