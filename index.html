@@ -1,162 +1,81 @@
-document.addEventListener("DOMContentLoaded", () => {
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Happy Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
 
-  /* =====================
-     ELEMENTS
-  ===================== */
-  const rooms = document.querySelectorAll(".room");
-  const navButtons = document.querySelectorAll(".nav button");
-  const mapLocations = document.querySelectorAll(".map-location");
+<div class="game">
 
-  const starEl = document.getElementById("star-count");
-  const btnQuest = document.getElementById("btn-quest");
-  const questPanel = document.getElementById("quest-panel");
+  <header class="top-bar">
+    ⭐ <span id="star-count">0</span>
+    <div class="nav">
+      <button data-area="map">🗺️ Map</button>
+      <button data-area="home">🏠 Rumah</button>
+      <button data-area="bedroom">🛏️ Kamar</button>
+      <button data-area="kitchen">🍳 Dapur</button>
+      <button data-area="school">🏫 Sekolah</button>
+      <button data-area="office">🏢 Kantor</button>
+      <button data-area="market">🛒 Market</button>
+    </div>
+  </header>
 
-  const qWake = document.getElementById("q-wakeup");
-  const qEat = document.getElementById("q-eat");
-  const qSchool = document.getElementById("q-school");
+  <button id="btn-quest" class="quest-btn">📋 Quest</button>
 
-  const bed = document.querySelector(".bed");
-  const wardrobe = document.querySelector(".wardrobe");
-  const foods = document.querySelectorAll(".food");
+  <div id="quest-panel" class="quest-panel hidden">
+    <h3>📋 Misi Hari Ini</h3>
+    <ul>
+      <li id="q-wakeup">⬜ Bangun tidur</li>
+      <li id="q-eat">⬜ Makan</li>
+      <li id="q-school">⬜ Sekolah</li>
+    </ul>
+  </div>
 
-  /* =====================
-     STATE
-  ===================== */
-  let stars = 0;
-  let dressOn = false;
+  <div class="room map active">
+    <div class="map-location home" data-target="home"></div>
+    <div class="map-location school" data-target="school"></div>
+    <div class="map-location office" data-target="office"></div>
+    <div class="map-location market" data-target="market"></div>
+  </div>
 
-  const quest = {
-    syabilWake: false,
-    syabilEat: false,
-    syabilSchool: false,
-    papaEat: false,
-    mamaEat: false
-  };
+  <div class="room home">
+    <div class="person father"><img src="./assets/father.png"></div>
+    <div class="person child"><img src="./assets/child.png"></div>
+    <div class="person mother"><img src="./assets/mother.png"></div>
+  </div>
 
-  /* =====================
-     BASIC UTIL
-  ===================== */
-  function switchRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`)?.classList.add("active");
-  }
+  <div class="room bedroom">
+    <div class="item bed">🛏️</div>
+    <div class="item wardrobe">👗</div>
+    <div class="person child"><img src="./assets/child.png"></div>
+  </div>
 
-  function addStar(n = 1) {
-    stars += n;
-    starEl.textContent = stars;
-  }
+  <div class="room kitchen">
+    <div class="food-container">
+      <div class="food">🍎</div>
+      <div class="food">🍞</div>
+    </div>
+    <div class="person child"><img src="./assets/child.png"></div>
+  </div>
 
-  function getChild() {
-    return document.querySelector(".room.active .child img");
-  }
+  <div class="room school">
+    <div class="person child"><img src="./assets/child.png"></div>
+  </div>
 
-  function jump() {
-    const child = getChild();
-    if (!child) return;
-    child.classList.add("jump");
-    setTimeout(() => child.classList.remove("jump"), 300);
-  }
+  <div class="room office">
+    <div class="person father"><img src="./assets/father.png"></div>
+  </div>
 
-  /* =====================
-     QUEST PANEL
-  ===================== */
-  btnQuest?.addEventListener("click", () => {
-    questPanel.classList.toggle("hidden");
-  });
+  <div class="room market">
+    <div class="person mother"><img src="./assets/mother.png"></div>
+  </div>
 
-  function updateQuestUI() {
-    if (quest.syabilWake) qWake?.classList.add("done");
-    if (quest.syabilEat) qEat?.classList.add("done");
-    if (quest.syabilSchool) qSchool?.classList.add("done");
-  }
+</div>
 
-  /* =====================
-     GAME ACTIONS
-  ===================== */
-
-  bed?.addEventListener("click", () => {
-    quest.syabilWake = true;
-    addStar();
-    jump();
-    updateQuestUI();
-    updateMapState();
-  });
-
-  foods.forEach(food => {
-    food.addEventListener("click", () => {
-      if (!quest.syabilWake) return;
-      quest.syabilEat = true;
-      quest.papaEat = true;
-      quest.mamaEat = true;
-      addStar();
-      jump();
-      updateQuestUI();
-      updateMapState();
-    });
-  });
-
-  wardrobe?.addEventListener("click", () => {
-    const child = getChild();
-    if (!child) return;
-    dressOn = !dressOn;
-    child.src = dressOn ? "./assets/child-dress.png" : "./assets/child.png";
-    addStar();
-  });
-
-  /* =====================
-     MAP LOCK + HIGHLIGHT
-  ===================== */
-  function updateMapState() {
-    mapLocations.forEach(loc => {
-      const target = loc.dataset.target;
-      loc.classList.remove("locked", "active-quest");
-
-      if (target === "school" && !quest.syabilEat) {
-        loc.classList.add("locked");
-      }
-
-      if (target === "office" && !quest.papaEat) {
-        loc.classList.add("locked");
-      }
-
-      if (target === "market" && !quest.mamaEat) {
-        loc.classList.add("locked");
-      }
-    });
-
-    // Highlight priority
-    if (!quest.syabilEat) {
-      document.querySelector(".map-location.school")?.classList.add("active-quest");
-    } else if (!quest.papaEat) {
-      document.querySelector(".map-location.office")?.classList.add("active-quest");
-    } else if (!quest.mamaEat) {
-      document.querySelector(".map-location.market")?.classList.add("active-quest");
-    }
-  }
-
-  /* =====================
-     MAP CLICK
-  ===================== */
-  mapLocations.forEach(loc => {
-    loc.addEventListener("click", () => {
-      if (loc.classList.contains("locked")) return;
-      switchRoom(loc.dataset.target);
-    });
-  });
-
-  /* =====================
-     NAV
-  ===================== */
-  navButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      switchRoom(btn.dataset.area);
-    });
-  });
-
-  /* =====================
-     INIT
-  ===================== */
-  updateQuestUI();
-  updateMapState();
-
-});
+<!-- 🔥 INI WAJIB ADA & PALING BAWAH -->
+<script src="./script.js"></script>
+</body>
+</html>
