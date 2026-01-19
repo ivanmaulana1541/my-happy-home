@@ -13,10 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const kitchen = document.querySelector(".kitchen");
 
   const bed = document.querySelector(".bed");
+  const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
 
   let stars = 0;
   let isSleeping = false;
+  let isDressOn = false;
 
   // ============================
   // NAVIGATION
@@ -75,6 +77,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     isSleeping = !isSleeping;
+  });
+
+  // ============================
+  // GANTI BAJU 👗
+  // ============================
+  wardrobe.addEventListener("click", () => {
+    const child = getActiveChild();
+    if (!child) return;
+
+    addStar();
+
+    if (isDressOn) {
+      child.src = "./assets/child.png";
+    } else {
+      child.src = "./assets/child-dress.png";
+    }
+
+    jumpChild(); // biar ada feedback lucu
+    isDressOn = !isDressOn;
   });
 
   // ============================
