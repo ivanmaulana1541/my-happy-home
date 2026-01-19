@@ -1,71 +1,100 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const starEl = document.getElementById("star-count");
-  const buttons = document.querySelectorAll(".nav button");
+
+  const starCountEl = document.getElementById("star-count");
+  const navButtons = document.querySelectorAll(".nav button");
   const rooms = document.querySelectorAll(".room");
 
+  const bed = document.querySelector(".bed");
+  const wardrobe = document.querySelector(".wardrobe");
+  const foods = document.querySelectorAll(".food");
+
+  const walkLeftBtn = document.getElementById("walk-left");
+  const walkRightBtn = document.getElementById("walk-right");
+
   let stars = 0;
+  let dressOn = false;
+
+  // ======================
+  // HELPERS
+  // ======================
+  function getActiveChild() {
+    return document.querySelector(".room.active .person img");
+  }
 
   function addStar() {
     stars++;
-    starEl.textContent = stars;
+    starCountEl.textContent = stars;
   }
 
-  function switchRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`).classList.add("active");
-  }
-
-  function jumpChild() {
-    const child = document.querySelector(".room.active .person img");
-    if (!child) return;
+  function jump(child) {
     child.classList.add("jump");
-    setTimeout(() => child.classList.remove("jump"), 400);
+    setTimeout(() => child.classList.remove("jump"), 300);
   }
 
-  /* NAV BUTTON */
-  buttons.forEach(btn => {
+  // ======================
+  // NAVIGATION
+  // ======================
+  navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      switchRoom(btn.dataset.room);
+      const area = btn.dataset.area;
+      rooms.forEach(r => r.classList.remove("active"));
+      document.querySelector(`.${area}`).classList.add("active");
     });
   });
 
-  /* HALAMAN */
-  document.querySelector(".tree").onclick = () => {
+  // ======================
+  // BED
+  // ======================
+  bed?.addEventListener("click", () => {
+    const child = getActiveChild();
+    if (!child) return;
     addStar();
-    jumpChild();
-  };
+    jump(child);
+  });
 
-  document.querySelector(".door-bedroom").onclick = () => switchRoom("bedroom");
-  document.querySelector(".door-kitchen").onclick = () => switchRoom("kitchen");
+  // ======================
+  // DRESS
+  // ======================
+  wardrobe?.addEventListener("click", () => {
+    const child = getActiveChild();
+    if (!child) return;
 
-  /* KAMAR */
-  document.querySelector(".bed").onclick = () => {
     addStar();
-    jumpChild();
-  };
-
-  document.querySelector(".wardrobe").onclick = () => {
-    const child = document.querySelector(".room.active .person img");
-    child.src = child.src.includes("dress")
+    child.src = dressOn
       ? "./assets/child.png"
       : "./assets/child-dress.png";
-    addStar();
-    jumpChild();
-  };
 
-  /* DAPUR */
-  document.querySelectorAll(".food").forEach(food => {
-    food.onclick = () => {
-      addStar();
-      jumpChild();
-    };
+    dressOn = !dressOn;
+    jump(child);
   });
 
-  /* SEKOLAH */
-  document.querySelectorAll(".school-item").forEach(item => {
-    item.onclick = () => {
+  // ======================
+  // FOOD
+  // ======================
+  foods.forEach(food => {
+    food.addEventListener("click", () => {
+      const child = getActiveChild();
+      if (!child) return;
       addStar();
-      jumpChild();
-    };
+      jump(child);
+    });
   });
+
+  // ======================
+  // WALK
+  // ======================
+  walkLeftBtn.addEventListener("click", () => {
+    const child = getActiveChild();
+    if (!child) return;
+    child.classList.remove("walk-right");
+    child.classList.add("walk-left");
+  });
+
+  walkRightBtn.addEventListener("click", () => {
+    const child = getActiveChild();
+    if (!child) return;
+    child.classList.remove("walk-left");
+    child.classList.add("walk-right");
+  });
+
 });
