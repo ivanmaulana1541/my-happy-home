@@ -1,54 +1,62 @@
-console.log("script loaded");
+// ============================
+// MY HAPPY HOME - SCRIPT
+// ============================
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM ready");
+  console.log("My Happy Home ready");
 
-  const starEl = document.getElementById("star-count");
+  // ELEMENTS
+  const starCountEl = document.getElementById("star-count");
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
 
   const bedroom = document.querySelector(".bedroom");
   const kitchen = document.querySelector(".kitchen");
 
-  const bed = document.querySelector(".bed");
-  const wardrobe = document.querySelector(".wardrobe");
-  const childImg = document.querySelector(".child img");
+  const child = document.getElementById("child");
+  const foods = document.querySelectorAll(".food");
 
   let stars = 0;
 
-  function addStar() {
-    stars++;
-    starEl.textContent = stars;
-  }
-
-  // NAV
-  btnBedroom.onclick = () => {
+  // ============================
+  // NAVIGATION
+  // ============================
+  btnBedroom.addEventListener("click", () => {
     bedroom.classList.add("active");
     kitchen.classList.remove("active");
-  };
+  });
 
-  btnKitchen.onclick = () => {
-    bedroom.classList.remove("active");
+  btnKitchen.addEventListener("click", () => {
     kitchen.classList.add("active");
-  };
+    bedroom.classList.remove("active");
+  });
 
-  // BED
-  bed.onclick = () => {
-    addStar();
-    alert("Syabil tidur 😴");
-  };
+  // ============================
+  // STAR SYSTEM
+  // ============================
+  function addStar(amount = 1) {
+    stars += amount;
+    starCountEl.textContent = stars;
+  }
 
-  // WARDROBE
-  wardrobe.onclick = () => {
-    addStar();
-    alert("Syabil ganti baju 👗");
-  };
+  // ============================
+  // ANIMATION
+  // ============================
+  function jumpChild() {
+    if (!child) return;
+    child.classList.add("jump");
+    setTimeout(() => {
+      child.classList.remove("jump");
+    }, 400);
+  }
 
-  // FOOD
-  document.querySelectorAll(".food").forEach(food => {
-    food.onclick = () => {
-      addStar();
-      alert("Syabil makan 😋");
-    };
+  // ============================
+  // FOOD CLICK
+  // ============================
+  foods.forEach(food => {
+    food.addEventListener("click", () => {
+      addStar(1);
+      jumpChild();
+    });
   });
 });
