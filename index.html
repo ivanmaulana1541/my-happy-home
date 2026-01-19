@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>My Happy Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
@@ -15,8 +15,8 @@
     ⭐ <span id="star-count">0</span>
 
     <div class="nav">
-      <button data-area="map">🗺️ Map</button>
-      <button data-area="home">🏠 Home</button>
+      <button data-area="home">🏠 Rumah</button>
+      <button data-area="bedroom">🛏️ Kamar</button>
       <button data-area="kitchen">🍳 Dapur</button>
       <button data-area="school">🏫 Sekolah</button>
       <button data-area="office">🏢 Kantor</button>
@@ -28,92 +28,60 @@
   <button id="btn-quest" class="quest-btn">📋 Quest</button>
 
   <!-- QUEST PANEL -->
-  <div id="quest-panel" class="quest-panel">
-    <h3>📋 Quest Syabil</h3>
-    <ul id="quest-list">
-      <li class="done">Bangun (kamar Syabil)</li>
-      <li id="q-eat">Makan (dapur)</li>
-      <li>Sekolah</li>
-      <li>Pulang ke Home</li>
-    </ul>
-  </div>
+  <div id="quest-panel" class="quest-panel hidden">
+    <h3>📋 Misi Hari Ini</h3>
 
-  <!-- MAP -->
-  <div class="room map active">
-    <!-- hanya background -->
-  </div>
-
-  <!-- HOME -->
-  <div class="room home">
-    <div class="person papa">
-      <img src="./assets/father.png">
+    <!-- TAB QUEST -->
+    <div class="quest-tabs">
+      <button class="tab active">👧 Syabil</button>
+      <button class="tab">👨 Papa</button>
+      <button class="tab">👩 Mama</button>
     </div>
 
-    <div class="person child">
-      <img src="./assets/child.png">
-    </div>
-
-    <div class="person mama">
-      <img src="./assets/mother.png">
-    </div>
+    <ul></ul>
   </div>
 
-  <!-- DAPUR -->
+  <!-- 🏠 HOME -->
+  <div class="room home active">
+    <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
+    <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
+    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
+  </div>
+
+  <!-- 🛏️ BEDROOM -->
+  <div class="room bedroom">
+    <div class="item bed">🛏️</div>
+    <div class="item wardrobe">👗</div>
+    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
+  </div>
+
+  <!-- 🍳 KITCHEN -->
   <div class="room kitchen">
-
-    <!-- ICON MAKAN -->
-    <div class="food" data-action="eat">🍽️</div>
-
-    <div class="person child">
-      <img src="./assets/child.png">
+    <div class="food-container">
+      <div class="food">🍎</div>
+      <div class="food">🍞</div>
+      <div class="food">🍰</div>
     </div>
+    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
   </div>
 
-  <!-- SEKOLAH -->
+  <!-- 🏫 SCHOOL -->
   <div class="room school">
-    <div class="person child center">
-      <img src="./assets/child.png">
-    </div>
+    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
   </div>
 
-  <!-- KANTOR -->
-  <div class="room office"></div>
+  <!-- 🏢 OFFICE -->
+  <div class="room office">
+    <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
+  </div>
 
-  <!-- MARKET -->
-  <div class="room market"></div>
+  <!-- 🛒 MARKET -->
+  <div class="room market">
+    <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
+  </div>
 
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const rooms = document.querySelectorAll(".room");
-  const navButtons = document.querySelectorAll(".nav button");
-  const questBtn = document.getElementById("btn-quest");
-  const questPanel = document.getElementById("quest-panel");
-  const eatQuest = document.getElementById("q-eat");
-
-  function switchRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(".room." + name)?.classList.add("active");
-  }
-
-  navButtons.forEach(btn => {
-    btn.onclick = () => switchRoom(btn.dataset.area);
-  });
-
-  questBtn.onclick = () => {
-    questPanel.classList.toggle("hidden");
-  };
-
-  document.querySelectorAll(".food").forEach(food => {
-    food.onclick = () => {
-      eatQuest.classList.add("done");
-    };
-  });
-
-});
-</script>
-
+<script src="./script.js"></script>
 </body>
 </html>
