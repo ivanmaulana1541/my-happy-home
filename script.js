@@ -1,77 +1,93 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  let stars = 0;
   const starEl = document.getElementById("star-count");
+
+  const rooms = document.querySelectorAll(".room");
 
   const btnHome = document.getElementById("btn-home");
   const btnSchool = document.getElementById("btn-school");
-
   const btnBedroom = document.getElementById("btn-bedroom");
   const btnKitchen = document.getElementById("btn-kitchen");
 
-  const worlds = document.querySelectorAll(".world");
-  const homeWorld = document.querySelector(".world.home");
-  const schoolWorld = document.querySelector(".world.school");
+  const bed = document.querySelector(".bed");
+  const wardrobe = document.querySelector(".wardrobe");
+  const foods = document.querySelectorAll(".food");
+  const schoolItems = document.querySelectorAll(".school-item");
 
-  const bedroom = document.querySelector(".bedroom");
-  const kitchen = document.querySelector(".kitchen");
+  let dressed = false;
+  let sleeping = false;
 
-  let stars = 0;
+  function showRoom(name) {
+    rooms.forEach(r => r.classList.remove("active"));
+    document.querySelector("." + name).classList.add("active");
+  }
 
-  // =========================
-  // UTIL
-  // =========================
-  function addStar() {
-    stars++;
+  function addStar(n = 1) {
+    stars += n;
     starEl.textContent = stars;
   }
 
   function getActiveChild() {
-    return document.querySelector(".world.active .person img");
+    return document.querySelector(".room.active .person img");
   }
 
-  function jump() {
-    const child = getActiveChild();
+  function jump(child) {
     if (!child) return;
     child.classList.add("jump");
-    setTimeout(() => child.classList.remove("jump"), 400);
+    setTimeout(() => child.classList.remove("jump"), 300);
   }
 
-  // =========================
-  // WORLD SWITCH
-  // =========================
-  btnHome.addEventListener("click", () => {
-    worlds.forEach(w => w.classList.remove("active"));
-    homeWorld.classList.add("active");
-  });
+  // NAV
+  btnHome.onclick = () => showRoom("home");
+  btnSchool.onclick = () => showRoom("school");
+  btnBedroom.onclick = () => showRoom("bedroom");
+  btnKitchen.onclick = () => showRoom("kitchen");
 
-  btnSchool.addEventListener("click", () => {
-    worlds.forEach(w => w.classList.remove("active"));
-    schoolWorld.classList.add("active");
+  // BED
+  bed.onclick = () => {
+    const child = getActiveChild();
     addStar();
-    jump();
-  });
+    jump(child);
+  };
 
-  // =========================
-  // ROOM SWITCH
-  // =========================
-  btnBedroom.addEventListener("click", () => {
-    bedroom.classList.add("active");
-    kitchen.classList.remove("active");
-  });
+  // DRESS
+  wardrobe.onclick = () => {
+    const child = getActiveChild();
+    if (!child) return;
 
-  btnKitchen.addEventListener("click", () => {
-    kitchen.classList.add("active");
-    bedroom.classList.remove("active");
-  });
+    dressed = !dressed;
+    child.src = dressed
+      ? "./assets/child-dress.png"
+      : "./assets/child.png";
 
-  // =========================
+    addStar();
+    jump(child);
+  };
+
   // FOOD
-  // =========================
-  document.querySelectorAll(".food").forEach(food => {
-    food.addEventListener("click", () => {
+  foods.forEach(food => {
+    food.onclick = () => {
+      const child = getActiveChild();
       addStar();
-      jump();
-    });
+      jump(child);
+    };
+  });
+
+  // SCHOOL
+  schoolItems.forEach(item => {
+    item.onclick = () => {
+      const child = getActiveChild();
+      if (!child) return;
+
+      if (item.classList.contains("board")) {
+        addStar(2);
+      } else {
+        addStar(1);
+      }
+
+      jump(child);
+    };
   });
 
 });
