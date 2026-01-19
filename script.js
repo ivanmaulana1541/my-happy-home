@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const starCountEl = document.getElementById("star-count");
-  const navButtons = document.querySelectorAll(".nav button");
+
+  const btnRumah = document.getElementById("btn-rumah");
+  const btnSekolah = document.getElementById("btn-sekolah");
+
   const rooms = document.querySelectorAll(".room");
 
   const bed = document.querySelector(".bed");
@@ -10,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let stars = 0;
   let dressOn = false;
+  let isMovingArea = false;
 
   // =====================
   // HELPERS
@@ -33,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================
-  // JALAN KE TARGET
+  // JALAN KE OBJEK
   // =====================
   function walkTo(targetEl, callback) {
     const child = getActiveChild();
@@ -42,8 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const childRect = child.getBoundingClientRect();
     const targetRect = targetEl.getBoundingClientRect();
 
-    const distance =
-      targetRect.left - childRect.left - 40;
+    const distance = targetRect.left - childRect.left - 40;
 
     child.style.transition = "transform 0.6s linear";
     child.style.transform = `translateX(${distance}px)`;
@@ -56,18 +59,58 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================
-  // NAVIGATION
+  // PINDAH AREA (ANIMASI)
   // =====================
-  navButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const area = btn.dataset.area;
+  function moveArea(targetRoomClass) {
+    if (isMovingArea) return;
+    isMovingArea = true;
+
+    const currentRoom = getActiveRoom();
+    const child = getActiveChild();
+    if (!child) return;
+
+    // keluar ke kanan
+    child.style.transition = "transform 0.7s linear";
+    child.style.transform = "translateX(600px)";
+
+    setTimeout(() => {
       rooms.forEach(r => r.classList.remove("active"));
-      document.querySelector(`.${area}`).classList.add("active");
-    });
+      const targetRoom = document.querySelector(`.${targetRoomClass}`);
+      targetRoom.classList.add("active");
+
+      const newChild = targetRoom.querySelector(".person img");
+
+      // masuk dari kiri
+      newChild.style.transition = "none";
+      newChild.style.transform = "translateX(-600px)";
+
+      requestAnimationFrame(() => {
+        newChild.style.transition = "transform 0.7s linear";
+        newChild.style.transform = "translateX(0)";
+      });
+
+      setTimeout(() => {
+        newChild.style.transition = "";
+        newChild.style.transform = "";
+        isMovingArea = false;
+      }, 750);
+
+    }, 750);
+  }
+
+  // =====================
+  // NAV AREA
+  // =====================
+  btnRumah?.addEventListener("click", () => {
+    moveArea("home");
+  });
+
+  btnSekolah?.addEventListener("click", () => {
+    moveArea("school");
   });
 
   // =====================
-  // BED → JALAN → LOMPAT
+  // BED
   // =====================
   bed?.addEventListener("click", () => {
     walkTo(bed, (child) => {
@@ -77,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // WARDROBE → JALAN → GANTI BAJU
+  // WARDROBE
   // =====================
   wardrobe?.addEventListener("click", () => {
     walkTo(wardrobe, (child) => {
@@ -91,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================
-  // FOOD → JALAN → MAKAN
+  // FOOD
   // =====================
   foods.forEach(food => {
     food.addEventListener("click", () => {
