@@ -70,7 +70,7 @@ body {
 }
 
 /* =====================
-   BACKGROUND PER AREA
+   BACKGROUND
 ===================== */
 .map     { background-image: url("assets/background/map.png"); }
 .home    { background-image: url("assets/background/home.png"); }
@@ -81,7 +81,7 @@ body {
 .market  { background-image: url("assets/background/market.png"); }
 
 /* =====================
-   MAP LOCATION (AREA KLIK + HOVER)
+   MAP LOCATION
 ===================== */
 .map-location {
   position: absolute;
@@ -92,11 +92,12 @@ body {
   transition:
     box-shadow 0.25s ease,
     background-color 0.25s ease,
-    transform 0.25s ease;
+    transform 0.25s ease,
+    filter 0.25s ease;
 }
 
-/* ✨ HOVER GLOW EMAS */
-.map-location:hover {
+/* ✨ NORMAL HOVER (TERBUKA) */
+.map-location:not(.locked):hover {
   background-color: rgba(255, 236, 190, 0.35);
   box-shadow:
     0 0 12px rgba(255, 215, 120, 0.8),
@@ -105,124 +106,42 @@ body {
   border-radius: 8px;
 }
 
-/* =====================
-   POSISI MAP (FINAL KALIBRASI)
-===================== */
-
-/* 🏠 HOME — KE KIRI JAUH + KE ATAS JAUH */
-.map-location.home {
-  top: 22%;
-  left: 26%;
+/* 🔒 TERKUNCI */
+.map-location.locked {
+  cursor: default;
+  filter: grayscale(1) brightness(0.85);
 }
 
-/* 🏫 SCHOOL — NAIK JAUH LAGI */
-.map-location.school {
-  top: 18%;
-  left: 64%;
-}
-
-/* 🏢 OFFICE — SUDAH PAS (JANGAN UBAH) */
-.map-location.office {
-  top: 66%;
-  left: 18%;
-}
-
-/* 🛒 MARKET — SUDAH PAS (JANGAN UBAH) */
-.map-location.market {
-  top: 66%;
-  left: 71%;
+/* 🧭 QUEST AKTIF (PULSE LEMBUT) */
+.map-location.active-quest {
+  animation: pulseGlow 1.8s infinite;
+  border-radius: 8px;
 }
 
 /* =====================
-   PERSON
+   ANIMATION
 ===================== */
-.person {
-  position: absolute;
-  bottom: 20px;
-  pointer-events: none;
-}
-
-.father img,
-.mother img {
-  height: 240px;
-}
-
-.child img {
-  height: 200px;
-}
-
-/* POSISI DI HOME */
-.home .father { left: 48%; }
-.home .child  { left: 53%; z-index: 2; }
-.home .mother { left: 58%; }
-
-/* =====================
-   ITEMS
-===================== */
-.item {
-  font-size: 42px;
-  position: absolute;
-  cursor: pointer;
-}
-
-.bed {
-  left: 40px;
-  bottom: 40px;
-}
-
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 215, 120, 0);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(255, 215, 120, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(255, 215, 120, 0);
+  }
 }
 
 /* =====================
-   FOOD
+   POSISI MAP (SUDAH PAS)
 ===================== */
-.food-container {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.food {
-  font-size: 34px;
-  cursor: pointer;
-}
-
-/* =====================
-   QUEST
-===================== */
-.quest-btn {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  border: none;
-  background: #ffb6c1;
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.quest-panel {
-  position: absolute;
-  top: 110px;
-  right: 20px;
-  background: white;
-  border-radius: 14px;
-  padding: 14px;
-  width: 220px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  font-size: 14px;
-  z-index: 1001;
-}
+.map-location.home   { top: 22%; left: 26%; }
+.map-location.school { top: 18%; left: 64%; }
+.map-location.office { top: 66%; left: 18%; }
+.map-location.market { top: 66%; left: 71%; }
 
 /* =====================
    UTIL
 ===================== */
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
