@@ -39,11 +39,12 @@ body {
   color: white;
   padding: 14px 18px;
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
+  z-index: 50;
 }
 
-/* NAV (SATU BARIS, SCROLL JIKA PANJANG) */
+/* NAV */
 .nav {
   display: flex;
   gap: 6px;
@@ -62,13 +63,14 @@ body {
 }
 
 /* =====================
-   ROOM (GLOBAL)
+   ROOM
 ===================== */
 .room {
   position: relative;
   height: 360px;
   padding: 20px;
   display: none;
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -79,75 +81,50 @@ body {
 }
 
 /* =====================
-   BACKGROUND PER ROOM
+   BACKGROUND (PASTI KENA)
 ===================== */
-.map        { background-image: url("./assets/background/map.png"); }
-.home       { background-image: url("./assets/background/home.png"); }
-.room-bg    { background-image: url("./assets/background/room.png"); }
-.bedroom    { background-image: url("./assets/background/bedroom.png"); }
-.kitchen    { background-image: url("./assets/background/kitchen.png"); }
-.school     { background-image: url("./assets/background/school.png"); }
-.office     { background-image: url("./assets/background/office.png"); }
-.market     { background-image: url("./assets/background/market.png"); }
-.yogaroom   { background-image: url("./assets/background/yogaroom.png"); }
-.dufanroom  { background-image: url("./assets/background/dufanroom.png"); }
+.map       { background-image: url("./assets/background/map.png"); }
+.home      { background-image: url("./assets/background/home.png"); }
+.room      { background-image: url("./assets/background/room.png"); }
+.bedroom   { background-image: url("./assets/background/bedroom.png"); }
+.kitchen   { background-image: url("./assets/background/kitchen.png"); }
+.school    { background-image: url("./assets/background/school.png"); }
+.office    { background-image: url("./assets/background/office.png"); }
+.market    { background-image: url("./assets/background/market.png"); }
+.yogaroom  { background-image: url("./assets/background/yogaroom.png"); }
+.dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
 /* =====================
-   PERSON (KARAKTER)
+   PERSON
 ===================== */
 .person {
   position: absolute;
   bottom: 20px;
   pointer-events: none;
-  z-index: 10;
+  z-index: 5;
 }
 
-/* POSISI DEFAULT */
 .person.child  { right: 40px; }
 .person.mother { left: 160px; }
 .person.father { left: 300px; }
 
-/* UKURAN */
 .person.child img  { height: 260px; }
 .person.mother img { height: 300px; }
 .person.father img { height: 310px; }
 
 /* =====================
-   ITEMS (WARDROBE DLL)
+   ITEMS
 ===================== */
 .item {
   font-size: 42px;
   cursor: pointer;
   position: absolute;
-  z-index: 5;
-}
-
-.bed {
-  left: 40px;
-  bottom: 40px;
+  z-index: 6;
 }
 
 .wardrobe {
-  left: 40px;
-  bottom: 20px;
-}
-
-/* =====================
-   FOOD
-===================== */
-.food-container {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 5;
-}
-
-.food {
-  font-size: 34px;
-  cursor: pointer;
+  left: 30px;
+  bottom: 30px;
 }
 
 /* =====================
@@ -162,11 +139,11 @@ body {
   padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
-  z-index: 200;
+  z-index: 20;
 }
 
 /* =====================
-   QUEST PANEL
+   QUEST PANEL (FIX CLICK)
 ===================== */
 .quest-panel {
   position: absolute;
@@ -177,7 +154,8 @@ body {
   padding: 14px;
   width: 240px;
   box-shadow: 0 10px 30px rgba(0,0,0,.2);
-  z-index: 999; /* PALING ATAS */
+  z-index: 30;            /* ❗ TURUN */
+  pointer-events: auto;
 }
 
 /* QUEST TABS */
@@ -211,24 +189,6 @@ body {
 .quest-panel li {
   margin-bottom: 6px;
   font-size: 13px;
-}
-
-/* =====================
-   ANIMATION
-===================== */
-.slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
 }
 
 /* =====================
