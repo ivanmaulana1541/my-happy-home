@@ -1,83 +1,83 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const rooms = document.querySelectorAll(".room");
-  const navButtons = document.querySelectorAll(".nav button");
-  const wardrobe = document.querySelectorAll(".wardrobe");
-  const foods = document.querySelectorAll(".food");
-  const dialog = document.getElementById("dialog");
+  const btnQuest = document.getElementById("btn-quest");
+  const questPanel = document.getElementById("quest-panel");
+  const tabs = document.querySelectorAll(".quest-tabs .tab");
+  const questList = questPanel.querySelector("ul");
 
-  let currentRoom = "room";
+  let activeTab = "child";
 
-  const state = {
-    child: { schoolDress:false, eat:false, school:false, yoga:false, dufan:false },
-    mother:{ eat:false, market:false, yoga:false, dufan:false },
-    father:{ eat:false, office:false, dufan:false }
+  const quest = {
+    child: {
+      dressSchool: false,
+      eat: false,
+      school: false
+    },
+    mother: {
+      eat: false,
+      yoga: false
+    },
+    father: {
+      eat: false,
+      office: false
+    }
   };
 
-  function showRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`)?.classList.add("active");
-    currentRoom = name;
-    roomDialog();
+  /* =====================
+     FORCE QUEST OPEN
+  ===================== */
+  questPanel.classList.remove("hidden");
+  questPanel.classList.add("slide-in");
+
+  /* =====================
+     QUEST RENDER
+  ===================== */
+  function renderQuest() {
+    questList.innerHTML = "";
+
+    if (activeTab === "child") {
+      addItem("Ganti baju sekolah", quest.child.dressSchool);
+      addItem("Sarapan di dapur", quest.child.eat);
+      addItem("Berangkat ke sekolah", quest.child.school);
+    }
+
+    if (activeTab === "mother") {
+      addItem("Sarapan di dapur", quest.mother.eat);
+      addItem("Yoga bersama Syabil", quest.mother.yoga);
+    }
+
+    if (activeTab === "father") {
+      addItem("Sarapan di dapur", quest.father.eat);
+      addItem("Pergi ke kantor", quest.father.office);
+    }
   }
 
-  function say(text) {
-    dialog.textContent = text;
-    dialog.classList.remove("hidden");
-    setTimeout(() => dialog.classList.add("hidden"), 2200);
+  function addItem(text, done) {
+    const li = document.createElement("li");
+    li.textContent = (done ? "✅ " : "⬜ ") + text;
+    questList.appendChild(li);
   }
 
-  function roomDialog() {
-    if (currentRoom === "room" && !state.child.schoolDress)
-      say("Hari ini aku sekolah. Aku harus ganti baju dulu.");
-    if (currentRoom === "kitchen" && !state.child.eat)
-      say("Aku lapar... sarapan dulu yuk.");
-    if (currentRoom === "school")
-      say("Belajar dulu, nanti main!");
-    if (currentRoom === "market")
-      say("Mama belanja dulu ya.");
-    if (currentRoom === "office")
-      say("Papa bekerja dulu.");
-    if (currentRoom === "dufanroom")
-      say("Yeay! Kita pergi bersama!");
-  }
-
-  wardrobe.forEach(w => {
-    w.onclick = () => {
-      if (currentRoom === "room" && !state.child.schoolDress) {
-        state.child.schoolDress = true;
-        say("Aku sudah pakai seragam sekolah!");
-        return;
-      }
-      if (currentRoom === "bedroom" && !state.mother.yoga) {
-        state.mother.yoga = true;
-        say("Mama siap yoga.");
-        return;
-      }
-      if (!state.child.dufan && !state.mother.dufan && !state.father.dufan) {
-        state.child.dufan = state.mother.dufan = state.father.dufan = true;
-        say("Semua sudah siap ke Dufan!");
-      }
-    };
+  /* =====================
+     QUEST BUTTON
+  ===================== */
+  btnQuest.addEventListener("click", () => {
+    questPanel.classList.toggle("hidden");
   });
 
-  foods.forEach(f => {
-    f.onclick = () => {
-      state.child.eat = state.mother.eat = state.father.eat = true;
-      say("Perut kenyang, semangat!");
-    };
+  /* =====================
+     QUEST TABS
+  ===================== */
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      activeTab = tab.dataset.tab;
+      renderQuest();
+    });
   });
 
-  navButtons.forEach(btn => {
-    btn.onclick = () => {
-      const target = btn.dataset.area;
-      if (target === "school" && !state.child.schoolDress) {
-        say("Aku harus ganti baju dulu.");
-        return;
-      }
-      showRoom(target);
-    };
-  });
-
-  showRoom("room");
+  /* INIT */
+  renderQuest();
 });
