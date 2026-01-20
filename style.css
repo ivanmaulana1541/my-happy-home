@@ -36,29 +36,33 @@ body {
 ===================== */
 .top-bar {
   background: #ff7fa7;
+  color: white;
   padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* NAV — PAKSA SATU BARIS */
+/* NAV (SATU BARIS, SCROLL JIKA PANJANG) */
 .nav {
   display: flex;
-  flex-wrap: nowrap;       /* ⬅️ penting */
   gap: 6px;
-  overflow-x: auto;        /* aman jika kepanjangan */
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 .nav button {
   border: none;
   background: white;
-  padding: 6px 10px;       /* diperkecil */
+  padding: 6px 10px;
   border-radius: 12px;
   cursor: pointer;
-  white-space: nowrap;     /* teks tidak pecah */
+  white-space: nowrap;
   flex-shrink: 0;
 }
 
 /* =====================
-   ROOM
+   ROOM (GLOBAL)
 ===================== */
 .room {
   position: relative;
@@ -67,6 +71,7 @@ body {
   display: none;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .room.active {
@@ -76,14 +81,16 @@ body {
 /* =====================
    BACKGROUND PER ROOM
 ===================== */
-.room { background-image: url("./assets/background/room.png"); }
-.bedroom { background-image: url("./assets/background/bedroom.png"); }
-.kitchen { background-image: url("./assets/background/kitchen.png"); }
-.school { background-image: url("./assets/background/school.png"); }
-.office { background-image: url("./assets/background/office.png"); }
-.market { background-image: url("./assets/background/market.png"); }
-.yogaroom { background-image: url("./assets/background/yogaroom.png"); }
-.dufanroom { background-image: url("./assets/background/dufanroom.png"); }
+.map        { background-image: url("./assets/background/map.png"); }
+.home       { background-image: url("./assets/background/home.png"); }
+.room-bg    { background-image: url("./assets/background/room.png"); }
+.bedroom    { background-image: url("./assets/background/bedroom.png"); }
+.kitchen    { background-image: url("./assets/background/kitchen.png"); }
+.school     { background-image: url("./assets/background/school.png"); }
+.office     { background-image: url("./assets/background/office.png"); }
+.market     { background-image: url("./assets/background/market.png"); }
+.yogaroom   { background-image: url("./assets/background/yogaroom.png"); }
+.dufanroom  { background-image: url("./assets/background/dufanroom.png"); }
 
 /* =====================
    PERSON (KARAKTER)
@@ -92,50 +99,37 @@ body {
   position: absolute;
   bottom: 20px;
   pointer-events: none;
-  z-index: 5;
+  z-index: 10;
 }
 
-/* Syabil selalu di kanan */
-.person.child {
-  right: 20px;
-  left: auto;
-}
+/* POSISI DEFAULT */
+.person.child  { right: 40px; }
+.person.mother { left: 160px; }
+.person.father { left: 300px; }
 
-.person.child img {
-  height: 300px;
-}
-
-/* Mama */
-.person.mother {
-  left: 160px;   /* digeser ke tengah */
-}
-
-.person.mother img {
-  height: 320px;
-}
-
-/* Papa */
-.person.father {
-  left: 300px;   /* digeser ke tengah */
-}
-
-.person.father img {
-  height: 340px;
-}
+/* UKURAN */
+.person.child img  { height: 260px; }
+.person.mother img { height: 300px; }
+.person.father img { height: 310px; }
 
 /* =====================
-   ITEMS (WARDROBE)
+   ITEMS (WARDROBE DLL)
 ===================== */
 .item {
   font-size: 42px;
   cursor: pointer;
   position: absolute;
-  z-index: 10;   /* SELALU DI ATAS KARAKTER */
+  z-index: 5;
 }
 
-.item.wardrobe {
-  left: 60px;
+.bed {
+  left: 40px;
   bottom: 40px;
+}
+
+.wardrobe {
+  left: 40px;
+  bottom: 20px;
 }
 
 /* =====================
@@ -148,7 +142,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  z-index: 10;
+  z-index: 5;
 }
 
 .food {
@@ -163,13 +157,12 @@ body {
   position: absolute;
   top: 60px;
   left: 20px;
-  right: auto;
   border: none;
   background: #ffb6c1;
   padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
-  z-index: 30;
+  z-index: 200;
 }
 
 /* =====================
@@ -177,37 +170,17 @@ body {
 ===================== */
 .quest-panel {
   position: absolute;
-  top: 120px;        /* diturunkan */
+  top: 110px;
   left: 20px;
-  right: auto;
   background: white;
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 14px;
-  width: 220px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  font-size: 14px;
-  z-index: 30;
+  width: 240px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  z-index: 999; /* PALING ATAS */
 }
 
-/* Animasi awal quest */
-.slide-in {
-  animation: slideIn 0.35s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* =====================
-   QUEST TABS
-===================== */
+/* QUEST TABS */
 .quest-tabs {
   display: flex;
   gap: 6px;
@@ -219,7 +192,7 @@ body {
   border: none;
   background: #f0f0f0;
   padding: 6px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 12px;
 }
@@ -230,31 +203,31 @@ body {
   font-weight: bold;
 }
 
-/* =====================
-   DIALOG
-===================== */
-.dialog {
-  position: absolute;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  padding: 10px 16px;
-  border-radius: 18px;
-  box-shadow: 0 6px 16px rgba(0,0,0,.15);
-  font-size: 14px;
-  z-index: 40;
-  animation: pop 0.25s ease;
+/* QUEST LIST */
+.quest-panel ul {
+  list-style: none;
 }
 
-@keyframes pop {
+.quest-panel li {
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* =====================
+   ANIMATION
+===================== */
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) scale(0.9);
+    transform: translateX(-20px);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) scale(1);
+    transform: translateX(0);
   }
 }
 
