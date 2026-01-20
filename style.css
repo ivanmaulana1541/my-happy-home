@@ -33,12 +33,11 @@ body {
 .nav button {
   border: none;
   background: white;
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 12px;
   cursor: pointer;
 }
 
-/* ROOM */
 .room {
   position: relative;
   height: 360px;
@@ -48,34 +47,28 @@ body {
   background-position: center;
 }
 
-.room.active {
-  display: block;
-}
+.room.active { display: block; }
 
-/* BACKGROUND */
 .bedroom { background-image: url("./assets/background/room.png"); }
 .kitchen { background-image: url("./assets/background/kitchen.png"); }
 .school { background-image: url("./assets/background/school.png"); }
 .office { background-image: url("./assets/background/office.png"); }
+.yogaroom { background-image: url("./assets/background/yogaroom.png"); }
 .market { background-image: url("./assets/background/market.png"); }
 .home { background-image: url("./assets/background/home.png"); }
+.dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
-/* PERSON */
 .person {
   position: absolute;
   bottom: 20px;
-  pointer-events: none;
 }
 
 .person.child { right: 40px; }
 .person.father { right: 180px; }
 .person.mother { right: 100px; }
 
-.person img {
-  height: 220px;
-}
+.person img { height: 220px; }
 
-/* ITEMS */
 .item {
   position: absolute;
   font-size: 42px;
@@ -85,42 +78,14 @@ body {
 .wardrobe { left: 120px; bottom: 40px; }
 .door { left: 60px; bottom: 40px; }
 
-/* FOOD */
 .food-container {
   position: absolute;
   left: 20px;
   top: 20px;
 }
 
-.food {
-  font-size: 34px;
-  cursor: pointer;
-}
+.food { font-size: 34px; cursor: pointer; }
 
-/* QUEST */
-.quest-btn {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  background: #ffb6c1;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-}
-
-.quest-panel {
-  position: absolute;
-  top: 110px;
-  right: 20px;
-  background: white;
-  border-radius: 14px;
-  padding: 14px;
-  width: 240px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.15);
-}
-
-/* FEEDBACK */
 .feedback {
   position: absolute;
   bottom: 20px;
@@ -132,6 +97,4 @@ body {
   border-radius: 14px;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
