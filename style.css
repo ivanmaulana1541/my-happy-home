@@ -39,13 +39,22 @@ body {
   padding: 14px 18px;
 }
 
+/* NAV — PAKSA SATU BARIS */
+.nav {
+  display: flex;
+  flex-wrap: nowrap;       /* ⬅️ penting */
+  gap: 6px;
+  overflow-x: auto;        /* aman jika kepanjangan */
+}
+
 .nav button {
   border: none;
   background: white;
-  padding: 6px 12px;
+  padding: 6px 10px;       /* diperkecil */
   border-radius: 12px;
   cursor: pointer;
-  margin-right: 6px;
+  white-space: nowrap;     /* teks tidak pecah */
+  flex-shrink: 0;
 }
 
 /* =====================
@@ -86,27 +95,28 @@ body {
   z-index: 5;
 }
 
-/* Syabil selalu di ujung kanan */
+/* Syabil selalu di kanan */
 .person.child {
   right: 20px;
   left: auto;
 }
 
 .person.child img {
-  height: 300px; /* lebih proporsional */
+  height: 300px;
 }
 
-/* Mama & Papa */
+/* Mama */
 .person.mother {
-  left: 80px;
+  left: 160px;   /* digeser ke tengah */
 }
 
 .person.mother img {
   height: 320px;
 }
 
+/* Papa */
 .person.father {
-  left: 220px;
+  left: 300px;   /* digeser ke tengah */
 }
 
 .person.father img {
@@ -114,13 +124,13 @@ body {
 }
 
 /* =====================
-   ITEMS (WARDROBE, DLL)
+   ITEMS (WARDROBE)
 ===================== */
 .item {
   font-size: 42px;
   cursor: pointer;
   position: absolute;
-  z-index: 10; /* SELALU DI ATAS KARAKTER */
+  z-index: 10;   /* SELALU DI ATAS KARAKTER */
 }
 
 .item.wardrobe {
@@ -167,7 +177,7 @@ body {
 ===================== */
 .quest-panel {
   position: absolute;
-  top: 100px;
+  top: 120px;        /* diturunkan */
   left: 20px;
   right: auto;
   background: white;
@@ -179,7 +189,7 @@ body {
   z-index: 30;
 }
 
-/* Animasi awal */
+/* Animasi awal quest */
 .slide-in {
   animation: slideIn 0.35s ease-out;
 }
