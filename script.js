@@ -6,77 +6,69 @@ document.addEventListener("DOMContentLoaded", () => {
   const food = document.querySelector(".food");
   const door = document.querySelector(".door");
   const feedbackEl = document.getElementById("feedback");
-  const childImg = document.getElementById("child-img");
 
-  /* FEEDBACK */
-  let feedbackTimeout = null;
+  const childImg = document.getElementById("child-img");
+  const fatherImg = document.getElementById("father-img");
+  const motherImg = document.getElementById("mother-img");
+
   function showFeedback(text) {
     feedbackEl.textContent = text;
     feedbackEl.classList.remove("hidden");
-    if (feedbackTimeout) clearTimeout(feedbackTimeout);
-    feedbackTimeout = setTimeout(() => {
-      feedbackEl.classList.add("hidden");
-    }, 2000);
+    setTimeout(() => feedbackEl.classList.add("hidden"), 2000);
   }
 
-  /* ROOM SWITCH */
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
     document.querySelector(`.${name}`).classList.add("active");
   }
 
-  /* STATES */
-  const syabil = { clothes:false, eaten:false, school:false };
-  const papa   = { eaten:false, office:false };
-  const mama   = { eaten:false, market:false };
+  const syabil = { school:false, dufan:false };
+  const papa   = { office:false, dufan:false };
+  const mama   = { yoga:false, market:false, dufan:false };
 
-  /* INTERACTIONS */
   wardrobe.addEventListener("click", () => {
-    syabil.clothes = true;
-    childImg.src = "./assets/child-dress.png";
-    showFeedback("Syabil ganti baju sekolah 🎒");
+    syabil.dufan = true;
+    papa.dufan = true;
+    mama.dufan = true;
+    showFeedback("Semua siap ke Dufan 🎢");
   });
 
   food.addEventListener("click", () => {
-    syabil.eaten = true;
-    papa.eaten = true;
-    mama.eaten = true;
-    showFeedback("Semua sudah makan 🍽️");
+    showFeedback("Keluarga sudah makan 🍽️");
   });
 
   door.addEventListener("click", () => {
-    showFeedback("Keluarga sudah di rumah 🏠");
+    showFeedback("Keluarga berkumpul di rumah 🏠");
   });
 
-  /* NAV LOCK */
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const t = btn.dataset.area;
 
-      if (t === "kitchen" && !syabil.clothes) {
-        showFeedback("Syabil belum ganti baju 👕");
-        return;
-      }
-
-      if (t === "school" && !syabil.eaten) {
-        showFeedback("Syabil belum makan 🍽️");
-        return;
+      if (t === "yogaroom") {
+        mama.yoga = true;
+        showFeedback("Mama yoga 🧘");
       }
 
       if (t === "office") {
-        if (!papa.eaten) {
-          showFeedback("Papa belum makan ☕");
-          return;
-        }
         papa.office = true;
+        showFeedback("Papa kerja 💼");
       }
 
       if (t === "market") {
-        if (!mama.eaten) {
-          showFeedback("Mama belum makan 🛒");
+        if (!mama.yoga) {
+          showFeedback("Mama harus yoga dulu 🧘");
           return;
         }
         mama.market = true;
+      }
+
+      if (t === "dufanroom") {
+        if (!(syabil.dufan && papa.dufan && mama.dufan)) {
+          showFeedback("Semua harus siap dulu 🎒");
+          return;
+        }
+        showFeedback("Yeay! Dufan! 🎉");
       }
 
       switchRoom(t);
