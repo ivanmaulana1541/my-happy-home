@@ -63,18 +63,13 @@ body {
 .home { background-image: url("./assets/background/home.png"); }
 .dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
-/* PERSON (DIPERBESAR) */
+/* PERSON BASE */
 .person {
   position: absolute;
-  bottom: 10px;            /* sedikit turun supaya kaki nempel lantai */
+  bottom: 10px;
   pointer-events: none;
 }
 
-.person.child { right: 40px; }
-.person.father { right: 200px; }
-.person.mother { right: 120px; }
-
-/* UKURAN BARU */
 .person.child img {
   height: 290px;
 }
@@ -87,6 +82,54 @@ body {
   height: 320px;
 }
 
+/* =====================
+   POSISI PER ROOM
+===================== */
+
+/* BEDROOM */
+.bedroom .person.child { right: 40px; }
+.bedroom .person.father { left: 50%; transform: translateX(-50%); }
+.bedroom .person.mother { left: 60px; }
+
+/* KITCHEN */
+.kitchen .person.child { right: 40px; }
+.kitchen .person.father { left: 50%; transform: translateX(-50%); }
+.kitchen .person.mother { left: 60px; }
+
+/* SCHOOL */
+.school .person.child {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* OFFICE */
+.office .person.father {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* YOGA ROOM */
+.yogaroom .person.mother {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* MARKET */
+.market .person.mother {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* HOME */
+.home .person.child { right: 40px; }
+.home .person.father { left: 50%; transform: translateX(-50%); }
+.home .person.mother { left: 60px; }
+
+/* DUFAN */
+.dufanroom .person.child { right: 40px; }
+.dufanroom .person.father { left: 50%; transform: translateX(-50%); }
+.dufanroom .person.mother { left: 60px; }
+
 /* ITEMS */
 .item {
   position: absolute;
@@ -94,15 +137,8 @@ body {
   cursor: pointer;
 }
 
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
-
-.door {
-  left: 60px;
-  bottom: 40px;
-}
+.wardrobe { left: 120px; bottom: 40px; }
+.door { left: 60px; bottom: 40px; }
 
 /* FOOD */
 .food-container {
