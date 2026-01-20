@@ -15,78 +15,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const homeIcon = document.querySelector(".home-icon");
 
-  let stars = 0;
-  let dressOn = false;
-  let activeTab = "child";
+  /* =====================
+     FEEDBACK SYSTEM
+  ===================== */
+  const feedbackEl = document.getElementById("feedback");
+  let feedbackTimeout = null;
 
-  const quest = {
-    child: { wakeUp: false, eat: false, school: false },
-    father: { eat: false, office: false },
-    mother: { eat: false, market: false }
-  };
+  function showFeedback(text) {
+    if (!feedbackEl) return;
 
-  function addStar(n = 1) {
-    stars += n;
-    starEl.textContent = stars;
+    feedbackEl.textContent = text;
+    feedbackEl.classList.remove("hidden");
+
+    if (feedbackTimeout) clearTimeout(feedbackTimeout);
+
+    feedbackTimeout = setTimeout(() => {
+      feedbackEl.classList.add("hidden");
+    }, 2000);
   }
 
+  /* =====================
+     BASIC ROOM SWITCH
+  ===================== */
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
     document.querySelector(`.${name}`)?.classList.add("active");
   }
 
-  function getChild() {
-    return document.querySelector(".room.active .person.child img");
-  }
-
-  function jumpChild() {
-    const child = getChild();
-    if (!child) return;
-    child.classList.add("jump");
-    setTimeout(() => child.classList.remove("jump"), 300);
-  }
-
-  function renderQuest() {
-    questList.innerHTML = "";
-
-    if (activeTab === "child") {
-      addQuestItem("Syabil bangun tidur", quest.child.wakeUp);
-      addQuestItem("Syabil makan pagi", quest.child.eat);
-      addQuestItem("Syabil berangkat sekolah", quest.child.school);
-    }
-
-    if (activeTab === "father") {
-      addQuestItem("Papa makan pagi", quest.father.eat);
-      addQuestItem("Papa pergi ke kantor", quest.father.office);
-    }
-
-    if (activeTab === "mother") {
-      addQuestItem("Mama makan pagi", quest.mother.eat);
-      addQuestItem("Mama pergi ke market", quest.mother.market);
-    }
-  }
-
-  function addQuestItem(text, done) {
-    const li = document.createElement("li");
-    li.textContent = (done ? "✅ " : "⬜ ") + text;
-    if (done) li.classList.add("done");
-    questList.appendChild(li);
-  }
-
-  btnQuest.addEventListener("click", () => {
-    questPanel.classList.toggle("hidden");
-    renderQuest();
-  });
-
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      activeTab = index === 0 ? "child" : index === 1 ? "father" : "mother";
-      renderQuest();
-    });
-  });
-
+  /* =====================
+     TEMP NAV (BELUM DIKUNCI)
+  ===================== */
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       switchRoom(btn.dataset.area);
@@ -96,5 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
   homeIcon?.addEventListener("click", () => {
     switchRoom("home");
   });
+
+  /* =====================
+     QUEST & INTERACTION
+     (BELUM DIUBAH)
+  ===================== */
 
 });
