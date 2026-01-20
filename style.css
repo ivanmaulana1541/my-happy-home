@@ -1,3 +1,4 @@
+/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,7 +18,6 @@ body {
   max-width: 900px;
   background: #fff0f5;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.15);
   overflow: hidden;
   position: relative;
 }
@@ -25,26 +25,23 @@ body {
 /* TOP BAR */
 .top-bar {
   background: #ff7fa7;
-  color: white;
-  padding: 14px 18px;
-  display: flex;
-  justify-content: space-between;
+  padding: 12px;
 }
 
 .nav button {
-  border: none;
   background: white;
+  border: none;
   padding: 6px 10px;
   border-radius: 12px;
+  margin-right: 6px;
   cursor: pointer;
 }
 
 /* ROOM */
 .room {
-  position: relative;
   height: 360px;
-  padding: 20px;
   display: none;
+  position: relative;
   background-size: cover;
   background-position: center;
 }
@@ -60,109 +57,76 @@ body {
 .office { background-image: url("./assets/background/office.png"); }
 .yogaroom { background-image: url("./assets/background/yogaroom.png"); }
 .market { background-image: url("./assets/background/market.png"); }
-.home { background-image: url("./assets/background/home.png"); }
 .dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
-/* PERSON BASE */
+/* PERSON */
 .person {
   position: absolute;
   bottom: 10px;
-  pointer-events: none;
 }
 
-.person.child img {
-  height: 290px;
-}
+.person.child img { height: 290px; right: 40px; }
+.person.father img { height: 330px; left: 50%; transform: translateX(-50%); }
+.person.mother img { height: 320px; left: 60px; }
 
-.person.father img {
-  height: 330px;
-}
-
-.person.mother img {
-  height: 320px;
-}
-
-/* =====================
-   POSISI PER ROOM
-===================== */
-
-/* BEDROOM */
-.bedroom .person.child { right: 40px; }
-.bedroom .person.father { left: 50%; transform: translateX(-50%); }
-.bedroom .person.mother { left: 60px; }
-
-/* KITCHEN */
-.kitchen .person.child { right: 40px; }
-.kitchen .person.father { left: 50%; transform: translateX(-50%); }
-.kitchen .person.mother { left: 60px; }
-
-/* SCHOOL */
-.school .person.child {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* OFFICE */
-.office .person.father {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* YOGA ROOM */
-.yogaroom .person.mother {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* MARKET */
-.market .person.mother {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* HOME */
-.home .person.child { right: 40px; }
-.home .person.father { left: 50%; transform: translateX(-50%); }
-.home .person.mother { left: 60px; }
-
-/* DUFAN */
-.dufanroom .person.child { right: 40px; }
-.dufanroom .person.father { left: 50%; transform: translateX(-50%); }
-.dufanroom .person.mother { left: 60px; }
-
-/* ITEMS */
-.item {
+/* QUEST */
+.quest-btn {
   position: absolute;
-  font-size: 42px;
+  top: 70px;
+  right: 20px;
+  background: #ffb6c1;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 12px;
   cursor: pointer;
 }
 
-.wardrobe { left: 120px; bottom: 40px; }
-.door { left: 60px; bottom: 40px; }
-
-/* FOOD */
-.food-container {
+.quest-panel {
   position: absolute;
-  left: 20px;
-  top: 20px;
+  top: 110px;
+  right: 20px;
+  background: white;
+  border-radius: 14px;
+  padding: 12px;
+  width: 220px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
 }
 
-.food {
-  font-size: 34px;
+.quest-tabs {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.quest-tabs .tab {
+  flex: 1;
+  border: none;
+  background: #eee;
+  padding: 6px;
   cursor: pointer;
 }
 
-/* FEEDBACK */
+.quest-tabs .tab.active {
+  background: #ff7fa7;
+  color: white;
+}
+
+.quest-panel ul {
+  list-style: none;
+}
+
+.quest-panel li.done {
+  text-decoration: line-through;
+  color: green;
+}
+
 .feedback {
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   background: #fff6c8;
-  color: #5a4a00;
   padding: 8px 14px;
-  border-radius: 14px;
-  font-size: 14px;
+  border-radius: 12px;
 }
 
 .hidden {
