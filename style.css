@@ -73,6 +73,10 @@ body {
 /* =====================
    BACKGROUND PER RUANGAN
 ===================== */
+.map {
+  background-image: url("./assets/background/map.png");
+}
+
 .home {
   background-image: url("./assets/background/home.png");
 }
@@ -218,7 +222,6 @@ body {
   transition: all 0.3s ease;
 }
 
-/* QUEST DONE */
 .quest-panel li.done {
   color: #2e8b57;
   text-decoration: line-through;
