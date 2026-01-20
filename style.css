@@ -19,7 +19,7 @@ body {
 }
 
 /* =====================
-   GAME
+   GAME CONTAINER
 ===================== */
 .game {
   width: 100%;
@@ -36,31 +36,24 @@ body {
 ===================== */
 .top-bar {
   background: #ff7fa7;
+  color: white;
   padding: 14px 18px;
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   align-items: center;
-  z-index: 50;
-}
-
-.nav {
-  display: flex;
-  gap: 6px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
 }
 
 .nav button {
   border: none;
   background: white;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
-  white-space: nowrap;
+  margin-left: 6px;
 }
 
 /* =====================
-   ROOM
+   ROOM (GLOBAL)
 ===================== */
 .room {
   position: relative;
@@ -71,8 +64,6 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  pointer-events: auto;
 }
 
 .room.active {
@@ -80,51 +71,107 @@ body {
 }
 
 /* =====================
-   BACKGROUND
+   BACKGROUND PER RUANGAN
 ===================== */
-.map       { background-image: url("./assets/background/map.png"); }
-.home      { background-image: url("./assets/background/home.png"); }
-.room      { background-image: url("./assets/background/room.png"); }
-.bedroom   { background-image: url("./assets/background/bedroom.png"); }
-.kitchen   { background-image: url("./assets/background/kitchen.png"); }
-.school    { background-image: url("./assets/background/school.png"); }
-.office    { background-image: url("./assets/background/office.png"); }
-.market    { background-image: url("./assets/background/market.png"); }
-.yogaroom  { background-image: url("./assets/background/yogaroom.png"); }
-.dufanroom { background-image: url("./assets/background/dufanroom.png"); }
+.home {
+  background-image: url("./assets/background/home.png");
+}
+
+.bedroom {
+  background-image: url("./assets/background/room.png");
+}
+
+.kitchen {
+  background-image: url("./assets/background/kitchen.png");
+}
+
+.school {
+  background-image: url("./assets/background/school.png");
+}
+
+.office {
+  background-image: url("./assets/background/office.png");
+}
+
+.market {
+  background-image: url("./assets/background/market.png");
+}
 
 /* =====================
-   PERSON (TIDAK BOLEH NANGKAP KLIK)
+   PERSON
 ===================== */
 .person {
   position: absolute;
   bottom: 20px;
   pointer-events: none;
-  z-index: 5;
 }
 
-.person.child  { right: 40px; }
-.person.mother { left: 160px; }
-.person.father { left: 300px; }
+/* Posisi */
+.person.child {
+  right: 40px;
+}
 
-.person.child img  { height: 260px; }
-.person.mother img { height: 300px; }
-.person.father img { height: 310px; }
+.person.father {
+  right: 200px;
+}
+
+.person.mother {
+  right: 120px;
+}
+
+/* Ukuran */
+.person.child img {
+  height: 220px;
+}
+
+.person.father img {
+  height: 275px;
+}
+
+.person.mother img {
+  height: 265px;
+}
+
+/* Lompat (anak saja) */
+.person.child img.jump {
+  transform: translateY(-40px);
+  transition: transform .25s ease;
+}
 
 /* =====================
-   ITEMS (WAJIB BISA KLIK)
+   ITEMS (DEKOR)
 ===================== */
 .item {
-  position: absolute;
+  font-size: 42px;
   cursor: pointer;
-  z-index: 20;
-  pointer-events: auto;
+  position: absolute;
+}
+
+.bed {
+  left: 40px;
+  bottom: 40px;
 }
 
 .wardrobe {
-  left: 30px;
-  bottom: 30px;
-  font-size: 42px;
+  left: 120px;
+  bottom: 40px;
+}
+
+/* =====================
+   FOOD
+===================== */
+.food-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.food {
+  font-size: 34px;
+  cursor: pointer;
 }
 
 /* =====================
@@ -132,40 +179,54 @@ body {
 ===================== */
 .quest-btn {
   position: absolute;
-  top: 60px;
-  left: 20px;
+  top: 70px;
+  right: 20px;
+  border: none;
   background: #ffb6c1;
   padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
-  z-index: 40;
+  z-index: 1000;
 }
 
 /* =====================
-   QUEST PANEL (ANTI BLOCK)
+   QUEST PANEL
 ===================== */
 .quest-panel {
   position: absolute;
   top: 110px;
-  left: 20px;
-  width: 240px;
-
-  pointer-events: none;   /* 🔥 PENTING */
-  z-index: 30;
-}
-
-.quest-panel > * {
-  pointer-events: auto;   /* hanya isi yg bisa diklik */
-}
-
-.quest-panel-inner {
+  right: 20px;
   background: white;
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  width: 220px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  font-size: 14px;
+  z-index: 1001;
 }
 
-/* QUEST TABS */
+.quest-panel h3 {
+  margin-bottom: 8px;
+}
+
+.quest-panel ul {
+  list-style: none;
+}
+
+.quest-panel li {
+  margin-bottom: 6px;
+  transition: all 0.3s ease;
+}
+
+/* QUEST DONE */
+.quest-panel li.done {
+  color: #2e8b57;
+  text-decoration: line-through;
+}
+
+/* =====================
+   QUEST TABS
+===================== */
 .quest-tabs {
   display: flex;
   gap: 6px;
@@ -177,7 +238,7 @@ body {
   border: none;
   background: #f0f0f0;
   padding: 6px;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 12px;
 }
@@ -185,16 +246,7 @@ body {
 .quest-tabs .tab.active {
   background: #ff7fa7;
   color: white;
-}
-
-/* QUEST LIST */
-.quest-panel ul {
-  list-style: none;
-}
-
-.quest-panel li {
-  margin-bottom: 6px;
-  font-size: 13px;
+  font-weight: bold;
 }
 
 /* =====================
