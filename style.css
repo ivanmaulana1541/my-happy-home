@@ -1,4 +1,3 @@
-/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -23,14 +22,12 @@ body {
   position: relative;
 }
 
-/* TOP BAR */
 .top-bar {
   background: #ff7fa7;
   color: white;
   padding: 14px 18px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .nav button {
@@ -39,7 +36,6 @@ body {
   padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
-  margin-left: 6px;
 }
 
 /* ROOM */
@@ -57,32 +53,16 @@ body {
 }
 
 /* BACKGROUND */
-.map { background-image: url("./assets/background/map.png"); }
-.home { background-image: url("./assets/background/home.png"); }
 .bedroom { background-image: url("./assets/background/room.png"); }
 .kitchen { background-image: url("./assets/background/kitchen.png"); }
 .school { background-image: url("./assets/background/school.png"); }
-.office { background-image: url("./assets/background/office.png"); }
-.market { background-image: url("./assets/background/market.png"); }
-.yogaroom { background-image: url("./assets/background/yogaroom.png"); }
-.dufanroom { background-image: url("./assets/background/dufanroom.png"); }
-
-/* MAP ICON */
-.map-icon {
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+.home { background-image: url("./assets/background/home.png"); }
 
 /* PERSON */
 .person {
   position: absolute;
   bottom: 20px;
   right: 40px;
-  pointer-events: none;
 }
 
 .person img {
@@ -91,15 +71,13 @@ body {
 
 /* ITEMS */
 .item {
+  position: absolute;
   font-size: 42px;
   cursor: pointer;
-  position: absolute;
 }
 
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
+.wardrobe { left: 120px; bottom: 40px; }
+.door { left: 60px; bottom: 40px; }
 
 /* FOOD */
 .food-container {
@@ -118,12 +96,11 @@ body {
   position: absolute;
   top: 70px;
   right: 20px;
-  border: none;
   background: #ffb6c1;
+  border: none;
   padding: 6px 12px;
   border-radius: 12px;
   cursor: pointer;
-  z-index: 1000;
 }
 
 .quest-panel {
@@ -134,7 +111,7 @@ body {
   border-radius: 14px;
   padding: 14px;
   width: 220px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
 }
 
 .quest-panel ul {
@@ -153,8 +130,6 @@ body {
   padding: 8px 14px;
   border-radius: 14px;
   font-size: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  z-index: 2000;
 }
 
 .hidden {
