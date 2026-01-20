@@ -1,77 +1,137 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* =====================
+     ELEMENT
+  ===================== */
   const rooms = document.querySelectorAll(".room");
   const navButtons = document.querySelectorAll(".nav button");
   const wardrobe = document.querySelector(".wardrobe");
-  const food = document.querySelector(".food");
-  const door = document.querySelector(".door");
-  const feedbackEl = document.getElementById("feedback");
+  const foods = document.querySelectorAll(".food");
+  const feedback = document.getElementById("feedback");
 
-  const childImg = document.getElementById("child-img");
-  const fatherImg = document.getElementById("father-img");
-  const motherImg = document.getElementById("mother-img");
+  /* =====================
+     GAME STATE
+  ===================== */
+  let currentRoom = "bedroom";
 
-  function showFeedback(text) {
-    feedbackEl.textContent = text;
-    feedbackEl.classList.remove("hidden");
-    setTimeout(() => feedbackEl.classList.add("hidden"), 2000);
-  }
+  const state = {
+    child: {
+      dressedSchool: false,
+      yoga: false,
+      dufan: false
+    },
+    mother: {
+      yoga: false,
+      dufan: false
+    },
+    father: {
+      dufan: false
+    }
+  };
 
-  function switchRoom(name) {
+  /* =====================
+     UTIL
+  ===================== */
+  function showRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`).classList.add("active");
+    document.querySelector(`.${name}`)?.classList.add("active");
+    currentRoom = name;
   }
 
-  const syabil = { school:false, dufan:false };
-  const papa   = { office:false, dufan:false };
-  const mama   = { yoga:false, market:false, dufan:false };
+  function say(text) {
+    feedback.textContent = text;
+    feedback.classList.remove("hidden");
+    setTimeout(() => feedback.classList.add("hidden"), 2000);
+  }
 
-  wardrobe.addEventListener("click", () => {
-    syabil.dufan = true;
-    papa.dufan = true;
-    mama.dufan = true;
-    showFeedback("Semua siap ke Dufan 🎢");
-  });
+  function getChar(role) {
+    return document.querySelector(`.${currentRoom} .person.${role} img`);
+  }
 
-  food.addEventListener("click", () => {
-    showFeedback("Keluarga sudah makan 🍽️");
-  });
+  /* =====================
+     START GAME
+  ===================== */
+  showRoom("bedroom");
 
-  door.addEventListener("click", () => {
-    showFeedback("Keluarga berkumpul di rumah 🏠");
-  });
-
+  /* =====================
+     NAVIGATION
+  ===================== */
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      const t = btn.dataset.area;
+      const target = btn.dataset.area;
 
-      if (t === "yogaroom") {
-        mama.yoga = true;
-        showFeedback("Mama yoga 🧘");
+      if (target === "market" && !state.mother.yoga) {
+        say("Mama harus yoga dulu 🧘");
+        return;
       }
 
-      if (t === "office") {
-        papa.office = true;
-        showFeedback("Papa kerja 💼");
-      }
-
-      if (t === "market") {
-        if (!mama.yoga) {
-          showFeedback("Mama harus yoga dulu 🧘");
+      if (target === "dufan") {
+        if (!state.child.dufan || !state.mother.dufan || !state.father.dufan) {
+          say("Semua harus siap Dufan 🎒");
           return;
         }
-        mama.market = true;
+        say("Yeay! Ke Dufan 🎢");
       }
 
-      if (t === "dufanroom") {
-        if (!(syabil.dufan && papa.dufan && mama.dufan)) {
-          showFeedback("Semua harus siap dulu 🎒");
-          return;
-        }
-        showFeedback("Yeay! Dufan! 🎉");
-      }
+      showRoom(target);
+    });
+  });
 
-      switchRoom(t);
+  /* =====================
+     WARDROBE (CONTEXT AWARE)
+  ===================== */
+  wardrobe?.addEventListener("click", () => {
+
+    /* SYABIL */
+    const child = getChar("child");
+    if (child && !state.child.dressedSchool) {
+      child.src = "./assets/child-dress.png";
+      state.child.dressedSchool = true;
+      say("Syabil ganti baju sekolah 👕");
+      return;
+    }
+
+    /* MAMA */
+    const mother = getChar("mother");
+    if (mother && !state.mother.yoga) {
+      mother.src = "./assets/mamayoga.png";
+      state.mother.yoga = true;
+      say("Mama siap yoga 🧘");
+      return;
+    }
+
+    /* DUFAN MODE */
+    if (child && !state.child.dufan) {
+      child.src = "./assets/syabildufan.png";
+      state.child.dufan = true;
+      say("Syabil siap ke Dufan 🎒");
+      return;
+    }
+
+    if (mother && !state.mother.dufan) {
+      mother.src = "./assets/mamadufan.png";
+      state.mother.dufan = true;
+      say("Mama siap ke Dufan 🎒");
+      return;
+    }
+
+    const father = getChar("father");
+    if (father && !state.father.dufan) {
+      father.src = "./assets/papadufan.png";
+      state.father.dufan = true;
+      say("Papa siap ke Dufan 🎒");
+      return;
+    }
+
+    say("Semua sudah siap 👍");
+  });
+
+  /* =====================
+     FOOD
+  ===================== */
+  foods.forEach(food => {
+    food.addEventListener("click", () => {
+      say("Keluarga sudah makan 🍽️");
     });
   });
 
