@@ -19,10 +19,6 @@
       <button data-area="kitchen">🍳 Dapur</button>
       <button data-area="school">🏫 Sekolah</button>
       <button data-area="home">🏠 Rumah</button>
-      <button data-area="office">🏢 Kantor</button>
-      <button data-area="market">🛒 Market</button>
-      <button data-area="yogaroom">🧘 Yoga</button>
-      <button data-area="dufanroom">🎢 Dufan</button>
     </div>
   </header>
 
@@ -40,16 +36,11 @@
     </ul>
   </div>
 
-  <!-- 🗺️ MAP (ADA, TAPI TIDAK DIPAKAI DI STEP 1) -->
-  <div class="room map">
-    <div class="map-icon home-icon"></div>
-  </div>
-
-  <!-- 🛏️ BEDROOM (START GAME DI SINI) -->
+  <!-- 🛏️ BEDROOM (START) -->
   <div class="room bedroom active">
     <div class="item wardrobe">👗</div>
     <div class="person child">
-      <img id="child-img" src="./assets/child.png" alt="Syabil">
+      <img id="child-img" src="./assets/child.png">
     </div>
   </div>
 
@@ -59,39 +50,26 @@
       <div class="food">🍎</div>
     </div>
     <div class="person child">
-      <img src="./assets/child.png" alt="Syabil">
+      <img src="./assets/child.png">
     </div>
   </div>
 
   <!-- 🏫 SCHOOL -->
   <div class="room school">
     <div class="person child">
-      <img src="./assets/child.png" alt="Syabil">
+      <img src="./assets/child.png">
     </div>
   </div>
 
   <!-- 🏠 HOME -->
   <div class="room home">
+    <div class="item door">🚪</div>
     <div class="person child">
-      <img src="./assets/child.png" alt="Syabil">
+      <img src="./assets/child.png">
     </div>
   </div>
 
-  <!-- 🧘 YOGA ROOM -->
-  <div class="room yogaroom">
-    <div class="person child">
-      <img src="./assets/child.png" alt="Syabil">
-    </div>
-  </div>
-
-  <!-- 🎢 DUFAN ROOM -->
-  <div class="room dufanroom">
-    <div class="person child">
-      <img src="./assets/child.png" alt="Syabil">
-    </div>
-  </div>
-
-  <!-- FEEDBACK TEXT -->
+  <!-- FEEDBACK -->
   <div id="feedback" class="feedback hidden"></div>
 
 </div>
