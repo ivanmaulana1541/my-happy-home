@@ -66,11 +66,12 @@ body {
   padding: 20px;
   display: none;
 
+  /* default untuk outdoor / map */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  /* ✨ POLISH TRANSITION */
+  /* ✨ TRANSISI HALUS */
   opacity: 0;
   transform: scale(1.03);
   transition:
@@ -87,26 +88,41 @@ body {
 /* =====================
    BACKGROUND PER RUANGAN
 ===================== */
+
+/* 🏠 HOME (INTERIOR – KHUSUS) */
 .home {
   background-image: url("./assets/background/home.png");
+
+  /* ❗ interior jangan cover */
+  background-size: contain;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+
+  /* beri ruang agar tidak terasa zoom */
+  min-height: 420px;
 }
 
+/* 🛏️ BEDROOM */
 .bedroom {
   background-image: url("./assets/background/room.png");
 }
 
+/* 🍳 KITCHEN */
 .kitchen {
   background-image: url("./assets/background/kitchen.png");
 }
 
+/* 🏫 SCHOOL */
 .school {
   background-image: url("./assets/background/school.png");
 }
 
+/* 🏢 OFFICE */
 .office {
   background-image: url("./assets/background/office.png");
 }
 
+/* 🛒 MARKET */
 .market {
   background-image: url("./assets/background/market.png");
 }
@@ -133,7 +149,7 @@ body {
   right: 120px;
 }
 
-/* Ukuran */
+/* Ukuran default */
 .person.child img {
   height: 220px;
 }
@@ -146,9 +162,14 @@ body {
   height: 265px;
 }
 
-/* ✨ Smooth character */
+/* ✨ Karakter lebih halus */
 .person img {
   transition: transform 0.25s ease;
+}
+
+/* ✨ Skala karakter KHUSUS HOME (biar proporsional) */
+.home .person img {
+  transform: scale(0.9);
 }
 
 /* Lompat (anak saja) */
