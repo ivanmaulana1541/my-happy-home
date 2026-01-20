@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".quest-tabs .tab");
   const questList = questPanel.querySelector("ul");
 
+  const homeIcon = document.querySelector(".home-icon");
+
   let stars = 0;
   let dressOn = false;
   let activeTab = "child";
@@ -87,57 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      const target = btn.dataset.area;
-      if (target === "school" && (!quest.child.wakeUp || !quest.child.eat)) return;
-      if (target === "office" && !quest.father.eat) return;
-      if (target === "market" && !quest.mother.eat) return;
-
-      switchRoom(target);
-
-      if (target === "school" && !quest.child.school) {
-        quest.child.school = true;
-        addStar(2);
-      }
-      if (target === "office" && !quest.father.office) {
-        quest.father.office = true;
-        addStar(2);
-      }
-      if (target === "market" && !quest.mother.market) {
-        quest.mother.market = true;
-        addStar(2);
-      }
+      switchRoom(btn.dataset.area);
     });
   });
 
-  bed?.addEventListener("click", () => {
-    switchRoom("bedroom");
-    setTimeout(() => {
-      quest.child.wakeUp = true;
-      addStar(1);
-      jumpChild();
-    }, 100);
-  });
-
-  wardrobe?.addEventListener("click", () => {
-    switchRoom("bedroom");
-    setTimeout(() => {
-      const child = getChild();
-      dressOn = !dressOn;
-      child.src = dressOn ? "./assets/child-dress.png" : "./assets/child.png";
-      addStar(1);
-      jumpChild();
-    }, 100);
-  });
-
-  foods.forEach(food => {
-    food.addEventListener("click", () => {
-      switchRoom("kitchen");
-      setTimeout(() => {
-        if (!quest.child.eat) { quest.child.eat = true; addStar(1); }
-        if (!quest.father.eat) { quest.father.eat = true; addStar(1); }
-        if (!quest.mother.eat) { quest.mother.eat = true; addStar(1); }
-      }, 100);
-    });
+  homeIcon?.addEventListener("click", () => {
+    switchRoom("home");
   });
 
 });
