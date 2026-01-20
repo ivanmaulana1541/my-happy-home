@@ -18,6 +18,8 @@
       <button data-area="bedroom">🛏️ Kamar</button>
       <button data-area="kitchen">🍳 Dapur</button>
       <button data-area="school">🏫 Sekolah</button>
+      <button data-area="office">🏢 Kantor</button>
+      <button data-area="market">🛒 Market</button>
       <button data-area="home">🏠 Rumah</button>
     </div>
   </header>
@@ -27,46 +29,52 @@
 
   <!-- QUEST PANEL -->
   <div id="quest-panel" class="quest-panel hidden">
-    <h3>📋 Misi Syabil</h3>
+    <h3>📋 Misi Keluarga</h3>
     <ul id="quest-list">
-      <li>⬜ Ganti baju sekolah</li>
-      <li>⬜ Makan pagi</li>
-      <li>⬜ Berangkat sekolah</li>
-      <li>⬜ Pulang ke rumah</li>
+      <li>👧 Syabil: Sekolah & pulang</li>
+      <li>👨 Papa: Makan & kerja</li>
+      <li>👩 Mama: Makan & belanja</li>
     </ul>
   </div>
 
-  <!-- 🛏️ BEDROOM (START) -->
+  <!-- BEDROOM -->
   <div class="room bedroom active">
     <div class="item wardrobe">👗</div>
-    <div class="person child">
-      <img id="child-img" src="./assets/child.png">
-    </div>
+    <div class="person child"><img id="child-img" src="./assets/child.png"></div>
+    <div class="person mother"><img src="./assets/mother.png"></div>
   </div>
 
-  <!-- 🍳 KITCHEN -->
+  <!-- KITCHEN -->
   <div class="room kitchen">
     <div class="food-container">
       <div class="food">🍎</div>
     </div>
-    <div class="person child">
-      <img src="./assets/child.png">
-    </div>
+    <div class="person child"><img src="./assets/child.png"></div>
+    <div class="person father"><img src="./assets/father.png"></div>
+    <div class="person mother"><img src="./assets/mother.png"></div>
   </div>
 
-  <!-- 🏫 SCHOOL -->
+  <!-- SCHOOL -->
   <div class="room school">
-    <div class="person child">
-      <img src="./assets/child.png">
-    </div>
+    <div class="person child"><img src="./assets/child.png"></div>
   </div>
 
-  <!-- 🏠 HOME -->
+  <!-- OFFICE -->
+  <div class="room office">
+    <div class="person father"><img src="./assets/father.png"></div>
+  </div>
+
+  <!-- MARKET -->
+  <div class="room market">
+    <div class="person mother"><img src="./assets/mother.png"></div>
+  </div>
+
+  <!-- HOME -->
   <div class="room home">
     <div class="item door">🚪</div>
-    <div class="person child">
-      <img src="./assets/child.png">
-    </div>
+    <div class="person child"><img src="./assets/child.png"></div>
+    <div class="person father"><img src="./assets/father.png"></div>
+    <div class="person mother"><img src="./assets/mother.png"></div>
   </div>
 
   <!-- FEEDBACK -->
