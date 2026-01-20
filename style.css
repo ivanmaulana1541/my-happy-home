@@ -59,15 +59,75 @@ body {
 .market { background-image: url("./assets/background/market.png"); }
 .dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
-/* PERSON */
+/* PERSON BASE */
 .person {
   position: absolute;
   bottom: 10px;
+  animation: idle 3s ease-in-out infinite;
 }
 
 .person.child img { height: 290px; right: 40px; }
 .person.father img { height: 330px; left: 50%; transform: translateX(-50%); }
 .person.mother img { height: 320px; left: 60px; }
+
+/* =====================
+   ANIMATIONS
+===================== */
+
+/* IDLE (ALL ROOMS) */
+@keyframes idle {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* YOGA */
+.yogaroom .person.mother {
+  animation: yoga 2.5s ease-in-out infinite;
+}
+
+@keyframes yoga {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+/* DUFAN – HAPPY */
+.dufanroom .person {
+  animation: happy 1.4s ease-in-out infinite;
+}
+
+@keyframes happy {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(-2deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(-10px) rotate(2deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* ITEMS */
+.item {
+  position: absolute;
+  font-size: 42px;
+  cursor: pointer;
+}
+
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
+
+/* FOOD */
+.food-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+
+.food {
+  font-size: 34px;
+  cursor: pointer;
+}
 
 /* QUEST */
 .quest-btn {
@@ -119,6 +179,7 @@ body {
   color: green;
 }
 
+/* FEEDBACK */
 .feedback {
   position: absolute;
   bottom: 20px;
