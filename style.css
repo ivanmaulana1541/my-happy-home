@@ -50,15 +50,10 @@ body {
   border-radius: 12px;
   cursor: pointer;
   margin-left: 6px;
-  transition: background 0.2s ease;
-}
-
-.nav button:hover {
-  background: #ffe3ec;
 }
 
 /* =====================
-   ROOM (GLOBAL + POLISH)
+   ROOM (GLOBAL)
 ===================== */
 .room {
   position: relative;
@@ -66,63 +61,38 @@ body {
   padding: 20px;
   display: none;
 
-  /* default untuk outdoor / map */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  /* ✨ TRANSISI HALUS */
-  opacity: 0;
-  transform: scale(1.03);
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease;
 }
 
 .room.active {
   display: block;
-  opacity: 1;
-  transform: scale(1);
 }
 
 /* =====================
    BACKGROUND PER RUANGAN
 ===================== */
-
-/* 🏠 HOME (INTERIOR – KHUSUS) */
 .home {
   background-image: url("./assets/background/home.png");
-
-  /* ❗ interior jangan cover */
-  background-size: contain;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-
-  /* beri ruang agar tidak terasa zoom */
-  min-height: 420px;
 }
 
-/* 🛏️ BEDROOM */
 .bedroom {
   background-image: url("./assets/background/room.png");
 }
 
-/* 🍳 KITCHEN */
 .kitchen {
   background-image: url("./assets/background/kitchen.png");
 }
 
-/* 🏫 SCHOOL */
 .school {
   background-image: url("./assets/background/school.png");
 }
 
-/* 🏢 OFFICE */
 .office {
   background-image: url("./assets/background/office.png");
 }
 
-/* 🛒 MARKET */
 .market {
   background-image: url("./assets/background/market.png");
 }
@@ -149,7 +119,7 @@ body {
   right: 120px;
 }
 
-/* Ukuran default */
+/* Ukuran */
 .person.child img {
   height: 220px;
 }
@@ -162,19 +132,10 @@ body {
   height: 265px;
 }
 
-/* ✨ Karakter lebih halus */
-.person img {
-  transition: transform 0.25s ease;
-}
-
-/* ✨ Skala karakter KHUSUS HOME (biar proporsional) */
-.home .person img {
-  transform: scale(0.9);
-}
-
 /* Lompat (anak saja) */
 .person.child img.jump {
   transform: translateY(-40px);
+  transition: transform .25s ease;
 }
 
 /* =====================
@@ -184,11 +145,6 @@ body {
   font-size: 42px;
   cursor: pointer;
   position: absolute;
-  transition: transform 0.2s ease;
-}
-
-.item:hover {
-  transform: scale(1.1);
 }
 
 .bed {
@@ -216,11 +172,6 @@ body {
 .food {
   font-size: 34px;
   cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.food:hover {
-  transform: scale(1.15);
 }
 
 /* =====================
@@ -236,11 +187,6 @@ body {
   border-radius: 12px;
   cursor: pointer;
   z-index: 1000;
-  transition: background 0.2s ease;
-}
-
-.quest-btn:hover {
-  background: #ff9fb3;
 }
 
 /* =====================
@@ -295,7 +241,6 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-size: 12px;
-  transition: background 0.2s ease;
 }
 
 .quest-tabs .tab.active {
