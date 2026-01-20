@@ -56,14 +56,20 @@ body {
 .bedroom { background-image: url("./assets/background/room.png"); }
 .kitchen { background-image: url("./assets/background/kitchen.png"); }
 .school { background-image: url("./assets/background/school.png"); }
+.office { background-image: url("./assets/background/office.png"); }
+.market { background-image: url("./assets/background/market.png"); }
 .home { background-image: url("./assets/background/home.png"); }
 
 /* PERSON */
 .person {
   position: absolute;
   bottom: 20px;
-  right: 40px;
+  pointer-events: none;
 }
+
+.person.child { right: 40px; }
+.person.father { right: 180px; }
+.person.mother { right: 100px; }
 
 .person img {
   height: 220px;
@@ -110,13 +116,8 @@ body {
   background: white;
   border-radius: 14px;
   padding: 14px;
-  width: 220px;
+  width: 240px;
   box-shadow: 0 8px 20px rgba(0,0,0,.15);
-}
-
-.quest-panel ul {
-  list-style: none;
-  font-size: 14px;
 }
 
 /* FEEDBACK */
@@ -129,7 +130,6 @@ body {
   color: #5a4a00;
   padding: 8px 14px;
   border-radius: 14px;
-  font-size: 14px;
 }
 
 .hidden {
