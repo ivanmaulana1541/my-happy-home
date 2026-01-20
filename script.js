@@ -4,76 +4,82 @@ document.addEventListener("DOMContentLoaded", () => {
   const navButtons = document.querySelectorAll(".nav button");
   const wardrobe = document.querySelector(".wardrobe");
   const food = document.querySelector(".food");
+  const door = document.querySelector(".door");
   const feedbackEl = document.getElementById("feedback");
   const questItems = document.querySelectorAll("#quest-list li");
   const childImg = document.getElementById("child-img");
 
-  /* =====================
-     FEEDBACK
-  ===================== */
+  /* FEEDBACK */
   let feedbackTimeout = null;
-
   function showFeedback(text) {
     feedbackEl.textContent = text;
     feedbackEl.classList.remove("hidden");
-
     if (feedbackTimeout) clearTimeout(feedbackTimeout);
     feedbackTimeout = setTimeout(() => {
       feedbackEl.classList.add("hidden");
     }, 2000);
   }
 
-  /* =====================
-     ROOM SWITCH
-  ===================== */
+  /* ROOM SWITCH */
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`)?.classList.add("active");
+    document.querySelector(`.${name}`).classList.add("active");
   }
 
-  /* =====================
-     SYABIL STATE (STEP 1 A)
-  ===================== */
+  /* SYABIL STATE */
   const syabil = {
-    outfit: "home",
-    hasChangedClothes: false,
-    hasEaten: false,
-    hasGoneSchool: false,
-    hasReturnedHome: false
+    clothes: false,
+    eaten: false,
+    school: false,
+    home: false
   };
 
-  /* =====================
-     INTERACTIONS
-  ===================== */
-
-  // GANTI BAJU SEKOLAH
+  /* INTERACTIONS */
   wardrobe.addEventListener("click", () => {
-    const inBedroom = document.querySelector(".room.bedroom.active");
-    if (!inBedroom) {
-      showFeedback("Syabil harus di kamar untuk ganti baju 👕");
-      return;
-    }
-
-    syabil.outfit = "school";
-    syabil.hasChangedClothes = true;
-    childImg.src = "./assets/child-dress.png";
+    syabil.clothes = true;
     questItems[0].textContent = "✅ Ganti baju sekolah";
-    showFeedback("Syabil sudah pakai baju sekolah 🎒");
+    childImg.src = "./assets/child-dress.png";
+    showFeedback("Syabil siap sekolah 🎒");
   });
 
-  // MAKAN
   food.addEventListener("click", () => {
-    syabil.hasEaten = true;
+    syabil.eaten = true;
     questItems[1].textContent = "✅ Makan pagi";
-    showFeedback("Syabil sudah makan 🍽️");
+    showFeedback("Syabil kenyang 🍽️");
   });
 
-  /* =====================
-     NAV (BELUM DIKUNCI)
-  ===================== */
+  door.addEventListener("click", () => {
+    syabil.home = true;
+    questItems[3].textContent = "✅ Pulang ke rumah";
+    showFeedback("Syabil sudah di rumah 🏠");
+  });
+
+  /* NAV LOCKING */
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      switchRoom(btn.dataset.area);
+      const target = btn.dataset.area;
+
+      if (target === "kitchen" && !syabil.clothes) {
+        showFeedback("Ganti baju dulu 👕");
+        return;
+      }
+
+      if (target === "school" && !syabil.eaten) {
+        showFeedback("Makan dulu 🍽️");
+        return;
+      }
+
+      if (target === "home" && !syabil.school) {
+        syabil.school = true;
+        questItems[2].textContent = "✅ Berangkat sekolah";
+      }
+
+      if (target === "bedroom" && !syabil.home) {
+        showFeedback("Masuk rumah dulu 🚪");
+        return;
+      }
+
+      switchRoom(target);
     });
   });
 
