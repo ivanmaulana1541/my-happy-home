@@ -101,12 +101,12 @@ body {
 }
 
 /* =====================
-   MAP ICON
+   MAP ICONS (FIXED)
 ===================== */
 .map-icon {
   position: absolute;
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -114,15 +114,16 @@ body {
   transition: transform 0.2s ease;
 }
 
-.map-icon:hover {
-  transform: scale(1.08);
-}
-
+/* ICON RUMAH */
 .home-icon {
   background-image: url("./assets/icons/house.png");
   left: 55%;
   top: 45%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.home-icon:hover {
+  transform: translate(-50%, -50%) scale(1.08);
 }
 
 /* =====================
@@ -134,21 +135,40 @@ body {
   pointer-events: none;
 }
 
-.person.child { right: 40px; }
-.person.father { right: 200px; }
-.person.mother { right: 120px; }
+/* Posisi */
+.person.child {
+  right: 40px;
+}
 
-.person.child img { height: 220px; }
-.person.father img { height: 275px; }
-.person.mother img { height: 265px; }
+.person.father {
+  right: 200px;
+}
 
+.person.mother {
+  right: 120px;
+}
+
+/* Ukuran */
+.person.child img {
+  height: 220px;
+}
+
+.person.father img {
+  height: 275px;
+}
+
+.person.mother img {
+  height: 265px;
+}
+
+/* Lompat (anak saja) */
 .person.child img.jump {
   transform: translateY(-40px);
   transition: transform .25s ease;
 }
 
 /* =====================
-   ITEMS
+   ITEMS (DEKOR)
 ===================== */
 .item {
   font-size: 42px;
@@ -156,8 +176,15 @@ body {
   position: absolute;
 }
 
-.bed { left: 40px; bottom: 40px; }
-.wardrobe { left: 120px; bottom: 40px; }
+.bed {
+  left: 40px;
+  bottom: 40px;
+}
+
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
 
 /* =====================
    FOOD
