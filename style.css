@@ -21,7 +21,6 @@ body {
   position: relative;
 }
 
-/* TOP BAR */
 .top-bar {
   background: #ff7fa7;
   padding: 12px;
@@ -36,7 +35,6 @@ body {
   cursor: pointer;
 }
 
-/* ROOM */
 .room {
   height: 360px;
   display: none;
@@ -49,7 +47,6 @@ body {
   display: block;
 }
 
-/* BACKGROUND */
 .room { background-image: url("./assets/background/room.png"); }
 .bedroom { background-image: url("./assets/background/bedroom.png"); }
 .kitchen { background-image: url("./assets/background/kitchen.png"); }
@@ -59,7 +56,6 @@ body {
 .yogaroom { background-image: url("./assets/background/yogaroom.png"); }
 .dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
-/* PERSON */
 .person {
   position: absolute;
   bottom: 10px;
@@ -69,7 +65,6 @@ body {
 .person.mother img { height: 310px; left: 60px; }
 .person.father img { height: 330px; left: 50%; transform: translateX(-50%); }
 
-/* ITEMS */
 .item {
   position: absolute;
   bottom: 40px;
@@ -78,7 +73,6 @@ body {
   cursor: pointer;
 }
 
-/* FOOD */
 .food-container {
   position: absolute;
   top: 20px;
@@ -118,53 +112,27 @@ body {
 }
 
 @keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-.quest-tabs {
-  display: flex;
-  margin-bottom: 8px;
-}
-
-.quest-tabs .tab {
-  flex: 1;
-  border: none;
-  background: #eee;
-  padding: 6px;
-  cursor: pointer;
-}
-
-.quest-tabs .tab.active {
-  background: #ff7fa7;
-  color: white;
-}
-
-.quest-panel ul {
-  list-style: none;
-  font-size: 14px;
-}
-
-.quest-panel li.done {
-  text-decoration: line-through;
-  color: green;
-}
-
-/* FEEDBACK */
-.feedback {
+/* DIALOG */
+.dialog {
   position: absolute;
-  bottom: 20px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-  background: #fff6c8;
-  padding: 8px 14px;
-  border-radius: 12px;
+  background: #ffffff;
+  padding: 10px 16px;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.15);
+  font-size: 14px;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  from { transform: translateX(-50%) scale(0.9); opacity: 0; }
+  to { transform: translateX(-50%) scale(1); opacity: 1; }
 }
 
 .hidden {
