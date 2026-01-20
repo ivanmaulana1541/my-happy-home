@@ -1,6 +1,4 @@
-/* =====================
-   RESET
-===================== */
+/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,9 +6,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* =====================
-   BODY
-===================== */
 body {
   background: #fdecef;
   display: flex;
@@ -18,9 +13,6 @@ body {
   padding: 30px;
 }
 
-/* =====================
-   GAME CONTAINER
-===================== */
 .game {
   width: 100%;
   max-width: 900px;
@@ -31,9 +23,7 @@ body {
   position: relative;
 }
 
-/* =====================
-   TOP BAR
-===================== */
+/* TOP BAR */
 .top-bar {
   background: #ff7fa7;
   color: white;
@@ -52,71 +42,32 @@ body {
   margin-left: 6px;
 }
 
-/* =====================
-   ROOM (GLOBAL)
-===================== */
+/* ROOM */
 .room {
   position: relative;
   height: 360px;
   padding: 20px;
   display: none;
-
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
 }
 
 .room.active {
   display: block;
 }
 
-/* =====================
-   BACKGROUND PER ROOM
-===================== */
-.map {
-  background-image: url("./assets/background/map.png");
-}
+/* BACKGROUND */
+.map { background-image: url("./assets/background/map.png"); }
+.home { background-image: url("./assets/background/home.png"); }
+.bedroom { background-image: url("./assets/background/room.png"); }
+.kitchen { background-image: url("./assets/background/kitchen.png"); }
+.school { background-image: url("./assets/background/school.png"); }
+.office { background-image: url("./assets/background/office.png"); }
+.market { background-image: url("./assets/background/market.png"); }
+.yogaroom { background-image: url("./assets/background/yogaroom.png"); }
+.dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
-.home {
-  background-image: url("./assets/background/home.png");
-}
-
-.bedroom {
-  background-image: url("./assets/background/room.png");
-}
-
-.kitchen {
-  background-image: url("./assets/background/kitchen.png");
-}
-
-.school {
-  background-image: url("./assets/background/school.png");
-}
-
-.office {
-  background-image: url("./assets/background/office.png");
-}
-
-.market {
-  background-image: url("./assets/background/market.png");
-}
-
-.yogaroom {
-  background-image: url("./assets/background/yogaroom.png");
-}
-
-/* ⭐ KHUSUS DUFAN: ZOOM OUT */
-.dufanroom {
-  background-image: url("./assets/background/dufanroom.png");
-  background-size: contain;      /* ⬅️ zoom out */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #cfe9d6;     /* aman kalau ada ruang kosong */
-}
-
-/* =====================
-   MAP ICON
-===================== */
+/* MAP ICON */
 .map-icon {
   position: absolute;
   width: 220px;
@@ -132,75 +83,39 @@ body {
   background-image: url("./assets/icons/house.png");
   left: 55%;
   top: 45%;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%);
 }
 
 .home-icon:hover {
   transform: translate(-50%, -50%) scale(1.08);
 }
 
-/* =====================
-   PERSON
-===================== */
+/* PERSON */
 .person {
   position: absolute;
   bottom: 20px;
   pointer-events: none;
 }
 
-.person.child {
-  right: 40px;
-}
+.person.child { right: 40px; }
+.person.father { right: 200px; }
+.person.mother { right: 120px; }
 
-.person.father {
-  right: 200px;
-}
+.person.child img { height: 220px; }
+.person.father img { height: 275px; }
+.person.mother img { height: 265px; }
 
-.person.mother {
-  right: 120px;
-}
-
-/* Ukuran */
-.person.child img {
-  height: 220px;
-}
-
-.person.father img {
-  height: 275px;
-}
-
-.person.mother img {
-  height: 265px;
-}
-
-/* Lompat (anak saja) */
-.person.child img.jump {
-  transform: translateY(-40px);
-  transition: transform .25s ease;
-}
-
-/* =====================
-   ITEMS
-===================== */
+/* ITEMS */
 .item {
   font-size: 42px;
   cursor: pointer;
   position: absolute;
 }
 
-.bed {
-  left: 40px;
-  bottom: 40px;
-}
+.bed { left: 40px; bottom: 40px; }
+.wardrobe { left: 120px; bottom: 40px; }
 
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
-
-/* =====================
-   FOOD
-===================== */
+/* FOOD */
 .food-container {
   position: absolute;
   left: 20px;
@@ -215,9 +130,7 @@ body {
   cursor: pointer;
 }
 
-/* =====================
-   QUEST
-===================== */
+/* QUEST */
 .quest-btn {
   position: absolute;
   top: 70px;
@@ -239,22 +152,8 @@ body {
   padding: 14px;
   width: 220px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  font-size: 14px;
-  z-index: 1001;
 }
 
-.quest-panel ul {
-  list-style: none;
-}
-
-.quest-panel li.done {
-  color: #2e8b57;
-  text-decoration: line-through;
-}
-
-/* =====================
-   UTIL
-===================== */
 .hidden {
   display: none;
 }
