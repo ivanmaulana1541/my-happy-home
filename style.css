@@ -154,6 +154,33 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+/* FEEDBACK TEXT */
+.feedback {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff6c8;
+  color: #5a4a00;
+  padding: 8px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  z-index: 2000;
+  animation: popIn 0.2s ease;
+}
+
+@keyframes popIn {
+  from {
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
 .hidden {
   display: none;
 }
