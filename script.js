@@ -1,41 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const starEl = document.getElementById("star-count");
-  const navButtons = document.querySelectorAll(".nav button");
   const rooms = document.querySelectorAll(".room");
-
-  const bed = document.querySelector(".bed");
+  const navButtons = document.querySelectorAll(".nav button");
   const wardrobe = document.querySelector(".wardrobe");
-  const foods = document.querySelectorAll(".food");
-
-  const btnQuest = document.getElementById("btn-quest");
-  const questPanel = document.getElementById("quest-panel");
-  const tabs = document.querySelectorAll(".quest-tabs .tab");
-  const questList = questPanel.querySelector("ul");
-
-  const homeIcon = document.querySelector(".home-icon");
+  const food = document.querySelector(".food");
+  const feedbackEl = document.getElementById("feedback");
+  const questItems = document.querySelectorAll("#quest-list li");
+  const childImg = document.getElementById("child-img");
 
   /* =====================
-     FEEDBACK SYSTEM
+     FEEDBACK
   ===================== */
-  const feedbackEl = document.getElementById("feedback");
   let feedbackTimeout = null;
 
   function showFeedback(text) {
-    if (!feedbackEl) return;
-
     feedbackEl.textContent = text;
     feedbackEl.classList.remove("hidden");
 
     if (feedbackTimeout) clearTimeout(feedbackTimeout);
-
     feedbackTimeout = setTimeout(() => {
       feedbackEl.classList.add("hidden");
     }, 2000);
   }
 
   /* =====================
-     BASIC ROOM SWITCH
+     ROOM SWITCH
   ===================== */
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
@@ -43,21 +32,49 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     TEMP NAV (BELUM DIKUNCI)
+     SYABIL STATE (STEP 1 A)
+  ===================== */
+  const syabil = {
+    outfit: "home",
+    hasChangedClothes: false,
+    hasEaten: false,
+    hasGoneSchool: false,
+    hasReturnedHome: false
+  };
+
+  /* =====================
+     INTERACTIONS
+  ===================== */
+
+  // GANTI BAJU SEKOLAH
+  wardrobe.addEventListener("click", () => {
+    const inBedroom = document.querySelector(".room.bedroom.active");
+    if (!inBedroom) {
+      showFeedback("Syabil harus di kamar untuk ganti baju 👕");
+      return;
+    }
+
+    syabil.outfit = "school";
+    syabil.hasChangedClothes = true;
+    childImg.src = "./assets/child-dress.png";
+    questItems[0].textContent = "✅ Ganti baju sekolah";
+    showFeedback("Syabil sudah pakai baju sekolah 🎒");
+  });
+
+  // MAKAN
+  food.addEventListener("click", () => {
+    syabil.hasEaten = true;
+    questItems[1].textContent = "✅ Makan pagi";
+    showFeedback("Syabil sudah makan 🍽️");
+  });
+
+  /* =====================
+     NAV (BELUM DIKUNCI)
   ===================== */
   navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       switchRoom(btn.dataset.area);
     });
   });
-
-  homeIcon?.addEventListener("click", () => {
-    switchRoom("home");
-  });
-
-  /* =====================
-     QUEST & INTERACTION
-     (BELUM DIUBAH)
-  ===================== */
 
 });
