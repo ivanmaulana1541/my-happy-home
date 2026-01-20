@@ -1,37 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =====================
-     ELEMENT
-  ===================== */
   const rooms = document.querySelectorAll(".room");
   const navButtons = document.querySelectorAll(".nav button");
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
   const feedback = document.getElementById("feedback");
 
-  /* =====================
-     GAME STATE
-  ===================== */
+  const btnQuest = document.getElementById("btn-quest");
+  const questPanel = document.getElementById("quest-panel");
+  const questList = document.getElementById("quest-list");
+  const tabs = document.querySelectorAll(".quest-tabs .tab");
+
+  let activeTab = "child";
   let currentRoom = "bedroom";
 
   const state = {
-    child: {
-      dressedSchool: false,
-      yoga: false,
-      dufan: false
-    },
-    mother: {
-      yoga: false,
-      dufan: false
-    },
-    father: {
-      dufan: false
-    }
+    child: { school: false, eat: false, schoolGo: false, dufan: false },
+    father: { eat: false, office: false, dufan: false },
+    mother: { eat: false, yoga: false, market: false, dufan: false }
   };
 
-  /* =====================
-     UTIL
-  ===================== */
   function showRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
     document.querySelector(`.${name}`)?.classList.add("active");
@@ -44,20 +32,74 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => feedback.classList.add("hidden"), 2000);
   }
 
-  function getChar(role) {
-    return document.querySelector(`.${currentRoom} .person.${role} img`);
+  function renderQuest() {
+    questList.innerHTML = "";
+
+    const quests = {
+      child: [
+        ["Ganti baju sekolah", state.child.school],
+        ["Makan", state.child.eat],
+        ["Ke sekolah", state.child.schoolGo],
+        ["Ganti baju Dufan", state.child.dufan],
+        ["Ke Dufan", state.child.dufan]
+      ],
+      father: [
+        ["Makan", state.father.eat],
+        ["Ke kantor", state.father.office],
+        ["Ganti baju Dufan", state.father.dufan],
+        ["Ke Dufan", state.father.dufan]
+      ],
+      mother: [
+        ["Makan", state.mother.eat],
+        ["Yoga", state.mother.yoga],
+        ["Ke market", state.mother.market],
+        ["Ganti baju Dufan", state.mother.dufan],
+        ["Ke Dufan", state.mother.dufan]
+      ]
+    };
+
+    quests[activeTab].forEach(([text, done]) => {
+      const li = document.createElement("li");
+      li.textContent = (done ? "✅ " : "⬜ ") + text;
+      if (done) li.classList.add("done");
+      questList.appendChild(li);
+    });
   }
 
-  /* =====================
-     START GAME
-  ===================== */
-  showRoom("bedroom");
+  btnQuest.onclick = () => {
+    questPanel.classList.toggle("hidden");
+    renderQuest();
+  };
 
-  /* =====================
-     NAVIGATION
-  ===================== */
+  tabs.forEach(tab => {
+    tab.onclick = () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      activeTab = tab.dataset.tab;
+      renderQuest();
+    };
+  });
+
+  foods.forEach(food => {
+    food.onclick = () => {
+      state.child.eat = true;
+      state.father.eat = true;
+      state.mother.eat = true;
+      say("Semua sudah makan 🍽️");
+    };
+  });
+
+  wardrobe.onclick = () => {
+    state.child.school = true;
+    state.mother.yoga = true;
+    state.father.dufan = true;
+    state.mother.dufan = true;
+    state.child.dufan = true;
+    say("Semua siap ✨");
+  };
+
   navButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.onclick = () => {
       const target = btn.dataset.area;
 
       if (target === "market" && !state.mother.yoga) {
@@ -65,74 +107,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (target === "dufan") {
-        if (!state.child.dufan || !state.mother.dufan || !state.father.dufan) {
-          say("Semua harus siap Dufan 🎒");
-          return;
-        }
-        say("Yeay! Ke Dufan 🎢");
-      }
+      if (target === "school") state.child.schoolGo = true;
+      if (target === "office") state.father.office = true;
+      if (target === "market") state.mother.market = true;
 
       showRoom(target);
-    });
+    };
   });
 
-  /* =====================
-     WARDROBE (CONTEXT AWARE)
-  ===================== */
-  wardrobe?.addEventListener("click", () => {
-
-    /* SYABIL */
-    const child = getChar("child");
-    if (child && !state.child.dressedSchool) {
-      child.src = "./assets/child-dress.png";
-      state.child.dressedSchool = true;
-      say("Syabil ganti baju sekolah 👕");
-      return;
-    }
-
-    /* MAMA */
-    const mother = getChar("mother");
-    if (mother && !state.mother.yoga) {
-      mother.src = "./assets/mamayoga.png";
-      state.mother.yoga = true;
-      say("Mama siap yoga 🧘");
-      return;
-    }
-
-    /* DUFAN MODE */
-    if (child && !state.child.dufan) {
-      child.src = "./assets/syabildufan.png";
-      state.child.dufan = true;
-      say("Syabil siap ke Dufan 🎒");
-      return;
-    }
-
-    if (mother && !state.mother.dufan) {
-      mother.src = "./assets/mamadufan.png";
-      state.mother.dufan = true;
-      say("Mama siap ke Dufan 🎒");
-      return;
-    }
-
-    const father = getChar("father");
-    if (father && !state.father.dufan) {
-      father.src = "./assets/papadufan.png";
-      state.father.dufan = true;
-      say("Papa siap ke Dufan 🎒");
-      return;
-    }
-
-    say("Semua sudah siap 👍");
-  });
-
-  /* =====================
-     FOOD
-  ===================== */
-  foods.forEach(food => {
-    food.addEventListener("click", () => {
-      say("Keluarga sudah makan 🍽️");
-    });
-  });
+  showRoom("bedroom");
 
 });
