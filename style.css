@@ -22,6 +22,7 @@ body {
   position: relative;
 }
 
+/* TOP BAR */
 .top-bar {
   background: #ff7fa7;
   color: white;
@@ -38,6 +39,7 @@ body {
   cursor: pointer;
 }
 
+/* ROOM */
 .room {
   position: relative;
   height: 360px;
@@ -47,8 +49,11 @@ body {
   background-position: center;
 }
 
-.room.active { display: block; }
+.room.active {
+  display: block;
+}
 
+/* BACKGROUND */
 .bedroom { background-image: url("./assets/background/room.png"); }
 .kitchen { background-image: url("./assets/background/kitchen.png"); }
 .school { background-image: url("./assets/background/school.png"); }
@@ -58,34 +63,60 @@ body {
 .home { background-image: url("./assets/background/home.png"); }
 .dufanroom { background-image: url("./assets/background/dufanroom.png"); }
 
+/* PERSON (DIPERBESAR) */
 .person {
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;            /* sedikit turun supaya kaki nempel lantai */
+  pointer-events: none;
 }
 
 .person.child { right: 40px; }
-.person.father { right: 180px; }
-.person.mother { right: 100px; }
+.person.father { right: 200px; }
+.person.mother { right: 120px; }
 
-.person img { height: 220px; }
+/* UKURAN BARU */
+.person.child img {
+  height: 290px;
+}
 
+.person.father img {
+  height: 330px;
+}
+
+.person.mother img {
+  height: 320px;
+}
+
+/* ITEMS */
 .item {
   position: absolute;
   font-size: 42px;
   cursor: pointer;
 }
 
-.wardrobe { left: 120px; bottom: 40px; }
-.door { left: 60px; bottom: 40px; }
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
 
+.door {
+  left: 60px;
+  bottom: 40px;
+}
+
+/* FOOD */
 .food-container {
   position: absolute;
   left: 20px;
   top: 20px;
 }
 
-.food { font-size: 34px; cursor: pointer; }
+.food {
+  font-size: 34px;
+  cursor: pointer;
+}
 
+/* FEEDBACK */
 .feedback {
   position: absolute;
   bottom: 20px;
@@ -95,6 +126,9 @@ body {
   color: #5a4a00;
   padding: 8px 14px;
   border-radius: 14px;
+  font-size: 14px;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
