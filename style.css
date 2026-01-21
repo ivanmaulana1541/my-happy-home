@@ -1,113 +1,60 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-
 body {
-  background: #fdecef;
-  display: flex;
-  justify-content: center;
+  margin: 0;
+  background: #ffeef2;
 }
 
-.game {
-  width: 100%;
-  max-width: 1000px;
-  height: 100vh;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+#game {
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* TOP BAR */
-.top-bar {
-  height: 50px;
-  background: #ff7fa7;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
-}
-
-/* SCENE */
 .scene {
-  flex: 1;
   position: relative;
-  display: none;
-  background-size: cover;
-  background-position: center;
-}
-
-.scene.active {
-  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
 }
 
 /* BACKGROUND */
-.scene.room {
-  background-image: url("assets/background/room.png");
+.background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none; /* 🔥 penting */
 }
 
-.scene.kitchen {
-  background-image: url("assets/background/kitchen.png");
-}
-
-/* CHARACTER */
+/* KARAKTER */
 .character {
   position: absolute;
-  bottom: 20px;
+  bottom: 5%;
+  right: 15%;
+  height: 55%;
+  z-index: 3;
+  transition: transform 0.2s;
 }
 
-.character.syabil {
-  right: 60px;
-}
-
-.character.mama {
-  left: 80px;
-}
-
-.character.papa {
-  left: 220px;
-}
-
-.character img {
-  height: 230px;
-}
-
-/* EFEK LONCAT */
-.character img.jump {
-  transform: translateY(-40px);
-  opacity: 0.7;
-  transition: 0.25s;
-}
-
-/* PINTU */
+/* ICON PINTU */
 .door {
   position: absolute;
-  right: 20px;
-  bottom: 40px;
-  font-size: 40px;
+  right: 3%;
+  bottom: 10%;
+  height: 35%;
+  z-index: 4;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
-.hidden {
-  display: none;
+.door:hover {
+  transform: scale(1.05);
 }
 
 /* DIALOG */
 .dialog {
-  background: white;
-  padding: 16px;
-  border-top: 1px solid #ddd;
-}
-
-.dialog button {
-  margin-top: 8px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  background: #ffb6c1;
-  cursor: pointer;
+  background: #fff;
+  padding: 12px 16px;
+  font-size: 16px;
 }
