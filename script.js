@@ -58,10 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function switchRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`).classList.add("active");
-    updateSyabilOutfit();
-  }
+  rooms.forEach(r => r.classList.remove("active"));
+
+  const room = document.querySelector(`.${name}`);
+  room.classList.add("active");
+
+  loadRoomBackground(name); // ⬅️ INI YANG HILANG
+  updateSyabilOutfit();
+}
+
 
   function showDialog() {
     const chapter = story[gameState.chapter];
