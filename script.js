@@ -53,14 +53,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadRoomBackground(name) {
-    const room = document.querySelector(`.${name}`);
-    if (!room || room.dataset.bgLoaded) return;
+  const room = document.querySelector(`.${name}`);
+  if (!room || room.dataset.bgLoaded) return;
 
-    room.style.backgroundImage =
-      `url("./assets/background/${name}.png")`;
+  const webp = `./assets/background/${name}.webp`;
+  const png = `./assets/background/${name}.png`;
 
+  const img = new Image();
+  img.src = webp;
+
+  img.onload = () => {
+    room.style.backgroundImage = `url("${webp}")`;
     room.dataset.bgLoaded = "true";
-  }
+  };
+
+  img.onerror = () => {
+    room.style.backgroundImage = `url("${png}")`;
+    room.dataset.bgLoaded = "true";
+  };
+}
+
 
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
