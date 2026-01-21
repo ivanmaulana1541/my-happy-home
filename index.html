@@ -19,17 +19,24 @@
     </div>
   </header>
 
-  <!-- SCENES -->
+  <!-- SCENE CONTAINER -->
   <div id="scene-container">
 
-    <!-- ROOM / BEDROOM -->
-    <div class="scene active" data-scene="room" style="background-image:url('./assets/background/room.png')">
+    <!-- BEDROOM -->
+    <div class="scene active" data-scene="room"
+      style="background-image:url('./assets/background/room.png')">
       <div class="character" id="char-syabil"></div>
       <div class="door" data-action="toKitchen">🚪</div>
     </div>
 
+    <!-- HOME (RUANG KELUARGA) -->
+    <div class="scene" data-scene="home"
+      style="background-image:url('./assets/background/home.png')">
+    </div>
+
     <!-- KITCHEN -->
-    <div class="scene" data-scene="kitchen" style="background-image:url('./assets/background/kitchen.png')">
+    <div class="scene" data-scene="kitchen"
+      style="background-image:url('./assets/background/kitchen.png')">
       <div class="character papa"></div>
       <div class="character mama"></div>
       <div class="character" id="char-syabil-kitchen"></div>
@@ -38,7 +45,8 @@
     </div>
 
     <!-- MAP -->
-    <div class="scene" data-scene="map" style="background-image:url('./assets/background/map.png')">
+    <div class="scene" data-scene="map"
+      style="background-image:url('./assets/background/map.png')">
       <img class="map-icon" src="./assets/icons/citraberkat.png" data-action="toSchool" />
       <img class="map-icon" src="./assets/icons/office.png" data-action="toOffice" />
       <img class="map-icon" src="./assets/icons/freshmarket.png" data-action="toMarket" />
@@ -47,32 +55,33 @@
     </div>
 
     <!-- SCHOOL -->
-    <div class="scene" data-scene="school" style="background-image:url('./assets/background/school.png')">
+    <div class="scene" data-scene="school"
+      style="background-image:url('./assets/background/school.png')">
       <div class="character teacher"></div>
-      <div class="door" data-action="backToMap">🚪</div>
     </div>
 
     <!-- OFFICE -->
-    <div class="scene" data-scene="office" style="background-image:url('./assets/background/office.png')">
+    <div class="scene" data-scene="office"
+      style="background-image:url('./assets/background/office.png')">
       <div class="character papa"></div>
-      <div class="door" data-action="backToMap">🚪</div>
     </div>
 
     <!-- MARKET -->
-    <div class="scene" data-scene="market" style="background-image:url('./assets/background/market.png')">
+    <div class="scene" data-scene="market"
+      style="background-image:url('./assets/background/market.png')">
       <div class="character mama"></div>
       <div class="food" data-action="shop">🛒</div>
-      <div class="door" data-action="backToMap">🚪</div>
     </div>
 
     <!-- DUFAN -->
-    <div class="scene" data-scene="dufan" style="background-image:url('./assets/background/dufanroom.png')">
+    <div class="scene" data-scene="dufan"
+      style="background-image:url('./assets/background/dufanroom.png')">
       <div class="character family-dufan"></div>
     </div>
 
   </div>
 
-  <!-- DIALOG PANEL -->
+  <!-- DIALOG -->
   <div class="dialog">
     <p id="dialog-text"></p>
     <div id="dialog-actions"></div>
