@@ -165,6 +165,14 @@ const answers = document.querySelectorAll(".answer");
   }
 });
 
+else if (gameState.afterAction && gameState.chapter === 4) {
+  gameState.afterAction = false;
+  gameState.chapter = 3; // balik ke map
+  gameState.dialogIndex = 0;
+  switchRoom("map");
+}
+
+
 
   // START GAME
   switchRoom("room");
