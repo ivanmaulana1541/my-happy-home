@@ -1,60 +1,85 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  background: #ffeef2;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
+body {
+  background: #ffeef3;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* TOP BAR */
+.top-bar {
+  height: 50px;
+  background: #ff8fb1;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 18px;
+}
+
+/* GAME AREA */
 #game {
-  max-width: 1200px;
-  margin: auto;
-}
-
-.scene {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: calc(100vh - 140px);
   overflow: hidden;
-  background: #000;
 }
 
 /* BACKGROUND */
-.background {
-  position: absolute;
-  inset: 0;
+#background {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
-  pointer-events: none; /* 🔥 penting */
 }
 
-/* KARAKTER */
+/* CHARACTER */
 .character {
   position: absolute;
-  bottom: 5%;
-  right: 15%;
-  height: 55%;
-  z-index: 3;
-  transition: transform 0.2s;
+  bottom: 40px;
+  right: 120px;
+  height: 220px;
+  transition: transform 0.3s;
 }
 
-/* ICON PINTU */
+/* JUMP EFFECT */
+.jump {
+  animation: jump 0.4s ease;
+}
+
+@keyframes jump {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0); }
+}
+
+/* DOOR */
 .door {
   position: absolute;
-  right: 3%;
-  bottom: 10%;
-  height: 35%;
-  z-index: 4;
+  right: 30px;
+  bottom: 60px;
+  font-size: 40px;
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
-.door:hover {
-  transform: scale(1.05);
+.hidden {
+  display: none;
 }
 
 /* DIALOG */
 .dialog {
-  background: #fff;
+  height: 90px;
+  background: white;
   padding: 12px 16px;
-  font-size: 16px;
+  border-top: 1px solid #ddd;
+}
+
+.dialog button {
+  margin-top: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
 }
