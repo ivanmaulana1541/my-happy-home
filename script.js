@@ -134,7 +134,11 @@ const answers = document.querySelectorAll(".answer");
 
   gameState.dialogIndex++;
 
-  if (gameState.dialogIndex >= dialogs.length) {
+  if (!gameState.afterAction && gameState.chapter === 4) {
+  quiz.classList.remove("hidden");
+  return;
+}
+
     dialogBox.classList.add("hidden");
     gameState.dialogIndex = 0;
 
