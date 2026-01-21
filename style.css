@@ -168,3 +168,7 @@ body {
   cursor: pointer;
   width: fit-content;
 }
+
+.person.active img {
+  filter: drop-shadow(0 0 10px rgba(255,127,167,0.8));
+}
