@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  const DEV_MODE = true; // ganti false kalau sudah rilis
   const rooms = document.querySelectorAll(".room");
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
