@@ -90,12 +90,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showDialog() {
-    const chapter = story[gameState.chapter];
-    const dialog = chapter.dialogs[gameState.dialogIndex];
-    dialogSpeaker.textContent = dialog.speaker;
-    dialogText.textContent = dialog.text;
-    dialogBox.classList.remove("hidden");
-  }
+  const chapter = story[gameState.chapter];
+
+  const dialogs = gameState.afterAction && chapter.afterActionDialogs
+    ? chapter.afterActionDialogs
+    : chapter.dialogs;
+
+  const dialog = dialogs[gameState.dialogIndex];
+  if (!dialog) return;
+
+  dialogSpeaker.textContent = dialog.speaker;
+  dialogText.textContent = dialog.text;
+  dialogBox.classList.remove("hidden");
+}
+
 
   dialogNext.addEventListener("click", () => {
     gameState.dialogIndex++;
