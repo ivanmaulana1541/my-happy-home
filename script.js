@@ -89,11 +89,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   foods.forEach(food => {
-    food.addEventListener("click", () => {
-      if (story[gameState.chapter].action !== "eat") return;
+  food.addEventListener("click", () => {
+    if (story[gameState.chapter].action !== "eat") return;
 
-      alert("Sarapan selesai! Syabil siap berangkat sekolah 🎒");
-    });
+    gameState.chapter = 3;
+    switchRoom("map");
+    showDialog();
   });
+});
+
 
 });
