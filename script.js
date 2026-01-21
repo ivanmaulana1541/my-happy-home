@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!room || room.dataset.bgLoaded) return;
 
     room.style.backgroundImage =
-      `url("./assets/background/${name}.webp")`;
+      `url("./assets/background/${name}.png")`;
 
     room.dataset.bgLoaded = "true";
   }
