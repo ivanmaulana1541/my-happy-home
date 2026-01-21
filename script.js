@@ -120,11 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // selesai dialog setelah ganti baju
     if (gameState.afterAction && gameState.chapter === 1) {
-      gameState.afterAction = false;
-      gameState.chapter = 2;
-      switchRoom("kitchen");
-      showDialog();
-    }
+  gameState.afterAction = false;
+  gameState.chapter = 2;
+  gameState.dialogIndex = 0;
+  switchRoom("kitchen");
+  showDialog();
+}
+
   } else {
     showDialog();
   }
