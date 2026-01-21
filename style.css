@@ -1,101 +1,257 @@
-/* ===== RESET ===== */
+/* =====================
+   RESET
+===================== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Arial", sans-serif;
+  font-family: Arial, sans-serif;
 }
 
+/* =====================
+   BODY
+===================== */
 body {
   background: #fdecef;
-}
-
-/* ===== HEADER ===== */
-header {
-  background: #ff8fb1;
-  height: 60px;
   display: flex;
-  align-items: center;
-  padding: 0 16px;
+  justify-content: center;
+  padding: 30px;
+}
+
+/* =====================
+   GAME CONTAINER
+===================== */
+.game {
+  width: 100%;
+  max-width: 900px;
+  background: #fff0f5;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  overflow: hidden;
+  position: relative;
+}
+
+/* =====================
+   TOP BAR
+===================== */
+.top-bar {
+  background: #ff7fa7;
   color: white;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-header .left {
-  flex: 1;
-}
-
-header .center {
-  flex: 1;
-  text-align: center;
-  font-weight: bold;
-}
-
-header .right button {
-  margin-left: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
+.nav button {
   border: none;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+/* =====================
+   ROOM (GLOBAL)
+===================== */
+.room {
+  position: relative;
+  height: 360px;
+  padding: 20px;
+  display: none;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.room.active {
+  display: block;
+}
+
+/* =====================
+   BACKGROUND PER RUANGAN
+===================== */
+.home {
+  background-image: url("./assets/background/home.png");
+}
+
+.bedroom {
+  background-image: url("./assets/background/room.png");
+}
+
+.kitchen {
+  background-image: url("./assets/background/kitchen.png");
+}
+
+.school {
+  background-image: url("./assets/background/school.png");
+}
+
+.office {
+  background-image: url("./assets/background/office.png");
+}
+
+.market {
+  background-image: url("./assets/background/market.png");
+}
+
+/* =====================
+   PERSON
+===================== */
+.person {
+  position: absolute;
+  bottom: 20px;
+  pointer-events: none;
+}
+
+/* Posisi */
+.person.child {
+  right: 40px;
+}
+
+.person.father {
+  right: 200px;
+}
+
+.person.mother {
+  right: 120px;
+}
+
+/* Ukuran */
+.person.child img {
+  height: 220px;
+}
+
+.person.father img {
+  height: 275px;
+}
+
+.person.mother img {
+  height: 265px;
+}
+
+/* Lompat (anak saja) */
+.person.child img.jump {
+  transform: translateY(-40px);
+  transition: transform .25s ease;
+}
+
+/* =====================
+   ITEMS (DEKOR)
+===================== */
+.item {
+  font-size: 42px;
+  cursor: pointer;
+  position: absolute;
+}
+
+.bed {
+  left: 40px;
+  bottom: 40px;
+}
+
+.wardrobe {
+  left: 120px;
+  bottom: 40px;
+}
+
+/* =====================
+   FOOD
+===================== */
+.food-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.food {
+  font-size: 34px;
   cursor: pointer;
 }
 
-/* ===== MAIN CONTAINER ===== */
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: #fff;
-}
-
-/* ===== SCENE ===== */
-.scene {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
-
-/* ===== BACKGROUND ===== */
-.scene img.background {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ===== CHARACTER ===== */
-.character {
+/* =====================
+   QUEST BUTTON
+===================== */
+.quest-btn {
   position: absolute;
-  bottom: 8px;        /* NGINJEK LANTAI */
-  right: 180px;       /* GESER KE KIRI */
-  height: 320px;      /* PROPORSIONAL */
-  pointer-events: none;
-  transition: transform 0.3s;
+  top: 70px;
+  right: 20px;
+  border: none;
+  background: #ffb6c1;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  z-index: 1000;
 }
 
-/* ===== ANIMATION ===== */
-.jump {
-  animation: jump 0.35s ease;
+/* =====================
+   QUEST PANEL
+===================== */
+.quest-panel {
+  position: absolute;
+  top: 110px;
+  right: 20px;
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  width: 220px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  font-size: 14px;
+  z-index: 1001;
 }
 
-@keyframes jump {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-35px); }
-  100% { transform: translateY(0); }
+.quest-panel h3 {
+  margin-bottom: 8px;
 }
 
-/* ===== DIALOG ===== */
-.dialog {
-  padding: 16px;
-  background: #fff;
-  border-top: 1px solid #ddd;
+.quest-panel ul {
+  list-style: none;
 }
 
-.dialog p {
+.quest-panel li {
+  margin-bottom: 6px;
+  transition: all 0.3s ease;
+}
+
+/* QUEST DONE */
+.quest-panel li.done {
+  color: #2e8b57;
+  text-decoration: line-through;
+}
+
+/* =====================
+   QUEST TABS
+===================== */
+.quest-tabs {
+  display: flex;
+  gap: 6px;
   margin-bottom: 10px;
 }
 
-.dialog button {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.quest-tabs .tab {
+  flex: 1;
+  border: none;
+  background: #f0f0f0;
+  padding: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  background: #f2f2f2;
+  font-size: 12px;
+}
+
+.quest-tabs .tab.active {
+  background: #ff7fa7;
+  color: white;
+  font-weight: bold;
+}
+
+/* =====================
+   UTIL
+===================== */
+.hidden {
+  display: none;
 }
