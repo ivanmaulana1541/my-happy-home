@@ -24,35 +24,20 @@
     </div>
   </header>
 
-  <!-- QUEST BUTTON -->
+  <!-- QUEST BUTTON (nanti dipakai lagi) -->
   <button id="btn-quest" class="quest-btn">📋 Quest</button>
 
-  <!-- QUEST PANEL -->
-  <div id="quest-panel" class="quest-panel hidden">
-    <h3>📋 Misi Hari Ini</h3>
-
-    <!-- TAB QUEST -->
-    <div class="quest-tabs">
-      <button class="tab active">👧 Syabil</button>
-      <button class="tab">👨 Papa</button>
-      <button class="tab">👩 Mama</button>
-    </div>
-
-    <ul></ul>
-  </div>
-
   <!-- 🏠 HOME -->
-  <div class="room home active">
-    <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
-    <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
+  <div class="room home">
+    <div class="person father"><img src="./assets/father.png"></div>
+    <div class="person mother"><img src="./assets/mother.png"></div>
+    <div class="person child"><img src="./assets/child.png"></div>
   </div>
 
   <!-- 🛏️ BEDROOM -->
-  <div class="room bedroom">
-    <div class="item bed">🛏️</div>
+  <div class="room bedroom active">
     <div class="item wardrobe">👗</div>
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
+    <div class="person child"><img src="./assets/child.png"></div>
   </div>
 
   <!-- 🍳 KITCHEN -->
@@ -62,22 +47,16 @@
       <div class="food">🍞</div>
       <div class="food">🍰</div>
     </div>
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
+    <div class="person child"><img src="./assets/child.png"></div>
+    <div class="person father"><img src="./assets/father.png"></div>
+    <div class="person mother"><img src="./assets/mother.png"></div>
   </div>
 
-  <!-- 🏫 SCHOOL -->
-  <div class="room school">
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
-  </div>
-
-  <!-- 🏢 OFFICE -->
-  <div class="room office">
-    <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
-  </div>
-
-  <!-- 🛒 MARKET -->
-  <div class="room market">
-    <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
+  <!-- DIALOG BOX -->
+  <div id="dialog-box" class="dialog hidden">
+    <div class="dialog-speaker"></div>
+    <div class="dialog-text"></div>
+    <button id="dialog-next">Next</button>
   </div>
 
 </div>
