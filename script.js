@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   chapter: 1,
   dialogIndex: 0,
   syabilOutfit: "piyama",
-+ afterAction: false
+  afterAction: false
 };
 
   const story = {
