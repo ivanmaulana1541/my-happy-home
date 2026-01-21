@@ -146,3 +146,19 @@ body {
 .person.child.jump {
   animation: jump 0.4s ease;
 }
+
+.map {
+  background-color: #e8f7ff;
+}
+
+.map-icon {
+  font-size: 48px;
+  cursor: pointer;
+  position: absolute;
+}
+
+.school-icon {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
