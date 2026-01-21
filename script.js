@@ -138,13 +138,24 @@ document.addEventListener("DOMContentLoaded", () => {
   showDialog();
 
   wardrobe.addEventListener("click", () => {
-    if (story[gameState.chapter].action !== "changeDress") return;
+  const chapter = story[gameState.chapter];
+  if (chapter.action !== "changeDress") return;
 
-    gameState.syabilOutfit = "seragam";
-    gameState.chapter = 2;
-    switchRoom("kitchen");
-    showDialog();
-  });
+  // ganti baju
+  gameState.syabilOutfit = "seragam";
+  updateSyabilOutfit();
+
+  // efek loncat kecil
+  const child = document.querySelector(".person.child");
+  child.classList.add("jump");
+  setTimeout(() => child.classList.remove("jump"), 400);
+
+  // siapkan dialog setelah aksi
+  gameState.afterAction = true;
+  gameState.dialogIndex = 0;
+  showDialog();
+});
+
 
   foods.forEach(food => {
     food.addEventListener("click", () => {
