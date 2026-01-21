@@ -136,3 +136,32 @@ body {
 .hidden {
   display: none;
 }
+
+/* MAP */
+.map-icons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 100px;
+}
+
+.map-icon {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 32px;
+  text-align: center;
+  cursor: pointer;
+  width: 90px;
+}
+
+.map-label {
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Ikon belum aktif */
+.map-icon.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
