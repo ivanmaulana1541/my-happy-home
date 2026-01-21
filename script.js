@@ -118,13 +118,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   foods.forEach(food => {
-    food.addEventListener("click", () => {
-      if (story[gameState.chapter].action !== "eat") return;
+  food.addEventListener("click", () => {
+    if (story[gameState.chapter].action !== "eat") return;
 
-      gameState.chapter = 3;
-      switchRoom("school");
-      showDialog();
-    });
+    // setelah sarapan selesai
+    gameState.chapter = 3;          // BAB 3 = MAP
+    switchRoom("map");              // pindah ke MAP
+    showDialog();                   // dialog transisi (kalau ada)
   });
+});
+
 
 });
