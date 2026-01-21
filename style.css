@@ -37,13 +37,16 @@ body {
   object-fit: cover;
 }
 
-/* CHARACTER */
+/* =========================
+   KARAKTER SYABIL
+========================= */
 .character {
   position: absolute;
-  bottom: 40px;
-  right: 120px;
-  height: 220px;
+  bottom: 28px;        /* lebih nempel lantai */
+  right: 110px;
+  height: 300px;       /* ⬅️ DIBESARKAN (sebelumnya 220px) */
   transition: transform 0.3s;
+  pointer-events: none;
 }
 
 /* JUMP EFFECT */
@@ -52,25 +55,30 @@ body {
 }
 
 @keyframes jump {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-30px); }
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-40px); } /* loncat lebih terasa */
   100% { transform: translateY(0); }
 }
 
-/* DOOR */
+/* =========================
+   PINTU
+========================= */
 .door {
   position: absolute;
-  right: 30px;
+  right: 40px;
   bottom: 60px;
-  font-size: 40px;
+  font-size: 44px;
   cursor: pointer;
+  z-index: 5;
 }
 
 .hidden {
   display: none;
 }
 
-/* DIALOG */
+/* =========================
+   DIALOG
+========================= */
 .dialog {
   height: 90px;
   background: white;
