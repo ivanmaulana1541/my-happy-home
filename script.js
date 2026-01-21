@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const story = {
     1: {
-      scene: "room",
+      scene: "bedroom",
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
@@ -34,18 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
       action: "eat"
     },
     3: {
-  scene: "map",
-  dialogs: [
-    { speaker: "Syabil", text: "Saatnya berangkat sekolah!" }
-  ],
-  action: "goSchool"
-}
-
-    4: {
       scene: "school",
       dialogs: [
-        { speaker: "Miss Putri", text: "Selamat pagi Syabil." },
-        { speaker: "Miss Putri", text: "Ayo kita belajar." }
+        { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
+        { speaker: "Bu Putri", text: "Ayo kita belajar." }
       ],
       action: "lesson"
     }
@@ -126,15 +118,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   foods.forEach(food => {
-  food.addEventListener("click", () => {
-    if (story[gameState.chapter].action !== "eat") return;
+    food.addEventListener("click", () => {
+      if (story[gameState.chapter].action !== "eat") return;
 
-    // setelah sarapan selesai
-    gameState.chapter = 3;          // BAB 3 = MAP
-    switchRoom("map");              // pindah ke MAP
-    showDialog();                   // dialog transisi (kalau ada)
+      gameState.chapter = 3;
+      switchRoom("school");
+      showDialog();
+    });
   });
-});
-
 
 });
