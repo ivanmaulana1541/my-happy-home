@@ -11,10 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialogNext = document.getElementById("dialog-next");
 
   const gameState = {
-    chapter: 1,
-    dialogIndex: 0,
-    syabilOutfit: "piyama" // piyama | seragam
-  };
+  chapter: 1,
+  dialogIndex: 0,
+  syabilOutfit: "piyama",
++ afterAction: false
+};
 
   const story = {
    1: {
