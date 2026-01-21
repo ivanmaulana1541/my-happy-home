@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { speaker: "Mama", text: "Ayo sarapan dulu sebelum berangkat." },
         { speaker: "Papa", text: "Sarapan bersama yuk!" }
       ],
+      afterActionDialogs: [
+  { speaker: "Syabil", text: "Sarapan selesai. Saatnya berangkat sekolah." }
+],
       action: "eat"
     },
     3: {
