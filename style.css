@@ -144,6 +144,11 @@ body {
   100% { transform: translateY(0); }
 }
 
+.person {
+  pointer-events: none;
+}
+
+
 .person.child.jump {
   animation: jump 0.4s ease;
 }
@@ -166,6 +171,8 @@ body {
 
 .quiz {
   position: absolute;
+  z-index: 50;
+  pointer-events: auto;
   bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
