@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const gameState = {
     chapter: 1,
-    dialogIndex: 0
+    dialogIndex: 0,
+    syabilOutfit: "piyama" // piyama | seragam
   };
 
   const story = {
@@ -30,12 +31,44 @@ document.addEventListener("DOMContentLoaded", () => {
         { speaker: "Papa", text: "Sarapan bersama yuk!" }
       ],
       action: "eat"
+    },
+    3: {
+      scene: "school",
+      dialogs: [
+        { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
+        { speaker: "Bu Putri", text: "Ayo kita belajar." }
+      ],
+      action: "lesson"
     }
   };
 
+  function updateSyabilOutfit() {
+    const src =
+      gameState.syabilOutfit === "seragam"
+        ? "./assets/child.png"
+        : "./assets/piyama.png";
+
+    document.querySelectorAll(".person.child img")
+      .forEach(img => img.src = src);
+  }
+
+  function loadRoomBackground(name) {
+    const room = document.querySelector(`.${name}`);
+    if (!room || room.dataset.bgLoaded) return;
+
+    room.style.backgroundImage =
+      `url("./assets/background/${name}.webp")`;
+
+    room.dataset.bgLoaded = "true";
+  }
+
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`).classList.add("active");
+    const room = document.querySelector(`.${name}`);
+    room.classList.add("active");
+
+    loadRoomBackground(name);
+    updateSyabilOutfit();
   }
 
   function showDialog() {
@@ -48,9 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   dialogNext.addEventListener("click", () => {
     gameState.dialogIndex++;
-    const chapter = story[gameState.chapter];
-
-    if (gameState.dialogIndex >= chapter.dialogs.length) {
+    if (gameState.dialogIndex >= story[gameState.chapter].dialogs.length) {
       dialogBox.classList.add("hidden");
       gameState.dialogIndex = 0;
     } else {
@@ -60,13 +91,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // START GAME
   switchRoom("bedroom");
+  updateSyabilOutfit();
   showDialog();
 
   wardrobe.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "changeDress") return;
 
-    document.querySelector(".person.child img").src = "./assets/child-dress.png";
-
+    gameState.syabilOutfit = "seragam";
     gameState.chapter = 2;
     switchRoom("kitchen");
     showDialog();
@@ -76,7 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
     food.addEventListener("click", () => {
       if (story[gameState.chapter].action !== "eat") return;
 
-      alert("Sarapan selesai! Syabil siap berangkat sekolah 🎒");
+      gameState.chapter = 3;
+      switchRoom("school");
+      showDialog();
     });
   });
 
