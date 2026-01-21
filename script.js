@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const story = {
     1: {
-      scene: "room",
+      scene: "bedroom",
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
