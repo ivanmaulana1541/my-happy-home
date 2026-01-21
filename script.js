@@ -129,6 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
   switchRoom("kitchen");
   showDialog();
 }
+    else if (gameState.afterAction && gameState.chapter === 2) {
+  gameState.afterAction = false;
+  gameState.dialogIndex = 0;
+
+  // END BAB 2 (sementara stay di kitchen)
+  // nanti di sini kita pindah ke Map
+}
+
 
   } else {
     showDialog();
