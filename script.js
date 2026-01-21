@@ -98,5 +98,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+const schoolIcon = document.querySelector(".school-icon");
 
+schoolIcon.addEventListener("click", () => {
+  if (story[gameState.chapter].action !== "goSchool") return;
+
+  gameState.chapter = 4;
+  switchRoom("school");
+  showDialog();
+});
+
+  
 });
