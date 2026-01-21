@@ -16,23 +16,10 @@
 
     <div class="nav">
       <button data-area="home">🏠 Rumah</button>
-      <button data-area="bedroom">🛏️ Kamar</button>
-      <button data-area="kitchen">🍳 Dapur</button>
+      <button data-area="map">🗺️ Map</button>
       <button data-area="school">🏫 Sekolah</button>
-      <button data-area="office">🏢 Kantor</button>
-      <button data-area="market">🛒 Market</button>
     </div>
   </header>
-
-  <!-- QUEST BUTTON (nanti dipakai lagi) -->
-  <button id="btn-quest" class="quest-btn">📋 Quest</button>
-
-  <!-- 🏠 HOME -->
-  <div class="room home">
-    <div class="person father"><img src="./assets/father.png"></div>
-    <div class="person mother"><img src="./assets/mother.png"></div>
-    <div class="person child"><img src="./assets/child.png"></div>
-  </div>
 
   <!-- 🛏️ BEDROOM -->
   <div class="room bedroom active">
@@ -45,18 +32,35 @@
     <div class="food-container">
       <div class="food">🍎</div>
       <div class="food">🍞</div>
-      <div class="food">🍰</div>
     </div>
     <div class="person child"><img src="./assets/child.png"></div>
     <div class="person father"><img src="./assets/father.png"></div>
     <div class="person mother"><img src="./assets/mother.png"></div>
   </div>
 
-  <!-- DIALOG BOX -->
+  <!-- 🗺️ MAP -->
+  <div class="room map">
+    <div class="map-icon school-icon">🏫 Sekolah</div>
+  </div>
+
+  <!-- 🏫 SCHOOL -->
+  <div class="room school">
+    <div class="person child"><img src="./assets/child.png"></div>
+  </div>
+
+  <!-- DIALOG -->
   <div id="dialog-box" class="dialog hidden">
     <div class="dialog-speaker"></div>
     <div class="dialog-text"></div>
     <button id="dialog-next">Next</button>
+  </div>
+
+  <!-- MINI GAME -->
+  <div id="quiz-box" class="dialog hidden">
+    <div class="dialog-speaker">Bu Putri</div>
+    <div class="dialog-text">105 + 12 = ?</div>
+    <input id="answer" type="number" />
+    <button id="submit-answer">Jawab</button>
   </div>
 
 </div>
