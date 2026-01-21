@@ -7,32 +7,48 @@
 
 body {
   background: #fdecef;
-  display: flex;
-  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.game {
-  width: 100%;
-  max-width: 900px;
+#game {
+  max-width: 1000px;
   height: 100vh;
-  background: #fff;
+  margin: auto;
+  background: #fff0f5;
   display: flex;
   flex-direction: column;
 }
 
-.top-bar {
+/* TOP BAR */
+.topbar {
+  height: 56px;
   background: #ff7fa7;
   color: white;
-  padding: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 16px;
+}
+
+.topbar button {
+  border: none;
+  background: white;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+/* SCENE */
+#scene-container {
+  flex: 1;
+  position: relative;
 }
 
 .scene {
-  flex: 1;
+  position: absolute;
+  inset: 0;
   display: none;
-  position: relative;
   background-size: cover;
   background-position: center;
 }
@@ -41,77 +57,59 @@ body {
   display: block;
 }
 
-/* ===== CHARACTER BASE ===== */
+/* BACKGROUND */
+.bedroom { background-image: url("./assets/background/bedroom.png"); }
+.home    { background-image: url("./assets/background/home.png"); }
+.kitchen { background-image: url("./assets/background/kitchen.png"); }
+.map     { background-image: url("./assets/background/map.png"); }
+.school  { background-image: url("./assets/background/school.png"); }
+.office  { background-image: url("./assets/background/office.png"); }
+.market  { background-image: url("./assets/background/market.png"); }
+.dufan   { background-image: url("./assets/background/dufanroom.png"); }
+
+/* CHARACTER */
 .character {
   position: absolute;
   bottom: 20px;
-  right: 60px;
-  width: 120px;
-  height: 240px;
+  width: 140px;
+  height: 260px;
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
 }
 
-/* POSISI KHUSUS */
-.character.papa {
-  right: 200px;
-  background-image: url("./assets/father.png");
-}
+.syabil { right: 60px; background-image: url("./assets/piyama.png"); }
+.papa   { right: 240px; background-image: url("./assets/father.png"); }
+.mama   { right: 420px; background-image: url("./assets/mother.png"); }
+.teacher{ left: 60px;  background-image: url("./assets/msputri.png"); }
 
-.character.mama {
-  right: 120px;
-  background-image: url("./assets/mother.png");
-}
-
-.character.teacher {
-  right: 120px;
-  background-image: url("./assets/msputri.png");
-}
-
-.character.family-dufan {
-  right: 120px;
-  background-image: url("./assets/famdufan.png");
-}
-
-/* ===== INTERACTIVE ===== */
-.door {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  font-size: 32px;
-  cursor: pointer;
-}
-
-.food {
-  position: absolute;
-  bottom: 20px;
-  left: 80px;
-  font-size: 32px;
-  cursor: pointer;
-}
-
+/* MAP ICON */
 .map-icon {
   position: absolute;
   width: 64px;
+  height: 64px;
+  background-size: contain;
+  background-repeat: no-repeat;
   cursor: pointer;
 }
 
-/* MAP ICON POSISI */
-.map-icon[data-action="toSchool"] { top: 40px; left: 80px; }
-.map-icon[data-action="toHome"] { top: 260px; left: 380px; }
-.map-icon[data-action="toOffice"] { top: 140px; left: 620px; }
-.map-icon[data-action="toMarket"] { top: 300px; left: 120px; }
-.map-icon[data-action="toDufan"] { top: 80px; left: 360px; }
+.home-icon   { top: 60px; left: 120px; background-image: url("./assets/icons/house.png"); }
+.school-icon { top: 40px; left: 380px; background-image: url("./assets/icons/citraberkat.png"); }
+.office-icon { top: 220px; left: 520px; background-image: url("./assets/icons/house.png"); }
+.market-icon { top: 260px; left: 220px; background-image: url("./assets/icons/freshmarket.png"); }
+.dufan-icon  { top: 120px; left: 480px; background-image: url("./assets/icons/dufan.png"); }
 
-/* ===== DIALOG ===== */
-.dialog {
+/* DIALOG */
+#dialog {
+  min-height: 110px;
   background: white;
-  padding: 12px;
+  padding: 14px;
   border-top: 1px solid #ddd;
 }
 
-.dialog button {
+#dialogActions button {
   margin-top: 8px;
   padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
