@@ -1,103 +1,130 @@
-const scenes = document.querySelectorAll(".scene");
-const dialogText = document.getElementById("dialog-text");
-const dialogActions = document.getElementById("dialog-actions");
-
-const syabilRoom = document.getElementById("syabil-room");
-const syabilHome = document.getElementById("syabil-home");
-const syabilKitchen = document.getElementById("syabil-kitchen");
-
-let state = {
-  step: "wake"
+const state = {
+  scene: "bedroom",
+  syabil: { outfit: "piyama" },
 };
+
+const scenes = document.querySelectorAll(".scene");
+const dialogText = document.getElementById("dialogText");
+const dialogActions = document.getElementById("dialogActions");
 
 function showScene(name) {
   scenes.forEach(s => s.classList.remove("active"));
-  document.querySelector(`.scene[data-scene="${name}"]`)?.classList.add("active");
+  document.querySelector(`.${name}`).classList.add("active");
+  state.scene = name;
 }
 
-function setSyabil(img) {
-  [syabilRoom, syabilHome, syabilKitchen].forEach(el => {
-    if (el) el.style.backgroundImage = `url('${img}')`;
-  });
-}
-
-function dialog(text, actions = []) {
+function setDialog(text, actions = []) {
   dialogText.textContent = text;
   dialogActions.innerHTML = "";
   actions.forEach(a => {
     const btn = document.createElement("button");
-    btn.textContent = a.label;
+    btn.textContent = a.text;
     btn.onclick = a.action;
     dialogActions.appendChild(btn);
   });
 }
 
-/* START */
-setSyabil("./assets/piyama.png");
+function updateSyabil() {
+  const el = document.querySelectorAll(".syabil");
+  el.forEach(s => {
+    s.style.backgroundImage =
+      state.syabil.outfit === "school"
+        ? 'url("./assets/child.png")'
+        : 'url("./assets/piyama.png")';
+  });
+}
 
-dialog(
+/* INIT */
+showScene("bedroom");
+updateSyabil();
+
+setDialog(
   "Syabil masih memakai piyama. Ia harus ganti baju dulu.",
   [
     {
-      label: "Ganti Baju Sekolah",
+      text: "Ganti Baju Sekolah",
       action: () => {
-        setSyabil("./assets/child.png");
-        state.step = "ready";
-        dialog("Syabil sudah siap. Saatnya keluar kamar.");
+        state.syabil.outfit = "school";
+        updateSyabil();
+        setDialog(
+          "Syabil sudah siap. Saatnya keluar kamar.",
+          [
+            {
+              text: "Ke Dapur",
+              action: () => {
+                showScene("kitchen");
+                setDialog(
+                  "Sarapan selesai. Saatnya berangkat sekolah.",
+                  [
+                    {
+                      text: "Ke Map",
+                      action: () => showScene("map")
+                    }
+                  ]
+                );
+              }
+            }
+          ]
+        );
       }
     }
   ]
 );
 
-document.addEventListener("click", e => {
-  const act = e.target.dataset.action;
-  if (!act) return;
+/* MAP CLICK */
+document.querySelectorAll(".map-icon").forEach(icon => {
+  icon.addEventListener("click", () => {
+    const target = icon.dataset.target;
+    showScene(target);
 
-  if (act === "toKitchen" && state.step === "ready") {
-    showScene("kitchen");
-    state.step = "breakfast";
-    dialog("Papa, Mama, dan Syabil sarapan bersama.");
-  }
+    if (target === "school") {
+      setDialog(
+        "Bu Putri: Kerjakan soal ini.\n105 + 12 = ?",
+        [
+          {
+            text: "117",
+            action: () => {
+              setDialog(
+                "Benar! 228 - 19 = ?",
+                [
+                  {
+                    text: "209",
+                    action: () => {
+                      setDialog(
+                        "Bagus! Syabil boleh pulang.",
+                        [
+                          {
+                            text: "Pulang",
+                            action: () => {
+                              showScene("map");
+                            }
+                          }
+                        ]
+                      );
+                    }
+                  }
+                ]
+              );
+            }
+          }
+        ]
+      );
+    }
 
-  if (act === "eat" && state.step === "breakfast") {
-    state.step = "toSchool";
-    dialog("Sarapan selesai. Saatnya berangkat sekolah.", [
-      { label: "Ke Map", action: () => showScene("map") }
-    ]);
-  }
-
-  if (act === "toSchool" && state.step === "toSchool") {
-    showScene("school");
-    dialog("105 + 12 = ?", [
-      { label: "A. 117", action: () => schoolQ2() },
-      { label: "B. 93", action: () => dialog("Jawaban salah.") }
-    ]);
-  }
-
-  if (act === "toHome") {
-    showScene("home");
-    setSyabil("./assets/child.png");
-    dialog("Papa mama kemana ya?", [
-      {
-        label: "Cari Papa",
-        action: () => {
-          showScene("bedroom");
-          dialog("Papa bersiap berangkat kerja.");
-        }
-      }
-    ]);
-  }
+    if (target === "home") {
+      setDialog(
+        "Papa mama ke mana ya?",
+        [
+          {
+            text: "Cari Papa",
+            action: () => showScene("bedroom")
+          }
+        ]
+      );
+    }
+  });
 });
 
-function schoolQ2() {
-  dialog("228 - 19 = ?", [
-    {
-      label: "A. 209",
-      action: () => dialog(
-        "Syabil boleh pulang.",
-        [{ label: "Pulang", action: () => showScene("map") }]
-      )
-    },
-    { label: "B. 197", action: () => dialog("Jawaban salah.") }
-  ]);
-}
+/* TOP BAR */
+document.getElementById("btnHome").onclick = () => showScene("home");
+document.getElementById("btnMap").onclick = () => showScene("map");
