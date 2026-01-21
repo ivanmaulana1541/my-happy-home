@@ -14,26 +14,32 @@
   <header class="top-bar">
     ⭐ <span id="star-count">0</span>
     <div class="nav">
-      <button data-scene="room">🏠 Rumah</button>
+      <button data-scene="home">🏠 Rumah</button>
       <button data-scene="map">🗺️ Map</button>
     </div>
   </header>
 
-  <!-- SCENES -->
   <div id="scene-container">
 
-    <!-- BEDROOM -->
+    <!-- KAMAR SYABIL -->
     <div class="scene active" data-scene="room"
       style="background-image:url('./assets/background/room.png')">
-      <div class="character" id="char-syabil"></div>
+      <div class="character syabil" id="syabil-room"></div>
       <div class="door" data-action="toKitchen">🚪</div>
+    </div>
+
+    <!-- KAMAR PAPA & MAMA -->
+    <div class="scene" data-scene="bedroom"
+      style="background-image:url('./assets/background/bedroom.png')">
+      <div class="character papa"></div>
+      <div class="character mama"></div>
+      <div class="door" data-action="toMap">🚪</div>
     </div>
 
     <!-- HOME -->
     <div class="scene" data-scene="home"
       style="background-image:url('./assets/background/home.png')">
-      <!-- SYABIL SENDIRIAN -->
-      <div class="character" id="char-syabil-home"></div>
+      <div class="character syabil" id="syabil-home"></div>
     </div>
 
     <!-- KITCHEN -->
@@ -41,7 +47,7 @@
       style="background-image:url('./assets/background/kitchen.png')">
       <div class="character papa"></div>
       <div class="character mama"></div>
-      <div class="character" id="char-syabil-kitchen"></div>
+      <div class="character syabil" id="syabil-kitchen"></div>
       <div class="food" data-action="eat">🍽️</div>
       <div class="door" data-action="toMap">🚪</div>
     </div>
@@ -49,36 +55,17 @@
     <!-- MAP -->
     <div class="scene" data-scene="map"
       style="background-image:url('./assets/background/map.png')">
-      <img class="map-icon" src="./assets/icons/citraberkat.png" data-action="toSchool" />
-      <img class="map-icon" src="./assets/icons/office.png" data-action="toOffice" />
-      <img class="map-icon" src="./assets/icons/freshmarket.png" data-action="toMarket" />
-      <img class="map-icon" src="./assets/icons/house.png" data-action="toHome" />
-      <img class="map-icon" src="./assets/icons/dufan.png" data-action="toDufan" />
+      <img src="./assets/icons/citraberkat.png" class="map-icon" data-action="toSchool">
+      <img src="./assets/icons/house.png" class="map-icon" data-action="toHome">
+      <img src="./assets/icons/office.png" class="map-icon" data-action="toOffice">
+      <img src="./assets/icons/freshmarket.png" class="map-icon" data-action="toMarket">
+      <img src="./assets/icons/dufan.png" class="map-icon" data-action="toDufan">
     </div>
 
     <!-- SCHOOL -->
     <div class="scene" data-scene="school"
       style="background-image:url('./assets/background/school.png')">
       <div class="character teacher"></div>
-    </div>
-
-    <!-- OFFICE -->
-    <div class="scene" data-scene="office"
-      style="background-image:url('./assets/background/office.png')">
-      <div class="character papa"></div>
-    </div>
-
-    <!-- MARKET -->
-    <div class="scene" data-scene="market"
-      style="background-image:url('./assets/background/market.png')">
-      <div class="character mama"></div>
-      <div class="food">🛒</div>
-    </div>
-
-    <!-- DUFAN -->
-    <div class="scene" data-scene="dufan"
-      style="background-image:url('./assets/background/dufanroom.png')">
-      <div class="character family-dufan"></div>
     </div>
 
   </div>
