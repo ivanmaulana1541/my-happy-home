@@ -75,6 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // START GAME
+  document.querySelectorAll(".person.child img")
+  .forEach(img => img.src = "./assets/piyama.png");
+
   switchRoom("bedroom");
   showDialog();
 
