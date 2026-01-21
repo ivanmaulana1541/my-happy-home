@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const DEV_MODE = true; // ganti false kalau sudah rilis
   const rooms = document.querySelectorAll(".room");
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
+  const schoolIcon = document.querySelector(".school-icon");
 
   const dialogBox = document.getElementById("dialog-box");
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameState = {
     chapter: 1,
     dialogIndex: 0,
-    syabilOutfit: "piyama" // piyama | seragam
+    syabilOutfit: "piyama"
   };
 
   const story = {
     1: {
-      scene: "bedroom",
+      scene: "room",
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
@@ -28,18 +28,22 @@ document.addEventListener("DOMContentLoaded", () => {
     2: {
       scene: "kitchen",
       dialogs: [
-        { speaker: "Mama", text: "Ayo sarapan dulu sebelum berangkat." },
-        { speaker: "Papa", text: "Sarapan bersama yuk!" }
+        { speaker: "Mama", text: "Ayo sarapan dulu sebelum berangkat." }
       ],
       action: "eat"
     },
     3: {
+      scene: "map",
+      dialogs: [
+        { speaker: "Syabil", text: "Saatnya berangkat ke sekolah." }
+      ],
+      action: "chooseSchool"
+    },
+    4: {
       scene: "school",
       dialogs: [
-        { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
-        { speaker: "Bu Putri", text: "Ayo kita belajar." }
-      ],
-      action: "lesson"
+        { speaker: "Bu Putri", text: "Selamat pagi Syabil." }
+      ]
     }
   };
 
@@ -53,34 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .forEach(img => img.src = src);
   }
 
-  function loadRoomBackground(name) {
-  const room = document.querySelector(`.${name}`);
-  if (!room || room.dataset.bgLoaded) return;
-
-  const webp = `./assets/background/${name}.webp`;
-  const png = `./assets/background/${name}.png`;
-
-  const img = new Image();
-  img.src = webp;
-
-  img.onload = () => {
-    room.style.backgroundImage = `url("${webp}")`;
-    room.dataset.bgLoaded = "true";
-  };
-
-  img.onerror = () => {
-    room.style.backgroundImage = `url("${png}")`;
-    room.dataset.bgLoaded = "true";
-  };
-}
-
-
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
-    const room = document.querySelector(`.${name}`);
-    room.classList.add("active");
-
-    loadRoomBackground(name);
+    document.querySelector(`.${name}`).classList.add("active");
     updateSyabilOutfit();
   }
 
@@ -92,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogBox.classList.remove("hidden");
   }
 
-  dialogNext.addEventListener("click", () => {
+  dialogNext.onclick = () => {
     gameState.dialogIndex++;
     if (gameState.dialogIndex >= story[gameState.chapter].dialogs.length) {
       dialogBox.classList.add("hidden");
@@ -100,31 +79,34 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       showDialog();
     }
-  });
+  };
 
-  // START GAME
+  // START
   switchRoom("room");
-  loadRoomBackground("room");
-  updateSyabilOutfit();
   showDialog();
 
-  wardrobe.addEventListener("click", () => {
+  wardrobe.onclick = () => {
     if (story[gameState.chapter].action !== "changeDress") return;
-
     gameState.syabilOutfit = "seragam";
     gameState.chapter = 2;
     switchRoom("kitchen");
     showDialog();
-  });
+  };
 
   foods.forEach(food => {
-    food.addEventListener("click", () => {
+    food.onclick = () => {
       if (story[gameState.chapter].action !== "eat") return;
-
       gameState.chapter = 3;
-      switchRoom("school");
+      switchRoom("map");
       showDialog();
-    });
+    };
   });
+
+  schoolIcon.onclick = () => {
+    if (story[gameState.chapter].action !== "chooseSchool") return;
+    gameState.chapter = 4;
+    switchRoom("school");
+    showDialog();
+  };
 
 });
