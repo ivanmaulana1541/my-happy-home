@@ -55,6 +55,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(`.${name}`).classList.add("active");
   }
 
+function updateSyabilOutfit() {
+  const src =
+    gameState.syabilOutfit === "seragam"
+      ? "./assets/child.png"      // SERAGAM
+      : "./assets/piyama.png";    // PIYAMA
+
+  document
+    .querySelectorAll(".person.child img")
+    .forEach(img => {
+      img.src = src;
+    });
+}
+
+
   function showDialog() {
     const chapter = story[gameState.chapter];
     const dialog = chapter.dialogs[gameState.dialogIndex];
@@ -84,6 +98,11 @@ if (dialogSpeaker.textContent === "Bu Putri") {
   });
 
   // START GAME
+switchRoom("bedroom");
+updateSyabilOutfit(); // ← WAJIB
+showDialog();
+
+
   document.querySelectorAll(".person.child img")
   .forEach(img => img.src = "./assets/piyama.png");
 
@@ -91,14 +110,16 @@ if (dialogSpeaker.textContent === "Bu Putri") {
   showDialog();
 
   wardrobe.addEventListener("click", () => {
-    if (story[gameState.chapter].action !== "changeDress") return;
+  if (story[gameState.chapter].action !== "changeDress") return;
 
-    document.querySelector(".person.child img").src = "./assets/child-dress.png";
+  gameState.syabilOutfit = "seragam"; // ← PENTING
+  updateSyabilOutfit();
 
-    gameState.chapter = 2;
-    switchRoom("kitchen");
-    showDialog();
-  });
+  gameState.chapter = 2;
+  switchRoom("kitchen");
+  showDialog();
+});
+
 
   foods.forEach(food => {
   food.addEventListener("click", () => {
