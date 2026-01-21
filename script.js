@@ -59,6 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const dialog = chapter.dialogs[gameState.dialogIndex];
     dialogSpeaker.textContent = dialog.speaker;
     dialogText.textContent = dialog.text;
+    document.querySelectorAll(".person").forEach(p => p.classList.remove("active"));
+
+if (dialogSpeaker.textContent === "Bu Putri") {
+  document.querySelector(".person.teacher")?.classList.add("active");
+} else {
+  document.querySelector(".person.child")?.classList.add("active");
+}
+
     dialogBox.classList.remove("hidden");
   }
 
