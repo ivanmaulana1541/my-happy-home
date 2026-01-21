@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
     document.querySelector(`.${name}`).classList.add("active");
+    updateSyabilOutfit(); // ← supaya konsisten
   }
 
 function updateSyabilOutfit() {
