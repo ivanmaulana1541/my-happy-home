@@ -2,14 +2,23 @@ const scenes = document.querySelectorAll(".scene");
 const dialogText = document.getElementById("dialog-text");
 const dialogActions = document.getElementById("dialog-actions");
 
+const syabilRoom = document.getElementById("syabil-room");
+const syabilHome = document.getElementById("syabil-home");
+const syabilKitchen = document.getElementById("syabil-kitchen");
+
 let state = {
   step: "wake"
 };
 
 function showScene(name) {
   scenes.forEach(s => s.classList.remove("active"));
-  const scene = document.querySelector(`.scene[data-scene="${name}"]`);
-  if (scene) scene.classList.add("active");
+  document.querySelector(`.scene[data-scene="${name}"]`)?.classList.add("active");
+}
+
+function setSyabil(img) {
+  [syabilRoom, syabilHome, syabilKitchen].forEach(el => {
+    if (el) el.style.backgroundImage = `url('${img}')`;
+  });
 }
 
 function dialog(text, actions = []) {
@@ -23,13 +32,16 @@ function dialog(text, actions = []) {
   });
 }
 
-/* GAME START */
+/* START */
+setSyabil("./assets/piyama.png");
+
 dialog(
   "Syabil masih memakai piyama. Ia harus ganti baju dulu.",
   [
     {
       label: "Ganti Baju Sekolah",
       action: () => {
+        setSyabil("./assets/child.png");
         state.step = "ready";
         dialog("Syabil sudah siap. Saatnya keluar kamar.");
       }
@@ -64,11 +76,11 @@ document.addEventListener("click", e => {
 
   if (act === "toHome") {
     showScene("home");
+    setSyabil("./assets/child.png");
     dialog("Papa mama kemana ya?", [
       {
         label: "Cari Papa",
         action: () => {
-          state.step = "papaQuest";
           showScene("bedroom");
           dialog("Papa bersiap berangkat kerja.");
         }
