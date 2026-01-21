@@ -62,11 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
     4: {
       scene: "school",
       dialogs: [
-        { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
-        { speaker: "Bu Putri", text: "Ayo kita belajar." }
+        { speaker: "Miss Putri", text: "Selamat pagi Syabil." },
+        { speaker: "Miss Putri", text: "Ayo kita belajar." }
       ],
       afterActionDialogs: [
-        { speaker: "Bu Putri", text: "Bagus! Syabil boleh pulang." }
+        { speaker: "Miss Putri", text: "Bagus! Syabil boleh pulang." }
       ],
       action: "lesson"
     }
