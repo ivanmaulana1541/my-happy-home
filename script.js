@@ -15,39 +15,23 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const story = {
-  1: {
-    scene: "bedroom",
-    dialogs: [
-      { speaker: "Syabil", text: "Syabil masih memakai piyama." },
-      { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
-    ],
-    action: "changeDress"
-  },
-  2: {
-    scene: "kitchen",
-    dialogs: [
-      { speaker: "Mama", text: "Ayo sarapan dulu sebelum berangkat." },
-      { speaker: "Papa", text: "Sarapan bersama yuk!" }
-    ],
-    action: "eat"
-  },
-  3: {
-    scene: "map",
-    dialogs: [
-      { speaker: "Syabil", text: "Sekarang aku berangkat sekolah!" }
-    ],
-    action: "goSchool"
-  },
-  4: {
-    scene: "school",
-    dialogs: [
-      { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
-      { speaker: "Bu Putri", text: "Ayo kita belajar." }
-    ],
-    action: "schoolLesson"
-  }
-};
-
+    1: {
+      scene: "bedroom",
+      dialogs: [
+        { speaker: "Syabil", text: "Syabil masih memakai piyama." },
+        { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
+      ],
+      action: "changeDress"
+    },
+    2: {
+      scene: "kitchen",
+      dialogs: [
+        { speaker: "Mama", text: "Ayo sarapan dulu sebelum berangkat." },
+        { speaker: "Papa", text: "Sarapan bersama yuk!" }
+      ],
+      action: "eat"
+    }
+  };
 
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
@@ -59,14 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const dialog = chapter.dialogs[gameState.dialogIndex];
     dialogSpeaker.textContent = dialog.speaker;
     dialogText.textContent = dialog.text;
-    document.querySelectorAll(".person").forEach(p => p.classList.remove("active"));
-
-if (dialogSpeaker.textContent === "Bu Putri") {
-  document.querySelector(".person.teacher")?.classList.add("active");
-} else {
-  document.querySelector(".person.child")?.classList.add("active");
-}
-
     dialogBox.classList.remove("hidden");
   }
 
@@ -97,24 +73,11 @@ if (dialogSpeaker.textContent === "Bu Putri") {
   });
 
   foods.forEach(food => {
-  food.addEventListener("click", () => {
-    if (story[gameState.chapter].action !== "eat") return;
+    food.addEventListener("click", () => {
+      if (story[gameState.chapter].action !== "eat") return;
 
-    gameState.chapter = 3;
-    switchRoom("map");
-    showDialog();
+      alert("Sarapan selesai! Syabil siap berangkat sekolah 🎒");
+    });
   });
-});
 
-const schoolIcon = document.querySelector(".school-icon");
-
-schoolIcon.addEventListener("click", () => {
-  if (story[gameState.chapter].action !== "goSchool") return;
-
-  gameState.chapter = 4;
-  switchRoom("school");
-  showDialog();
-});
-
-  
 });
