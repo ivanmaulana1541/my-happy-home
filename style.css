@@ -59,6 +59,13 @@ body {
 
 .character img {
   height: 240px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* JUMP EFFECT */
+.character img.jump {
+  transform: translateY(-40px);
+  opacity: 0.7;
 }
 
 /* DIALOG */
