@@ -3,11 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const rooms = document.querySelectorAll(".room");
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
+  const mapSchool = document.querySelector(".school-icon");
 
   const dialogBox = document.getElementById("dialog-box");
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
   const dialogText = dialogBox.querySelector(".dialog-text");
   const dialogNext = document.getElementById("dialog-next");
+
+  const quizBox = document.getElementById("quiz-box");
+  const answerInput = document.getElementById("answer");
+  const submitAnswer = document.getElementById("submit-answer");
 
   const gameState = {
     chapter: 1,
@@ -30,6 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
         { speaker: "Papa", text: "Sarapan bersama yuk!" }
       ],
       action: "eat"
+    },
+    3: {
+      scene: "map",
+      dialogs: [
+        { speaker: "Syabil", text: "Saatnya berangkat sekolah!" }
+      ],
+      action: "goSchool"
+    },
+    4: {
+      scene: "school",
+      dialogs: [
+        { speaker: "Bu Putri", text: "Ayo kita mulai pelajaran." }
+      ],
+      action: "quiz"
     }
   };
 
@@ -64,9 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   wardrobe.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "changeDress") return;
-
     document.querySelector(".person.child img").src = "./assets/child-dress.png";
-
     gameState.chapter = 2;
     switchRoom("kitchen");
     showDialog();
@@ -75,9 +92,17 @@ document.addEventListener("DOMContentLoaded", () => {
   foods.forEach(food => {
     food.addEventListener("click", () => {
       if (story[gameState.chapter].action !== "eat") return;
-
-      alert("Sarapan selesai! Syabil siap berangkat sekolah 🎒");
+      gameState.chapter = 3;
+      switchRoom("map");
+      showDialog();
     });
   });
 
-});
+  mapSchool.addEventListener("click", () => {
+    if (story[gameState.chapter].action !== "goSchool") return;
+    gameState.chapter = 4;
+    switchRoom("school");
+    showDialog();
+  });
+
+  submitA
