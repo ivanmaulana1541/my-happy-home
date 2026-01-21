@@ -1,27 +1,49 @@
-<div id="game">
-  <div id="scene" class="scene room">
-    
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Happy Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    ⭐ <span id="star">0</span>
+  </div>
+
+  <!-- GAME AREA -->
+  <div id="game">
+
     <!-- BACKGROUND -->
-    <img id="bg" src="assets/background/room.png" class="background" />
+    <img
+      id="background"
+      src="assets/background/room.png"
+      alt="Kamar Syabil"
+    />
 
     <!-- SYABIL -->
     <img
       id="syabil-img"
-      src="assets/piyama.png"
+      src="assets/child.png"
+      alt="Syabil"
       class="character"
     />
 
-    <!-- PINTU KE KITCHEN -->
-    <img
-      id="door"
-      src="assets/icon/door.png"
-      class="door"
-      alt="Pintu"
-    />
+    <!-- PINTU -->
+    <div id="door" class="door hidden">🚪</div>
 
   </div>
 
+  <!-- DIALOG -->
   <div class="dialog">
-    <p id="dialog-text">Syabil sudah siap. Saatnya keluar kamar.</p>
+    <p id="dialog-text">
+      Syabil masih memakai piyama. Ia harus ganti baju dulu.
+    </p>
+    <button id="btn-change">Ganti Baju Sekolah</button>
   </div>
-</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
