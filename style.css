@@ -45,27 +45,55 @@ body {
   display: block;
 }
 
-/* ROOM BACKGROUND (KAMAR SYABIL) */
+/* BACKGROUND */
 .scene.room {
   background-image: url("assets/background/room.png");
 }
 
-/* KARAKTER */
+.scene.kitchen {
+  background-image: url("assets/background/kitchen.png");
+}
+
+/* CHARACTER */
 .character {
   position: absolute;
   bottom: 20px;
+}
+
+.character.syabil {
   right: 60px;
 }
 
+.character.mama {
+  left: 80px;
+}
+
+.character.papa {
+  left: 220px;
+}
+
 .character img {
-  height: 240px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  height: 230px;
 }
 
 /* EFEK LONCAT */
 .character img.jump {
   transform: translateY(-40px);
   opacity: 0.7;
+  transition: 0.25s;
+}
+
+/* PINTU */
+.door {
+  position: absolute;
+  right: 20px;
+  bottom: 40px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }
 
 /* DIALOG */
