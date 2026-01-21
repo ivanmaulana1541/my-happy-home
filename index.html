@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>My Happy Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -13,75 +13,73 @@
   <!-- TOP BAR -->
   <header class="top-bar">
     ⭐ <span id="star-count">0</span>
-
     <div class="nav">
-      <button data-area="home">🏠 Rumah</button>
-      <button data-area="bedroom">🛏️ Kamar</button>
-      <button data-area="kitchen">🍳 Dapur</button>
-      <button data-area="school">🏫 Sekolah</button>
-      <button data-area="office">🏢 Kantor</button>
-      <button data-area="market">🛒 Market</button>
+      <button data-scene="room">🏠 Rumah</button>
+      <button data-scene="map">🗺️ Map</button>
     </div>
   </header>
 
-  <!-- QUEST BUTTON -->
-  <button id="btn-quest" class="quest-btn">📋 Quest</button>
+  <!-- SCENES -->
+  <div id="scene-container">
 
-  <!-- QUEST PANEL -->
-  <div id="quest-panel" class="quest-panel hidden">
-    <h3>📋 Misi Hari Ini</h3>
-
-    <!-- TAB QUEST -->
-    <div class="quest-tabs">
-      <button class="tab active">👧 Syabil</button>
-      <button class="tab">👨 Papa</button>
-      <button class="tab">👩 Mama</button>
+    <!-- ROOM / BEDROOM -->
+    <div class="scene active" data-scene="room" style="background-image:url('./assets/background/room.png')">
+      <div class="character" id="char-syabil"></div>
+      <div class="door" data-action="toKitchen">🚪</div>
     </div>
 
-    <ul></ul>
-  </div>
-
-  <!-- 🏠 HOME -->
-  <div class="room home active">
-    <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
-    <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
-  </div>
-
-  <!-- 🛏️ BEDROOM -->
-  <div class="room bedroom">
-    <div class="item bed">🛏️</div>
-    <div class="item wardrobe">👗</div>
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
-  </div>
-
-  <!-- 🍳 KITCHEN -->
-  <div class="room kitchen">
-    <div class="food-container">
-      <div class="food">🍎</div>
-      <div class="food">🍞</div>
-      <div class="food">🍰</div>
+    <!-- KITCHEN -->
+    <div class="scene" data-scene="kitchen" style="background-image:url('./assets/background/kitchen.png')">
+      <div class="character papa"></div>
+      <div class="character mama"></div>
+      <div class="character" id="char-syabil-kitchen"></div>
+      <div class="food" data-action="eat">🍽️</div>
+      <div class="door" data-action="toMap">🚪</div>
     </div>
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
+
+    <!-- MAP -->
+    <div class="scene" data-scene="map" style="background-image:url('./assets/background/map.png')">
+      <img class="map-icon" src="./assets/icons/citraberkat.png" data-action="toSchool" />
+      <img class="map-icon" src="./assets/icons/office.png" data-action="toOffice" />
+      <img class="map-icon" src="./assets/icons/freshmarket.png" data-action="toMarket" />
+      <img class="map-icon" src="./assets/icons/house.png" data-action="toHome" />
+      <img class="map-icon" src="./assets/icons/dufan.png" data-action="toDufan" />
+    </div>
+
+    <!-- SCHOOL -->
+    <div class="scene" data-scene="school" style="background-image:url('./assets/background/school.png')">
+      <div class="character teacher"></div>
+      <div class="door" data-action="backToMap">🚪</div>
+    </div>
+
+    <!-- OFFICE -->
+    <div class="scene" data-scene="office" style="background-image:url('./assets/background/office.png')">
+      <div class="character papa"></div>
+      <div class="door" data-action="backToMap">🚪</div>
+    </div>
+
+    <!-- MARKET -->
+    <div class="scene" data-scene="market" style="background-image:url('./assets/background/market.png')">
+      <div class="character mama"></div>
+      <div class="food" data-action="shop">🛒</div>
+      <div class="door" data-action="backToMap">🚪</div>
+    </div>
+
+    <!-- DUFAN -->
+    <div class="scene" data-scene="dufan" style="background-image:url('./assets/background/dufanroom.png')">
+      <div class="character family-dufan"></div>
+    </div>
+
   </div>
 
-  <!-- 🏫 SCHOOL -->
-  <div class="room school">
-    <div class="person child"><img src="./assets/child.png" alt="Syabil"></div>
-  </div>
-
-  <!-- 🏢 OFFICE -->
-  <div class="room office">
-    <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
-  </div>
-
-  <!-- 🛒 MARKET -->
-  <div class="room market">
-    <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
+  <!-- DIALOG PANEL -->
+  <div class="dialog">
+    <p id="dialog-text"></p>
+    <div id="dialog-actions"></div>
   </div>
 
 </div>
 
-<script src="./script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
