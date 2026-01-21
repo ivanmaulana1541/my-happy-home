@@ -68,16 +68,10 @@ body {
 .person.child { right: 40px; }
 .person.father { right: 200px; }
 .person.mother { right: 120px; }
-.person.teacher {
-  left: 60px;
-}
 
 .person.child img { height: 220px; }
 .person.father img { height: 275px; }
 .person.mother img { height: 265px; }
-.person.teacher img {
-  height: 260px;
-}
 
 /* ITEM */
 .item {
@@ -152,27 +146,4 @@ body {
 
 .hidden {
   display: none;
-}
-
-/* MAP & SCHOOL */
-.map {
-  background-image: url("./assets/background/map.png");
-}
-
-.school {
-  background-image: url("./assets/background/school.png");
-}
-
-/* MAP ICON */
-.map-icon {
-  font-size: 28px;
-  background: white;
-  padding: 14px;
-  border-radius: 14px;
-  cursor: pointer;
-  width: fit-content;
-}
-
-.person.active img {
-  filter: drop-shadow(0 0 10px rgba(255,127,167,0.8));
 }
