@@ -163,13 +163,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   foods.forEach(food => {
-    food.addEventListener("click", () => {
-      if (story[gameState.chapter].action !== "eat") return;
+  food.addEventListener("click", () => {
+    const chapter = story[gameState.chapter];
+    if (chapter.action !== "eat") return;
 
-      gameState.chapter = 3;
-      switchRoom("school");
-      showDialog();
-    });
+    // feedback kecil (misalnya food menghilang)
+    food.style.opacity = "0.4";
+
+    // siapkan dialog setelah makan
+    gameState.afterAction = true;
+    gameState.dialogIndex = 0;
+    showDialog();
   });
+});
+
 
 });
