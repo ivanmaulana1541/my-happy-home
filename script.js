@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameState = {
     chapter: 1,
     dialogIndex: 0
+    syabilOutfit: "piyama" // "piyama" | "seragam"
   };
 
   const story = {
