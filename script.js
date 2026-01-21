@@ -1,29 +1,24 @@
 const scenes = document.querySelectorAll(".scene");
 const dialogText = document.getElementById("dialog-text");
 const dialogActions = document.getElementById("dialog-actions");
+
 const syabil = document.getElementById("char-syabil");
 const syabilKitchen = document.getElementById("char-syabil-kitchen");
+const syabilHome = document.getElementById("char-syabil-home");
 
 let state = {
   step: "wake"
 };
 
-/* =====================
-   SCENE CONTROL
-===================== */
 function showScene(name) {
   scenes.forEach(s => s.classList.remove("active"));
   const scene = document.querySelector(`.scene[data-scene="${name}"]`);
   if (scene) scene.classList.add("active");
 }
 
-/* =====================
-   DIALOG
-===================== */
 function dialog(text, actions = []) {
   dialogText.textContent = text;
   dialogActions.innerHTML = "";
-
   actions.forEach(a => {
     const btn = document.createElement("button");
     btn.textContent = a.label;
@@ -32,9 +27,7 @@ function dialog(text, actions = []) {
   });
 }
 
-/* =====================
-   GAME START
-===================== */
+/* START */
 dialog(
   "Syabil masih memakai piyama. Ia harus ganti baju dulu.",
   [
@@ -49,9 +42,6 @@ dialog(
   ]
 );
 
-/* =====================
-   GLOBAL CLICK
-===================== */
 document.addEventListener("click", e => {
   const act = e.target.dataset.action;
   if (!act) return;
@@ -79,47 +69,36 @@ document.addEventListener("click", e => {
     ]);
   }
 
-  /* === MAP → HOME (HARUS home.png) === */
+  /* === PULANG KE HOME === */
   if (act === "toHome") {
     showScene("home");
-    dialog("Keluarga sudah lengkap. Mau ke mana?", [
-      { label: "Dufan", action: () => showScene("dufan") }
-    ]);
-  }
+    syabilHome.style.backgroundImage = "url('./assets/child.png')";
 
-  if (act === "toOffice") {
-    showScene("office");
-    dialog("12577 - 125 = ?", [
-      {
-        label: "A. 12452",
-        action: () =>
-          dialog("Papa selesai bekerja.", [
-            { label: "Kembali ke Map", action: () => showScene("map") }
-          ])
-      },
-      { label: "B. 12386", action: () => dialog("Jawaban salah.") }
-    ]);
-  }
-
-  if (act === "toMarket") {
-    showScene("market");
-    dialog("Mama berbelanja.", [
-      { label: "Belanja selesai", action: () => showScene("map") }
-    ]);
+    dialog(
+      "Papa mama kemana ya?",
+      [
+        {
+          label: "Cari Papa",
+          action: () => {
+            state.step = "papaQuest";
+            showScene("room");
+            dialog("Papa bersiap berangkat kerja.");
+          }
+        }
+      ]
+    );
   }
 });
 
-/* =====================
-   SCHOOL QUESTION 2
-===================== */
 function secondQuestion() {
   dialog("228 - 19 = ?", [
     {
       label: "A. 209",
       action: () =>
-        dialog("Syabil boleh pulang.", [
-          { label: "Ke Map", action: () => showScene("map") }
-        ])
+        dialog(
+          "Syabil boleh pulang.",
+          [{ label: "Pulang ke Rumah", action: () => showScene("map") }]
+        )
     },
     { label: "B. 197", action: () => dialog("Jawaban salah.") }
   ]);
