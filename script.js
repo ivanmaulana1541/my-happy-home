@@ -51,13 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
 },
 
     4: {
-      scene: "school",
-      dialogs: [
-        { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
-        { speaker: "Bu Putri", text: "Ayo kita belajar." }
-      ],
-      action: "lesson"
-    }
+  scene: "school",
+  dialogs: [
+    { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
+    { speaker: "Bu Putri", text: "Ayo kita belajar." }
+  ],
+  afterActionDialogs: [
+    { speaker: "Bu Putri", text: "Bagus! Syabil boleh pulang." }
+  ],
+  action: "lesson"
+}
+
   };
 
   function updateSyabilOutfit() {
