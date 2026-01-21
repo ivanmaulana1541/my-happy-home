@@ -10,13 +10,25 @@ document.addEventListener("DOMContentLoaded", () => {
   btnChange.addEventListener("click", () => {
 
     if (syabilOutfit === "piyama") {
-      syabilOutfit = "school";
 
-      syabilImg.src = "assets/child.png";
-      dialogText.textContent =
-        "Syabil sudah siap. Saatnya keluar kamar.";
+      // loncat
+      syabilImg.classList.add("jump");
 
-      btnChange.style.display = "none";
+      setTimeout(() => {
+        // ganti baju
+        syabilOutfit = "school";
+        syabilImg.src = "assets/child.png";
+      }, 150);
+
+      setTimeout(() => {
+        // turun lagi
+        syabilImg.classList.remove("jump");
+
+        dialogText.textContent =
+          "Syabil sudah siap. Saatnya keluar kamar.";
+
+        btnChange.style.display = "none";
+      }, 300);
     }
 
   });
