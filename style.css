@@ -7,22 +7,23 @@
 
 body {
   background: #fdecef;
+  display: flex;
+  justify-content: center;
+}
+
+.game {
+  width: 100%;
+  max-width: 1000px;
   height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
-#game {
-  max-width: 1000px;
-  height: 100vh;
-  margin: auto;
-  background: #fff0f5;
-  display: flex;
-  flex-direction: column;
-}
-
 /* TOP BAR */
-.topbar {
-  height: 56px;
+.top-bar {
+  height: 50px;
   background: #ff7fa7;
   color: white;
   display: flex;
@@ -31,23 +32,10 @@ body {
   padding: 0 16px;
 }
 
-.topbar button {
-  border: none;
-  background: white;
-  border-radius: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-
 /* SCENE */
-#scene-container {
+.scene {
   flex: 1;
   position: relative;
-}
-
-.scene {
-  position: absolute;
-  inset: 0;
   display: none;
   background-size: cover;
   background-position: center;
@@ -57,59 +45,34 @@ body {
   display: block;
 }
 
-/* BACKGROUND */
-.bedroom { background-image: url("./assets/background/bedroom.png"); }
-.home    { background-image: url("./assets/background/home.png"); }
-.kitchen { background-image: url("./assets/background/kitchen.png"); }
-.map     { background-image: url("./assets/background/map.png"); }
-.school  { background-image: url("./assets/background/school.png"); }
-.office  { background-image: url("./assets/background/office.png"); }
-.market  { background-image: url("./assets/background/market.png"); }
-.dufan   { background-image: url("./assets/background/dufanroom.png"); }
+/* ROOM BACKGROUND */
+.scene.room {
+  background-image: url("assets/background/room.png");
+}
 
 /* CHARACTER */
 .character {
   position: absolute;
   bottom: 20px;
-  width: 140px;
-  height: 260px;
-  background-size: contain;
-  background-repeat: no-repeat;
+  right: 60px;
 }
 
-.syabil { right: 60px; background-image: url("./assets/piyama.png"); }
-.papa   { right: 240px; background-image: url("./assets/father.png"); }
-.mama   { right: 420px; background-image: url("./assets/mother.png"); }
-.teacher{ left: 60px;  background-image: url("./assets/msputri.png"); }
-
-/* MAP ICON */
-.map-icon {
-  position: absolute;
-  width: 64px;
-  height: 64px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  cursor: pointer;
+.character img {
+  height: 240px;
 }
-
-.home-icon   { top: 60px; left: 120px; background-image: url("./assets/icons/house.png"); }
-.school-icon { top: 40px; left: 380px; background-image: url("./assets/icons/citraberkat.png"); }
-.office-icon { top: 220px; left: 520px; background-image: url("./assets/icons/house.png"); }
-.market-icon { top: 260px; left: 220px; background-image: url("./assets/icons/freshmarket.png"); }
-.dufan-icon  { top: 120px; left: 480px; background-image: url("./assets/icons/dufan.png"); }
 
 /* DIALOG */
-#dialog {
-  min-height: 110px;
+.dialog {
   background: white;
-  padding: 14px;
+  padding: 16px;
   border-top: 1px solid #ddd;
 }
 
-#dialogActions button {
+.dialog button {
   margin-top: 8px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 8px;
   border: none;
+  background: #ffb6c1;
   cursor: pointer;
 }
