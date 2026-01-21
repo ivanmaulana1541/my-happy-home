@@ -106,14 +106,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   dialogNext.addEventListener("click", () => {
-    gameState.dialogIndex++;
-    if (gameState.dialogIndex >= story[gameState.chapter].dialogs.length) {
-      dialogBox.classList.add("hidden");
-      gameState.dialogIndex = 0;
-    } else {
+  const chapter = story[gameState.chapter];
+
+  const dialogs = gameState.afterAction && chapter.afterActionDialogs
+    ? chapter.afterActionDialogs
+    : chapter.dialogs;
+
+  gameState.dialogIndex++;
+
+  if (gameState.dialogIndex >= dialogs.length) {
+    dialogBox.classList.add("hidden");
+    gameState.dialogIndex = 0;
+
+    // selesai dialog setelah ganti baju
+    if (gameState.afterAction && gameState.chapter === 1) {
+      gameState.afterAction = false;
+      gameState.chapter = 2;
+      switchRoom("kitchen");
       showDialog();
     }
-  });
+  } else {
+    showDialog();
+  }
+});
+
 
   // START GAME
   switchRoom("room");
