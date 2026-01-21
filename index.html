@@ -1,46 +1,24 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <title>My Happy Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+document.addEventListener("DOMContentLoaded", () => {
 
-<div class="game">
+  // STATE
+  let syabilOutfit = "piyama";
 
-  <!-- TOP BAR -->
-  <header class="top-bar">
-    ⭐ <span id="star-count">0</span>
-    <div class="nav">
-      <button disabled>🏠 Rumah</button>
-      <button disabled>🗺️ Map</button>
-    </div>
-  </header>
+  const syabilImg = document.getElementById("syabil-img");
+  const dialogText = document.getElementById("dialog-text");
+  const btnChange = document.getElementById("btn-change");
 
-  <!-- SCENE: ROOM (KAMAR SYABIL) -->
-  <div id="scene-room" class="scene active room">
+  btnChange.addEventListener("click", () => {
 
-    <!-- SYABIL -->
-    <div class="character syabil">
-      <img id="syabil-img" src="assets/piyama.png" alt="Syabil">
-    </div>
+    if (syabilOutfit === "piyama") {
+      syabilOutfit = "school";
 
-  </div>
+      syabilImg.src = "assets/child.png";
+      dialogText.textContent =
+        "Syabil sudah siap. Saatnya keluar kamar.";
 
-  <!-- DIALOG -->
-  <div class="dialog">
-    <p id="dialog-text">
-      Syabil masih memakai piyama. Ia harus ganti baju dulu.
-    </p>
-    <button id="btn-change">
-      Ganti Baju Sekolah
-    </button>
-  </div>
+      btnChange.style.display = "none";
+    }
 
-</div>
+  });
 
-<script src="script.js"></script>
-</body>
-</html>
+});
