@@ -194,6 +194,19 @@ document.addEventListener("DOMContentLoaded", () => {
     showDialog();
   });
 });
+  const schoolIcon = document.querySelector(".school-icon");
+
+schoolIcon.addEventListener("click", () => {
+  const chapter = story[gameState.chapter];
+  if (chapter.action !== "goSchool") return;
+
+  // lanjut ke BAB 4 (school)
+  gameState.chapter = 4;
+  gameState.dialogIndex = 0;
+  switchRoom("school");
+  showDialog();
+});
+
 
 
 });
