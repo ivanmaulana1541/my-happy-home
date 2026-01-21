@@ -41,7 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
 ],
       action: "eat"
     },
+
     3: {
+  scene: "map",
+  dialogs: [
+    { speaker: "Syabil", text: "Saatnya berangkat ke sekolah." }
+  ],
+  action: "goSchool"
+},
+
+    4: {
       scene: "school",
       dialogs: [
         { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
