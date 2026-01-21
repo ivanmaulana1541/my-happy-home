@@ -1,257 +1,102 @@
-/* =====================
-   RESET
-===================== */
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
 }
 
-/* =====================
-   BODY
-===================== */
 body {
   background: #fdecef;
   display: flex;
   justify-content: center;
-  padding: 30px;
+  padding: 20px;
 }
 
-/* =====================
-   GAME CONTAINER
-===================== */
 .game {
-  width: 100%;
-  max-width: 900px;
-  background: #fff0f5;
+  width: 900px;
+  background: #fff;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.15);
   overflow: hidden;
   position: relative;
 }
 
-/* =====================
-   TOP BAR
-===================== */
 .top-bar {
   background: #ff7fa7;
   color: white;
-  padding: 14px 18px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-.nav button {
-  border: none;
-  background: white;
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-left: 6px;
-}
-
-/* =====================
-   ROOM (GLOBAL)
-===================== */
-.room {
-  position: relative;
-  height: 360px;
-  padding: 20px;
+.scene {
   display: none;
-
+  height: 420px;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
 }
 
-.room.active {
+.scene.active {
   display: block;
 }
 
-/* =====================
-   BACKGROUND PER RUANGAN
-===================== */
-.home {
-  background-image: url("./assets/background/home.png");
-}
-
-.bedroom {
-  background-image: url("./assets/background/room.png");
-}
-
-.kitchen {
-  background-image: url("./assets/background/kitchen.png");
-}
-
-.school {
-  background-image: url("./assets/background/school.png");
-}
-
-.office {
-  background-image: url("./assets/background/office.png");
-}
-
-.market {
-  background-image: url("./assets/background/market.png");
-}
-
-/* =====================
-   PERSON
-===================== */
-.person {
+.character {
   position: absolute;
   bottom: 20px;
-  pointer-events: none;
-}
-
-/* Posisi */
-.person.child {
   right: 40px;
+  width: 140px;
+  height: 260px;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
-.person.father {
+#char-syabil,
+#char-syabil-kitchen {
+  background-image: url('./assets/piyama.png');
+}
+
+.character.papa {
+  background-image: url('./assets/father.png');
   right: 200px;
 }
 
-.person.mother {
+.character.mama {
+  background-image: url('./assets/mother.png');
   right: 120px;
 }
 
-/* Ukuran */
-.person.child img {
-  height: 220px;
+.character.teacher {
+  background-image: url('./assets/msputri.png');
 }
 
-.person.father img {
-  height: 275px;
+.character.family-dufan {
+  background-image: url('./assets/famdufan.png');
+  width: 300px;
 }
 
-.person.mother img {
-  height: 265px;
-}
-
-/* Lompat (anak saja) */
-.person.child img.jump {
-  transform: translateY(-40px);
-  transition: transform .25s ease;
-}
-
-/* =====================
-   ITEMS (DEKOR)
-===================== */
-.item {
-  font-size: 42px;
+.door, .food {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  font-size: 32px;
   cursor: pointer;
-  position: absolute;
-}
-
-.bed {
-  left: 40px;
-  bottom: 40px;
-}
-
-.wardrobe {
-  left: 120px;
-  bottom: 40px;
-}
-
-/* =====================
-   FOOD
-===================== */
-.food-container {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .food {
-  font-size: 34px;
+  left: 100px;
+}
+
+.map-icon {
+  width: 70px;
+  margin: 10px;
   cursor: pointer;
 }
 
-/* =====================
-   QUEST BUTTON
-===================== */
-.quest-btn {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  border: none;
-  background: #ffb6c1;
-  padding: 6px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-/* =====================
-   QUEST PANEL
-===================== */
-.quest-panel {
-  position: absolute;
-  top: 110px;
-  right: 20px;
+.dialog {
   background: white;
-  border-radius: 14px;
-  padding: 14px;
-  width: 220px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  font-size: 14px;
-  z-index: 1001;
+  border-top: 2px solid #eee;
+  padding: 12px;
 }
 
-.quest-panel h3 {
-  margin-bottom: 8px;
-}
-
-.quest-panel ul {
-  list-style: none;
-}
-
-.quest-panel li {
-  margin-bottom: 6px;
-  transition: all 0.3s ease;
-}
-
-/* QUEST DONE */
-.quest-panel li.done {
-  color: #2e8b57;
-  text-decoration: line-through;
-}
-
-/* =====================
-   QUEST TABS
-===================== */
-.quest-tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.quest-tabs .tab {
-  flex: 1;
-  border: none;
-  background: #f0f0f0;
-  padding: 6px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.quest-tabs .tab.active {
-  background: #ff7fa7;
-  color: white;
-  font-weight: bold;
-}
-
-/* =====================
-   UTIL
-===================== */
-.hidden {
-  display: none;
+#dialog-actions button {
+  margin-right: 8px;
+  margin-top: 6px;
 }
