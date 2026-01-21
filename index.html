@@ -8,75 +8,35 @@
 </head>
 <body>
 
-<div id="game">
+<div class="game">
 
   <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="left">⭐ <span id="star">0</span></div>
-    <div class="right">
-      <button id="btnHome">🏠 Rumah</button>
-      <button id="btnMap">🗺️ Map</button>
+  <header class="top-bar">
+    ⭐ <span id="star-count">0</span>
+    <div class="nav">
+      <button disabled>🏠 Rumah</button>
+      <button disabled>🗺️ Map</button>
     </div>
   </header>
 
-  <!-- SCENE -->
-  <div id="scene-container">
+  <!-- SCENE: ROOM (KAMAR SYABIL) -->
+  <div id="scene-room" class="scene active room">
 
-    <!-- BEDROOM -->
-    <div class="scene bedroom active">
-      <div class="character syabil"></div>
-    </div>
-
-    <!-- HOME -->
-    <div class="scene home">
-      <div class="character syabil"></div>
-      <div class="character papa"></div>
-      <div class="character mama"></div>
-    </div>
-
-    <!-- KITCHEN -->
-    <div class="scene kitchen">
-      <div class="character syabil"></div>
-      <div class="character papa"></div>
-      <div class="character mama"></div>
-    </div>
-
-    <!-- MAP -->
-    <div class="scene map">
-      <div class="map-icon home-icon" data-target="home"></div>
-      <div class="map-icon school-icon" data-target="school"></div>
-      <div class="map-icon office-icon" data-target="office"></div>
-      <div class="map-icon market-icon" data-target="market"></div>
-      <div class="map-icon dufan-icon" data-target="dufan"></div>
-    </div>
-
-    <!-- SCHOOL -->
-    <div class="scene school">
-      <div class="character syabil"></div>
-      <div class="character teacher"></div>
-    </div>
-
-    <!-- OFFICE -->
-    <div class="scene office">
-      <div class="character papa"></div>
-    </div>
-
-    <!-- MARKET -->
-    <div class="scene market">
-      <div class="character mama"></div>
-    </div>
-
-    <!-- DUFAN -->
-    <div class="scene dufan">
-      <div class="family-dufan"></div>
+    <!-- SYABIL -->
+    <div class="character syabil">
+      <img id="syabil-img" src="assets/piyama.png" alt="Syabil">
     </div>
 
   </div>
 
   <!-- DIALOG -->
-  <div id="dialog">
-    <p id="dialogText"></p>
-    <div id="dialogActions"></div>
+  <div class="dialog">
+    <p id="dialog-text">
+      Syabil masih memakai piyama. Ia harus ganti baju dulu.
+    </p>
+    <button id="btn-change">
+      Ganti Baju Sekolah
+    </button>
   </div>
 
 </div>
