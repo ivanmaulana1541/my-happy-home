@@ -1,44 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  let syabilOutfit = "piyama";
-
-  const sceneRoom = document.getElementById("scene-room");
-  const sceneKitchen = document.getElementById("scene-kitchen");
-
-  const syabilImg = document.getElementById("syabil-img");
+  const door = document.getElementById("door");
+  const bg = document.getElementById("bg");
   const dialogText = document.getElementById("dialog-text");
-  const btnChange = document.getElementById("btn-change");
-  const doorRoom = document.getElementById("door-room");
 
-  btnChange.addEventListener("click", () => {
+  door.addEventListener("click", () => {
+    // pindah ke kitchen
+    bg.src = "assets/background/kitchen.png";
+    dialogText.textContent = "Mama dan Papa sudah menunggu di dapur.";
 
-    if (syabilOutfit === "piyama") {
-
-      syabilImg.classList.add("jump");
-
-      setTimeout(() => {
-        syabilOutfit = "school";
-        syabilImg.src = "assets/child.png";
-      }, 150);
-
-      setTimeout(() => {
-        syabilImg.classList.remove("jump");
-
-        dialogText.textContent =
-          "Syabil sudah siap. Saatnya keluar kamar.";
-
-        btnChange.style.display = "none";
-        doorRoom.classList.remove("hidden");
-      }, 300);
-    }
+    // opsional: sembunyikan pintu
+    door.style.display = "none";
   });
-
-  doorRoom.addEventListener("click", () => {
-    sceneRoom.classList.remove("active");
-    sceneKitchen.classList.add("active");
-
-    dialogText.textContent =
-      "Mama dan Papa sudah menunggu di dapur.";
-  });
-
 });
