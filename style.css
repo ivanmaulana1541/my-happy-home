@@ -18,26 +18,36 @@ body {
   position: relative;
 }
 
+/* =====================
+   TOP BAR
+===================== */
 .top-bar {
   background: #ff7fa7;
   color: white;
-  padding: 10px;
+  padding: 10px 14px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
+/* =====================
+   SCENE
+===================== */
 .scene {
   display: none;
   height: 420px;
   background-size: cover;
   background-position: center;
-  position: relative;
+  position: relative; /* PENTING */
 }
 
 .scene.active {
   display: block;
 }
 
+/* =====================
+   CHARACTER
+===================== */
 .character {
   position: absolute;
   bottom: 20px;
@@ -55,7 +65,7 @@ body {
 
 .character.papa {
   background-image: url('./assets/father.png');
-  right: 200px;
+  right: 220px;
 }
 
 .character.mama {
@@ -70,9 +80,15 @@ body {
 .character.family-dufan {
   background-image: url('./assets/famdufan.png');
   width: 300px;
+  right: 50%;
+  transform: translateX(50%);
 }
 
-.door, .food {
+/* =====================
+   INTERACTIVE OBJECT
+===================== */
+.door,
+.food {
   position: absolute;
   bottom: 30px;
   left: 30px;
@@ -84,19 +100,76 @@ body {
   left: 100px;
 }
 
-.map-icon {
-  width: 70px;
-  margin: 10px;
-  cursor: pointer;
+/* =====================
+   MAP ICON SYSTEM
+===================== */
+.scene[data-scene="map"] {
+  position: relative;
 }
 
+/* base style */
+.map-icon {
+  position: absolute;
+  width: 64px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.map-icon:hover {
+  transform: scale(1.1);
+}
+
+/* === POSISI SESUAI PULAU === */
+
+/* SEKOLAH – pulau kiri atas */
+.map-icon[data-action="toSchool"] {
+  top: 40px;
+  left: 120px;
+}
+
+/* OFFICE – pulau kanan atas */
+.map-icon[data-action="toOffice"] {
+  top: 50px;
+  right: 140px;
+}
+
+/* MARKET – pulau kanan tengah */
+.map-icon[data-action="toMarket"] {
+  top: 180px;
+  right: 90px;
+}
+
+/* HOME – pulau kiri bawah */
+.map-icon[data-action="toHome"] {
+  bottom: 70px;
+  left: 160px;
+}
+
+/* DUFAN – pulau tengah atas */
+.map-icon[data-action="toDufan"] {
+  top: 90px;
+  left: 420px;
+}
+
+/* =====================
+   DIALOG PANEL
+===================== */
 .dialog {
   background: white;
   border-top: 2px solid #eee;
-  padding: 12px;
+  padding: 14px;
+  min-height: 90px;
+}
+
+#dialog-text {
+  font-size: 15px;
 }
 
 #dialog-actions button {
   margin-right: 8px;
   margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  cursor: pointer;
 }
