@@ -140,11 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
 }
     else if (gameState.afterAction && gameState.chapter === 2) {
   gameState.afterAction = false;
+  gameState.chapter = 3;
   gameState.dialogIndex = 0;
-
-  // END BAB 2 (sementara stay di kitchen)
-  // nanti di sini kita pindah ke Map
+  switchRoom("map");
+  showDialog();
 }
+
 
 
   } else {
