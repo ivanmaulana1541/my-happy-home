@@ -1,66 +1,27 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <title>My Happy Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-<div class="game">
-
-  <!-- TOP BAR -->
-  <header class="top-bar">
-    ⭐ <span id="star-count">0</span>
-    <div class="nav">
-      <button disabled>🏠 Rumah</button>
-      <button disabled>🗺️ Map</button>
-    </div>
-  </header>
-
-  <!-- SCENE: ROOM -->
-  <div id="scene-room" class="scene room active">
+<div id="game">
+  <div id="scene" class="scene room">
+    
+    <!-- BACKGROUND -->
+    <img id="bg" src="assets/background/room.png" class="background" />
 
     <!-- SYABIL -->
-    <div class="character syabil">
-      <img id="syabil-img" src="assets/piyama.png" alt="Syabil">
-    </div>
+    <img
+      id="syabil-img"
+      src="assets/piyama.png"
+      class="character"
+    />
 
-    <!-- PINTU -->
-    <div id="door-room" class="door hidden">🚪</div>
-
-  </div>
-
-  <!-- SCENE: KITCHEN -->
-  <div id="scene-kitchen" class="scene kitchen">
-
-    <div class="character papa">
-      <img src="assets/father.png" alt="Papa">
-    </div>
-
-    <div class="character mama">
-      <img src="assets/mother.png" alt="Mama">
-    </div>
-
-    <div class="character syabil">
-      <img src="assets/child.png" alt="Syabil">
-    </div>
+    <!-- PINTU KE KITCHEN -->
+    <img
+      id="door"
+      src="assets/icon/door.png"
+      class="door"
+      alt="Pintu"
+    />
 
   </div>
 
-  <!-- DIALOG -->
   <div class="dialog">
-    <p id="dialog-text">
-      Syabil masih memakai piyama. Ia harus ganti baju dulu.
-    </p>
-    <button id="btn-change">
-      Ganti Baju Sekolah
-    </button>
+    <p id="dialog-text">Syabil sudah siap. Saatnya keluar kamar.</p>
   </div>
-
 </div>
-
-<script src="script.js"></script>
-</body>
-</html>
