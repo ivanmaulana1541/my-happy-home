@@ -8,14 +8,22 @@ let state = {
   step: "wake"
 };
 
+/* =====================
+   SCENE CONTROL (FIX)
+===================== */
 function showScene(name) {
   scenes.forEach(s => s.classList.remove("active"));
-  document.querySelector(`[data-scene="${name}"]`).classList.add("active");
+  const scene = document.querySelector(`.scene[data-scene="${name}"]`);
+  if (scene) scene.classList.add("active");
 }
 
+/* =====================
+   DIALOG SYSTEM
+===================== */
 function dialog(text, actions = []) {
   dialogText.textContent = text;
   dialogActions.innerHTML = "";
+
   actions.forEach(a => {
     const btn = document.createElement("button");
     btn.textContent = a.label;
@@ -24,6 +32,9 @@ function dialog(text, actions = []) {
   });
 }
 
+/* =====================
+   GAME START
+===================== */
 dialog(
   "Syabil masih memakai piyama. Ia harus ganti baju dulu.",
   [
@@ -38,9 +49,14 @@ dialog(
   ]
 );
 
+/* =====================
+   GLOBAL CLICK HANDLER
+===================== */
 document.addEventListener("click", e => {
   const act = e.target.dataset.action;
+  if (!act) return;
 
+  /* === KAMAR → DAPUR === */
   if (act === "toKitchen" && state.step === "readyToKitchen") {
     showScene("kitchen");
     syabilKitchen.style.backgroundImage = "url('./assets/child.png')";
@@ -48,48 +64,99 @@ document.addEventListener("click", e => {
     dialog("Papa, Mama, dan Syabil sarapan bersama.");
   }
 
+  /* === SARAPAN === */
   if (act === "eat" && state.step === "breakfast") {
     state.step = "toSchool";
-    dialog("Sarapan selesai. Saatnya berangkat sekolah.", [
-      { label: "Ke Map", action: () => showScene("map") }
-    ]);
+    dialog(
+      "Sarapan selesai. Saatnya berangkat sekolah.",
+      [
+        {
+          label: "Ke Map",
+          action: () => showScene("map")
+        }
+      ]
+    );
   }
 
+  /* === MAP → SEKOLAH === */
   if (act === "toSchool" && state.step === "toSchool") {
     showScene("school");
     dialog("105 + 12 = ?", [
-      { label: "A. 117", action: () => secondQuestion() },
-      { label: "B. 93", action: () => dialog("Jawaban salah, coba lagi.") }
+      {
+        label: "A. 117",
+        action: () => secondQuestion()
+      },
+      {
+        label: "B. 93",
+        action: () => dialog("Jawaban salah, coba lagi.")
+      }
     ]);
   }
 
+  /* === MAP → OFFICE (PAPA) === */
   if (act === "toOffice") {
     showScene("office");
     dialog("12577 - 125 = ?", [
-      { label: "A. 12452", action: () => dialog("Papa selesai bekerja.", [{ label:"Pulang", action:()=>showScene("map")}]) },
-      { label: "B. 12386", action: () => dialog("Jawaban salah.") }
+      {
+        label: "A. 12452",
+        action: () =>
+          dialog(
+            "Papa selesai bekerja.",
+            [{ label: "Kembali ke Map", action: () => showScene("map") }]
+          )
+      },
+      {
+        label: "B. 12386",
+        action: () => dialog("Jawaban salah.")
+      }
     ]);
   }
 
+  /* === MAP → MARKET (MAMA) === */
   if (act === "toMarket") {
     showScene("market");
-    dialog("Mama berbelanja.", [
-      { label: "Belanja selesai", action: () => showScene("map") }
-    ]);
+    dialog(
+      "Mama sedang berbelanja.",
+      [
+        {
+          label: "Belanja selesai",
+          action: () => showScene("map")
+        }
+      ]
+    );
   }
 
+  /* === MAP → HOME === */
   if (act === "toHome") {
     showScene("room");
-    dialog("Keluarga sudah lengkap. Mau kemana?", [
-      { label: "Dufan", action: () => showScene("dufan") }
-    ]);
+    dialog(
+      "Keluarga sudah lengkap. Mau ke mana?",
+      [
+        {
+          label: "Dufan",
+          action: () => showScene("dufan")
+        }
+      ]
+    );
   }
-
 });
 
+/* =====================
+   SCHOOL QUESTION 2
+===================== */
 function secondQuestion() {
   dialog("228 - 19 = ?", [
-    { label: "A. 209", action: () => dialog("Syabil boleh pulang.", [{ label:"Ke Map", action:()=>showScene("map")}]) },
-    { label: "B. 197", action: () => dialog("Jawaban salah.") }
+    {
+      label: "A. 209",
+      action: () =>
+        dialog(
+          "Syabil boleh pulang.",
+          [{ label: "Ke Map", action: () => showScene("map") }]
+        )
+    },
+    {
+      label: "B. 197",
+      action: () => dialog("Jawaban salah.")
+    }
   ]);
 }
