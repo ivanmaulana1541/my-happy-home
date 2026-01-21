@@ -9,7 +9,7 @@ let state = {
 };
 
 /* =====================
-   SCENE CONTROL (FIX)
+   SCENE CONTROL
 ===================== */
 function showScene(name) {
   scenes.forEach(s => s.classList.remove("active"));
@@ -18,7 +18,7 @@ function showScene(name) {
 }
 
 /* =====================
-   DIALOG SYSTEM
+   DIALOG
 ===================== */
 function dialog(text, actions = []) {
   dialogText.textContent = text;
@@ -50,13 +50,12 @@ dialog(
 );
 
 /* =====================
-   GLOBAL CLICK HANDLER
+   GLOBAL CLICK
 ===================== */
 document.addEventListener("click", e => {
   const act = e.target.dataset.action;
   if (!act) return;
 
-  /* === KAMAR → DAPUR === */
   if (act === "toKitchen" && state.step === "readyToKitchen") {
     showScene("kitchen");
     syabilKitchen.style.backgroundImage = "url('./assets/child.png')";
@@ -64,80 +63,49 @@ document.addEventListener("click", e => {
     dialog("Papa, Mama, dan Syabil sarapan bersama.");
   }
 
-  /* === SARAPAN === */
   if (act === "eat" && state.step === "breakfast") {
     state.step = "toSchool";
     dialog(
       "Sarapan selesai. Saatnya berangkat sekolah.",
-      [
-        {
-          label: "Ke Map",
-          action: () => showScene("map")
-        }
-      ]
+      [{ label: "Ke Map", action: () => showScene("map") }]
     );
   }
 
-  /* === MAP → SEKOLAH === */
   if (act === "toSchool" && state.step === "toSchool") {
     showScene("school");
     dialog("105 + 12 = ?", [
-      {
-        label: "A. 117",
-        action: () => secondQuestion()
-      },
-      {
-        label: "B. 93",
-        action: () => dialog("Jawaban salah, coba lagi.")
-      }
+      { label: "A. 117", action: () => secondQuestion() },
+      { label: "B. 93", action: () => dialog("Jawaban salah.") }
     ]);
   }
 
-  /* === MAP → OFFICE (PAPA) === */
+  /* === MAP → HOME (HARUS home.png) === */
+  if (act === "toHome") {
+    showScene("home");
+    dialog("Keluarga sudah lengkap. Mau ke mana?", [
+      { label: "Dufan", action: () => showScene("dufan") }
+    ]);
+  }
+
   if (act === "toOffice") {
     showScene("office");
     dialog("12577 - 125 = ?", [
       {
         label: "A. 12452",
         action: () =>
-          dialog(
-            "Papa selesai bekerja.",
-            [{ label: "Kembali ke Map", action: () => showScene("map") }]
-          )
+          dialog("Papa selesai bekerja.", [
+            { label: "Kembali ke Map", action: () => showScene("map") }
+          ])
       },
-      {
-        label: "B. 12386",
-        action: () => dialog("Jawaban salah.")
-      }
+      { label: "B. 12386", action: () => dialog("Jawaban salah.") }
     ]);
   }
 
-  /* === MAP → MARKET (MAMA) === */
   if (act === "toMarket") {
     showScene("market");
-    dialog(
-      "Mama sedang berbelanja.",
-      [
-        {
-          label: "Belanja selesai",
-          action: () => showScene("map")
-        }
-      ]
-    );
-  }
-
-  /* === MAP → HOME === */
-  if (act === "toHome") {
-    showScene("room");
-    dialog(
-      "Keluarga sudah lengkap. Mau ke mana?",
-      [
-        {
-          label: "Dufan",
-          action: () => showScene("dufan")
-        }
-      ]
-    );
+    dialog("Mama berbelanja.", [
+      { label: "Belanja selesai", action: () => showScene("map") }
+    ]);
   }
 });
 
@@ -149,14 +117,10 @@ function secondQuestion() {
     {
       label: "A. 209",
       action: () =>
-        dialog(
-          "Syabil boleh pulang.",
-          [{ label: "Ke Map", action: () => showScene("map") }]
-        )
+        dialog("Syabil boleh pulang.", [
+          { label: "Ke Map", action: () => showScene("map") }
+        ])
     },
-    {
-      label: "B. 197",
-      action: () => dialog("Jawaban salah.")
-    }
+    { label: "B. 197", action: () => dialog("Jawaban salah.") }
   ]);
 }
