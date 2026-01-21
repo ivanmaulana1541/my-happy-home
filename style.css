@@ -73,9 +73,10 @@ body {
 
 /* KHUSUS SEKOLAH */
 .school .person.child {
-  left: 420px;
-  right: auto;
-  bottom: 140px;
+  right: 60px;          /* jarak dari kanan = jarak Bu Putri dari kiri */
+  left: auto;
+  bottom: 20px;         /* sejajar kaki dengan Bu Putri */
+  z-index: 5;
 }
 
 /* ITEM */
