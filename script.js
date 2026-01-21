@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
   const dialogText = dialogBox.querySelector(".dialog-text");
   const dialogNext = document.getElementById("dialog-next");
+  const quiz = document.querySelector(".quiz");
+const answers = document.querySelectorAll(".answer");
+
 
   const gameState = {
   chapter: 1,
@@ -61,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ],
   action: "lesson"
 }
+    
 
   };
 
