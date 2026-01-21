@@ -174,9 +174,10 @@ body {
   filter: drop-shadow(0 0 10px rgba(255,127,167,0.8));
 }
 
-/* FIX POSISI SYABIL DI SEKOLAH */
+/* FIX FINAL POSISI SYABIL DI SEKOLAH */
 .school .person.child {
-  left: 300px;     /* masuk ke tengah */
-  right: auto;    /* MATIKAN right global */
-  bottom: 20px;
+  left: 420px !important;
+  right: auto !important;
+  bottom: 30px;
+  z-index: 10;
 }
