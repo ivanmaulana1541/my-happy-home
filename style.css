@@ -26,9 +26,19 @@ body {
 .top-bar {
   background: #ff7fa7;
   color: white;
-  padding: 14px;
+  padding: 14px 18px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.nav button {
+  border: none;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-left: 6px;
 }
 
 /* ROOM */
@@ -38,16 +48,16 @@ body {
   padding: 20px;
   display: none;
   background-size: cover;
+  background-position: center;
 }
 
 .room.active {
   display: block;
 }
 
-.bedroom { background: #fce4ec; }
-.kitchen { background: #fff3e0; }
-.map { background: #e3f2fd; }
-.school { background: #e8f5e9; }
+.home { background-image: url("./assets/background/home.png"); }
+.bedroom { background-image: url("./assets/background/room.png"); }
+.kitchen { background-image: url("./assets/background/kitchen.png"); }
 
 /* PERSON */
 .person {
@@ -59,7 +69,9 @@ body {
 .person.father { right: 200px; }
 .person.mother { right: 120px; }
 
-.person img { height: 220px; }
+.person.child img { height: 220px; }
+.person.father img { height: 275px; }
+.person.mother img { height: 265px; }
 
 /* ITEM */
 .item {
@@ -75,6 +87,9 @@ body {
   position: absolute;
   left: 20px;
   top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .food {
@@ -82,14 +97,17 @@ body {
   cursor: pointer;
 }
 
-/* MAP ICON */
-.map-icon {
-  font-size: 28px;
-  background: white;
-  padding: 14px;
-  border-radius: 14px;
+/* QUEST BUTTON */
+.quest-btn {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  border: none;
+  background: #ffb6c1;
+  padding: 6px 12px;
+  border-radius: 12px;
   cursor: pointer;
-  width: fit-content;
+  z-index: 1000;
 }
 
 /* DIALOG */
@@ -113,20 +131,15 @@ body {
 }
 
 .dialog-text {
+  font-size: 15px;
   margin-bottom: 10px;
 }
 
-.dialog input {
-  padding: 6px;
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-.dialog button {
+#dialog-next {
+  border: none;
   background: #ff7fa7;
   color: white;
-  border: none;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 10px;
   cursor: pointer;
 }
