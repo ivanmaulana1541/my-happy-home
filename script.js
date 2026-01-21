@@ -1,143 +1,95 @@
-document.addEventListener("DOMContentLoaded", () => {
+const scenes = document.querySelectorAll(".scene");
+const dialogText = document.getElementById("dialog-text");
+const dialogActions = document.getElementById("dialog-actions");
+const syabil = document.getElementById("char-syabil");
+const syabilKitchen = document.getElementById("char-syabil-kitchen");
 
-  const starEl = document.getElementById("star-count");
-  const navButtons = document.querySelectorAll(".nav button");
-  const rooms = document.querySelectorAll(".room");
+let state = {
+  step: "wake"
+};
 
-  const bed = document.querySelector(".bed");
-  const wardrobe = document.querySelector(".wardrobe");
-  const foods = document.querySelectorAll(".food");
+function showScene(name) {
+  scenes.forEach(s => s.classList.remove("active"));
+  document.querySelector(`[data-scene="${name}"]`).classList.add("active");
+}
 
-  const btnQuest = document.getElementById("btn-quest");
-  const questPanel = document.getElementById("quest-panel");
-  const tabs = document.querySelectorAll(".quest-tabs .tab");
-  const questList = questPanel.querySelector("ul");
-
-  let stars = 0;
-  let dressOn = false;
-  let activeTab = "child";
-
-  const quest = {
-    child: { wakeUp: false, eat: false, school: false },
-    father: { eat: false, office: false },
-    mother: { eat: false, market: false }
-  };
-
-  function addStar(n = 1) {
-    stars += n;
-    starEl.textContent = stars;
-  }
-
-  function switchRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    document.querySelector(`.${name}`)?.classList.add("active");
-  }
-
-  function getChild() {
-    return document.querySelector(".room.active .person.child img");
-  }
-
-  function jumpChild() {
-    const child = getChild();
-    if (!child) return;
-    child.classList.add("jump");
-    setTimeout(() => child.classList.remove("jump"), 300);
-  }
-
-  function renderQuest() {
-    questList.innerHTML = "";
-
-    if (activeTab === "child") {
-      addQuestItem("Syabil bangun tidur", quest.child.wakeUp);
-      addQuestItem("Syabil makan pagi", quest.child.eat);
-      addQuestItem("Syabil berangkat sekolah", quest.child.school);
-    }
-
-    if (activeTab === "father") {
-      addQuestItem("Papa makan pagi", quest.father.eat);
-      addQuestItem("Papa pergi ke kantor", quest.father.office);
-    }
-
-    if (activeTab === "mother") {
-      addQuestItem("Mama makan pagi", quest.mother.eat);
-      addQuestItem("Mama pergi ke market", quest.mother.market);
-    }
-  }
-
-  function addQuestItem(text, done) {
-    const li = document.createElement("li");
-    li.textContent = (done ? "✅ " : "⬜ ") + text;
-    if (done) li.classList.add("done");
-    questList.appendChild(li);
-  }
-
-  btnQuest.addEventListener("click", () => {
-    questPanel.classList.toggle("hidden");
-    renderQuest();
+function dialog(text, actions = []) {
+  dialogText.textContent = text;
+  dialogActions.innerHTML = "";
+  actions.forEach(a => {
+    const btn = document.createElement("button");
+    btn.textContent = a.label;
+    btn.onclick = a.action;
+    dialogActions.appendChild(btn);
   });
+}
 
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      activeTab = index === 0 ? "child" : index === 1 ? "father" : "mother";
-      renderQuest();
-    });
-  });
-
-  navButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const target = btn.dataset.area;
-      if (target === "school" && (!quest.child.wakeUp || !quest.child.eat)) return;
-      if (target === "office" && !quest.father.eat) return;
-      if (target === "market" && !quest.mother.eat) return;
-
-      switchRoom(target);
-
-      if (target === "school" && !quest.child.school) {
-        quest.child.school = true;
-        addStar(2);
+dialog(
+  "Syabil masih memakai piyama. Ia harus ganti baju dulu.",
+  [
+    {
+      label: "Ganti Baju Sekolah",
+      action: () => {
+        syabil.style.backgroundImage = "url('./assets/child.png')";
+        state.step = "readyToKitchen";
+        dialog("Syabil sudah siap. Saatnya keluar kamar.");
       }
-      if (target === "office" && !quest.father.office) {
-        quest.father.office = true;
-        addStar(2);
-      }
-      if (target === "market" && !quest.mother.market) {
-        quest.mother.market = true;
-        addStar(2);
-      }
-    });
-  });
+    }
+  ]
+);
 
-  bed?.addEventListener("click", () => {
-    switchRoom("bedroom");
-    setTimeout(() => {
-      quest.child.wakeUp = true;
-      addStar(1);
-      jumpChild();
-    }, 100);
-  });
+document.addEventListener("click", e => {
+  const act = e.target.dataset.action;
 
-  wardrobe?.addEventListener("click", () => {
-    switchRoom("bedroom");
-    setTimeout(() => {
-      const child = getChild();
-      dressOn = !dressOn;
-      child.src = dressOn ? "./assets/child-dress.png" : "./assets/child.png";
-      addStar(1);
-      jumpChild();
-    }, 100);
-  });
+  if (act === "toKitchen" && state.step === "readyToKitchen") {
+    showScene("kitchen");
+    syabilKitchen.style.backgroundImage = "url('./assets/child.png')";
+    state.step = "breakfast";
+    dialog("Papa, Mama, dan Syabil sarapan bersama.");
+  }
 
-  foods.forEach(food => {
-    food.addEventListener("click", () => {
-      switchRoom("kitchen");
-      setTimeout(() => {
-        if (!quest.child.eat) { quest.child.eat = true; addStar(1); }
-        if (!quest.father.eat) { quest.father.eat = true; addStar(1); }
-        if (!quest.mother.eat) { quest.mother.eat = true; addStar(1); }
-      }, 100);
-    });
-  });
+  if (act === "eat" && state.step === "breakfast") {
+    state.step = "toSchool";
+    dialog("Sarapan selesai. Saatnya berangkat sekolah.", [
+      { label: "Ke Map", action: () => showScene("map") }
+    ]);
+  }
+
+  if (act === "toSchool" && state.step === "toSchool") {
+    showScene("school");
+    dialog("105 + 12 = ?", [
+      { label: "A. 117", action: () => secondQuestion() },
+      { label: "B. 93", action: () => dialog("Jawaban salah, coba lagi.") }
+    ]);
+  }
+
+  if (act === "toOffice") {
+    showScene("office");
+    dialog("12577 - 125 = ?", [
+      { label: "A. 12452", action: () => dialog("Papa selesai bekerja.", [{ label:"Pulang", action:()=>showScene("map")}]) },
+      { label: "B. 12386", action: () => dialog("Jawaban salah.") }
+    ]);
+  }
+
+  if (act === "toMarket") {
+    showScene("market");
+    dialog("Mama berbelanja.", [
+      { label: "Belanja selesai", action: () => showScene("map") }
+    ]);
+  }
+
+  if (act === "toHome") {
+    showScene("room");
+    dialog("Keluarga sudah lengkap. Mau kemana?", [
+      { label: "Dufan", action: () => showScene("dufan") }
+    ]);
+  }
 
 });
+
+function secondQuestion() {
+  dialog("228 - 19 = ?", [
+    { label: "A. 209", action: () => dialog("Syabil boleh pulang.", [{ label:"Ke Map", action:()=>showScene("map")}]) },
+    { label: "B. 197", action: () => dialog("Jawaban salah.") }
+  ]);
+}
