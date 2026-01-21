@@ -18,10 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const story = {
     1: {
-      scene: "bedroom",
+      scene: "room",
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
+        { speaker: "Syabil", text: "Syabil sudah siap. Saatnya keluar kamar." }
       ],
       action: "changeDress"
     },
