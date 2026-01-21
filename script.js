@@ -15,23 +15,39 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const story = {
-    1: {
-      scene: "bedroom",
-      dialogs: [
-        { speaker: "Syabil", text: "Syabil masih memakai piyama." },
-        { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
-      ],
-      action: "changeDress"
-    },
-    2: {
-      scene: "kitchen",
-      dialogs: [
-        { speaker: "Mama", text: "Ayo sarapan dulu sebelum berangkat." },
-        { speaker: "Papa", text: "Sarapan bersama yuk!" }
-      ],
-      action: "eat"
-    }
-  };
+  1: {
+    scene: "bedroom",
+    dialogs: [
+      { speaker: "Syabil", text: "Syabil masih memakai piyama." },
+      { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
+    ],
+    action: "changeDress"
+  },
+  2: {
+    scene: "kitchen",
+    dialogs: [
+      { speaker: "Mama", text: "Ayo sarapan dulu sebelum berangkat." },
+      { speaker: "Papa", text: "Sarapan bersama yuk!" }
+    ],
+    action: "eat"
+  },
+  3: {
+    scene: "map",
+    dialogs: [
+      { speaker: "Syabil", text: "Sekarang aku berangkat sekolah!" }
+    ],
+    action: "goSchool"
+  },
+  4: {
+    scene: "school",
+    dialogs: [
+      { speaker: "Bu Putri", text: "Selamat pagi Syabil." },
+      { speaker: "Bu Putri", text: "Ayo kita belajar." }
+    ],
+    action: "schoolLesson"
+  }
+};
+
 
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
