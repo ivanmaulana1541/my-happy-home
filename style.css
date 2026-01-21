@@ -174,10 +174,10 @@ body {
   filter: drop-shadow(0 0 10px rgba(255,127,167,0.8));
 }
 
-/* FIX FINAL POSISI SYABIL DI SEKOLAH */
+/* FIX: SYABIL TERTUTUP DIALOG */
 .school .person.child {
   left: 420px !important;
   right: auto !important;
-  bottom: 30px;
+  bottom: 140px; /* NAIKKAN DI ATAS DIALOG */
   z-index: 10;
 }
