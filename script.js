@@ -103,7 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // START GAME
-  switchRoom("bedroom");
+  switchRoom("room");
+  loadRoomBackground("room");
   updateSyabilOutfit();
   showDialog();
 
