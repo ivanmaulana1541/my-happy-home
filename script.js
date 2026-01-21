@@ -17,15 +17,18 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const story = {
-    1: {
-      scene: "room",
-      dialogs: [
-        { speaker: "Syabil", text: "Syabil masih memakai piyama." },
-        { speaker: "Syabil", text: "Ia harus ganti baju dulu." },
-        { speaker: "Syabil", text: "Syabil sudah siap. Saatnya keluar kamar." }
-      ],
-      action: "changeDress"
-    },
+   1: {
+  scene: "room",
+  dialogs: [
+    { speaker: "Syabil", text: "Syabil masih memakai piyama." },
+    { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
+  ],
+  afterActionDialogs: [
+    { speaker: "Syabil", text: "Syabil sudah siap. Saatnya keluar kamar." }
+  ],
+  action: "changeDress"
+},
+
     2: {
       scene: "kitchen",
       dialogs: [
