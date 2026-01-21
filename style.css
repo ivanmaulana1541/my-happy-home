@@ -63,12 +63,13 @@ body {
 .person {
   position: absolute;
   bottom: 20px;
+  z-index: 5;
 }
 
-.person.child { right: 40px; }
+.person.child { right: 40px; z-index: 7; }
 .person.father { right: 200px; }
 .person.mother { right: 120px; }
-.person.teacher { left: 60px; }
+.person.teacher { left: 60px; z-index: 6; }
 
 .person.child img { height: 220px; }
 .person.father img { height: 275px; }
