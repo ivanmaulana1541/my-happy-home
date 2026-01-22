@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
   const schoolIcon = document.querySelector(".school-icon");
+  const schoolDressIcon = document.querySelector(".school-dress-icon");
   const schoolBasketIcon = document.querySelector(".school-basket-icon");
 
   const dialogBox = document.getElementById("dialog-box");
@@ -293,9 +294,10 @@ document.addEventListener("DOMContentLoaded", () => {
         gameState.afterAction = true;
         gameState.dialogIndex = 0;
 
-        // tampilkan icon basket
-        schoolBasketIcon?.classList.remove("hidden");
-        showDialog();
+       // tampilkan icon ganti baju olahraga
+schoolDressIcon?.classList.remove("hidden");
+showDialog();
+
       }
     });
   });
