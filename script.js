@@ -32,6 +32,11 @@ const basketShootBtn = document.querySelector(".basket-shoot");
 
     quizStep: 0,
     waitingQuiz: false
+
+    basketActive: false,
+basketDirection: 1,
+basketX: 0
+
   };
 
   /* =====================
