@@ -16,12 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const quiz = document.querySelector(".quiz");
   const answers = document.querySelectorAll(".answer");
 
+  // Basket elements
   const basketArea = document.querySelector(".basket-area");
-const basketBall = document.querySelector(".basket-ball");
-const basketShootBtn = document.querySelector(".basket-shoot");
+  const basketBall = document.querySelector(".basket-ball");
   const basketRing = document.querySelector(".basket-ring");
-
-
+  const basketShootBtn = document.querySelector(".basket-shoot");
 
   /* =====================
      GAME STATE
@@ -32,17 +31,20 @@ const basketShootBtn = document.querySelector(".basket-shoot");
     syabilOutfit: "piyama",
     afterAction: false,
 
+    // quiz
     quizStep: 0,
-    waitingQuiz: false
+    waitingQuiz: false,
 
+    // basket
     basketActive: false,
-basketDirection: 1,
-basketX: 0
-
+    basketDirection: 1,
+    basketX: 0,
+    basketShots: 0,
+    basketScore: 0
   };
 
   /* =====================
-     STORY DATA (BAB 1–4)
+     STORY DATA
   ===================== */
   const story = {
     1: {
@@ -84,14 +86,15 @@ basketX: 0
         { speaker: "Miss Putri", text: "Ayo kita belajar." }
       ],
       afterActionDialogs: [
-        { speaker: "Miss Putri", text: "Bagus! Syabil boleh pulang." }
+        { speaker: "Miss Putri", text: "Bagus! Syabil boleh pulang." },
+        { speaker: "Miss Putri", text: "Sekarang kita olahraga basket ya." }
       ],
       action: "lesson"
     }
   };
 
   /* =====================
-     QUIZ DATA (BAB 4)
+     QUIZ DATA
   ===================== */
   const quizQuestions = [
     {
@@ -178,37 +181,7 @@ basketX: 0
   /* =====================
      QUIZ FUNCTIONS
   ===================== */
-/* =====================
-   BASKET FUNCTIONS
-===================== */
-function startBasketMovement() {
-  gameState.basketActive = true;
-  gameState.basketX = 20;
-  gameState.basketDirection = 1;
-
-  const courtWidth = basketBall.parentElement.offsetWidth - 50;
-
-  function move() {
-    if (!gameState.basketActive) return;
-
-    gameState.basketX += gameState.basketDirection * 2;
-
-    if (gameState.basketX >= courtWidth) {
-      gameState.basketDirection = -1;
-    }
-    if (gameState.basketX <= 0) {
-      gameState.basketDirection = 1;
-    }
-
-    basketBall.style.left = gameState.basketX + "px";
-    requestAnimationFrame(move);
-  }
-
-  move();
-}
-  
-
-function loadQuiz() {
+  function loadQuiz() {
     const q = quizQuestions[gameState.quizStep];
     if (!q) return;
 
@@ -224,7 +197,40 @@ function loadQuiz() {
   }
 
   /* =====================
-     DIALOG FLOW (SATU-SATUNYA)
+     BASKET FUNCTIONS
+  ===================== */
+  function startBasket() {
+    basketArea.classList.remove("hidden");
+    gameState.basketShots = 0;
+    gameState.basketScore = 0;
+    resetBasketBall();
+  }
+
+  function resetBasketBall() {
+    gameState.basketX = 20;
+    gameState.basketDirection = 1;
+    gameState.basketActive = true;
+    basketBall.style.left = gameState.basketX + "px";
+
+    const courtWidth = basketBall.parentElement.offsetWidth - 50;
+
+    function move() {
+      if (!gameState.basketActive) return;
+
+      gameState.basketX += gameState.basketDirection * 2;
+
+      if (gameState.basketX >= courtWidth) gameState.basketDirection = -1;
+      if (gameState.basketX <= 0) gameState.basketDirection = 1;
+
+      basketBall.style.left = gameState.basketX + "px";
+      requestAnimationFrame(move);
+    }
+
+    move();
+  }
+
+  /* =====================
+     DIALOG FLOW
   ===================== */
   dialogNext.addEventListener("click", () => {
     const chapter = story[gameState.chapter];
@@ -235,23 +241,27 @@ function loadQuiz() {
 
     gameState.dialogIndex++;
 
-    // masih ada dialog
     if (gameState.dialogIndex < dialogs.length) {
       showDialog();
       return;
     }
 
-    // dialog selesai
     dialogBox.classList.add("hidden");
     gameState.dialogIndex = 0;
 
-    // BAB 4 → lanjut quiz (tidak reset step)
+    // START QUIZ
     if (!gameState.afterAction && gameState.chapter === 4) {
+      gameState.quizStep = 0;
       loadQuiz();
       return;
     }
 
-    // selesai BAB 1
+    // FINISH QUIZ → dialog lanjut (basket intro)
+    if (gameState.afterAction && gameState.chapter === 4) {
+      startBasket();
+      return;
+    }
+
     if (gameState.afterAction && gameState.chapter === 1) {
       gameState.afterAction = false;
       gameState.chapter = 2;
@@ -260,20 +270,11 @@ function loadQuiz() {
       return;
     }
 
-    // selesai BAB 2
     if (gameState.afterAction && gameState.chapter === 2) {
       gameState.afterAction = false;
       gameState.chapter = 3;
       switchRoom("map");
       showDialog();
-      return;
-    }
-
-    // selesai BAB 4 → balik ke map
-    if (gameState.afterAction && gameState.chapter === 4) {
-      gameState.afterAction = false;
-      gameState.chapter = 3;
-      switchRoom("map");
     }
   });
 
@@ -313,9 +314,6 @@ function loadQuiz() {
     showDialog();
   });
 
-  /* =====================
-     QUIZ ANSWERS
-  ===================== */
   answers.forEach(btn => {
     btn.addEventListener("click", () => {
       if (!gameState.waitingQuiz) return;
@@ -324,7 +322,6 @@ function loadQuiz() {
       quiz.classList.add("hidden");
       gameState.waitingQuiz = false;
 
-      // SALAH
       if (!isCorrect) {
         dialogSpeaker.textContent = "Miss Putri";
         dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
@@ -332,7 +329,6 @@ function loadQuiz() {
         return;
       }
 
-      // BENAR
       dialogSpeaker.textContent = "Miss Putri";
       dialogText.textContent = "Yaaay betul!";
       dialogBox.classList.remove("hidden");
@@ -340,11 +336,49 @@ function loadQuiz() {
       gameState.quizStep++;
 
       if (gameState.quizStep < quizQuestions.length) {
-        gameState.afterAction = false; // lanjut soal berikutnya
+        gameState.afterAction = false;
       } else {
-        gameState.afterAction = true;  // lanjut dialog penutup
+        gameState.afterAction = true;
       }
     });
+  });
+
+  basketShootBtn.addEventListener("click", () => {
+    if (!gameState.basketActive) return;
+
+    gameState.basketActive = false;
+    gameState.basketShots++;
+
+    const ballRect = basketBall.getBoundingClientRect();
+    const ringRect = basketRing.getBoundingClientRect();
+    const ballCenterX = ballRect.left + ballRect.width / 2;
+
+    if (ballCenterX >= ringRect.left && ballCenterX <= ringRect.right) {
+      gameState.basketScore++;
+    }
+
+    if (gameState.basketShots < 3) {
+      setTimeout(resetBasketBall, 600);
+      return;
+    }
+
+    basketArea.classList.add("hidden");
+
+    dialogSpeaker.textContent = "Miss Putri";
+    dialogText.textContent =
+      gameState.basketScore >= 2
+        ? "Wah, Syabil hebat!"
+        : "Tidak apa-apa, kita latihan lagi ya.";
+
+    dialogBox.classList.remove("hidden");
+
+    dialogNext.onclick = () => {
+      dialogNext.onclick = null;
+      dialogBox.classList.add("hidden");
+      gameState.afterAction = false;
+      gameState.chapter = 3;
+      switchRoom("map");
+    };
   });
 
   /* =====================
