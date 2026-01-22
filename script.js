@@ -176,7 +176,37 @@ basketX: 0
   /* =====================
      QUIZ FUNCTIONS
   ===================== */
-  function loadQuiz() {
+/* =====================
+   BASKET FUNCTIONS
+===================== */
+function startBasketMovement() {
+  gameState.basketActive = true;
+  gameState.basketX = 20;
+  gameState.basketDirection = 1;
+
+  const courtWidth = basketBall.parentElement.offsetWidth - 50;
+
+  function move() {
+    if (!gameState.basketActive) return;
+
+    gameState.basketX += gameState.basketDirection * 2;
+
+    if (gameState.basketX >= courtWidth) {
+      gameState.basketDirection = -1;
+    }
+    if (gameState.basketX <= 0) {
+      gameState.basketDirection = 1;
+    }
+
+    basketBall.style.left = gameState.basketX + "px";
+    requestAnimationFrame(move);
+  }
+
+  move();
+}
+  
+
+function loadQuiz() {
     const q = quizQuestions[gameState.quizStep];
     if (!q) return;
 
