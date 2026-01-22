@@ -331,14 +331,18 @@ schoolDressIcon?.addEventListener("click", () => {
   schoolBasketIcon?.addEventListener("click", () => {
   if (gameState.chapter !== 4 || !gameState.afterAction) return;
 
-  // ganti baju olahraga
-  gameState.syabilOutfit = "sport";
-  updateSyabilOutfit();
+  /* =====================
+   SCHOOL → BASKET
+===================== */
+schoolBasketIcon?.addEventListener("click", () => {
+  if (gameState.chapter !== 4 || !gameState.afterAction) return;
 
-  // efek kecil (opsional tapi cakep)
-  const child = document.querySelector(".person.child");
-  child.classList.add("jump");
-  setTimeout(() => child.classList.remove("jump"), 400);
+  // sembunyikan icon basket
+  schoolBasketIcon.classList.add("hidden");
+
+  // pindah ke lapangan basket
+  switchRoom("basket");
+});
 
   // sembunyikan icon
   schoolBasketIcon.classList.add("hidden");
