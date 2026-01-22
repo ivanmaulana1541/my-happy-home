@@ -198,3 +198,19 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
+
+/* =====================
+   ROOM BASKET (STEP 1)
+===================== */
+.room.basket {
+  background: #e8f7ff;
+  display: none;
+}
+
+.basket-placeholder {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff7fa7;
+  text-align: center;
+  margin-top: 120px;
+}
