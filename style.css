@@ -228,11 +228,11 @@ body {
 
 .school-dress-icon {
   position: absolute;
-  left: 80px;
-  bottom: 40px;
-  font-size: 46px;
+  right: 140px;      /* geser ke kiri dari Syabil */
+  bottom: 60px;      /* di atas lantai */
+  font-size: 42px;
   cursor: pointer;
-  z-index: 3000;
+  z-index: 1500;     /* di atas background, di bawah dialog */
   pointer-events: auto;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
@@ -241,6 +241,7 @@ body {
   transform: scale(1.15);
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
+
 
 
 .school-basket-icon:hover {
