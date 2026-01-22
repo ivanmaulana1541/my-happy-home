@@ -271,6 +271,20 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.chapter = 4;
     switchRoom("school");
     showDialog();
+    /* =====================
+   SCHOOL → BASKET
+===================== */
+schoolBasketIcon?.addEventListener("click", () => {
+  // pastikan hanya bisa setelah quiz selesai
+  if (gameState.chapter !== 4 || !gameState.afterAction) return;
+
+  // sembunyikan icon agar tidak muncul lagi
+  schoolBasketIcon.classList.add("hidden");
+
+  // pindah ke room basket
+  switchRoom("basket");
+});
+
   });
 
   /* =====================
