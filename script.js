@@ -109,13 +109,20 @@ document.addEventListener("DOMContentLoaded", () => {
      CORE FUNCTIONS
   ===================== */
   function updateSyabilOutfit() {
-    const src = gameState.syabilOutfit === "seragam"
-      ? "./assets/child.png"
-      : "./assets/piyama.png";
+  let src = "./assets/piyama.png";
 
-    document.querySelectorAll(".person.child img")
-      .forEach(img => img.src = src);
+  if (gameState.syabilOutfit === "seragam") {
+    src = "./assets/child.png";
   }
+
+  if (gameState.syabilOutfit === "sport") {
+    src = "./assets/child_sport.png";
+  }
+
+  document.querySelectorAll(".person.child img")
+    .forEach(img => img.src = src);
+}
+
 
   function loadRoomBackground(name) {
     const room = document.querySelector(`.${name}`);
