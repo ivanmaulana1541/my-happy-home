@@ -17,11 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const answers = document.querySelectorAll(".answer");
 
   const gameState = {
-    chapter: 1,
-    dialogIndex: 0,
-    syabilOutfit: "piyama",
-    afterAction: false
-  };
+  chapter: 1,
+  dialogIndex: 0,
+  syabilOutfit: "piyama",
+  afterAction: false,
+  quizStep: 0,
+  waitingQuiz: false
+};
+
 
   /* =====================
      STORY DATA
