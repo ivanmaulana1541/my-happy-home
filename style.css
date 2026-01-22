@@ -221,9 +221,11 @@ body {
   bottom: 40px;
   font-size: 48px;
   cursor: pointer;
-  z-index: 20;
+  z-index: 3000;          /* ⬅️ LEBIH TINGGI DARI DIALOG */
+  pointer-events: auto;  /* ⬅️ PAKSA BOLEH DIKLIK */
   transition: transform 0.2s ease, filter 0.2s ease;
 }
+
 
 .school-basket-icon:hover {
   transform: scale(1.15);
