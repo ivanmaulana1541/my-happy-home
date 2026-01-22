@@ -249,29 +249,48 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   answers.forEach(btn => {
-    function loadQuiz() {
-  const q = quizQuestions[gameState.quizStep];
-  if (!q) return;
+  btn.addEventListener("click", () => {
+    if (!gameState.waitingQuiz) return;
 
-  quiz.querySelector(".question").textContent = q.question;
+    const isCorrect = btn.dataset.correct === "true";
+    quiz.classList.add("hidden");
+    gameState.waitingQuiz = false;
 
-  answers.forEach((btn, i) => {
-    btn.textContent = q.answers[i].text;
-    btn.dataset.correct = q.answers[i].correct;
+    // SALAH
+    if (!isCorrect) {
+      dialogSpeaker.textContent = "Miss Putri";
+      dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
+      dialogBox.classList.remove("hidden");
+
+      dialogNext.onclick = () => {
+        dialogBox.classList.add("hidden");
+        loadQuiz(); // ulang soal yang sama
+      };
+      return;
+    }
+
+    // BENAR
+    dialogSpeaker.textContent = "Miss Putri";
+    dialogText.textContent = "Yaaay betul!";
+    dialogBox.classList.remove("hidden");
+
+    dialogNext.onclick = () => {
+      dialogBox.classList.add("hidden");
+      gameState.quizStep++;
+
+      // masih ada soal
+      if (gameState.quizStep < quizQuestions.length) {
+        loadQuiz();
+      } 
+      // semua soal selesai
+      else {
+        gameState.afterAction = true;
+        gameState.dialogIndex = 0;
+        showDialog();
+      }
+    };
   });
-
-  quiz.classList.remove("hidden");
-  gameState.waitingQuiz = true;
-}
-
-    btn.addEventListener("click", () => {
-      if (btn.dataset.value !== "117") return;
-
-      quiz.classList.add("hidden");
-      gameState.afterAction = true;
-      showDialog();
-    });
-  });
+});
 
   /* =====================
      START GAME
