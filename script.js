@@ -326,12 +326,6 @@ schoolDressIcon?.addEventListener("click", () => {
 
 
   /* =====================
-     SCHOOL → BASKET (STEP 3)
-  ===================== */
-  schoolBasketIcon?.addEventListener("click", () => {
-  if (gameState.chapter !== 4 || !gameState.afterAction) return;
-
-  /* =====================
    SCHOOL → BASKET
 ===================== */
 schoolBasketIcon?.addEventListener("click", () => {
