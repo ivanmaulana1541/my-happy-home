@@ -30,6 +30,30 @@ document.addEventListener("DOMContentLoaded", () => {
      STORY DATA
   ===================== */
   const story = {
+    const quizQuestions = [
+  {
+    question: "105 + 12 = ?",
+    answers: [
+      { text: "117", correct: true },
+      { text: "120", correct: false }
+    ]
+  },
+  {
+    question: "1067 + 479 = ?",
+    answers: [
+      { text: "1635", correct: false },
+      { text: "1546", correct: true }
+    ]
+  },
+  {
+    question: "4782 - 905 = ?",
+    answers: [
+      { text: "3804", correct: false },
+      { text: "3877", correct: true }
+    ]
+  }
+];
+
     1: {
       scene: "room",
       dialogs: [
