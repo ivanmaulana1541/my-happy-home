@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const basketArea = document.querySelector(".basket-area");
 const basketBall = document.querySelector(".basket-ball");
 const basketShootBtn = document.querySelector(".basket-shoot");
+  const basketRing = document.querySelector(".basket-ring");
+
 
 
   /* =====================
