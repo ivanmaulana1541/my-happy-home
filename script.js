@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
   const schoolIcon = document.querySelector(".school-icon");
+  const schoolBasketIcon = document.querySelector(".school-basket-icon");
 
   const dialogBox = document.getElementById("dialog-box");
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
@@ -15,8 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const quiz = document.querySelector(".quiz");
   const answers = document.querySelectorAll(".answer");
-  const schoolBasketIcon = document.querySelector(".school-basket-icon");
-
 
   /* =====================
      GAME STATE
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogIndex: 0,
     syabilOutfit: "piyama",
     afterAction: false,
-
     quizStep: 0,
     waitingQuiz: false
   };
@@ -81,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     QUIZ DATA (BAB 4)
+     QUIZ DATA
   ===================== */
   const quizQuestions = [
     {
@@ -111,10 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
      CORE FUNCTIONS
   ===================== */
   function updateSyabilOutfit() {
-    const src =
-      gameState.syabilOutfit === "seragam"
-        ? "./assets/child.png"
-        : "./assets/piyama.png";
+    const src = gameState.syabilOutfit === "seragam"
+      ? "./assets/child.png"
+      : "./assets/piyama.png";
 
     document.querySelectorAll(".person.child img")
       .forEach(img => img.src = src);
@@ -152,10 +149,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showDialog() {
     const chapter = story[gameState.chapter];
-    const dialogs =
-      gameState.afterAction && chapter.afterActionDialogs
-        ? chapter.afterActionDialogs
-        : chapter.dialogs;
+    const dialogs = gameState.afterAction && chapter.afterActionDialogs
+      ? chapter.afterActionDialogs
+      : chapter.dialogs;
 
     const dialog = dialogs[gameState.dialogIndex];
     if (!dialog) return;
@@ -184,34 +180,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     DIALOG FLOW (SATU-SATUNYA)
+     DIALOG FLOW
   ===================== */
   dialogNext.addEventListener("click", () => {
     const chapter = story[gameState.chapter];
-    const dialogs =
-      gameState.afterAction && chapter.afterActionDialogs
-        ? chapter.afterActionDialogs
-        : chapter.dialogs;
+    const dialogs = gameState.afterAction && chapter.afterActionDialogs
+      ? chapter.afterActionDialogs
+      : chapter.dialogs;
 
     gameState.dialogIndex++;
 
-    // masih ada dialog
     if (gameState.dialogIndex < dialogs.length) {
       showDialog();
       return;
     }
 
-    // dialog selesai
     dialogBox.classList.add("hidden");
     gameState.dialogIndex = 0;
 
-    // BAB 4 → lanjut quiz (tidak reset step)
     if (!gameState.afterAction && gameState.chapter === 4) {
       loadQuiz();
       return;
     }
 
-    // selesai BAB 1
     if (gameState.afterAction && gameState.chapter === 1) {
       gameState.afterAction = false;
       gameState.chapter = 2;
@@ -220,20 +211,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // selesai BAB 2
     if (gameState.afterAction && gameState.chapter === 2) {
       gameState.afterAction = false;
       gameState.chapter = 3;
       switchRoom("map");
       showDialog();
       return;
-    }
-
-    // selesai BAB 4 → balik ke map
-    if (gameState.afterAction && gameState.chapter === 4) {
-      gameState.afterAction = false;
-      gameState.chapter = 3;
-      switchRoom("map");
     }
   });
 
@@ -271,20 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.chapter = 4;
     switchRoom("school");
     showDialog();
-    /* =====================
-   SCHOOL → BASKET
-===================== */
-schoolBasketIcon?.addEventListener("click", () => {
-  // pastikan hanya bisa setelah quiz selesai
-  if (gameState.chapter !== 4 || !gameState.afterAction) return;
-
-  // sembunyikan icon agar tidak muncul lagi
-  schoolBasketIcon.classList.add("hidden");
-
-  // pindah ke room basket
-  switchRoom("basket");
-});
-
   });
 
   /* =====================
@@ -298,7 +267,6 @@ schoolBasketIcon?.addEventListener("click", () => {
       quiz.classList.add("hidden");
       gameState.waitingQuiz = false;
 
-      // SALAH
       if (!isCorrect) {
         dialogSpeaker.textContent = "Miss Putri";
         dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
@@ -306,7 +274,6 @@ schoolBasketIcon?.addEventListener("click", () => {
         return;
       }
 
-      // BENAR
       dialogSpeaker.textContent = "Miss Putri";
       dialogText.textContent = "Yaaay betul!";
       dialogBox.classList.remove("hidden");
@@ -314,17 +281,26 @@ schoolBasketIcon?.addEventListener("click", () => {
       gameState.quizStep++;
 
       if (gameState.quizStep < quizQuestions.length) {
-        gameState.afterAction = false; // lanjut soal berikutnya
+        gameState.afterAction = false;
       } else {
-        gameState.afterAction = true;  // lanjut dialog penutup
+        gameState.afterAction = true;
         gameState.dialogIndex = 0;
 
-        // tampilkan icon basket di kelas
-  schoolBasketIcon?.classList.remove("hidden");
-        
-  showDialog();
+        // tampilkan icon basket
+        schoolBasketIcon?.classList.remove("hidden");
+        showDialog();
       }
     });
+  });
+
+  /* =====================
+     SCHOOL → BASKET (STEP 3)
+  ===================== */
+  schoolBasketIcon?.addEventListener("click", () => {
+    if (gameState.chapter !== 4 || !gameState.afterAction) return;
+
+    schoolBasketIcon.classList.add("hidden");
+    switchRoom("basket");
   });
 
   /* =====================
