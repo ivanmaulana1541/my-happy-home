@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const quiz = document.querySelector(".quiz");
   const answers = document.querySelectorAll(".answer");
+  const schoolBasketIcon = document.querySelector(".school-basket-icon");
+
 
   /* =====================
      GAME STATE
@@ -38,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
-      ],
+      ]
       afterActionDialogs: [
         { speaker: "Syabil", text: "Syabil sudah siap. Saatnya keluar kamar." }
       ],
