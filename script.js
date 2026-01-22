@@ -249,6 +249,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   answers.forEach(btn => {
+    function loadQuiz() {
+  const q = quizQuestions[gameState.quizStep];
+  if (!q) return;
+
+  quiz.querySelector(".question").textContent = q.question;
+
+  answers.forEach((btn, i) => {
+    btn.textContent = q.answers[i].text;
+    btn.dataset.correct = q.answers[i].correct;
+  });
+
+  quiz.classList.remove("hidden");
+  gameState.waitingQuiz = true;
+}
+
     btn.addEventListener("click", () => {
       if (btn.dataset.value !== "117") return;
 
