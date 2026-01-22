@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     STORY DATA
+     STORY DATA (BAB 1–4)
   ===================== */
   const story = {
     1: {
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     DIALOG FLOW
+     DIALOG FLOW (SATU-SATUNYA)
   ===================== */
   dialogNext.addEventListener("click", () => {
     const chapter = story[gameState.chapter];
@@ -193,17 +193,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     gameState.dialogIndex++;
 
+    // masih ada dialog
     if (gameState.dialogIndex < dialogs.length) {
       showDialog();
       return;
     }
 
+    // dialog selesai
     dialogBox.classList.add("hidden");
     gameState.dialogIndex = 0;
 
-    // BAB 4 → mulai quiz
+    // BAB 4 → lanjut quiz (tidak reset step)
     if (!gameState.afterAction && gameState.chapter === 4) {
-      gameState.quizStep = 0;
       loadQuiz();
       return;
     }
@@ -270,6 +271,9 @@ document.addEventListener("DOMContentLoaded", () => {
     showDialog();
   });
 
+  /* =====================
+     QUIZ ANSWERS
+  ===================== */
   answers.forEach(btn => {
     btn.addEventListener("click", () => {
       if (!gameState.waitingQuiz) return;
@@ -283,11 +287,6 @@ document.addEventListener("DOMContentLoaded", () => {
         dialogSpeaker.textContent = "Miss Putri";
         dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
         dialogBox.classList.remove("hidden");
-
-        dialogNext.onclick = () => {
-          dialogBox.classList.add("hidden");
-          loadQuiz();
-        };
         return;
       }
 
@@ -296,17 +295,13 @@ document.addEventListener("DOMContentLoaded", () => {
       dialogText.textContent = "Yaaay betul!";
       dialogBox.classList.remove("hidden");
 
-      dialogNext.onclick = () => {
-        dialogBox.classList.add("hidden");
-        gameState.quizStep++;
+      gameState.quizStep++;
 
-        if (gameState.quizStep < quizQuestions.length) {
-          loadQuiz();
-        } else {
-          gameState.afterAction = true;
-          showDialog();
-        }
-      };
+      if (gameState.quizStep < quizQuestions.length) {
+        gameState.afterAction = false; // lanjut soal berikutnya
+      } else {
+        gameState.afterAction = true;  // lanjut dialog penutup
+      }
     });
   });
 
