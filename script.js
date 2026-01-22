@@ -303,6 +303,12 @@ document.addEventListener("DOMContentLoaded", () => {
         gameState.afterAction = false; // lanjut soal berikutnya
       } else {
         gameState.afterAction = true;  // lanjut dialog penutup
+        gameState.dialogIndex = 0;
+
+        // tampilkan icon basket di kelas
+  schoolBasketIcon?.classList.remove("hidden");
+        
+  showDialog();
       }
     });
   });
