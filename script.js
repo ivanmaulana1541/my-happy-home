@@ -304,11 +304,24 @@ document.addEventListener("DOMContentLoaded", () => {
      SCHOOL → BASKET (STEP 3)
   ===================== */
   schoolBasketIcon?.addEventListener("click", () => {
-    if (gameState.chapter !== 4 || !gameState.afterAction) return;
+  if (gameState.chapter !== 4 || !gameState.afterAction) return;
 
-    schoolBasketIcon.classList.add("hidden");
-    switchRoom("basket");
-  });
+  // ganti baju olahraga
+  gameState.syabilOutfit = "sport";
+  updateSyabilOutfit();
+
+  // efek kecil (opsional tapi cakep)
+  const child = document.querySelector(".person.child");
+  child.classList.add("jump");
+  setTimeout(() => child.classList.remove("jump"), 400);
+
+  // sembunyikan icon
+  schoolBasketIcon.classList.add("hidden");
+
+  // pindah ke lapangan basket
+  switchRoom("basket");
+});
+
 
   /* =====================
      START GAME
