@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { speaker: "Miss Putri", text: "Ayo kita belajar." }
       ],
       afterActionDialogs: [
-        { speaker: "Miss Putri", text: "Bagus! Syabil boleh pulang." }
+        { speaker: "Miss Putri", text: "Selamat ya Syabil, kamu sudah menyelesaikan tugas hari ini. Sekarang waktunya belajar olahraga. Syabil harus ganti baju dulu." }
       ],
       action: "lesson"
     }
