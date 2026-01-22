@@ -344,12 +344,6 @@ schoolBasketIcon?.addEventListener("click", () => {
   switchRoom("basket");
 });
 
-  // sembunyikan icon
-  schoolBasketIcon.classList.add("hidden");
-
-  // pindah ke lapangan basket
-  switchRoom("basket");
-});
 
 
   /* =====================
