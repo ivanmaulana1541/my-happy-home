@@ -303,6 +303,29 @@ showDialog();
   });
 
   /* =====================
+   SCHOOL → GANTI BAJU OLAHRAGA
+===================== */
+schoolDressIcon?.addEventListener("click", () => {
+  if (gameState.chapter !== 4 || !gameState.afterAction) return;
+
+  // ganti outfit olahraga
+  gameState.syabilOutfit = "sport";
+  updateSyabilOutfit();
+
+  // efek loncat
+  const child = document.querySelector(".person.child");
+  child.classList.add("jump");
+  setTimeout(() => child.classList.remove("jump"), 400);
+
+  // sembunyikan icon dress
+  schoolDressIcon.classList.add("hidden");
+
+  // tampilkan icon basket
+  schoolBasketIcon?.classList.remove("hidden");
+});
+
+
+  /* =====================
      SCHOOL → BASKET (STEP 3)
   ===================== */
   schoolBasketIcon?.addEventListener("click", () => {
