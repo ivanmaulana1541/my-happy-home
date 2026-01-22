@@ -16,44 +16,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const quiz = document.querySelector(".quiz");
   const answers = document.querySelectorAll(".answer");
 
+  /* =====================
+     GAME STATE
+  ===================== */
   const gameState = {
-  chapter: 1,
-  dialogIndex: 0,
-  syabilOutfit: "piyama",
-  afterAction: false,
-  quizStep: 0,
-  waitingQuiz: false
-};
+    chapter: 1,
+    dialogIndex: 0,
+    syabilOutfit: "piyama",
+    afterAction: false,
 
+    quizStep: 0,
+    waitingQuiz: false
+  };
 
   /* =====================
      STORY DATA
   ===================== */
   const story = {
-    const quizQuestions = [
-  {
-    question: "105 + 12 = ?",
-    answers: [
-      { text: "117", correct: true },
-      { text: "120", correct: false }
-    ]
-  },
-  {
-    question: "1067 + 479 = ?",
-    answers: [
-      { text: "1635", correct: false },
-      { text: "1546", correct: true }
-    ]
-  },
-  {
-    question: "4782 - 905 = ?",
-    answers: [
-      { text: "3804", correct: false },
-      { text: "3877", correct: true }
-    ]
-  }
-];
-
     1: {
       scene: "room",
       dialogs: [
@@ -100,6 +79,33 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
+     QUIZ DATA (BAB 4)
+  ===================== */
+  const quizQuestions = [
+    {
+      question: "105 + 12 = ?",
+      answers: [
+        { text: "117", correct: true },
+        { text: "120", correct: false }
+      ]
+    },
+    {
+      question: "1067 + 479 = ?",
+      answers: [
+        { text: "1635", correct: false },
+        { text: "1546", correct: true }
+      ]
+    },
+    {
+      question: "4782 - 905 = ?",
+      answers: [
+        { text: "3804", correct: false },
+        { text: "3877", correct: true }
+      ]
+    }
+  ];
+
+  /* =====================
      CORE FUNCTIONS
   ===================== */
   function updateSyabilOutfit() {
@@ -108,9 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ? "./assets/child.png"
         : "./assets/piyama.png";
 
-    document
-      .querySelectorAll(".person.child img")
-      .forEach(img => (img.src = src));
+    document.querySelectorAll(".person.child img")
+      .forEach(img => img.src = src);
   }
 
   function loadRoomBackground(name) {
@@ -159,7 +164,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     DIALOG FLOW (INTI)
+     QUIZ FUNCTIONS
+  ===================== */
+  function loadQuiz() {
+    const q = quizQuestions[gameState.quizStep];
+    if (!q) return;
+
+    quiz.querySelector(".question").textContent = q.question;
+
+    answers.forEach((btn, i) => {
+      btn.textContent = q.answers[i].text;
+      btn.dataset.correct = q.answers[i].correct;
+    });
+
+    quiz.classList.remove("hidden");
+    gameState.waitingQuiz = true;
+  }
+
+  /* =====================
+     DIALOG FLOW
   ===================== */
   dialogNext.addEventListener("click", () => {
     const chapter = story[gameState.chapter];
@@ -170,19 +193,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     gameState.dialogIndex++;
 
-    // masih ada dialog
     if (gameState.dialogIndex < dialogs.length) {
       showDialog();
       return;
     }
 
-    // dialog selesai
     dialogBox.classList.add("hidden");
     gameState.dialogIndex = 0;
 
-    // BAB 4 → tampilkan quiz
+    // BAB 4 → mulai quiz
     if (!gameState.afterAction && gameState.chapter === 4) {
-      quiz.classList.remove("hidden");
+      gameState.quizStep = 0;
+      loadQuiz();
       return;
     }
 
@@ -204,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // selesai BAB 4 → balik map
+    // selesai BAB 4 → balik ke map
     if (gameState.afterAction && gameState.chapter === 4) {
       gameState.afterAction = false;
       gameState.chapter = 3;
@@ -249,48 +271,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   answers.forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (!gameState.waitingQuiz) return;
+    btn.addEventListener("click", () => {
+      if (!gameState.waitingQuiz) return;
 
-    const isCorrect = btn.dataset.correct === "true";
-    quiz.classList.add("hidden");
-    gameState.waitingQuiz = false;
+      const isCorrect = btn.dataset.correct === "true";
+      quiz.classList.add("hidden");
+      gameState.waitingQuiz = false;
 
-    // SALAH
-    if (!isCorrect) {
+      // SALAH
+      if (!isCorrect) {
+        dialogSpeaker.textContent = "Miss Putri";
+        dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
+        dialogBox.classList.remove("hidden");
+
+        dialogNext.onclick = () => {
+          dialogBox.classList.add("hidden");
+          loadQuiz();
+        };
+        return;
+      }
+
+      // BENAR
       dialogSpeaker.textContent = "Miss Putri";
-      dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
+      dialogText.textContent = "Yaaay betul!";
       dialogBox.classList.remove("hidden");
 
       dialogNext.onclick = () => {
         dialogBox.classList.add("hidden");
-        loadQuiz(); // ulang soal yang sama
+        gameState.quizStep++;
+
+        if (gameState.quizStep < quizQuestions.length) {
+          loadQuiz();
+        } else {
+          gameState.afterAction = true;
+          showDialog();
+        }
       };
-      return;
-    }
-
-    // BENAR
-    dialogSpeaker.textContent = "Miss Putri";
-    dialogText.textContent = "Yaaay betul!";
-    dialogBox.classList.remove("hidden");
-
-    dialogNext.onclick = () => {
-      dialogBox.classList.add("hidden");
-      gameState.quizStep++;
-
-      // masih ada soal
-      if (gameState.quizStep < quizQuestions.length) {
-        loadQuiz();
-      } 
-      // semua soal selesai
-      else {
-        gameState.afterAction = true;
-        gameState.dialogIndex = 0;
-        showDialog();
-      }
-    };
+    });
   });
-});
 
   /* =====================
      START GAME
