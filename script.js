@@ -16,6 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const quiz = document.querySelector(".quiz");
   const answers = document.querySelectorAll(".answer");
 
+  const basketArea = document.querySelector(".basket-area");
+const basketBall = document.querySelector(".basket-ball");
+const basketShootBtn = document.querySelector(".basket-shoot");
+
+
   /* =====================
      GAME STATE
   ===================== */
