@@ -203,8 +203,7 @@ body {
    ROOM BASKET (STEP 1)
 ===================== */
 .room.basket {
-  background: #e8f7ff;
-  display: none;
+  background: linear-gradient(#e8f7ff, #ffffff);
 }
 
 .basket-placeholder {
