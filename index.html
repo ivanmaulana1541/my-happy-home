@@ -16,10 +16,8 @@
   <div class="person child"><img></div>
 </div>
 
-<!-- 🛏️ BEDROOM (PAPA MAMA) -->
-<div class="room bedroom">
-  <!-- (kosong dulu, atau nanti isi Papa Mama kalau mau) -->
-</div>
+<!-- 🛏️ BEDROOM -->
+<div class="room bedroom"></div>
 
 <!-- 🍳 KITCHEN -->
 <div class="room kitchen">
@@ -35,6 +33,7 @@
 <!-- 🗺️ MAP -->
 <div class="room map">
   <div class="map-icon school-icon">🏫</div>
+  <div class="map-icon home-icon hidden">🏠</div>
 </div>
 
 <!-- 🏫 SCHOOL -->
@@ -42,52 +41,38 @@
   <div class="person teacher"><img src="./assets/msputri.png"></div>
   <div class="person child"><img></div>
 
-  <!-- 📘 MINI GAME SEKOLAH -->
   <div class="quiz hidden">
     <div class="question">105 + 12 = ?</div>
-    <button class="answer" data-value="117">117</button>
-    <button class="answer" data-value="120">120</button>
+    <button class="answer">117</button>
+    <button class="answer">120</button>
   </div>
 
-  <!-- 👕 ICON GANTI BAJU OLAHRAGA -->
   <div class="school-dress-icon hidden">👕</div>
-
-  <!-- 🏀 ICON BASKET (muncul setelah quiz) -->
   <div class="school-basket-icon hidden">🏀</div>
 </div>
 
-<!-- =====================
-     ROOM BASKET
-===================== -->
+<!-- 🏀 BASKET -->
 <div class="room basket">
   <div class="basket-ui">
 
-    <!-- SCORE -->
     <div class="basket-score">0 / 3</div>
-
-    <!-- RING (hitbox, invisible via CSS) -->
     <div class="basket-ring"></div>
 
-    <!-- 🔴 NEW: SYABIL (OLAHRAGA) DI SCENE BASKET -->
     <div class="person child basket-child">
       <img src="./assets/child_sport.png">
     </div>
 
-    <!-- POWER BAR -->
     <div class="power-bar">
       <div class="power-indicator"></div>
     </div>
 
-    <!-- BALL -->
     <div class="basket-ball"></div>
-
-    <!-- SHOOT BUTTON -->
     <button class="shoot-btn">SHOOT</button>
 
   </div>
 </div>
 
-<!-- DIALOG -->
+<!-- 💬 DIALOG -->
 <div id="dialog-box" class="dialog hidden">
   <div class="dialog-speaker"></div>
   <div class="dialog-text"></div>
