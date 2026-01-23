@@ -386,6 +386,17 @@ function stopPowerBar() {
   console.log("POWER:", lockedPower);
 }
 
+  // tombol shoot
+shootBtn?.addEventListener("click", () => {
+  stopPowerBar();
+
+  // feedback sementara (nanti diganti animasi bola)
+  shootBtn.textContent = "POWER " + lockedPower;
+  setTimeout(() => {
+    shootBtn.textContent = "SHOOT";
+  }, 800);
+});
+
   
   switchRoom("room");
   showDialog();
