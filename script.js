@@ -114,13 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   function updateSyabilOutfit() {
     let src = "./assets/piyama.png";
-
-    if (gameState.syabilOutfit === "seragam") {
-      src = "./assets/child.png";
-    }
-    if (gameState.syabilOutfit === "sport") {
-      src = "./assets/child_sport.png";
-    }
+    if (gameState.syabilOutfit === "seragam") src = "./assets/child.png";
+    if (gameState.syabilOutfit === "sport") src = "./assets/child_sport.png";
 
     document.querySelectorAll(".person.child img")
       .forEach(img => img.src = src);
@@ -140,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
       room.style.backgroundImage = `url("${webp}")`;
       room.dataset.bgLoaded = "true";
     };
-
     img.onerror = () => {
       room.style.backgroundImage = `url("${png}")`;
       room.dataset.bgLoaded = "true";
@@ -151,16 +145,16 @@ document.addEventListener("DOMContentLoaded", () => {
     rooms.forEach(r => r.classList.remove("active"));
     const room = document.querySelector(`.${name}`);
     room.classList.add("active");
-
     loadRoomBackground(name);
     updateSyabilOutfit();
   }
 
   function showDialog() {
     const chapter = story[gameState.chapter];
-    const dialogs = gameState.afterAction && chapter.afterActionDialogs
-      ? chapter.afterActionDialogs
-      : chapter.dialogs;
+    const dialogs =
+      gameState.afterAction && chapter.afterActionDialogs
+        ? chapter.afterActionDialogs
+        : chapter.dialogs;
 
     const dialog = dialogs[gameState.dialogIndex];
     if (!dialog) return;
@@ -178,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!q) return;
 
     quiz.querySelector(".question").textContent = q.question;
-
     answers.forEach((btn, i) => {
       btn.textContent = q.answers[i].text;
       btn.dataset.correct = q.answers[i].correct;
@@ -193,9 +186,10 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   dialogNext.addEventListener("click", () => {
     const chapter = story[gameState.chapter];
-    const dialogs = gameState.afterAction && chapter.afterActionDialogs
-      ? chapter.afterActionDialogs
-      : chapter.dialogs;
+    const dialogs =
+      gameState.afterAction && chapter.afterActionDialogs
+        ? chapter.afterActionDialogs
+        : chapter.dialogs;
 
     gameState.dialogIndex++;
 
@@ -217,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.chapter = 2;
       switchRoom("kitchen");
       showDialog();
-      return;
     }
 
     if (gameState.afterAction && gameState.chapter === 2) {
@@ -225,7 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.chapter = 3;
       switchRoom("map");
       showDialog();
-      return;
     }
   });
 
@@ -257,8 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
-    gameState.afterAction = false;
     gameState.chapter = 4;
+    gameState.afterAction = false;
     switchRoom("school");
     showDialog();
   });
@@ -289,18 +281,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (gameState.quizStep >= quizQuestions.length) {
         gameState.afterAction = true;
-        schoolDressIcon?.classList.remove("hidden");
+        gameState.dialogIndex = 0;
+        schoolDressIcon.classList.remove("hidden");
         showDialog();
+      } else {
+        gameState.afterAction = false;
       }
     });
   });
 
   /* =====================
-     GANTI BAJU OLAHRAGA
+     SCHOOL → GANTI BAJU
   ===================== */
   schoolDressIcon?.addEventListener("click", () => {
-    if (!gameState.afterAction) return;
-
     gameState.syabilOutfit = "sport";
     updateSyabilOutfit();
 
@@ -309,47 +302,72 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => child.classList.remove("jump"), 400);
 
     schoolDressIcon.classList.add("hidden");
-    schoolBasketIcon?.classList.remove("hidden");
+    schoolBasketIcon.classList.remove("hidden");
   });
 
   /* =====================
-     MASUK LAPANGAN BASKET
+     SCHOOL → BASKET
   ===================== */
   schoolBasketIcon?.addEventListener("click", () => {
     schoolBasketIcon.classList.add("hidden");
     switchRoom("basket");
-
-    setTimeout(startPowerBar, 300);
+    setTimeout(startBasketGame, 300);
   });
 
   /* =====================
-     BASKET GAME – POWER BAR
+     BASKET GAME
   ===================== */
   let power = 0;
   let direction = 1;
   let interval = null;
-  let lockedPower = 0;
+  let basketScore = 0;
 
-  function startPowerBar() {
-    const indicator = document.querySelector(".power-indicator");
+  function startBasketGame() {
+    const powerIndicator = document.querySelector(".power-indicator");
     const shootBtn = document.querySelector(".shoot-btn");
-    if (!indicator || !shootBtn) return;
+    const ball = document.querySelector(".basket-ball");
+    const scoreBox = document.querySelector(".basket-score");
 
     power = 0;
     direction = 1;
-    clearInterval(interval);
+    basketScore = 0;
+    scoreBox.textContent = "0 / 3";
 
     interval = setInterval(() => {
       power += direction * 2;
-      if (power >= 100 || power <= 0) direction *= -1;
-      indicator.style.width = power + "%";
+      if (power >= 100) direction = -1;
+      if (power <= 0) direction = 1;
+      powerIndicator.style.width = power + "%";
     }, 30);
 
     shootBtn.onclick = () => {
       clearInterval(interval);
-      lockedPower = power;
-      shootBtn.textContent = "POWER " + lockedPower;
-      setTimeout(() => shootBtn.textContent = "SHOOT", 800);
+
+      const success = power >= 55 && power <= 75;
+
+      ball.classList.remove("shoot");
+      void ball.offsetWidth;
+      ball.classList.add("shoot");
+
+      setTimeout(() => {
+        if (success) {
+          basketScore++;
+          scoreBox.textContent = basketScore + " / 3";
+        }
+
+        ball.classList.remove("shoot");
+        ball.style.transform = "translate(0,0)";
+        ball.style.opacity = "1";
+
+        power = 0;
+        direction = 1;
+        interval = setInterval(() => {
+          power += direction * 2;
+          if (power >= 100) direction = -1;
+          if (power <= 0) direction = 1;
+          powerIndicator.style.width = power + "%";
+        }, 30);
+      }, 600);
     };
   }
 
