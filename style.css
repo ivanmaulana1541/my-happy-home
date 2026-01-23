@@ -22,7 +22,9 @@ body {
   position: relative;
 }
 
-/* TOP BAR */
+/* =====================
+   TOP BAR
+===================== */
 .top-bar {
   background: #ff7fa7;
   color: white;
@@ -41,7 +43,9 @@ body {
   margin-left: 6px;
 }
 
-/* ROOM */
+/* =====================
+   ROOM (GLOBAL)
+===================== */
 .room {
   position: relative;
   height: 360px;
@@ -55,10 +59,13 @@ body {
   display: block;
 }
 
-/* PERSON */
+/* =====================
+   PERSON
+===================== */
 .person {
   position: absolute;
   bottom: 20px;
+  pointer-events: none;
 }
 
 .person.child { right: 40px; z-index: 7; }
@@ -73,13 +80,15 @@ body {
 
 /* KHUSUS SEKOLAH */
 .school .person.child {
-  right: 60px;          /* jarak dari kanan = jarak Bu Putri dari kiri */
+  right: 60px;
   left: auto;
-  bottom: 20px;         /* sejajar kaki dengan Bu Putri */
+  bottom: 20px;
   z-index: 5;
 }
 
-/* ITEM */
+/* =====================
+   ITEM & FOOD
+===================== */
 .item {
   font-size: 42px;
   cursor: pointer;
@@ -88,7 +97,6 @@ body {
   bottom: 40px;
 }
 
-/* FOOD */
 .food-container {
   position: absolute;
   left: 20px;
@@ -100,7 +108,9 @@ body {
   cursor: pointer;
 }
 
-/* DIALOG */
+/* =====================
+   DIALOG
+===================== */
 .dialog {
   position: absolute;
   bottom: 20px;
@@ -138,21 +148,22 @@ body {
   display: none;
 }
 
+/* =====================
+   ANIMATION
+===================== */
 @keyframes jump {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-18px); }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
   100% { transform: translateY(0); }
 }
-
-.person {
-  pointer-events: none;
-}
-
 
 .person.child.jump {
   animation: jump 0.4s ease;
 }
 
+/* =====================
+   MAP
+===================== */
 .map {
   background-color: #e8f7ff;
 }
@@ -169,10 +180,12 @@ body {
   transform: translate(-50%, -50%);
 }
 
+/* =====================
+   QUIZ
+===================== */
 .quiz {
   position: absolute;
   z-index: 50;
-  pointer-events: auto;
   bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
@@ -200,133 +213,84 @@ body {
 }
 
 /* =====================
-   ROOM BASKET (STEP 1)
+   ICON SCHOOL
 ===================== */
-.room.basket {
-  background: linear-gradient(#e8f7ff, #ffffff);
-}
-
-.basket-placeholder {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff7fa7;
-  text-align: center;
-  margin-top: 120px;
-}
-
 .school-basket-icon {
   position: absolute;
   right: 80px;
   bottom: 40px;
   font-size: 48px;
   cursor: pointer;
-  z-index: 3000;          /* ⬅️ LEBIH TINGGI DARI DIALOG */
-  pointer-events: auto;  /* ⬅️ PAKSA BOLEH DIKLIK */
-  transition: transform 0.2s ease, filter 0.2s ease;
+  z-index: 3000;
+  pointer-events: auto;
+  animation: bounce 1.5s infinite;
 }
 
 .school-dress-icon {
   position: absolute;
-  right: 140px;      /* geser ke kiri dari Syabil */
-  bottom: 60px;      /* di atas lantai */
+  right: 140px;
+  bottom: 60px;
   font-size: 42px;
   cursor: pointer;
-  z-index: 1500;     /* di atas background, di bawah dialog */
+  z-index: 1500;
   pointer-events: auto;
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.school-dress-icon:hover {
-  transform: scale(1.15);
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
-}
-
-
-
-.school-basket-icon:hover {
-  transform: scale(1.15);
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.school-basket-icon {
-  animation: bounce 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0 rgba(255,127,167,0.6));
-  }
-  50% {
-    transform: scale(1.12);
-    filter: drop-shadow(0 0 10px rgba(255,127,167,0.9));
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0 rgba(255,127,167,0.6));
-  }
-}
-
-.school-dress-icon {
   animation: pulse 1.6s infinite;
 }
 
-/* =====================
-   MINI GAME BASKET UI
-===================== */
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* =====================
+   BASKET GAME UI
+===================== */
 .basket-ui {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-/* SCORE */
 .basket-score {
   position: absolute;
   top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 20px;
   background: white;
-  padding: 6px 16px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 14px;
   font-weight: bold;
   color: #ff7fa7;
-  box-shadow: 0 4px 10px rgba(0,0,0,.2);
 }
 
-/* RING */
 .basket-ring {
   position: absolute;
   top: 80px;
   right: 120px;
   width: 70px;
   height: 12px;
-  background: #ff7fa7;
+  background: orange;
   border-radius: 6px;
 }
 
-/* BALL */
 .basket-ball {
   position: absolute;
-  bottom: 80px;
+  bottom: 90px;
   left: 120px;
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
   background: orange;
   border-radius: 50%;
-  box-shadow: inset -4px -4px rgba(0,0,0,0.2);
 }
 
-/* POWER BAR */
 .power-bar {
   position: absolute;
-  bottom: 140px;
+  bottom: 60px;
   left: 50%;
   transform: translateX(-50%);
   width: 220px;
@@ -340,10 +304,8 @@ body {
   width: 40px;
   height: 100%;
   background: #ff7fa7;
-  border-radius: 5px;
 }
 
-/* SHOOT BUTTON */
 .shoot-btn {
   position: absolute;
   bottom: 40px;
@@ -355,121 +317,18 @@ body {
   background: #ff7fa7;
   color: white;
   font-weight: bold;
-  font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 6px 14px rgba(0,0,0,.2);
-}
-
-.shoot-btn:hover {
-  background: #ff5f90;
 }
 
 /* =====================
-   BASKET GAME UI
+   🔴 FIX FINAL BACKGROUND BASKET
 ===================== */
-
 .room.basket {
-  .room.basket {
+  padding: 0;
+  height: 420px;
+
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center bottom;
   background-color: #e8f7ff;
-}
-
-}
-
-/* CONTAINER */
-.basket-ui {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-/* SCORE */
-.basket-score {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: white;
-  padding: 6px 14px;
-  border-radius: 14px;
-  font-weight: bold;
-  color: #ff7fa7;
-  box-shadow: 0 4px 10px rgba(0,0,0,.2);
-}
-
-/* RING */
-.basket-ring {
-  position: absolute;
-  top: 70px;
-  right: 80px;
-  width: 80px;
-  height: 12px;
-  background: orange;
-  border-radius: 6px;
-}
-
-/* BALL */
-.basket-ball {
-  position: absolute;
-  bottom: 60px;
-  left: 60px;
-  width: 46px;
-  height: 46px;
-  background: orange;
-  border-radius: 50%;
-  box-shadow: inset -6px -6px rgba(0,0,0,.2);
-}
-
-/* POWER BAR */
-.power-bar {
-  position: absolute;
-  bottom: 20px;
-  left: 140px;
-  width: 140px;
-  height: 14px;
-  background: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.power-indicator {
-  width: 50%;
-  height: 100%;
-  background: #ff7fa7;
-}
-
-/* SHOOT BUTTON */
-.shoot-btn {
-  position: absolute;
-  bottom: 20px;
-  right: 40px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 14px;
-  background: #ff7fa7;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-@keyframes shootBall {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  60% {
-    transform: translate(220px, -160px) scale(0.9);
-  }
-  100% {
-    transform: translate(260px, -200px) scale(0.8);
-    opacity: 0;
-  }
-}
-
-.basket-ball.shoot {
-  animation: shootBall 0.6s ease-out forwards;
-}
-
-.basket-ball.shoot {
-  transition: transform 0.6s cubic-bezier(.3,.8,.4,1), opacity 0.6s;
 }
