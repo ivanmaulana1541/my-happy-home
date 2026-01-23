@@ -175,19 +175,22 @@ body {
 }
 
 .school-icon {
-  left: 50%;
-  top: 50%;
+  position: absolute;
+  left: 35%;        /* ⬅️ geser ke kiri */
+  top: 45%;         /* sesuaikan tinggi pulau */
   transform: translate(-50%, -50%);
 }
 
+
 .school-icon img {
-  width: 80px;
+  width: 150px;
   height: auto;
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .school-icon img:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 
