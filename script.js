@@ -345,9 +345,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const success = power >= 55 && power <= 75;
 
-      ball.classList.remove("shoot");
-      void ball.offsetWidth;
-      ball.classList.add("shoot");
+      // reset
+ball.style.transition = "none";
+ball.style.transform = "translate(0,0)";
+void ball.offsetWidth;
+
+// fase 1: naik & maju
+ball.style.transition = "transform 0.35s ease-out";
+ball.style.transform = "translate(260px, -160px)";
+
+// fase 2: turun ke ring
+setTimeout(() => {
+  ball.style.transition = "transform 0.25s ease-in";
+  ball.style.transform = "translate(320px, -80px)";
+}, 350);
+
 
       setTimeout(() => {
         if (success) {
