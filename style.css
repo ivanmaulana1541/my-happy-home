@@ -329,6 +329,11 @@ body {
 
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center bottom;
+  background-position: right center;
   background-color: #e8f7ff;
+}
+
+.basket-ring {
+  opacity: 0;
+  pointer-events: none;
 }
