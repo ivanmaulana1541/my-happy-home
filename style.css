@@ -369,7 +369,13 @@ body {
 ===================== */
 
 .room.basket {
-  background: linear-gradient(#e8f7ff, #ffffff);
+  .room.basket {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-color: #e8f7ff;
+}
+
 }
 
 /* CONTAINER */
