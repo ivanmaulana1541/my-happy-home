@@ -349,9 +349,6 @@ setTimeout(startPowerBar, 300);
    BASKET GAME - POWER BAR (STEP A)
 ===================== */
 
-const powerIndicator = document.querySelector(".power-indicator");
-const shootBtn = document.querySelector(".shoot-btn");
-
 let power = 0;          // 0 - 100
 let powerDirection = 1;
 let powerInterval = null;
@@ -359,6 +356,22 @@ let lockedPower = 0;
 
 // mulai power bar
 function startPowerBar() {
+  function bindBasketControls() {
+  const powerIndicator = document.querySelector(".power-indicator");
+  const shootBtn = document.querySelector(".shoot-btn");
+
+  if (!powerIndicator || !shootBtn) return;
+
+  shootBtn.onclick = () => {
+    stopPowerBar();
+
+    shootBtn.textContent = "POWER " + lockedPower;
+    setTimeout(() => {
+      shootBtn.textContent = "SHOOT";
+    }, 800);
+  };
+}
+
   if (!powerIndicator) return;
 
   power = 0;
