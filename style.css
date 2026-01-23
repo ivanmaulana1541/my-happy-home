@@ -337,3 +337,15 @@ body {
   opacity: 0;
 }
 
+.basket-child {
+  position: absolute;
+  bottom: 70px;
+  left: 60px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.basket-child img {
+  height: 160px;
+}
+
