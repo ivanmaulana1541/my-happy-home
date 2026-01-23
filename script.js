@@ -361,6 +361,8 @@ let lockedPower = 0;
 
 // mulai power bar
 function startPowerBar() {
+  clearInterval(powerInterval);
+
   function bindBasketControls() {
   const powerIndicator = document.querySelector(".power-indicator");
   const shootBtn = document.querySelector(".shoot-btn");
