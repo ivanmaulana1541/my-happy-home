@@ -343,6 +343,50 @@ schoolBasketIcon?.addEventListener("click", () => {
   /* =====================
      START GAME
   ===================== */
+  /* =====================
+   BASKET GAME - POWER BAR (STEP A)
+===================== */
+
+const powerIndicator = document.querySelector(".power-indicator");
+const shootBtn = document.querySelector(".shoot-btn");
+
+let power = 0;          // 0 - 100
+let powerDirection = 1;
+let powerInterval = null;
+let lockedPower = 0;
+
+// mulai power bar
+function startPowerBar() {
+  if (!powerIndicator) return;
+
+  power = 0;
+  powerDirection = 1;
+
+  powerInterval = setInterval(() => {
+    power += powerDirection * 2;
+
+    if (power >= 100) {
+      power = 100;
+      powerDirection = -1;
+    }
+
+    if (power <= 0) {
+      power = 0;
+      powerDirection = 1;
+    }
+
+    powerIndicator.style.width = power + "%";
+  }, 30);
+}
+
+// stop power bar
+function stopPowerBar() {
+  clearInterval(powerInterval);
+  lockedPower = power;
+  console.log("POWER:", lockedPower);
+}
+
+  
   switchRoom("room");
   showDialog();
 
