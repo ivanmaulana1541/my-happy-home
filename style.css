@@ -327,7 +327,7 @@ body {
   padding: 0;
   height: 420px;
 
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center bottom;
   background-color: #e8f7ff;
