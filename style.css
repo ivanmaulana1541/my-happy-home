@@ -339,8 +339,8 @@ body {
 
 .basket-child {
   position: absolute;
-  bottom: 70px;
-  left: 60px;
+  bottom: 80px;
+  left: 40px;
   z-index: 5;
   pointer-events: none;
 }
