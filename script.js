@@ -117,8 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (gameState.syabilOutfit === "seragam") src = "./assets/child.png";
     if (gameState.syabilOutfit === "sport") src = "./assets/child_sport.png";
 
-    document.querySelectorAll(".person.child img")
-      .forEach(img => img.src = src);
+    document.querySelectorAll(".person.child img").forEach(img => {
+      img.src = src;
+    });
   }
 
   function loadRoomBackground(name) {
@@ -135,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
       room.style.backgroundImage = `url("${webp}")`;
       room.dataset.bgLoaded = "true";
     };
+
     img.onerror = () => {
       room.style.backgroundImage = `url("${png}")`;
       room.dataset.bgLoaded = "true";
@@ -162,23 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogSpeaker.textContent = dialog.speaker;
     dialogText.textContent = dialog.text;
     dialogBox.classList.remove("hidden");
-  }
-
-  /* =====================
-     QUIZ
-  ===================== */
-  function loadQuiz() {
-    const q = quizQuestions[gameState.quizStep];
-    if (!q) return;
-
-    quiz.querySelector(".question").textContent = q.question;
-    answers.forEach((btn, i) => {
-      btn.textContent = q.answers[i].text;
-      btn.dataset.correct = q.answers[i].correct;
-    });
-
-    quiz.classList.remove("hidden");
-    gameState.waitingQuiz = true;
   }
 
   /* =====================
@@ -211,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.chapter = 2;
       switchRoom("kitchen");
       showDialog();
+      return;
     }
 
     if (gameState.afterAction && gameState.chapter === 2) {
@@ -218,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.chapter = 3;
       switchRoom("map");
       showDialog();
+      return;
     }
   });
 
@@ -249,15 +236,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
-    gameState.chapter = 4;
     gameState.afterAction = false;
+    gameState.chapter = 4;
     switchRoom("school");
     showDialog();
   });
 
   /* =====================
-     QUIZ ANSWERS
+     QUIZ
   ===================== */
+  function loadQuiz() {
+    const q = quizQuestions[gameState.quizStep];
+    if (!q) return;
+
+    quiz.querySelector(".question").textContent = q.question;
+    answers.forEach((btn, i) => {
+      btn.textContent = q.answers[i].text;
+      btn.dataset.correct = q.answers[i].correct;
+    });
+
+    quiz.classList.remove("hidden");
+    gameState.waitingQuiz = true;
+  }
+
   answers.forEach(btn => {
     btn.addEventListener("click", () => {
       if (!gameState.waitingQuiz) return;
@@ -282,16 +283,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (gameState.quizStep >= quizQuestions.length) {
         gameState.afterAction = true;
         gameState.dialogIndex = 0;
-        schoolDressIcon.classList.remove("hidden");
+        schoolDressIcon?.classList.remove("hidden");
         showDialog();
-      } else {
-        gameState.afterAction = false;
       }
     });
   });
 
   /* =====================
-     SCHOOL → GANTI BAJU
+     SCHOOL → DRESS → BASKET
   ===================== */
   schoolDressIcon?.addEventListener("click", () => {
     gameState.syabilOutfit = "sport";
@@ -305,33 +304,27 @@ document.addEventListener("DOMContentLoaded", () => {
     schoolBasketIcon.classList.remove("hidden");
   });
 
-  /* =====================
-     SCHOOL → BASKET
-  ===================== */
   schoolBasketIcon?.addEventListener("click", () => {
     schoolBasketIcon.classList.add("hidden");
     switchRoom("basket");
-    setTimeout(startBasketGame, 300);
+    setTimeout(startPowerBar, 300);
   });
 
   /* =====================
      BASKET GAME
   ===================== */
+  const ball = document.querySelector(".basket-ball");
+  const powerIndicator = document.querySelector(".power-indicator");
+  const shootBtn = document.querySelector(".shoot-btn");
+
   let power = 0;
   let direction = 1;
   let interval = null;
-  let basketScore = 0;
 
-  function startBasketGame() {
-    const powerIndicator = document.querySelector(".power-indicator");
-    const shootBtn = document.querySelector(".shoot-btn");
-    const ball = document.querySelector(".basket-ball");
-    const scoreBox = document.querySelector(".basket-score");
-
+  function startPowerBar() {
+    clearInterval(interval);
     power = 0;
     direction = 1;
-    basketScore = 0;
-    scoreBox.textContent = "0 / 3";
 
     interval = setInterval(() => {
       power += direction * 2;
@@ -339,49 +332,26 @@ document.addEventListener("DOMContentLoaded", () => {
       if (power <= 0) direction = 1;
       powerIndicator.style.width = power + "%";
     }, 30);
-
-    shootBtn.onclick = () => {
-      clearInterval(interval);
-
-      const success = power >= 55 && power <= 75;
-
-      // reset
-ball.style.transition = "none";
-ball.style.transform = "translate(0,0)";
-void ball.offsetWidth;
-
-// fase 1: naik & maju
-ball.style.transition = "transform 0.35s ease-out";
-ball.style.transform = "translate(260px, -160px)";
-
-// fase 2: turun ke ring
-setTimeout(() => {
-  ball.style.transition = "transform 0.25s ease-in";
-  ball.style.transform = "translate(320px, -80px)";
-}, 350);
-
-
-      setTimeout(() => {
-        if (success) {
-          basketScore++;
-          scoreBox.textContent = basketScore + " / 3";
-        }
-
-        ball.classList.remove("shoot");
-        ball.style.transform = "translate(0,0)";
-        ball.style.opacity = "1";
-
-        power = 0;
-        direction = 1;
-        interval = setInterval(() => {
-          power += direction * 2;
-          if (power >= 100) direction = -1;
-          if (power <= 0) direction = 1;
-          powerIndicator.style.width = power + "%";
-        }, 30);
-      }, 600);
-    };
   }
+
+  shootBtn?.addEventListener("click", () => {
+    clearInterval(interval);
+
+    // reset bola
+    ball.style.transition = "none";
+    ball.style.transform = "translate(0,0)";
+    void ball.offsetWidth;
+
+    // NAIK
+    ball.style.transition = "transform 0.45s ease-out";
+    ball.style.transform = "translate(300px, -200px)";
+
+    // TURUN KE RING
+    setTimeout(() => {
+      ball.style.transition = "transform 0.35s ease-in";
+      ball.style.transform = "translate(360px, -110px)";
+    }, 450);
+  });
 
   /* =====================
      START GAME
