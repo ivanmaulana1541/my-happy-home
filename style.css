@@ -446,3 +446,20 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
+@keyframes shootBall {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  60% {
+    transform: translate(220px, -160px) scale(0.9);
+  }
+  100% {
+    transform: translate(260px, -200px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.basket-ball.shoot {
+  animation: shootBall 0.6s ease-out forwards;
+}
