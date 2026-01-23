@@ -276,3 +276,92 @@ body {
 .school-dress-icon {
   animation: pulse 1.6s infinite;
 }
+
+/* =====================
+   MINI GAME BASKET UI
+===================== */
+
+.basket-ui {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* SCORE */
+.basket-score {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #ff7fa7;
+  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+}
+
+/* RING */
+.basket-ring {
+  position: absolute;
+  top: 80px;
+  right: 120px;
+  width: 70px;
+  height: 12px;
+  background: #ff7fa7;
+  border-radius: 6px;
+}
+
+/* BALL */
+.basket-ball {
+  position: absolute;
+  bottom: 80px;
+  left: 120px;
+  width: 40px;
+  height: 40px;
+  background: orange;
+  border-radius: 50%;
+  box-shadow: inset -4px -4px rgba(0,0,0,0.2);
+}
+
+/* POWER BAR */
+.power-bar {
+  position: absolute;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.power-indicator {
+  width: 40px;
+  height: 100%;
+  background: #ff7fa7;
+  border-radius: 5px;
+}
+
+/* SHOOT BUTTON */
+.shoot-btn {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 28px;
+  border-radius: 20px;
+  border: none;
+  background: #ff7fa7;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0,0,0,.2);
+}
+
+.shoot-btn:hover {
+  background: #ff5f90;
+}
+
