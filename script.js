@@ -73,7 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
         { speaker: "Miss Putri", text: "Ayo kita belajar." }
       ],
       afterActionDialogs: [
-        { speaker: "Miss Putri", text: "Selamat ya Syabil, kamu sudah menyelesaikan tugas hari ini. Sekarang waktunya belajar olahraga. Syabil harus ganti baju dulu." }
+        {
+          speaker: "Miss Putri",
+          text: "Selamat ya Syabil, kamu sudah menyelesaikan tugas hari ini. Sekarang waktunya belajar olahraga. Syabil harus ganti baju dulu."
+        }
       ],
       action: "lesson"
     }
@@ -110,20 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
      CORE FUNCTIONS
   ===================== */
   function updateSyabilOutfit() {
-  let src = "./assets/piyama.png";
+    let src = "./assets/piyama.png";
 
-  if (gameState.syabilOutfit === "seragam") {
-    src = "./assets/child.png";
+    if (gameState.syabilOutfit === "seragam") {
+      src = "./assets/child.png";
+    }
+    if (gameState.syabilOutfit === "sport") {
+      src = "./assets/child_sport.png";
+    }
+
+    document.querySelectorAll(".person.child img")
+      .forEach(img => img.src = src);
   }
-
-  if (gameState.syabilOutfit === "sport") {
-    src = "./assets/child_sport.png";
-  }
-
-  document.querySelectorAll(".person.child img")
-    .forEach(img => img.src = src);
-}
-
 
   function loadRoomBackground(name) {
     const room = document.querySelector(`.${name}`);
@@ -170,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     QUIZ FUNCTIONS
+     QUIZ
   ===================== */
   function loadQuiz() {
     const q = quizQuestions[gameState.quizStep];
@@ -248,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
   foods.forEach(food => {
     food.addEventListener("click", () => {
       if (story[gameState.chapter].action !== "eat") return;
-
       food.style.opacity = "0.4";
       gameState.afterAction = true;
       showDialog();
@@ -257,7 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
-
     gameState.afterAction = false;
     gameState.chapter = 4;
     switchRoom("school");
@@ -288,138 +287,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
       gameState.quizStep++;
 
-      if (gameState.quizStep < quizQuestions.length) {
-        gameState.afterAction = false;
-      } else {
+      if (gameState.quizStep >= quizQuestions.length) {
         gameState.afterAction = true;
-        gameState.dialogIndex = 0;
-
-       // tampilkan icon ganti baju olahraga
-schoolDressIcon?.classList.remove("hidden");
-showDialog();
-
+        schoolDressIcon?.classList.remove("hidden");
+        showDialog();
       }
     });
   });
 
   /* =====================
-   SCHOOL → GANTI BAJU OLAHRAGA
-===================== */
-schoolDressIcon?.addEventListener("click", () => {
-  if (gameState.chapter !== 4 || !gameState.afterAction) return;
+     GANTI BAJU OLAHRAGA
+  ===================== */
+  schoolDressIcon?.addEventListener("click", () => {
+    if (!gameState.afterAction) return;
 
-  // ganti outfit olahraga
-  gameState.syabilOutfit = "sport";
-  updateSyabilOutfit();
+    gameState.syabilOutfit = "sport";
+    updateSyabilOutfit();
 
-  // efek loncat
-  const child = document.querySelector(".person.child");
-  child.classList.add("jump");
-  setTimeout(() => child.classList.remove("jump"), 400);
+    const child = document.querySelector(".person.child");
+    child.classList.add("jump");
+    setTimeout(() => child.classList.remove("jump"), 400);
 
-  // sembunyikan icon dress
-  schoolDressIcon.classList.add("hidden");
-
-  // tampilkan icon basket
-  schoolBasketIcon?.classList.remove("hidden");
-});
-
+    schoolDressIcon.classList.add("hidden");
+    schoolBasketIcon?.classList.remove("hidden");
+  });
 
   /* =====================
-   SCHOOL → BASKET
-===================== */
-schoolBasketIcon?.addEventListener("click", () => {
-  if (gameState.chapter !== 4 || !gameState.afterAction) return;
+     MASUK LAPANGAN BASKET
+  ===================== */
+  schoolBasketIcon?.addEventListener("click", () => {
+    schoolBasketIcon.classList.add("hidden");
+    switchRoom("basket");
 
-  // sembunyikan icon basket
-  schoolBasketIcon.classList.add("hidden");
+    setTimeout(startPowerBar, 300);
+  });
 
-  // pindah ke lapangan basket
-  switchRoom("basket");
+  /* =====================
+     BASKET GAME – POWER BAR
+  ===================== */
+  let power = 0;
+  let direction = 1;
+  let interval = null;
+  let lockedPower = 0;
 
-setTimeout(() => {
-  startPowerBar();
-  bindBasketControls();
-}, 300);
+  function startPowerBar() {
+    const indicator = document.querySelector(".power-indicator");
+    const shootBtn = document.querySelector(".shoot-btn");
+    if (!indicator || !shootBtn) return;
 
+    power = 0;
+    direction = 1;
+    clearInterval(interval);
 
-});
+    interval = setInterval(() => {
+      power += direction * 2;
+      if (power >= 100 || power <= 0) direction *= -1;
+      indicator.style.width = power + "%";
+    }, 30);
 
-
+    shootBtn.onclick = () => {
+      clearInterval(interval);
+      lockedPower = power;
+      shootBtn.textContent = "POWER " + lockedPower;
+      setTimeout(() => shootBtn.textContent = "SHOOT", 800);
+    };
+  }
 
   /* =====================
      START GAME
   ===================== */
-  /* =====================
-   BASKET GAME - POWER BAR (STEP A)
-===================== */
-
-let power = 0;          // 0 - 100
-let powerDirection = 1;
-let powerInterval = null;
-let lockedPower = 0;
-
-// mulai power bar
-function startPowerBar() {
-  clearInterval(powerInterval);
-
-  function bindBasketControls() {
-  const powerIndicator = document.querySelector(".power-indicator");
-  const shootBtn = document.querySelector(".shoot-btn");
-
-  if (!powerIndicator || !shootBtn) return;
-
-  shootBtn.onclick = () => {
-    stopPowerBar();
-
-    shootBtn.textContent = "POWER " + lockedPower;
-    setTimeout(() => {
-      shootBtn.textContent = "SHOOT";
-    }, 800);
-  };
-}
-
-  if (!powerIndicator) return;
-
-  power = 0;
-  powerDirection = 1;
-
-  powerInterval = setInterval(() => {
-    power += powerDirection * 2;
-
-    if (power >= 100) {
-      power = 100;
-      powerDirection = -1;
-    }
-
-    if (power <= 0) {
-      power = 0;
-      powerDirection = 1;
-    }
-
-    powerIndicator.style.width = power + "%";
-  }, 30);
-}
-
-// stop power bar
-function stopPowerBar() {
-  clearInterval(powerInterval);
-  lockedPower = power;
-  console.log("POWER:", lockedPower);
-}
-
-  // tombol shoot
-shootBtn?.addEventListener("click", () => {
-  stopPowerBar();
-
-  // feedback sementara (nanti diganti animasi bola)
-  shootBtn.textContent = "POWER " + lockedPower;
-  setTimeout(() => {
-    shootBtn.textContent = "SHOOT";
-  }, 800);
-});
-
-  
   switchRoom("room");
   showDialog();
 
