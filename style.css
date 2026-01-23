@@ -176,7 +176,7 @@ body {
 
 .school-icon {
   position: absolute;
-  left: 40%;        /* ⬅️ geser ke kiri */
+  left: 43%;        /* ⬅️ geser ke kiri */
   top: 45%;         /* sesuaikan tinggi pulau */
   transform: translate(-50%, -50%);
 }
