@@ -348,35 +348,3 @@ body {
 .basket-child img {
   height: 160px;
 }
-
-/* =====================
-   MAP HOME ICON
-===================== */
-.home-icon {
-  right: 80px;
-  bottom: 60px;
-  font-size: 48px;
-  cursor: pointer;
-}
-
-/* =====================
-   SYABIL DI BASKET
-===================== */
-.basket-child {
-  position: absolute;
-  bottom: 80px;
-  left: 40px;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.basket-child img {
-  height: 160px;
-}
-
-.basket-child.shoot {
-  transform: translateY(-8px);
-  transition: transform 0.15s ease;
-}
-
-
