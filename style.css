@@ -180,6 +180,17 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.school-icon img {
+  width: 80px;
+  height: auto;
+  cursor: pointer;
+}
+
+.school-icon img:hover {
+  transform: scale(1.05);
+}
+
+
 /* =====================
    QUIZ
 ===================== */
