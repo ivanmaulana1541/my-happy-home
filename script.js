@@ -336,7 +336,12 @@ schoolBasketIcon?.addEventListener("click", () => {
 
   // pindah ke lapangan basket
   switchRoom("basket");
-setTimeout(startPowerBar, 300);
+
+setTimeout(() => {
+  startPowerBar();
+  bindBasketControls();
+}, 300);
+
 
 });
 
