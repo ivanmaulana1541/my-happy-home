@@ -270,7 +270,7 @@ body {
 
 .basket-ring {
   position: absolute;
-  top: 78px;        /* ⬅️ kita atur */
+  top: 65px;        /* ⬅️ kita atur */
   right: 95px;      /* ⬅️ ini kunci */
   width: 80px;
   height: 14px;
