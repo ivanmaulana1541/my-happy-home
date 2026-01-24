@@ -23,10 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      ✅ NEW FLAGS (PULANG)
   ===================== */
-  let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
-  let allowGoHomeClick = false;         // di map, player wajib klik rumah
-  let showArrivedHomeDialog = false;    // setelah masuk home, tampil dialog "sampai rumah"
-  let useHomeBackground = false;        // ✅ room background override jadi home.png
+  let goHomeAfterBasketDialog = false;    // dialog capek -> pindah map
+  let allowGoHomeClick = false;           // di map, player wajib klik rumah
+  let showArrivedHomeDialog = false;      // dialog 1: sampai rumah
+  let useHomeBackground = false;          // room override jadi home.png
+  let goBedroomAfterArriveDialog = false; // ✅ dialog 2: mama papa dimana -> pindah bedroom
 
   /* =====================
      GAME STATE
@@ -166,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSyabilOutfit();
   }
 
-  // ✅ helper untuk dialog cepat
   function showCustomDialog(speaker, text) {
     dialogSpeaker.textContent = speaker;
     dialogText.textContent = text;
@@ -222,10 +222,22 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // ✅ dialog sampai rumah -> klik next untuk tutup
+    // ✅ dialog 1: sampai rumah -> setelah next tampil dialog 2
     if (showArrivedHomeDialog) {
       showArrivedHomeDialog = false;
+
+      // tampil dialog lanjutan
+      goBedroomAfterArriveDialog = true;
+      showCustomDialog("Syabil", "Mama Papa dimana ya?");
+      return;
+    }
+
+    // ✅ dialog 2: mama papa dimana -> next pindah bedroom
+    if (goBedroomAfterArriveDialog) {
+      goBedroomAfterArriveDialog = false;
+
       dialogBox.classList.add("hidden");
+      switchRoom("bedroom"); // ✅ pindah kamar orang tua
       return;
     }
 
@@ -337,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1300);
   });
 
-  // ✅ NEW: MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah + background home.png
+  // MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog
   homeIcon?.addEventListener("click", () => {
     if (!allowGoHomeClick) return;
 
@@ -378,12 +390,11 @@ document.addEventListener("DOMContentLoaded", () => {
       homeIcon.style.pointerEvents = "auto";
       schoolIcon.style.pointerEvents = "auto";
 
-      // ✅ aktifkan background home.png saat masuk rumah
+      // aktifkan background home.png saat masuk rumah
       useHomeBackground = true;
 
       switchRoom("room");
 
-      // dialog sampai rumah
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
 
@@ -489,7 +500,6 @@ document.addEventListener("DOMContentLoaded", () => {
         basketScore++;
         scoreBox.textContent = basketScore + " / 3";
 
-        // ✅ NEW: setelah 3/3, munculkan dialog pulang
         if (basketScore >= 3) {
           clearInterval(interval);
 
