@@ -301,60 +301,66 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function winTapRun() {
-    if (!taprunRunning) return;
-    taprunRunning = false;
-    stopTapRunLoops();
+  if (!taprunRunning) return;
+  taprunRunning = false;
+  stopTapRunLoops();
 
-    const reward = taprunCoins + 10;
+  const reward = taprunCoins + 10;
 
-    if (tapRunSummary) {
-      tapRunSummary.innerHTML =
-        `✅ Kamu tidak terlambat!<br>` +
-        `Waktu: <b>60 detik</b><br>` +
-        `Rintangan terlewati: <b>${taprunScore}</b><br>` +
-        `Coins diambil: <b>${taprunCoins}</b><br>` +
-        `Reward: <b>+${reward}</b> coin`;
-    }
-
-    // tombol lanjut hanya aktif kalau menang
-    if (tapRunContinueBtn) {
-      tapRunContinueBtn.style.opacity = "1";
-      tapRunContinueBtn.style.pointerEvents = "auto";
-    }
-
-    if (tapRunResult) {
-      tapRunResult.dataset.status = "win";
-      tapRunResult.dataset.reward = String(reward);
-      tapRunResult.classList.remove("hidden");
-    }
+  if (tapRunSummary) {
+    tapRunSummary.innerHTML =
+      `✅ Kamu tidak terlambat!<br>` +
+      `Waktu: <b>30 detik</b><br>` +
+      `Rintangan terlewati: <b>${taprunScore}</b><br>` +
+      `Coins diambil: <b>${taprunCoins}</b><br>` +
+      `Reward: <b>+${reward}</b> coin`;
   }
+
+  // tombol lanjut hanya aktif kalau menang
+  if (tapRunContinueBtn) {
+    tapRunContinueBtn.style.opacity = "1";
+    tapRunContinueBtn.style.pointerEvents = "auto";
+  }
+
+  if (tapRunResult) {
+    tapRunResult.dataset.status = "win";
+    tapRunResult.dataset.reward = String(reward);
+
+    // ✅ FIX: pastikan bisa tampil
+    tapRunResult.style.display = "flex";
+    tapRunResult.classList.remove("hidden");
+  }
+}
 
   function loseTapRun() {
-    if (!taprunRunning) return;
-    taprunRunning = false;
-    stopTapRunLoops();
+  if (!taprunRunning) return;
+  taprunRunning = false;
+  stopTapRunLoops();
 
-    if (tapRunSummary) {
-      tapRunSummary.innerHTML =
-        `❌ Kamu menabrak!<br>` +
-        `Sisa waktu: <b>${taprunTimeLeft}s</b><br>` +
-        `Rintangan terlewati: <b>${taprunScore}</b><br>` +
-        `Coins diambil: <b>${taprunCoins}</b><br><br>` +
-        `<b>Kamu harus menang dulu ya supaya tidak terlambat 😄</b>`;
-    }
-
-    // tombol lanjut dimatikan saat kalah
-    if (tapRunContinueBtn) {
-      tapRunContinueBtn.style.opacity = "0.4";
-      tapRunContinueBtn.style.pointerEvents = "none";
-    }
-
-    if (tapRunResult) {
-      tapRunResult.dataset.status = "lose";
-      tapRunResult.dataset.reward = "0";
-      tapRunResult.classList.remove("hidden");
-    }
+  if (tapRunSummary) {
+    tapRunSummary.innerHTML =
+      `❌ Kamu menabrak!<br>` +
+      `Sisa waktu: <b>${taprunTimeLeft}s</b><br>` +
+      `Rintangan terlewati: <b>${taprunScore}</b><br>` +
+      `Coins diambil: <b>${taprunCoins}</b><br><br>` +
+      `<b>Kamu harus menang dulu ya supaya tidak terlambat 😄</b>`;
   }
+
+  // tombol lanjut dimatikan saat kalah
+  if (tapRunContinueBtn) {
+    tapRunContinueBtn.style.opacity = "0.4";
+    tapRunContinueBtn.style.pointerEvents = "none";
+  }
+
+  if (tapRunResult) {
+    tapRunResult.dataset.status = "lose";
+    tapRunResult.dataset.reward = "0";
+
+    // ✅ FIX: pastikan bisa tampil
+    tapRunResult.style.display = "flex";
+    tapRunResult.classList.remove("hidden");
+  }
+}
 
   function startTapRun() {
   if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
@@ -362,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ FIX: paksa overlay disembunyikan setiap mulai game
   if (tapRunResult) {
     tapRunResult.classList.add("hidden");
-    tapRunResult.style.display = "none"; // paksa hilang
+    tapRunResult.style.display = "none";
   }
 
   if (tapRunSummary) tapRunSummary.innerHTML = "";
@@ -372,98 +378,99 @@ document.addEventListener("DOMContentLoaded", () => {
     tapRunContinueBtn.style.pointerEvents = "none";
   }
 
-    stopTapRunLoops(); // bersihin loop lama
+  stopTapRunLoops(); // bersihin loop lama
 
-    taprunScore = 0;
-    taprunCoins = 0;
-    taprunSpeed = 3.4;
-    taprunRunning = true;
+  taprunScore = 0;
+  taprunCoins = 0;
+  taprunSpeed = 3.4;
+  taprunRunning = true;
 
-    // anti tabrak instan
-    taprunSafeUntil = Date.now() + 1200;
+  // anti tabrak instan
+  taprunSafeUntil = Date.now() + 1200;
 
-    taprunTimeLeft = 60;
-    tapRunTimerEl.textContent = "Time: 60";
-    tapRunTimerEl.style.background = "#000";
+  // ✅ FIX: waktu hanya 30 detik
+  taprunTimeLeft = 30;
+  tapRunTimerEl.textContent = "Time: 30";
+  tapRunTimerEl.style.background = "#000";
 
-    tapRunScoreEl.textContent = "Score: 0";
-    tapRunCoinsEl.textContent = "Coins: 0";
+  tapRunScoreEl.textContent = "Score: 0";
+  tapRunCoinsEl.textContent = "Coins: 0";
 
-    clearTapRunObjects();
-    setPlayerLane(1);
-    updateTapRunCar();
+  clearTapRunObjects();
+  setPlayerLane(1);
+  updateTapRunCar();
 
-    // timer
-    clearInterval(taprunTimerInt);
-    taprunTimerInt = setInterval(() => {
-      if (!taprunRunning) return;
+  // timer countdown
+  clearInterval(taprunTimerInt);
+  taprunTimerInt = setInterval(() => {
+    if (!taprunRunning) return;
 
-      taprunTimeLeft--;
-      tapRunTimerEl.textContent = "Time: " + taprunTimeLeft;
+    taprunTimeLeft--;
+    tapRunTimerEl.textContent = "Time: " + taprunTimeLeft;
 
-      if (taprunTimeLeft <= 10) tapRunTimerEl.style.background = "#ff2d2d";
-      else tapRunTimerEl.style.background = "#000";
+    if (taprunTimeLeft <= 7) tapRunTimerEl.style.background = "#ff2d2d";
+    else tapRunTimerEl.style.background = "#000";
 
-      if (taprunTimeLeft <= 0) winTapRun();
-    }, 1000);
+    if (taprunTimeLeft <= 0) winTapRun();
+  }, 1000);
 
-    // spawn pertama ditunda biar tidak instan
-    taprunStartTimeout = setTimeout(() => {
-      if (!taprunRunning) return;
-      spawnObstacle();
-      spawnCoin();
-    }, 900);
+  // spawn pertama ditunda biar tidak instan
+  taprunStartTimeout = setTimeout(() => {
+    if (!taprunRunning) return;
+    spawnObstacle();
+    spawnCoin();
+  }, 900);
 
-    // spawn loop
-    clearInterval(taprunSpawnObs);
-    clearInterval(taprunSpawnCoin);
-    taprunSpawnObs = setInterval(spawnObstacle, 720);
-    taprunSpawnCoin = setInterval(spawnCoin, 520);
+  // spawn loop
+  clearInterval(taprunSpawnObs);
+  clearInterval(taprunSpawnCoin);
+  taprunSpawnObs = setInterval(spawnObstacle, 720);
+  taprunSpawnCoin = setInterval(spawnCoin, 520);
 
-    // main loop
-    clearInterval(taprunLoop);
-    taprunLoop = setInterval(() => {
-      if (!taprunRunning) return;
+  // main loop
+  clearInterval(taprunLoop);
+  taprunLoop = setInterval(() => {
+    if (!taprunRunning) return;
 
-      const ui = document.querySelector(".taprun-ui");
-      const H = ui?.getBoundingClientRect().height || 420;
+    const ui = document.querySelector(".taprun-ui");
+    const H = ui?.getBoundingClientRect().height || 420;
 
-      document.querySelectorAll(".taprun-obstacle, .taprun-coin").forEach(el => {
-        const y = (parseFloat(el.dataset.y || "0") + taprunSpeed);
-        el.dataset.y = String(y);
-        el.style.top = y + "px";
+    document.querySelectorAll(".taprun-obstacle, .taprun-coin").forEach(el => {
+      const y = (parseFloat(el.dataset.y || "0") + taprunSpeed);
+      el.dataset.y = String(y);
+      el.style.top = y + "px";
 
-        // score naik kalau obstacle lewat
-        if (el.dataset.type === "obstacle" && !el.dataset.passed && y > 270) {
-          el.dataset.passed = "1";
-          taprunScore++;
-          tapRunScoreEl.textContent = "Score: " + taprunScore;
-        }
+      // score naik kalau obstacle lewat
+      if (el.dataset.type === "obstacle" && !el.dataset.passed && y > 270) {
+        el.dataset.passed = "1";
+        taprunScore++;
+        tapRunScoreEl.textContent = "Score: " + taprunScore;
+      }
 
-        // collision check (setelah safe time)
-        if (Date.now() > taprunSafeUntil) {
-          if (y > 280 && y < 360) {
-            const objLane = Number(el.dataset.lane);
-            if (objLane === taprunLane) {
-              if (el.dataset.type === "coin") {
-                taprunCoins++;
-                tapRunCoinsEl.textContent = "Coins: " + taprunCoins;
-                el.remove();
-              } else {
-                loseTapRun();
-              }
+      // collision check (setelah safe time)
+      if (Date.now() > taprunSafeUntil) {
+        if (y > 280 && y < 360) {
+          const objLane = Number(el.dataset.lane);
+          if (objLane === taprunLane) {
+            if (el.dataset.type === "coin") {
+              taprunCoins++;
+              tapRunCoinsEl.textContent = "Coins: " + taprunCoins;
+              el.remove();
+            } else {
+              loseTapRun();
             }
           }
         }
+      }
 
-        // cleanup
-        if (y > H + 80) el.remove();
-      });
+      // cleanup
+      if (y > H + 80) el.remove();
+    });
 
-      // difficulty naik
-      taprunSpeed += 0.008;
-    }, 16);
-  }
+    // difficulty naik
+    taprunSpeed += 0.008;
+  }, 16);
+}
 
   // tap zones
   tapRunTouchLeft?.addEventListener("click", () => {
