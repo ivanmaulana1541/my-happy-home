@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateTapRunCar() {
     if (!tapRunPlayerImg) return;
-    tapRunPlayerImg.src = "./assets/icons/car.png";
+    tapRunPlayerImg.src = "./assets/icons/car-run.png";
   }
 
   function laneX(lane) {
