@@ -357,16 +357,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startTapRun() {
-    if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
+  if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
 
-    // ✅ FIX: paksa overlay disembunyikan setiap mulai game
-    if (tapRunResult) tapRunResult.classList.add("hidden");
-    if (tapRunSummary) tapRunSummary.innerHTML = "";
+  // ✅ FIX: paksa overlay disembunyikan setiap mulai game
+  if (tapRunResult) {
+    tapRunResult.classList.add("hidden");
+    tapRunResult.style.display = "none"; // paksa hilang
+  }
 
-    if (tapRunContinueBtn) {
-      tapRunContinueBtn.style.opacity = "0.4";
-      tapRunContinueBtn.style.pointerEvents = "none";
-    }
+  if (tapRunSummary) tapRunSummary.innerHTML = "";
+
+  if (tapRunContinueBtn) {
+    tapRunContinueBtn.style.opacity = "0.4";
+    tapRunContinueBtn.style.pointerEvents = "none";
+  }
 
     stopTapRunLoops(); // bersihin loop lama
 
