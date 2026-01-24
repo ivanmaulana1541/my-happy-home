@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let taprunLane = 1; // 0 kiri, 1 tengah, 2 kanan
   let taprunScore = 0;
   let taprunCoins = 0;
-  let taprunSpeed = 3.4;
+  let taprunSpeed = 2.2;
   let taprunRunning = false;
 
   let taprunLoop = null;
