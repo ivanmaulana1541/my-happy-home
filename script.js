@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const answers = document.querySelectorAll(".answer");
 
   /* =====================
-     🚗 CAR RUSH (TapRun) SELECTORS
+     🚗 TAPRUN SELECTORS
   ===================== */
   const tapRunResult = document.querySelector(".taprun-result");
   const tapRunScoreEl = document.querySelector(".taprun-score");
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunSummary = document.querySelector(".taprun-summary");
 
   /* =====================
-     ✅ FLAGS (PULANG)
+     FLAGS (PULANG)
   ===================== */
   let goHomeAfterBasketDialog = false;
   let allowGoHomeClick = false;
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   const story = {
     1: {
-      scene: "room",
+      scene: "syabil-room",
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
@@ -86,9 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     3: {
       scene: "map",
-      dialogs: [
-        { speaker: "Syabil", text: "Saatnya berangkat ke sekolah." }
-      ],
+      dialogs: [{ speaker: "Syabil", text: "Saatnya berangkat ke sekolah." }],
       action: "goSchool"
     },
 
@@ -147,40 +145,40 @@ document.addEventListener("DOMContentLoaded", () => {
       .forEach(img => img.src = src);
   }
 
-  // ✅ mapping khusus untuk file background yang namanya beda dari class
-  function bgFileNameForRoom(name) {
-    if (name === "room") return "syabil-room"; // ✅ pakai syabil-room.webp
-    if (name === "taprun") return "road";      // mini game road.png
-    return name;
+  // ✅ mapping nama room -> file background
+  function getBackgroundFile(roomName){
+    if(roomName === "syabil-room") return "syabil-room.webp"; // ✅ NEW
+    return `${roomName}.webp`;
   }
 
   function loadRoomBackground(name) {
-    const roomEl = document.querySelector(`.${name}`);
-    if (!roomEl) return;
+    const room = document.querySelector(`.${name}`);
+    if (!room || room.dataset.bgLoaded) return;
 
-    const bgName = bgFileNameForRoom(name);
-    const webp = `./assets/background/${bgName}.webp`;
-    const png = `./assets/background/${bgName}.png`;
+    const file = getBackgroundFile(name);
+
+    const webp = `./assets/background/${file}`;
+    const png = `./assets/background/${name}.png`;
 
     const img = new Image();
     img.src = webp;
 
     img.onload = () => {
-      roomEl.style.backgroundImage = `url("${webp}")`;
-      roomEl.dataset.bgLoaded = "true";
+      room.style.backgroundImage = `url("${webp}")`;
+      room.dataset.bgLoaded = "true";
     };
+
     img.onerror = () => {
-      roomEl.style.backgroundImage = `url("${png}")`;
-      roomEl.dataset.bgLoaded = "true";
+      room.style.backgroundImage = `url("${png}")`;
+      room.dataset.bgLoaded = "true";
     };
   }
 
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
-    const roomEl = document.querySelector(`.${name}`);
-    if (!roomEl) return;
-
-    roomEl.classList.add("active");
+    const room = document.querySelector(`.${name}`);
+    if (!room) return;
+    room.classList.add("active");
     loadRoomBackground(name);
     updateSyabilOutfit();
   }
@@ -207,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     ✅ INTRO PLAY
+     INTRO PLAY
   ===================== */
   introPlayBtn?.addEventListener("click", () => {
     gameState.chapter = 1;
@@ -216,7 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.syabilOutfit = "piyama";
     updateSyabilOutfit();
 
-    switchRoom("room");
+    // ✅ pindah ke kamar Syabil
+    switchRoom("syabil-room");
     showDialog();
   });
 
@@ -238,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     🚗 CAR RUSH MINI GAME (20 detik)
+     🚗 TAPRUN (20 detik)
   ===================== */
   let taprunLane = 1;
   let taprunScore = 0;
@@ -294,15 +293,11 @@ document.addEventListener("DOMContentLoaded", () => {
     obs.dataset.type = "obstacle";
 
     let lane = Math.floor(Math.random() * 3);
-
-    if (Date.now() < taprunSafeUntil && lane === taprunLane) {
-      lane = (lane + 1) % 3;
-    }
+    if (Date.now() < taprunSafeUntil && lane === taprunLane) lane = (lane + 1) % 3;
 
     obs.dataset.lane = String(lane);
     obs.style.left = laneX(lane) + "%";
     obs.style.transform = "translateX(-50%)";
-
     ui.appendChild(obs);
   }
 
@@ -346,7 +341,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (tapRunResult) {
       tapRunResult.dataset.status = "win";
-      tapRunResult.dataset.reward = String(reward);
       tapRunResult.style.display = "flex";
       tapRunResult.classList.remove("hidden");
     }
@@ -373,7 +367,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (tapRunResult) {
       tapRunResult.dataset.status = "lose";
-      tapRunResult.dataset.reward = "0";
       tapRunResult.style.display = "flex";
       tapRunResult.classList.remove("hidden");
     }
@@ -388,7 +381,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (tapRunSummary) tapRunSummary.innerHTML = "";
-
     if (tapRunContinueBtn) {
       tapRunContinueBtn.style.opacity = "0.4";
       tapRunContinueBtn.style.pointerEvents = "none";
@@ -588,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // MAP -> school -> taprun
+  /* MAP → SCHOOL ICON */
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
@@ -616,7 +608,6 @@ document.addEventListener("DOMContentLoaded", () => {
     carEl.classList.remove("hidden");
     carEl.style.left = (startX - 35) + "px";
     carEl.style.top = (startY - 20) + "px";
-
     void carEl.offsetWidth;
 
     carEl.style.left = (endX - 35) + "px";
@@ -629,7 +620,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1300);
   });
 
-  // start game
+  /* =====================
+     START GAME
+  ===================== */
   switchRoom("intro");
   dialogBox.classList.add("hidden");
+
 });
