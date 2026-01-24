@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunTimerEl = document.querySelector(".taprun-timer");
   const tapRunPlayer = document.querySelector(".taprun-player");
   const tapRunPlayerImg = document.querySelector(".taprun-player img");
-
   const tapRunTouchLeft = document.querySelector(".taprun-touch-left");
   const tapRunTouchRight = document.querySelector(".taprun-touch-right");
   const tapRunRestartBtn = document.querySelector(".taprun-restart");
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunSummary = document.querySelector(".taprun-summary");
 
   /* =====================
-     FLAGS (PULANG)
+     FLAGS
   ===================== */
   let goHomeAfterBasketDialog = false;
   let allowGoHomeClick = false;
@@ -61,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   const story = {
     1: {
-      scene: "syabil-room",
+      scene: "room",
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
@@ -86,7 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     3: {
       scene: "map",
-      dialogs: [{ speaker: "Syabil", text: "Saatnya berangkat ke sekolah." }],
+      dialogs: [
+        { speaker: "Syabil", text: "Saatnya berangkat ke sekolah." }
+      ],
       action: "goSchool"
     },
 
@@ -141,24 +142,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (gameState.syabilOutfit === "seragam") src = "./assets/child.png";
     if (gameState.syabilOutfit === "sport") src = "./assets/child_sport.png";
 
-    document.querySelectorAll(".person.child img")
-      .forEach(img => img.src = src);
-  }
-
-  // ✅ mapping nama room -> file background
-  function getBackgroundFile(roomName){
-    if(roomName === "syabil-room") return "syabil-room.webp"; // ✅ NEW
-    return `${roomName}.webp`;
+    document.querySelectorAll(".person.child img").forEach(img => {
+      // jangan ubah gambar yang bukan syabil di intro, tapi aman
+      img.src = src;
+    });
   }
 
   function loadRoomBackground(name) {
     const room = document.querySelector(`.${name}`);
     if (!room || room.dataset.bgLoaded) return;
 
-    const file = getBackgroundFile(name);
+    // ✅ FIX: kamar Syabil pakai syabil-room.webp
+    let webp = `./assets/background/${name}.webp`;
+    let png = `./assets/background/${name}.png`;
 
-    const webp = `./assets/background/${file}`;
-    const png = `./assets/background/${name}.png`;
+    if (name === "room") {
+      webp = "./assets/background/syabil-room.webp";
+      png = "./assets/background/room.png";
+    }
 
     const img = new Image();
     img.src = webp;
@@ -179,6 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const room = document.querySelector(`.${name}`);
     if (!room) return;
     room.classList.add("active");
+
     loadRoomBackground(name);
     updateSyabilOutfit();
   }
@@ -205,17 +207,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     INTRO PLAY
+     INTRO PLAY BUTTON
   ===================== */
   introPlayBtn?.addEventListener("click", () => {
     gameState.chapter = 1;
     gameState.dialogIndex = 0;
     gameState.afterAction = false;
     gameState.syabilOutfit = "piyama";
-    updateSyabilOutfit();
 
-    // ✅ pindah ke kamar Syabil
-    switchRoom("syabil-room");
+    switchRoom("room");
     showDialog();
   });
 
@@ -298,6 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     obs.dataset.lane = String(lane);
     obs.style.left = laneX(lane) + "%";
     obs.style.transform = "translateX(-50%)";
+
     ui.appendChild(obs);
   }
 
@@ -341,6 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (tapRunResult) {
       tapRunResult.dataset.status = "win";
+      tapRunResult.dataset.reward = String(reward);
       tapRunResult.style.display = "flex";
       tapRunResult.classList.remove("hidden");
     }
@@ -367,6 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (tapRunResult) {
       tapRunResult.dataset.status = "lose";
+      tapRunResult.dataset.reward = "0";
       tapRunResult.style.display = "flex";
       tapRunResult.classList.remove("hidden");
     }
@@ -379,8 +382,8 @@ document.addEventListener("DOMContentLoaded", () => {
       tapRunResult.classList.add("hidden");
       tapRunResult.style.display = "none";
     }
-
     if (tapRunSummary) tapRunSummary.innerHTML = "";
+
     if (tapRunContinueBtn) {
       tapRunContinueBtn.style.opacity = "0.4";
       tapRunContinueBtn.style.pointerEvents = "none";
@@ -580,7 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* MAP → SCHOOL ICON */
+  // MAP: klik sekolah -> mobil jalan -> taprun
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
@@ -619,6 +622,175 @@ document.addEventListener("DOMContentLoaded", () => {
       startTapRun();
     }, 1300);
   });
+
+  // MAP klik rumah setelah basket selesai
+  homeIcon?.addEventListener("click", () => {
+    if (!allowGoHomeClick) return;
+
+    const mapRoom = document.querySelector(".room.map");
+    if (!mapRoom || !car || !homeIcon || !schoolIcon) {
+      switchRoom("room");
+      showArrivedHomeDialog = true;
+      showCustomDialog("Syabil", "Aku sudah sampai rumah.");
+      allowGoHomeClick = false;
+      return;
+    }
+
+    const mapRect = mapRoom.getBoundingClientRect();
+    const startRect = schoolIcon.getBoundingClientRect();
+    const endRect = homeIcon.getBoundingClientRect();
+
+    const startX = startRect.left - mapRect.left + startRect.width / 2;
+    const startY = startRect.top - mapRect.top + startRect.height / 2;
+
+    const endX = endRect.left - mapRect.left + endRect.width / 2;
+    const endY = endRect.top - mapRect.top + endRect.height / 2;
+
+    car.classList.remove("hidden");
+    car.style.left = (startX - 35) + "px";
+    car.style.top = (startY - 20) + "px";
+    void car.offsetWidth;
+
+    car.style.left = (endX - 35) + "px";
+    car.style.top = (endY - 20) + "px";
+
+    homeIcon.style.pointerEvents = "none";
+    schoolIcon.style.pointerEvents = "none";
+
+    setTimeout(() => {
+      car.classList.add("hidden");
+      homeIcon.style.pointerEvents = "auto";
+      schoolIcon.style.pointerEvents = "auto";
+
+      switchRoom("room");
+      showArrivedHomeDialog = true;
+      showCustomDialog("Syabil", "Aku sudah sampai rumah.");
+      allowGoHomeClick = false;
+    }, 1300);
+  });
+
+  // quiz answers
+  answers.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (!gameState.waitingQuiz) return;
+
+      const isCorrect = btn.dataset.correct === "true";
+      quiz.classList.add("hidden");
+      gameState.waitingQuiz = false;
+
+      if (!isCorrect) {
+        dialogSpeaker.textContent = "Miss Putri";
+        dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
+        dialogBox.classList.remove("hidden");
+        return;
+      }
+
+      dialogSpeaker.textContent = "Miss Putri";
+      dialogText.textContent = "Yaaay betul!";
+      dialogBox.classList.remove("hidden");
+
+      gameState.quizStep++;
+      if (gameState.quizStep >= quizQuestions.length) {
+        gameState.afterAction = true;
+        gameState.dialogIndex = 0;
+        schoolDressIcon.classList.remove("hidden");
+        showDialog();
+      }
+    });
+  });
+
+  schoolDressIcon?.addEventListener("click", () => {
+    gameState.syabilOutfit = "sport";
+    updateSyabilOutfit();
+
+    const child = document.querySelector(".person.child");
+    child.classList.add("jump");
+    setTimeout(() => child.classList.remove("jump"), 400);
+
+    schoolDressIcon.classList.add("hidden");
+    schoolBasketIcon.classList.remove("hidden");
+  });
+
+  schoolBasketIcon?.addEventListener("click", () => {
+    schoolBasketIcon.classList.add("hidden");
+    switchRoom("basket");
+    setTimeout(startBasketGame, 300);
+  });
+
+  /* =====================
+     BASKET GAME (tetap)
+  ===================== */
+  let power = 0;
+  let direction = 1;
+  let interval = null;
+  let basketScore = 0;
+
+  function startBasketGame() {
+    const powerIndicator = document.querySelector(".power-indicator");
+    const shootBtn = document.querySelector(".shoot-btn");
+    const ball = document.querySelector(".basket-ball");
+    const ring = document.querySelector(".basket-ring");
+    const scoreBox = document.querySelector(".basket-score");
+
+    power = 0;
+    direction = 1;
+    basketScore = 0;
+    scoreBox.textContent = "0 / 3";
+
+    interval = setInterval(() => {
+      power += direction * 2;
+      if (power >= 100) direction = -1;
+      if (power <= 0) direction = 1;
+      powerIndicator.style.width = power + "%";
+    }, 30);
+
+    shootBtn.onclick = () => {
+      clearInterval(interval);
+
+      const ballRect = ball.getBoundingClientRect();
+      const ringRect = ring.getBoundingClientRect();
+
+      const dx = ringRect.left - ballRect.left + ringRect.width / 2;
+      const dy = ringRect.top - ballRect.top;
+
+      ball.style.transition = "none";
+      ball.style.transform = "translate(0,0)";
+      ball.style.opacity = "1";
+      void ball.offsetWidth;
+
+      ball.style.transition = "transform 0.6s cubic-bezier(.3,.8,.4,1)";
+      ball.style.transform = `translate(${dx}px, ${dy}px) scale(0.6)`;
+
+      setTimeout(() => {
+        ball.style.opacity = "0";
+        basketScore++;
+        scoreBox.textContent = basketScore + " / 3";
+
+        if (basketScore >= 3) {
+          clearInterval(interval);
+          setTimeout(() => {
+            goHomeAfterBasketDialog = true;
+            showCustomDialog("Syabil", "Syabil sudah lelah... Saatnya pulang ke rumah.");
+          }, 400);
+        }
+      }, 450);
+
+      setTimeout(() => {
+        if (basketScore >= 3) return;
+
+        ball.style.opacity = "1";
+        ball.style.transform = "translate(0,0)";
+        power = 0;
+        direction = 1;
+        interval = setInterval(() => {
+          power += direction * 2;
+          if (power >= 100) direction = -1;
+          if (power <= 0) direction = 1;
+          powerIndicator.style.width = power + "%";
+        }, 30);
+      }, 800);
+    };
+  }
 
   /* =====================
      START GAME
