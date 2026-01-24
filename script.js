@@ -470,7 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // difficulty naik
-    taprunSpeed += 0.008;
+    taprunSpeed += 0.003;
   }, 16);
 }
 
