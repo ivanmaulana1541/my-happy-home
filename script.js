@@ -229,8 +229,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let taprunTimeLeft = 60;
   let taprunTimerInt = null;
 
-  // ✅ FIX: waktu aman awal (anti nabrak langsung)
-  let taprunSafeUntil = 0;
+  let taprunSafeUntil = 0; // anti tabrak instan
+  let taprunStartTimeout = null;
 
   function updateTapRunCar() {
     if (!tapRunPlayerImg) return;
@@ -257,6 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearInterval(taprunSpawnObs);
     clearInterval(taprunSpawnCoin);
     clearInterval(taprunTimerInt);
+    clearTimeout(taprunStartTimeout);
   }
 
   function spawnObstacle() {
@@ -270,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lane = Math.floor(Math.random() * 3);
 
-    // ✅ FIX: saat safe time, obstacle tidak boleh muncul di lane mobil
+    // safe time: obstacle tidak boleh muncul di lane mobil
     if (Date.now() < taprunSafeUntil && lane === taprunLane) {
       lane = (lane + 1) % 3;
     }
@@ -315,10 +316,16 @@ document.addEventListener("DOMContentLoaded", () => {
         `Reward: <b>+${reward}</b> coin`;
     }
 
-    tapRunResult?.classList.remove("hidden");
+    // tombol lanjut hanya aktif kalau menang
+    if (tapRunContinueBtn) {
+      tapRunContinueBtn.style.opacity = "1";
+      tapRunContinueBtn.style.pointerEvents = "auto";
+    }
+
     if (tapRunResult) {
       tapRunResult.dataset.status = "win";
       tapRunResult.dataset.reward = String(reward);
+      tapRunResult.classList.remove("hidden");
     }
   }
 
@@ -336,30 +343,44 @@ document.addEventListener("DOMContentLoaded", () => {
         `<b>Kamu harus menang dulu ya supaya tidak terlambat 😄</b>`;
     }
 
-    tapRunResult?.classList.remove("hidden");
+    // tombol lanjut dimatikan saat kalah
+    if (tapRunContinueBtn) {
+      tapRunContinueBtn.style.opacity = "0.4";
+      tapRunContinueBtn.style.pointerEvents = "none";
+    }
+
     if (tapRunResult) {
       tapRunResult.dataset.status = "lose";
       tapRunResult.dataset.reward = "0";
+      tapRunResult.classList.remove("hidden");
     }
   }
 
   function startTapRun() {
     if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
 
+    // ✅ FIX: paksa overlay disembunyikan setiap mulai game
+    if (tapRunResult) tapRunResult.classList.add("hidden");
+    if (tapRunSummary) tapRunSummary.innerHTML = "";
+
+    if (tapRunContinueBtn) {
+      tapRunContinueBtn.style.opacity = "0.4";
+      tapRunContinueBtn.style.pointerEvents = "none";
+    }
+
+    stopTapRunLoops(); // bersihin loop lama
+
     taprunScore = 0;
     taprunCoins = 0;
     taprunSpeed = 3.4;
     taprunRunning = true;
 
-    // ✅ FIX: safe time 1.2 detik
+    // anti tabrak instan
     taprunSafeUntil = Date.now() + 1200;
 
     taprunTimeLeft = 60;
     tapRunTimerEl.textContent = "Time: 60";
     tapRunTimerEl.style.background = "#000";
-
-    tapRunResult?.classList.add("hidden");
-    if (tapRunSummary) tapRunSummary.textContent = "";
 
     tapRunScoreEl.textContent = "Score: 0";
     tapRunCoinsEl.textContent = "Coins: 0";
@@ -368,6 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setPlayerLane(1);
     updateTapRunCar();
 
+    // timer
     clearInterval(taprunTimerInt);
     taprunTimerInt = setInterval(() => {
       if (!taprunRunning) return;
@@ -381,19 +403,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (taprunTimeLeft <= 0) winTapRun();
     }, 1000);
 
-    clearInterval(taprunSpawnObs);
-    clearInterval(taprunSpawnCoin);
-
-    // ✅ FIX: spawn pertama ditunda
-    setTimeout(() => {
+    // spawn pertama ditunda biar tidak instan
+    taprunStartTimeout = setTimeout(() => {
       if (!taprunRunning) return;
       spawnObstacle();
       spawnCoin();
     }, 900);
 
+    // spawn loop
+    clearInterval(taprunSpawnObs);
+    clearInterval(taprunSpawnCoin);
     taprunSpawnObs = setInterval(spawnObstacle, 720);
     taprunSpawnCoin = setInterval(spawnCoin, 520);
 
+    // main loop
     clearInterval(taprunLoop);
     taprunLoop = setInterval(() => {
       if (!taprunRunning) return;
@@ -406,13 +429,14 @@ document.addEventListener("DOMContentLoaded", () => {
         el.dataset.y = String(y);
         el.style.top = y + "px";
 
+        // score naik kalau obstacle lewat
         if (el.dataset.type === "obstacle" && !el.dataset.passed && y > 270) {
           el.dataset.passed = "1";
           taprunScore++;
           tapRunScoreEl.textContent = "Score: " + taprunScore;
         }
 
-        // ✅ FIX: collision only after safe time
+        // collision check (setelah safe time)
         if (Date.now() > taprunSafeUntil) {
           if (y > 280 && y < 360) {
             const objLane = Number(el.dataset.lane);
@@ -428,13 +452,16 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
+        // cleanup
         if (y > H + 80) el.remove();
       });
 
+      // difficulty naik
       taprunSpeed += 0.008;
     }, 16);
   }
 
+  // tap zones
   tapRunTouchLeft?.addEventListener("click", () => {
     if (!taprunRunning) return;
     setPlayerLane(taprunLane - 1);
@@ -445,6 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setPlayerLane(taprunLane + 1);
   });
 
+  // buttons
   tapRunRestartBtn?.addEventListener("click", () => {
     startTapRun();
   });
@@ -453,10 +481,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const status = tapRunResult?.dataset?.status;
     if (status !== "win") return;
 
-    tapRunResult?.classList.add("hidden");
+    if (tapRunResult) tapRunResult.classList.add("hidden");
     clearTapRunObjects();
 
-    // lanjut ke school setelah menang
     gameState.chapter = 4;
     gameState.afterAction = false;
     switchRoom("school");
@@ -468,6 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   dialogNext.addEventListener("click", () => {
 
+    // habis basket selesai, dialog capek -> pindah map
     if (goHomeAfterBasketDialog) {
       goHomeAfterBasketDialog = false;
       allowGoHomeClick = true;
@@ -478,6 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // sampai rumah -> after klik next, tutup dialog
     if (showArrivedHomeDialog) {
       showArrivedHomeDialog = false;
       dialogBox.classList.add("hidden");
@@ -546,7 +575,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // MAP: klik sekolah -> mobil home ke school -> MASUK CAR RUSH -> menang -> school
+  // MAP: klik sekolah -> mobil home ke school -> MASUK CAR RUSH
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
@@ -588,7 +617,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1300);
   });
 
-  // ✅ MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
+  // MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
   homeIcon?.addEventListener("click", () => {
     if (!allowGoHomeClick) return;
 
@@ -602,8 +631,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const mapRect = mapRoom.getBoundingClientRect();
-    const startRect = schoolIcon.getBoundingClientRect();
-    const endRect = homeIcon.getBoundingClientRect();
+    const startRect = schoolIcon.getBoundingClientRect(); // start sekolah
+    const endRect = homeIcon.getBoundingClientRect();     // end rumah
 
     const startX = startRect.left - mapRect.left + startRect.width / 2;
     const startY = startRect.top - mapRect.top + startRect.height / 2;
@@ -634,7 +663,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
 
       allowGoHomeClick = false;
-
     }, 1300);
   });
 
@@ -735,6 +763,7 @@ document.addEventListener("DOMContentLoaded", () => {
         basketScore++;
         scoreBox.textContent = basketScore + " / 3";
 
+        // kalau sudah 3/3, munculkan dialog capek pulang
         if (basketScore >= 3) {
           clearInterval(interval);
 
@@ -743,7 +772,6 @@ document.addEventListener("DOMContentLoaded", () => {
             showCustomDialog("Syabil", "Syabil sudah lelah... Saatnya pulang ke rumah.");
           }, 400);
         }
-
       }, 450);
 
       setTimeout(() => {
