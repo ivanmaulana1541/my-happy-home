@@ -92,11 +92,13 @@ body {
   z-index: 5;
 }
 
+/* SCHOOL: posisi Miss Putri lebih pas di karpet dekat papan */
 .school .person.teacher {
-  left: 260px;     /* geser ke tengah */
-  bottom: -25px;   /* sejajarkan lantai */
+  left: 250px;     /* makin besar = makin ke kanan */
+  bottom: 0px;    /* makin besar = makin ke atas (contoh -5 lebih naik dari -25) */
   z-index: 6;
 }
+
 
 
 /* =====================
@@ -256,6 +258,15 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,.2);
   text-align: center;
 }
+
+/* SCHOOL: quiz jangan ketutup Miss Putri */
+.school .quiz {
+  left: 56%;
+  bottom: 180px;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
 
 .quiz .question {
   font-weight: bold;
