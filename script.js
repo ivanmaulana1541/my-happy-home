@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const schoolBasketIcon = document.querySelector(".school-basket-icon");
   const introPlayBtn = document.querySelector(".intro-play");
 
-
   const dialogBox = document.getElementById("dialog-box");
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
   const dialogText = dialogBox.querySelector(".dialog-text");
@@ -37,23 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunRestartBtn = document.querySelector(".taprun-restart");
   const tapRunContinueBtn = document.querySelector(".taprun-continue");
   const tapRunSummary = document.querySelector(".taprun-summary");
-
-  /* =====================
-   ✅ INTRO PLAY BUTTON
-===================== */
-introPlayBtn?.addEventListener("click", () => {
-  gameState.chapter = 1;
-  gameState.dialogIndex = 0;
-  gameState.afterAction = false;
-  gameState.syabilOutfit = "piyama";
-  updateSyabilOutfit();
-
-  switchRoom("intro");
-// dialog jangan tampil dulu
-dialogBox.classList.add("hidden");
-
-});
-
 
   /* =====================
      ✅ NEW FLAGS (PULANG)
@@ -193,7 +175,6 @@ dialogBox.classList.add("hidden");
     updateSyabilOutfit();
   }
 
-  // ✅ helper untuk dialog cepat (dipakai fitur pulang)
   function showCustomDialog(speaker, text) {
     dialogSpeaker.textContent = speaker;
     dialogText.textContent = text;
@@ -216,6 +197,20 @@ dialogBox.classList.add("hidden");
   }
 
   /* =====================
+     ✅ INTRO PLAY BUTTON
+  ===================== */
+  introPlayBtn?.addEventListener("click", () => {
+    gameState.chapter = 1;
+    gameState.dialogIndex = 0;
+    gameState.afterAction = false;
+    gameState.syabilOutfit = "piyama";
+    updateSyabilOutfit();
+
+    switchRoom("room");
+    showDialog();
+  });
+
+  /* =====================
      QUIZ
   ===================== */
   function loadQuiz() {
@@ -233,7 +228,7 @@ dialogBox.classList.add("hidden");
   }
 
   /* =====================
-     🚗 CAR RUSH MINI GAME (1 menit survive)
+     🚗 CAR RUSH MINI GAME (20 detik)
   ===================== */
   let taprunLane = 1; // 0 kiri, 1 tengah, 2 kanan
   let taprunScore = 0;
@@ -245,7 +240,7 @@ dialogBox.classList.add("hidden");
   let taprunSpawnObs = null;
   let taprunSpawnCoin = null;
 
-  let taprunTimeLeft = 60;
+  let taprunTimeLeft = 20;
   let taprunTimerInt = null;
 
   let taprunSafeUntil = 0; // anti tabrak instan
@@ -257,12 +252,10 @@ dialogBox.classList.add("hidden");
   }
 
   function laneX(lane) {
-  // disesuaikan agar pas dengan 3 jalur road.png
-  if (lane === 0) return 33;
-  if (lane === 1) return 50;
-  return 67;
-}
-
+    if (lane === 0) return 33;
+    if (lane === 1) return 50;
+    return 67;
+  }
 
   function setPlayerLane(lane) {
     taprunLane = Math.max(0, Math.min(2, lane));
@@ -292,7 +285,6 @@ dialogBox.classList.add("hidden");
 
     let lane = Math.floor(Math.random() * 3);
 
-    // safe time: obstacle tidak boleh muncul di lane mobil
     if (Date.now() < taprunSafeUntil && lane === taprunLane) {
       lane = (lane + 1) % 3;
     }
@@ -322,178 +314,160 @@ dialogBox.classList.add("hidden");
   }
 
   function winTapRun() {
-  if (!taprunRunning) return;
-  taprunRunning = false;
-  stopTapRunLoops();
+    if (!taprunRunning) return;
+    taprunRunning = false;
+    stopTapRunLoops();
 
-  const reward = taprunCoins + 10;
+    const reward = taprunCoins + 10;
 
-  if (tapRunSummary) {
-    tapRunSummary.innerHTML =
-      `✅ Kamu tidak terlambat!<br>` +
-      `Waktu: <b>20 detik</b><br>` +
-      `Rintangan terlewati: <b>${taprunScore}</b><br>` +
-      `Coins diambil: <b>${taprunCoins}</b><br>` +
-      `Reward: <b>+${reward}</b> coin`;
+    if (tapRunSummary) {
+      tapRunSummary.innerHTML =
+        `✅ Kamu tidak terlambat!<br>` +
+        `Waktu: <b>20 detik</b><br>` +
+        `Rintangan terlewati: <b>${taprunScore}</b><br>` +
+        `Coins diambil: <b>${taprunCoins}</b><br>` +
+        `Reward: <b>+${reward}</b> coin`;
+    }
+
+    if (tapRunContinueBtn) {
+      tapRunContinueBtn.style.opacity = "1";
+      tapRunContinueBtn.style.pointerEvents = "auto";
+    }
+
+    if (tapRunResult) {
+      tapRunResult.dataset.status = "win";
+      tapRunResult.dataset.reward = String(reward);
+      tapRunResult.style.display = "flex";
+      tapRunResult.classList.remove("hidden");
+    }
   }
-
-  // tombol lanjut hanya aktif kalau menang
-  if (tapRunContinueBtn) {
-    tapRunContinueBtn.style.opacity = "1";
-    tapRunContinueBtn.style.pointerEvents = "auto";
-  }
-
-  if (tapRunResult) {
-    tapRunResult.dataset.status = "win";
-    tapRunResult.dataset.reward = String(reward);
-
-    // ✅ FIX: pastikan bisa tampil
-    tapRunResult.style.display = "flex";
-    tapRunResult.classList.remove("hidden");
-  }
-}
 
   function loseTapRun() {
-  if (!taprunRunning) return;
-  taprunRunning = false;
-  stopTapRunLoops();
+    if (!taprunRunning) return;
+    taprunRunning = false;
+    stopTapRunLoops();
 
-  if (tapRunSummary) {
-    tapRunSummary.innerHTML =
-      `❌ Kamu menabrak!<br>` +
-      `Sisa waktu: <b>${taprunTimeLeft}s</b><br>` +
-      `Rintangan terlewati: <b>${taprunScore}</b><br>` +
-      `Coins diambil: <b>${taprunCoins}</b><br><br>` +
-      `<b>Kamu harus menang dulu ya supaya tidak terlambat 😄</b>`;
+    if (tapRunSummary) {
+      tapRunSummary.innerHTML =
+        `❌ Kamu menabrak!<br>` +
+        `Sisa waktu: <b>${taprunTimeLeft}s</b><br>` +
+        `Rintangan terlewati: <b>${taprunScore}</b><br>` +
+        `Coins diambil: <b>${taprunCoins}</b><br><br>` +
+        `<b>Kamu harus menang dulu ya supaya tidak terlambat 😄</b>`;
+    }
+
+    if (tapRunContinueBtn) {
+      tapRunContinueBtn.style.opacity = "0.4";
+      tapRunContinueBtn.style.pointerEvents = "none";
+    }
+
+    if (tapRunResult) {
+      tapRunResult.dataset.status = "lose";
+      tapRunResult.dataset.reward = "0";
+      tapRunResult.style.display = "flex";
+      tapRunResult.classList.remove("hidden");
+    }
   }
-
-  // tombol lanjut dimatikan saat kalah
-  if (tapRunContinueBtn) {
-    tapRunContinueBtn.style.opacity = "0.4";
-    tapRunContinueBtn.style.pointerEvents = "none";
-  }
-
-  if (tapRunResult) {
-    tapRunResult.dataset.status = "lose";
-    tapRunResult.dataset.reward = "0";
-
-    // ✅ FIX: pastikan bisa tampil
-    tapRunResult.style.display = "flex";
-    tapRunResult.classList.remove("hidden");
-  }
-}
 
   function startTapRun() {
-  if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
+    if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
 
-  // ✅ FIX: paksa overlay disembunyikan setiap mulai game
-  if (tapRunResult) {
-    tapRunResult.classList.add("hidden");
-    tapRunResult.style.display = "none";
-  }
+    if (tapRunResult) {
+      tapRunResult.classList.add("hidden");
+      tapRunResult.style.display = "none";
+    }
 
-  if (tapRunSummary) tapRunSummary.innerHTML = "";
+    if (tapRunSummary) tapRunSummary.innerHTML = "";
 
-  if (tapRunContinueBtn) {
-    tapRunContinueBtn.style.opacity = "0.4";
-    tapRunContinueBtn.style.pointerEvents = "none";
-  }
+    if (tapRunContinueBtn) {
+      tapRunContinueBtn.style.opacity = "0.4";
+      tapRunContinueBtn.style.pointerEvents = "none";
+    }
 
-  stopTapRunLoops(); // bersihin loop lama
+    stopTapRunLoops();
 
-  taprunScore = 0;
-  taprunCoins = 0;
-  taprunSpeed = 3.4;
-  taprunRunning = true;
+    taprunScore = 0;
+    taprunCoins = 0;
+    taprunSpeed = 2.2;
+    taprunRunning = true;
 
-  // anti tabrak instan
-  taprunSafeUntil = Date.now() + 1200;
+    taprunSafeUntil = Date.now() + 1200;
 
-  // ✅ FIX: waktu hanya 30 detik
-  taprunTimeLeft = 20;
-  tapRunTimerEl.textContent = "Time: 20";
-  tapRunTimerEl.style.background = "#000";
+    taprunTimeLeft = 20;
+    tapRunTimerEl.textContent = "Time: 20";
+    tapRunTimerEl.style.background = "#000";
 
-  tapRunScoreEl.textContent = "Score: 0";
-  tapRunCoinsEl.textContent = "Coins: 0";
+    tapRunScoreEl.textContent = "Score: 0";
+    tapRunCoinsEl.textContent = "Coins: 0";
 
-  clearTapRunObjects();
-  setPlayerLane(1);
-  updateTapRunCar();
+    clearTapRunObjects();
+    setPlayerLane(1);
+    updateTapRunCar();
 
-  // timer countdown
-  clearInterval(taprunTimerInt);
-  taprunTimerInt = setInterval(() => {
-    if (!taprunRunning) return;
+    clearInterval(taprunTimerInt);
+    taprunTimerInt = setInterval(() => {
+      if (!taprunRunning) return;
 
-    taprunTimeLeft--;
-    tapRunTimerEl.textContent = "Time: " + taprunTimeLeft;
+      taprunTimeLeft--;
+      tapRunTimerEl.textContent = "Time: " + taprunTimeLeft;
 
-    if (taprunTimeLeft <= 7) tapRunTimerEl.style.background = "#ff2d2d";
-    else tapRunTimerEl.style.background = "#000";
+      if (taprunTimeLeft <= 7) tapRunTimerEl.style.background = "#ff2d2d";
+      else tapRunTimerEl.style.background = "#000";
 
-    if (taprunTimeLeft <= 0) winTapRun();
-  }, 1000);
+      if (taprunTimeLeft <= 0) winTapRun();
+    }, 1000);
 
-  // spawn pertama ditunda biar tidak instan
-  taprunStartTimeout = setTimeout(() => {
-    if (!taprunRunning) return;
-    spawnObstacle();
-    spawnCoin();
-  }, 900);
+    taprunStartTimeout = setTimeout(() => {
+      if (!taprunRunning) return;
+      spawnObstacle();
+      spawnCoin();
+    }, 900);
 
-  // spawn loop
-  clearInterval(taprunSpawnObs);
-  clearInterval(taprunSpawnCoin);
-  taprunSpawnObs = setInterval(spawnObstacle, 980);
-  taprunSpawnCoin = setInterval(spawnCoin, 750);
+    clearInterval(taprunSpawnObs);
+    clearInterval(taprunSpawnCoin);
+    taprunSpawnObs = setInterval(spawnObstacle, 980);
+    taprunSpawnCoin = setInterval(spawnCoin, 750);
 
-  // main loop
-  clearInterval(taprunLoop);
-  taprunLoop = setInterval(() => {
-    if (!taprunRunning) return;
+    clearInterval(taprunLoop);
+    taprunLoop = setInterval(() => {
+      if (!taprunRunning) return;
 
-    const ui = document.querySelector(".taprun-ui");
-    const H = ui?.getBoundingClientRect().height || 420;
+      const ui = document.querySelector(".taprun-ui");
+      const H = ui?.getBoundingClientRect().height || 420;
 
-    document.querySelectorAll(".taprun-obstacle, .taprun-coin").forEach(el => {
-      const y = (parseFloat(el.dataset.y || "0") + taprunSpeed);
-      el.dataset.y = String(y);
-      el.style.top = y + "px";
+      document.querySelectorAll(".taprun-obstacle, .taprun-coin").forEach(el => {
+        const y = (parseFloat(el.dataset.y || "0") + taprunSpeed);
+        el.dataset.y = String(y);
+        el.style.top = y + "px";
 
-      // score naik kalau obstacle lewat
-      if (el.dataset.type === "obstacle" && !el.dataset.passed && y > 270) {
-        el.dataset.passed = "1";
-        taprunScore++;
-        tapRunScoreEl.textContent = "Score: " + taprunScore;
-      }
+        if (el.dataset.type === "obstacle" && !el.dataset.passed && y > 270) {
+          el.dataset.passed = "1";
+          taprunScore++;
+          tapRunScoreEl.textContent = "Score: " + taprunScore;
+        }
 
-      // collision check (setelah safe time)
-      if (Date.now() > taprunSafeUntil) {
-        if (y > 280 && y < 360) {
-          const objLane = Number(el.dataset.lane);
-          if (objLane === taprunLane) {
-            if (el.dataset.type === "coin") {
-              taprunCoins++;
-              tapRunCoinsEl.textContent = "Coins: " + taprunCoins;
-              el.remove();
-            } else {
-              loseTapRun();
+        if (Date.now() > taprunSafeUntil) {
+          if (y > 280 && y < 360) {
+            const objLane = Number(el.dataset.lane);
+            if (objLane === taprunLane) {
+              if (el.dataset.type === "coin") {
+                taprunCoins++;
+                tapRunCoinsEl.textContent = "Coins: " + taprunCoins;
+                el.remove();
+              } else {
+                loseTapRun();
+              }
             }
           }
         }
-      }
 
-      // cleanup
-      if (y > H + 80) el.remove();
-    });
+        if (y > H + 80) el.remove();
+      });
 
-    // difficulty naik
-    taprunSpeed += 0.003;
-  }, 16);
-}
+      taprunSpeed += 0.003;
+    }, 16);
+  }
 
-  // tap zones
   tapRunTouchLeft?.addEventListener("click", () => {
     if (!taprunRunning) return;
     setPlayerLane(taprunLane - 1);
@@ -504,7 +478,6 @@ dialogBox.classList.add("hidden");
     setPlayerLane(taprunLane + 1);
   });
 
-  // buttons
   tapRunRestartBtn?.addEventListener("click", () => {
     startTapRun();
   });
@@ -527,7 +500,6 @@ dialogBox.classList.add("hidden");
   ===================== */
   dialogNext.addEventListener("click", () => {
 
-    // habis basket selesai, dialog capek -> pindah map
     if (goHomeAfterBasketDialog) {
       goHomeAfterBasketDialog = false;
       allowGoHomeClick = true;
@@ -538,7 +510,6 @@ dialogBox.classList.add("hidden");
       return;
     }
 
-    // sampai rumah -> after klik next, tutup dialog
     if (showArrivedHomeDialog) {
       showArrivedHomeDialog = false;
       dialogBox.classList.add("hidden");
@@ -643,7 +614,6 @@ dialogBox.classList.add("hidden");
 
     setTimeout(() => {
       carEl.classList.add("hidden");
-
       switchRoom("taprun");
       startTapRun();
     }, 1300);
@@ -663,8 +633,8 @@ dialogBox.classList.add("hidden");
     }
 
     const mapRect = mapRoom.getBoundingClientRect();
-    const startRect = schoolIcon.getBoundingClientRect(); // start sekolah
-    const endRect = homeIcon.getBoundingClientRect();     // end rumah
+    const startRect = schoolIcon.getBoundingClientRect();
+    const endRect = homeIcon.getBoundingClientRect();
 
     const startX = startRect.left - mapRect.left + startRect.width / 2;
     const startY = startRect.top - mapRect.top + startRect.height / 2;
@@ -795,10 +765,8 @@ dialogBox.classList.add("hidden");
         basketScore++;
         scoreBox.textContent = basketScore + " / 3";
 
-        // kalau sudah 3/3, munculkan dialog capek pulang
         if (basketScore >= 3) {
           clearInterval(interval);
-
           setTimeout(() => {
             goHomeAfterBasketDialog = true;
             showCustomDialog("Syabil", "Syabil sudah lelah... Saatnya pulang ke rumah.");
@@ -824,9 +792,9 @@ dialogBox.classList.add("hidden");
   }
 
   /* =====================
-     START GAME
+     START GAME (INTRO)
   ===================== */
-  switchRoom("room");
-  showDialog();
+  switchRoom("intro");
+  dialogBox.classList.add("hidden");
 
 });
