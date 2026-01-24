@@ -238,10 +238,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function laneX(lane) {
-    if (lane === 0) return 30;
-    if (lane === 1) return 50;
-    return 70;
-  }
+  // disesuaikan agar pas dengan 3 jalur road.png
+  if (lane === 0) return 33;
+  if (lane === 1) return 50;
+  return 67;
+}
+
 
   function setPlayerLane(lane) {
     taprunLane = Math.max(0, Math.min(2, lane));
