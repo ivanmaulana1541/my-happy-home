@@ -449,3 +449,11 @@ body {
 }
 
 .basket-child img { height: 160px; }
+
+.room { display:none; }
+.room.active { display:block; }
+
+.room.intro{
+  background: none !important;
+}
+
