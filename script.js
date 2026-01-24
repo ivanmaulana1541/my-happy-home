@@ -229,6 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let taprunTimeLeft = 60;
   let taprunTimerInt = null;
 
+  // ✅ FIX: waktu aman awal (anti nabrak langsung)
+  let taprunSafeUntil = 0;
+
   function updateTapRunCar() {
     if (!tapRunPlayerImg) return;
     tapRunPlayerImg.src = "./assets/icons/car.png";
@@ -262,13 +265,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const obs = document.createElement("img");
     obs.className = "taprun-obstacle";
-
-    // sementara pakai icon yang sudah ada di repo kamu
     obs.src = "./assets/icons/freshmarket.png";
-
     obs.dataset.type = "obstacle";
-    obs.dataset.lane = String(Math.floor(Math.random() * 3));
-    obs.style.left = laneX(Number(obs.dataset.lane)) + "%";
+
+    let lane = Math.floor(Math.random() * 3);
+
+    // ✅ FIX: saat safe time, obstacle tidak boleh muncul di lane mobil
+    if (Date.now() < taprunSafeUntil && lane === taprunLane) {
+      lane = (lane + 1) % 3;
+    }
+
+    obs.dataset.lane = String(lane);
+    obs.style.left = laneX(lane) + "%";
     obs.style.transform = "translateX(-50%)";
 
     ui.appendChild(obs);
@@ -280,13 +288,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const coin = document.createElement("img");
     coin.className = "taprun-coin";
-
-    // sementara pakai icon yang sudah ada
     coin.src = "./assets/icons/citraberkat.png";
-
     coin.dataset.type = "coin";
-    coin.dataset.lane = String(Math.floor(Math.random() * 3));
-    coin.style.left = laneX(Number(coin.dataset.lane)) + "%";
+
+    const lane = Math.floor(Math.random() * 3);
+    coin.dataset.lane = String(lane);
+    coin.style.left = laneX(lane) + "%";
     coin.style.transform = "translateX(-50%)";
 
     ui.appendChild(coin);
@@ -344,6 +351,9 @@ document.addEventListener("DOMContentLoaded", () => {
     taprunSpeed = 3.4;
     taprunRunning = true;
 
+    // ✅ FIX: safe time 1.2 detik
+    taprunSafeUntil = Date.now() + 1200;
+
     taprunTimeLeft = 60;
     tapRunTimerEl.textContent = "Time: 60";
     tapRunTimerEl.style.background = "#000";
@@ -373,6 +383,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     clearInterval(taprunSpawnObs);
     clearInterval(taprunSpawnCoin);
+
+    // ✅ FIX: spawn pertama ditunda
+    setTimeout(() => {
+      if (!taprunRunning) return;
+      spawnObstacle();
+      spawnCoin();
+    }, 900);
+
     taprunSpawnObs = setInterval(spawnObstacle, 720);
     taprunSpawnCoin = setInterval(spawnCoin, 520);
 
@@ -394,15 +412,18 @@ document.addEventListener("DOMContentLoaded", () => {
           tapRunScoreEl.textContent = "Score: " + taprunScore;
         }
 
-        if (y > 280 && y < 360) {
-          const objLane = Number(el.dataset.lane);
-          if (objLane === taprunLane) {
-            if (el.dataset.type === "coin") {
-              taprunCoins++;
-              tapRunCoinsEl.textContent = "Coins: " + taprunCoins;
-              el.remove();
-            } else {
-              loseTapRun();
+        // ✅ FIX: collision only after safe time
+        if (Date.now() > taprunSafeUntil) {
+          if (y > 280 && y < 360) {
+            const objLane = Number(el.dataset.lane);
+            if (objLane === taprunLane) {
+              if (el.dataset.type === "coin") {
+                taprunCoins++;
+                tapRunCoinsEl.textContent = "Coins: " + taprunCoins;
+                el.remove();
+              } else {
+                loseTapRun();
+              }
             }
           }
         }
@@ -447,22 +468,16 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   dialogNext.addEventListener("click", () => {
 
-    // ✅ NEW: habis basket selesai, dialog capek -> pindah map
     if (goHomeAfterBasketDialog) {
       goHomeAfterBasketDialog = false;
       allowGoHomeClick = true;
 
-      // balik ke map, player wajib klik rumah
       switchRoom("map");
-
-      // dialog box ditutup dulu biar map kelihatan bersih
       dialogBox.classList.add("hidden");
       gameState.dialogIndex = 0;
-
       return;
     }
 
-    // ✅ NEW: sampai rumah -> setelah klik next, tutup dialog
     if (showArrivedHomeDialog) {
       showArrivedHomeDialog = false;
       dialogBox.classList.add("hidden");
@@ -540,7 +555,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const school = document.querySelector(".school-icon");
 
     if (!carEl || !home || !school) {
-      // fallback: langsung car rush
       switchRoom("taprun");
       startTapRun();
       return;
@@ -569,10 +583,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       carEl.classList.add("hidden");
 
-      // ✅ masuk mini game dulu
       switchRoom("taprun");
       startTapRun();
-
     }, 1300);
   });
 
