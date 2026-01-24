@@ -92,6 +92,13 @@ body {
   z-index: 5;
 }
 
+.school .person.teacher {
+  left: 260px;     /* geser ke tengah */
+  bottom: -25px;   /* sejajarkan lantai */
+  z-index: 6;
+}
+
+
 /* =====================
    ITEM & FOOD
 ===================== */
@@ -240,9 +247,9 @@ body {
 .quiz {
   position: absolute;
   z-index: 50;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 150px;
+  left: 45%;
+  transform: none;
   background: white;
   padding: 16px;
   border-radius: 14px;
