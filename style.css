@@ -75,7 +75,7 @@ body {
 
 /* KHUSUS KITCHEN: karakter lebih nempel lantai */
 .kitchen .person {
-  bottom: 5px;   /* coba 0px atau 5px */
+  bottom: 0px;   /* coba 0px atau 5px */
 }
 
 
