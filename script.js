@@ -39,6 +39,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunSummary = document.querySelector(".taprun-summary");
 
   /* =====================
+   ✅ INTRO PLAY BUTTON
+===================== */
+introPlayBtn?.addEventListener("click", () => {
+  gameState.chapter = 1;
+  gameState.dialogIndex = 0;
+  gameState.afterAction = false;
+  gameState.syabilOutfit = "piyama";
+  updateSyabilOutfit();
+
+  switchRoom("room");
+  showDialog();
+});
+
+
+  /* =====================
      ✅ NEW FLAGS (PULANG)
   ===================== */
   let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
