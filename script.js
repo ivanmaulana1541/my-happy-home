@@ -48,8 +48,10 @@ introPlayBtn?.addEventListener("click", () => {
   gameState.syabilOutfit = "piyama";
   updateSyabilOutfit();
 
-  switchRoom("room");
-  showDialog();
+  switchRoom("intro");
+// dialog jangan tampil dulu
+dialogBox.classList.add("hidden");
+
 });
 
 
