@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const foods = document.querySelectorAll(".food");
   const schoolIcon = document.querySelector(".school-icon");
   const homeIcon = document.querySelector(".home-icon");
-const car = document.querySelector(".car");
+  const car = document.querySelector(".car");
   const schoolDressIcon = document.querySelector(".school-dress-icon");
   const schoolBasketIcon = document.querySelector(".school-basket-icon");
 
@@ -19,6 +19,13 @@ const car = document.querySelector(".car");
 
   const quiz = document.querySelector(".quiz");
   const answers = document.querySelectorAll(".answer");
+
+  /* =====================
+     ✅ NEW FLAGS (PULANG)
+  ===================== */
+  let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
+  let allowGoHomeClick = false;         // di map, player wajib klik rumah
+  let showArrivedHomeDialog = false;    // setelah masuk home, tampil dialog "sampai rumah"
 
   /* =====================
      GAME STATE
@@ -151,6 +158,13 @@ const car = document.querySelector(".car");
     updateSyabilOutfit();
   }
 
+  // ✅ helper untuk dialog cepat (dipakai fitur pulang)
+  function showCustomDialog(speaker, text) {
+    dialogSpeaker.textContent = speaker;
+    dialogText.textContent = text;
+    dialogBox.classList.remove("hidden");
+  }
+
   function showDialog() {
     const chapter = story[gameState.chapter];
     const dialogs =
@@ -187,6 +201,29 @@ const car = document.querySelector(".car");
      DIALOG FLOW
   ===================== */
   dialogNext.addEventListener("click", () => {
+
+    // ✅ NEW: habis basket selesai, dialog capek -> pindah map
+    if (goHomeAfterBasketDialog) {
+      goHomeAfterBasketDialog = false;
+      allowGoHomeClick = true;
+
+      // balik ke map, player wajib klik rumah
+      switchRoom("map");
+
+      // dialog box ditutup dulu biar map kelihatan bersih
+      dialogBox.classList.add("hidden");
+      gameState.dialogIndex = 0;
+
+      return;
+    }
+
+    // ✅ NEW: sampai rumah -> setelah klik next, tutup dialog
+    if (showArrivedHomeDialog) {
+      showArrivedHomeDialog = false;
+      dialogBox.classList.add("hidden");
+      return;
+    }
+
     const chapter = story[gameState.chapter];
     const dialogs =
       gameState.afterAction && chapter.afterActionDialogs
@@ -249,57 +286,105 @@ const car = document.querySelector(".car");
     });
   });
 
+  // MAP: klik sekolah -> mobil home ke school -> masuk school
   schoolIcon?.addEventListener("click", () => {
-  if (story[gameState.chapter].action !== "goSchool") return;
+    if (story[gameState.chapter].action !== "goSchool") return;
 
-  const car = document.querySelector(".car");
-  const home = document.querySelector(".home-icon");
-  const school = document.querySelector(".school-icon");
+    const carEl = document.querySelector(".car");
+    const home = document.querySelector(".home-icon");
+    const school = document.querySelector(".school-icon");
 
-  if (!car || !home || !school) {
-    // fallback: kalau icon belum lengkap
-    gameState.chapter = 4;
-    gameState.afterAction = false;
-    switchRoom("school");
-    showDialog();
-    return;
-  }
+    if (!carEl || !home || !school) {
+      gameState.chapter = 4;
+      gameState.afterAction = false;
+      switchRoom("school");
+      showDialog();
+      return;
+    }
 
-  // ambil posisi HOME dan SCHOOL
-  const mapRoom = document.querySelector(".room.map");
-  const mapRect = mapRoom.getBoundingClientRect();
-  const homeRect = home.getBoundingClientRect();
-  const schoolRect = school.getBoundingClientRect();
+    const mapRoom = document.querySelector(".room.map");
+    const mapRect = mapRoom.getBoundingClientRect();
+    const homeRect = home.getBoundingClientRect();
+    const schoolRect = school.getBoundingClientRect();
 
-  const startX = homeRect.left - mapRect.left + homeRect.width / 2;
-  const startY = homeRect.top - mapRect.top + homeRect.height / 2;
+    const startX = homeRect.left - mapRect.left + homeRect.width / 2;
+    const startY = homeRect.top - mapRect.top + homeRect.height / 2;
 
-  const endX = schoolRect.left - mapRect.left + schoolRect.width / 2;
-  const endY = schoolRect.top - mapRect.top + schoolRect.height / 2;
+    const endX = schoolRect.left - mapRect.left + schoolRect.width / 2;
+    const endY = schoolRect.top - mapRect.top + schoolRect.height / 2;
 
-  // munculkan mobil di HOME
-  car.classList.remove("hidden");
-  car.style.left = (startX - 35) + "px";
-  car.style.top = (startY - 20) + "px";
+    carEl.classList.remove("hidden");
+    carEl.style.left = (startX - 35) + "px";
+    carEl.style.top = (startY - 20) + "px";
 
-  // paksa render dulu
-  void car.offsetWidth;
+    void carEl.offsetWidth;
 
-  // gerakkan mobil ke SCHOOL
-  car.style.left = (endX - 35) + "px";
-  car.style.top = (endY - 20) + "px";
+    carEl.style.left = (endX - 35) + "px";
+    carEl.style.top = (endY - 20) + "px";
 
-  // setelah sampai → masuk sekolah
-  setTimeout(() => {
-    car.classList.add("hidden");
+    setTimeout(() => {
+      carEl.classList.add("hidden");
 
-    gameState.chapter = 4;
-    gameState.afterAction = false;
-    switchRoom("school");
-    showDialog();
-  }, 1300);
-});
+      gameState.chapter = 4;
+      gameState.afterAction = false;
+      switchRoom("school");
+      showDialog();
+    }, 1300);
+  });
 
+  // ✅ NEW: MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
+  homeIcon?.addEventListener("click", () => {
+    if (!allowGoHomeClick) return;
+
+    const mapRoom = document.querySelector(".room.map");
+    if (!mapRoom || !car || !homeIcon || !schoolIcon) {
+      // fallback tanpa animasi
+      switchRoom("room");
+      showArrivedHomeDialog = true;
+      showCustomDialog("Syabil", "Aku sudah sampai rumah.");
+      allowGoHomeClick = false;
+      return;
+    }
+
+    const mapRect = mapRoom.getBoundingClientRect();
+    const startRect = schoolIcon.getBoundingClientRect(); // start sekolah
+    const endRect = homeIcon.getBoundingClientRect();     // end rumah
+
+    const startX = startRect.left - mapRect.left + startRect.width / 2;
+    const startY = startRect.top - mapRect.top + startRect.height / 2;
+
+    const endX = endRect.left - mapRect.left + endRect.width / 2;
+    const endY = endRect.top - mapRect.top + endRect.height / 2;
+
+    car.classList.remove("hidden");
+    car.style.left = (startX - 35) + "px";
+    car.style.top = (startY - 20) + "px";
+
+    void car.offsetWidth;
+
+    car.style.left = (endX - 35) + "px";
+    car.style.top = (endY - 20) + "px";
+
+    // lock click sementara
+    homeIcon.style.pointerEvents = "none";
+    schoolIcon.style.pointerEvents = "none";
+
+    setTimeout(() => {
+      car.classList.add("hidden");
+      homeIcon.style.pointerEvents = "auto";
+      schoolIcon.style.pointerEvents = "auto";
+
+      // masuk ke rumah
+      switchRoom("room");
+
+      // tampil dialog sampai rumah
+      showArrivedHomeDialog = true;
+      showCustomDialog("Syabil", "Aku sudah sampai rumah.");
+
+      allowGoHomeClick = false;
+
+    }, 1300);
+  });
 
   answers.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -397,9 +482,25 @@ const car = document.querySelector(".car");
         ball.style.opacity = "0";
         basketScore++;
         scoreBox.textContent = basketScore + " / 3";
+
+        // ✅ NEW: kalau sudah 3/3, munculkan dialog capek pulang
+        if (basketScore >= 3) {
+          // stop indikator power supaya game berhenti bersih
+          clearInterval(interval);
+
+          // kasih sedikit delay biar animasi masuk dulu
+          setTimeout(() => {
+            goHomeAfterBasketDialog = true;
+            showCustomDialog("Syabil", "Syabil sudah lelah... Saatnya pulang ke rumah.");
+          }, 400);
+        }
+
       }, 450);
 
       setTimeout(() => {
+        // kalau sudah menang, jangan restart shoot lagi
+        if (basketScore >= 3) return;
+
         ball.style.opacity = "1";
         ball.style.transform = "translate(0,0)";
         power = 0;
