@@ -426,8 +426,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // spawn loop
   clearInterval(taprunSpawnObs);
   clearInterval(taprunSpawnCoin);
-  taprunSpawnObs = setInterval(spawnObstacle, 720);
-  taprunSpawnCoin = setInterval(spawnCoin, 520);
+  taprunSpawnObs = setInterval(spawnObstacle, 980);
+  taprunSpawnCoin = setInterval(spawnCoin, 750);
 
   // main loop
   clearInterval(taprunLoop);
