@@ -193,6 +193,40 @@ body {
   transform: scale(1.08);
 }
 
+/* MAP ICON IMG */
+.map-icon img{
+  display: block;
+  width: 130px;
+  height: auto;
+  cursor: pointer;
+}
+
+/* HOME ICON POS */
+.home-icon{
+  position: absolute;
+  left: 22%;
+  top: 62%;
+  transform: translate(-50%, -50%);
+}
+
+/* SCHOOL ICON POS (kamu pakai 43% sudah pas) */
+.school-icon{
+  position: absolute;
+  left: 43%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+/* CAR TRANSITION */
+.car{
+  position: absolute;
+  width: 80px;
+  height: auto;
+  z-index: 9999;
+  pointer-events: none;
+  transition: left 1.2s ease-in-out, top 1.2s ease-in-out;
+}
+
 
 /* =====================
    QUIZ
