@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,143 +10,123 @@
 
 <div class="game">
 
-<!-- ✅ INTRO / OPENING -->
-<div class="room intro active">
-  <div class="intro-box">
-    <h1 class="intro-title">SYABIL ADVENTURE</h1>
-    <p class="intro-subtitle">Petualangan Syabil yang seru dan hangat 💖</p>
-    <button class="intro-play">PLAY</button>
-  </div>
-</div>
-  
-  
-<!-- 🛏️ KAMAR SYABIL (START GAME) -->
-<div class="room room">
-  <div class="item wardrobe">👗</div>
-  <div class="person child"><img></div>
-</div>
-
-<!-- 🛏️ BEDROOM (PAPA MAMA) -->
-<div class="room bedroom">
-  <!-- (kosong dulu, atau nanti isi Papa Mama kalau mau) -->
-</div>
-
-<!-- 🍳 KITCHEN -->
-<div class="room kitchen">
-  <div class="food-container">
-    <div class="food">🍎</div>
-    <div class="food">🍞</div>
-  </div>
-  <div class="person child"><img></div>
-  <div class="person father"><img src="./assets/father.png"></div>
-  <div class="person mother"><img src="./assets/mother.png"></div>
-</div>
-
-<!-- 🗺️ MAP -->
-<div class="room map">
-  <div class="map-icon school-icon">
-    <img src="./assets/icons/citraberkat.png" alt="Pergi ke Sekolah">
+  <!-- ✅ INTRO / OPENING -->
+  <div class="room intro active">
+    <div class="intro-box">
+      <h1 class="intro-title">SYABIL ADVENTURE</h1>
+      <p class="intro-subtitle">Petualangan Syabil yang seru dan hangat 💖</p>
+      <button class="intro-play">PLAY</button>
+    </div>
   </div>
 
-  <div class="map-icon home-icon">
-    <img src="./assets/icons/house.png" alt="Home">
+  <!-- 🛏️ KAMAR SYABIL (START GAME) -->
+  <div class="room room">
+    <div class="item wardrobe">👗</div>
+    <div class="person child"><img></div>
   </div>
 
-  <img class="car hidden" src="./assets/icons/car.png" alt="car">
-</div>
+  <!-- 🛏️ BEDROOM (PAPA MAMA) -->
+  <div class="room bedroom"></div>
 
-<!-- =====================
-     🚗 CAR RUSH (Mini Game)
-===================== -->
-<div class="room taprun">
-  <div class="taprun-ui">
+  <!-- 🍳 KITCHEN -->
+  <div class="room kitchen">
+    <div class="food-container">
+      <div class="food">🍎</div>
+      <div class="food">🍞</div>
+    </div>
+    <div class="person child"><img></div>
+    <div class="person father"><img src="./assets/father.png"></div>
+    <div class="person mother"><img src="./assets/mother.png"></div>
+  </div>
 
-    <div class="taprun-top">
-      <div class="taprun-score">Score: 0</div>
-      <div class="taprun-coins">Coins: 0</div>
-      <div class="taprun-timer">Time: 60</div>
+  <!-- 🗺️ MAP -->
+  <div class="room map">
+    <div class="map-icon school-icon">
+      <img src="./assets/icons/citraberkat.png" alt="Pergi ke Sekolah">
     </div>
 
-    <div class="taprun-road">
-      <div class="taprun-player">
-        <img src="./assets/icons/car.png" alt="car">
+    <div class="map-icon home-icon">
+      <img src="./assets/icons/house.png" alt="Home">
+    </div>
+
+    <img class="car hidden" src="./assets/icons/car.png" alt="car">
+  </div>
+
+  <!-- =====================
+       🚗 CAR RUSH (Mini Game)
+  ===================== -->
+  <div class="room taprun">
+    <div class="taprun-ui">
+
+      <div class="taprun-top">
+        <div class="taprun-score">Score: 0</div>
+        <div class="taprun-coins">Coins: 0</div>
+        <div class="taprun-timer">Time: 20</div>
       </div>
+
+      <div class="taprun-road">
+        <div class="taprun-player">
+          <img src="./assets/icons/car-run.png" alt="car">
+        </div>
+      </div>
+
+      <div class="taprun-touch taprun-touch-left"></div>
+      <div class="taprun-touch taprun-touch-right"></div>
+
+      <div class="taprun-hint">Kejar waktu! Jangan terlambat ke sekolah! ⏰</div>
+
+      <div class="taprun-result hidden">
+        <div class="taprun-title">SELESAI!</div>
+        <div class="taprun-summary"></div>
+        <button class="taprun-restart">RESTART</button>
+        <button class="taprun-continue">LANJUT KE SEKOLAH</button>
+      </div>
+
     </div>
-
-    <!-- touch zone -->
-    <div class="taprun-touch taprun-touch-left"></div>
-    <div class="taprun-touch taprun-touch-right"></div>
-
-    <div class="taprun-hint">Kejar waktu! Jangan terlambat ke sekolah! ⏰</div>
-
-    <!-- result overlay -->
-    <div class="taprun-result hidden">
-      <div class="taprun-title">SELESAI!</div>
-      <div class="taprun-summary"></div>
-      <button class="taprun-restart">RESTART</button>
-      <button class="taprun-continue">LANJUT KE SEKOLAH</button>
-    </div>
-
-  </div>
-</div>
-
-
-<!-- 🏫 SCHOOL -->
-<div class="room school">
-  <div class="person teacher"><img src="./assets/msputri.png"></div>
-  <div class="person child"><img></div>
-
-  <!-- 📘 MINI GAME SEKOLAH -->
-  <div class="quiz hidden">
-    <div class="question">105 + 12 = ?</div>
-    <button class="answer" data-value="117">117</button>
-    <button class="answer" data-value="120">120</button>
   </div>
 
-  <!-- 👕 ICON GANTI BAJU OLAHRAGA -->
-  <div class="school-dress-icon hidden">👕</div>
+  <!-- 🏫 SCHOOL -->
+  <div class="room school">
+    <div class="person teacher"><img src="./assets/msputri.png"></div>
+    <div class="person child"><img></div>
 
-  <!-- 🏀 ICON BASKET (muncul setelah quiz) -->
-  <div class="school-basket-icon hidden">🏀</div>
-</div>
-
-<!-- =====================
-     ROOM BASKET
-===================== -->
-<div class="room basket">
-  <div class="basket-ui">
-
-    <!-- SCORE -->
-    <div class="basket-score">0 / 3</div>
-
-    <!-- RING (hitbox, invisible via CSS) -->
-    <div class="basket-ring"></div>
-
-    <!-- 🔴 NEW: SYABIL (OLAHRAGA) DI SCENE BASKET -->
-    <div class="person child basket-child">
-      <img src="./assets/child_sport.png">
+    <div class="quiz hidden">
+      <div class="question">105 + 12 = ?</div>
+      <button class="answer">117</button>
+      <button class="answer">120</button>
     </div>
 
-    <!-- POWER BAR -->
-    <div class="power-bar">
-      <div class="power-indicator"></div>
-    </div>
-
-    <!-- BALL -->
-    <div class="basket-ball"></div>
-
-    <!-- SHOOT BUTTON -->
-    <button class="shoot-btn">SHOOT</button>
-
+    <div class="school-dress-icon hidden">👕</div>
+    <div class="school-basket-icon hidden">🏀</div>
   </div>
-</div>
 
-<!-- DIALOG -->
-<div id="dialog-box" class="dialog hidden">
-  <div class="dialog-speaker"></div>
-  <div class="dialog-text"></div>
-  <button id="dialog-next">Next</button>
-</div>
+  <!-- =====================
+       ROOM BASKET
+  ===================== -->
+  <div class="room basket">
+    <div class="basket-ui">
+      <div class="basket-score">0 / 3</div>
+      <div class="basket-ring"></div>
+
+      <div class="person child basket-child">
+        <img src="./assets/child_sport.png">
+      </div>
+
+      <div class="power-bar">
+        <div class="power-indicator"></div>
+      </div>
+
+      <div class="basket-ball"></div>
+      <button class="shoot-btn">SHOOT</button>
+    </div>
+  </div>
+
+  <!-- DIALOG -->
+  <div id="dialog-box" class="dialog hidden">
+    <div class="dialog-speaker"></div>
+    <div class="dialog-text"></div>
+    <button id="dialog-next">Next</button>
+  </div>
 
 </div>
 
