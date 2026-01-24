@@ -28,13 +28,11 @@
   </div>
 
   <!-- 🛏️ KAMAR SYABIL (BAB 1) -->
-  <div class="room syabil-room">
+  <!-- ✅ FIX: HAPUS class active disini -->
+  <div class="room room">
     <div class="item wardrobe">👗</div>
-    <div class="person child"><img src="./assets/piyama.png" alt="Syabil"></div>
+    <div class="person child"><img alt="Syabil"></div>
   </div>
-
-  <!-- 🛏️ BEDROOM (PAPA MAMA) -->
-  <div class="room bedroom"></div>
 
   <!-- 🍳 KITCHEN -->
   <div class="room kitchen">
@@ -42,7 +40,7 @@
       <div class="food">🍎</div>
       <div class="food">🍞</div>
     </div>
-    <div class="person child"><img src="./assets/piyama.png" alt="Syabil"></div>
+    <div class="person child"><img alt="Syabil"></div>
     <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
     <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
   </div>
@@ -60,53 +58,64 @@
     <img class="car hidden" src="./assets/icons/car.png" alt="car">
   </div>
 
-  <!-- 🚗 CAR RUSH (Mini Game) -->
+  <!-- =====================
+       🚗 CAR RUSH (Mini Game)
+  ===================== -->
   <div class="room taprun">
     <div class="taprun-ui">
+
+      <!-- ✅ background road -->
+      <div class="taprun-road"></div>
+
       <div class="taprun-top">
         <div class="taprun-score">Score: 0</div>
         <div class="taprun-coins">Coins: 0</div>
         <div class="taprun-timer">Time: 20</div>
       </div>
 
-      <div class="taprun-road"></div>
-
       <div class="taprun-player">
-        <img src="./assets/icons/car-run.png" alt="car-run">
+        <img src="./assets/icons/car-run.png" alt="car">
       </div>
 
+      <!-- touch zone -->
       <div class="taprun-touch taprun-touch-left"></div>
       <div class="taprun-touch taprun-touch-right"></div>
 
-      <div class="taprun-hint">Tap kiri/kanan untuk pindah jalur</div>
+      <div class="taprun-hint">Kejar waktu! Jangan terlambat ke sekolah! ⏰</div>
 
+      <!-- result overlay -->
       <div class="taprun-result hidden">
         <div class="taprun-title">SELESAI!</div>
         <div class="taprun-summary"></div>
         <button class="taprun-restart">RESTART</button>
         <button class="taprun-continue">LANJUT KE SEKOLAH</button>
       </div>
+
     </div>
   </div>
 
   <!-- 🏫 SCHOOL -->
   <div class="room school">
     <div class="person teacher"><img src="./assets/msputri.png" alt="Miss Putri"></div>
-    <div class="person child"><img src="./assets/piyama.png" alt="Syabil"></div>
+    <div class="person child"><img alt="Syabil"></div>
 
+    <!-- quiz -->
     <div class="quiz hidden">
-      <div class="question">...</div>
-      <button class="answer">A</button>
-      <button class="answer">B</button>
+      <div class="question">105 + 12 = ?</div>
+      <button class="answer">117</button>
+      <button class="answer">120</button>
     </div>
 
     <div class="school-dress-icon hidden">👕</div>
     <div class="school-basket-icon hidden">🏀</div>
   </div>
 
-  <!-- 🏀 BASKET -->
+  <!-- =====================
+       ROOM BASKET
+  ===================== -->
   <div class="room basket">
     <div class="basket-ui">
+
       <div class="basket-score">0 / 3</div>
       <div class="basket-ring"></div>
 
@@ -120,6 +129,7 @@
 
       <div class="basket-ball"></div>
       <button class="shoot-btn">SHOOT</button>
+
     </div>
   </div>
 
