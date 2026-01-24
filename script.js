@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const answers = document.querySelectorAll(".answer");
 
   /* =====================
-     🚗 TAPRUN SELECTORS
+     🚗 CAR RUSH (TapRun) SELECTORS
   ===================== */
   const tapRunResult = document.querySelector(".taprun-result");
   const tapRunScoreEl = document.querySelector(".taprun-score");
@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunTimerEl = document.querySelector(".taprun-timer");
   const tapRunPlayer = document.querySelector(".taprun-player");
   const tapRunPlayerImg = document.querySelector(".taprun-player img");
+
   const tapRunTouchLeft = document.querySelector(".taprun-touch-left");
   const tapRunTouchRight = document.querySelector(".taprun-touch-right");
   const tapRunRestartBtn = document.querySelector(".taprun-restart");
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunSummary = document.querySelector(".taprun-summary");
 
   /* =====================
-     FLAGS
+     ✅ FLAGS (PULANG)
   ===================== */
   let goHomeAfterBasketDialog = false;
   let allowGoHomeClick = false;
@@ -142,23 +143,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (gameState.syabilOutfit === "seragam") src = "./assets/child.png";
     if (gameState.syabilOutfit === "sport") src = "./assets/child_sport.png";
 
-    document.querySelectorAll(".person.child img").forEach(img => {
-      // jangan ubah gambar yang bukan syabil di intro, tapi aman
-      img.src = src;
-    });
+    document.querySelectorAll(".person.child img")
+      .forEach(img => img.src = src);
   }
 
+  // ✅ FIX background loader supaya room pakai syabil-room.webp
   function loadRoomBackground(name) {
     const room = document.querySelector(`.${name}`);
     if (!room || room.dataset.bgLoaded) return;
 
-    // ✅ FIX: kamar Syabil pakai syabil-room.webp
     let webp = `./assets/background/${name}.webp`;
     let png = `./assets/background/${name}.png`;
 
+    // ✅ KHUSUS KAMAR SYABIL
     if (name === "room") {
-      webp = "./assets/background/syabil-room.webp";
-      png = "./assets/background/room.png";
+      webp = `./assets/background/syabil-room.webp`;
+      png = `./assets/background/syabil-room.png`;
     }
 
     const img = new Image();
@@ -168,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
       room.style.backgroundImage = `url("${webp}")`;
       room.dataset.bgLoaded = "true";
     };
-
     img.onerror = () => {
       room.style.backgroundImage = `url("${png}")`;
       room.dataset.bgLoaded = "true";
@@ -179,8 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
     rooms.forEach(r => r.classList.remove("active"));
     const room = document.querySelector(`.${name}`);
     if (!room) return;
-    room.classList.add("active");
 
+    room.classList.add("active");
     loadRoomBackground(name);
     updateSyabilOutfit();
   }
@@ -207,14 +206,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     INTRO PLAY BUTTON
+     ✅ INTRO PLAY BUTTON
   ===================== */
   introPlayBtn?.addEventListener("click", () => {
     gameState.chapter = 1;
     gameState.dialogIndex = 0;
     gameState.afterAction = false;
     gameState.syabilOutfit = "piyama";
+    updateSyabilOutfit();
 
+    // ✅ pindah ke BAB 1
     switchRoom("room");
     showDialog();
   });
@@ -237,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     🚗 TAPRUN (20 detik)
+     🚗 CAR RUSH MINI GAME (20 detik)
   ===================== */
   let taprunLane = 1;
   let taprunScore = 0;
@@ -293,7 +294,10 @@ document.addEventListener("DOMContentLoaded", () => {
     obs.dataset.type = "obstacle";
 
     let lane = Math.floor(Math.random() * 3);
-    if (Date.now() < taprunSafeUntil && lane === taprunLane) lane = (lane + 1) % 3;
+
+    if (Date.now() < taprunSafeUntil && lane === taprunLane) {
+      lane = (lane + 1) % 3;
+    }
 
     obs.dataset.lane = String(lane);
     obs.style.left = laneX(lane) + "%";
@@ -382,6 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tapRunResult.classList.add("hidden");
       tapRunResult.style.display = "none";
     }
+
     if (tapRunSummary) tapRunSummary.innerHTML = "";
 
     if (tapRunContinueBtn) {
@@ -583,142 +588,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // MAP: klik sekolah -> mobil jalan -> taprun
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
-    const carEl = document.querySelector(".car");
-    const home = document.querySelector(".home-icon");
-    const school = document.querySelector(".school-icon");
-
-    if (!carEl || !home || !school) {
-      switchRoom("taprun");
-      startTapRun();
-      return;
-    }
-
-    const mapRoom = document.querySelector(".room.map");
-    const mapRect = mapRoom.getBoundingClientRect();
-    const homeRect = home.getBoundingClientRect();
-    const schoolRect = school.getBoundingClientRect();
-
-    const startX = homeRect.left - mapRect.left + homeRect.width / 2;
-    const startY = homeRect.top - mapRect.top + homeRect.height / 2;
-
-    const endX = schoolRect.left - mapRect.left + schoolRect.width / 2;
-    const endY = schoolRect.top - mapRect.top + schoolRect.height / 2;
-
-    carEl.classList.remove("hidden");
-    carEl.style.left = (startX - 35) + "px";
-    carEl.style.top = (startY - 20) + "px";
-    void carEl.offsetWidth;
-
-    carEl.style.left = (endX - 35) + "px";
-    carEl.style.top = (endY - 20) + "px";
-
-    setTimeout(() => {
-      carEl.classList.add("hidden");
-      switchRoom("taprun");
-      startTapRun();
-    }, 1300);
-  });
-
-  // MAP klik rumah setelah basket selesai
-  homeIcon?.addEventListener("click", () => {
-    if (!allowGoHomeClick) return;
-
-    const mapRoom = document.querySelector(".room.map");
-    if (!mapRoom || !car || !homeIcon || !schoolIcon) {
-      switchRoom("room");
-      showArrivedHomeDialog = true;
-      showCustomDialog("Syabil", "Aku sudah sampai rumah.");
-      allowGoHomeClick = false;
-      return;
-    }
-
-    const mapRect = mapRoom.getBoundingClientRect();
-    const startRect = schoolIcon.getBoundingClientRect();
-    const endRect = homeIcon.getBoundingClientRect();
-
-    const startX = startRect.left - mapRect.left + startRect.width / 2;
-    const startY = startRect.top - mapRect.top + startRect.height / 2;
-
-    const endX = endRect.left - mapRect.left + endRect.width / 2;
-    const endY = endRect.top - mapRect.top + endRect.height / 2;
-
-    car.classList.remove("hidden");
-    car.style.left = (startX - 35) + "px";
-    car.style.top = (startY - 20) + "px";
-    void car.offsetWidth;
-
-    car.style.left = (endX - 35) + "px";
-    car.style.top = (endY - 20) + "px";
-
-    homeIcon.style.pointerEvents = "none";
-    schoolIcon.style.pointerEvents = "none";
-
-    setTimeout(() => {
-      car.classList.add("hidden");
-      homeIcon.style.pointerEvents = "auto";
-      schoolIcon.style.pointerEvents = "auto";
-
-      switchRoom("room");
-      showArrivedHomeDialog = true;
-      showCustomDialog("Syabil", "Aku sudah sampai rumah.");
-      allowGoHomeClick = false;
-    }, 1300);
-  });
-
-  // quiz answers
-  answers.forEach(btn => {
-    btn.addEventListener("click", () => {
-      if (!gameState.waitingQuiz) return;
-
-      const isCorrect = btn.dataset.correct === "true";
-      quiz.classList.add("hidden");
-      gameState.waitingQuiz = false;
-
-      if (!isCorrect) {
-        dialogSpeaker.textContent = "Miss Putri";
-        dialogText.textContent = "Masih belum benar, dicoba lagi ya Syabil.";
-        dialogBox.classList.remove("hidden");
-        return;
-      }
-
-      dialogSpeaker.textContent = "Miss Putri";
-      dialogText.textContent = "Yaaay betul!";
-      dialogBox.classList.remove("hidden");
-
-      gameState.quizStep++;
-      if (gameState.quizStep >= quizQuestions.length) {
-        gameState.afterAction = true;
-        gameState.dialogIndex = 0;
-        schoolDressIcon.classList.remove("hidden");
-        showDialog();
-      }
-    });
-  });
-
-  schoolDressIcon?.addEventListener("click", () => {
-    gameState.syabilOutfit = "sport";
-    updateSyabilOutfit();
-
-    const child = document.querySelector(".person.child");
-    child.classList.add("jump");
-    setTimeout(() => child.classList.remove("jump"), 400);
-
-    schoolDressIcon.classList.add("hidden");
-    schoolBasketIcon.classList.remove("hidden");
-  });
-
-  schoolBasketIcon?.addEventListener("click", () => {
-    schoolBasketIcon.classList.add("hidden");
-    switchRoom("basket");
-    setTimeout(startBasketGame, 300);
+    switchRoom("taprun");
+    startTapRun();
   });
 
   /* =====================
-     BASKET GAME (tetap)
+     🏀 BASKET GAME (tetap)
   ===================== */
   let power = 0;
   let direction = 1;
@@ -782,6 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ball.style.transform = "translate(0,0)";
         power = 0;
         direction = 1;
+
         interval = setInterval(() => {
           power += direction * 2;
           if (power >= 100) direction = -1;
@@ -791,6 +670,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 800);
     };
   }
+
+  schoolBasketIcon?.addEventListener("click", () => {
+    schoolBasketIcon.classList.add("hidden");
+    switchRoom("basket");
+    setTimeout(startBasketGame, 300);
+  });
 
   /* =====================
      START GAME
