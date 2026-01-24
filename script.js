@@ -4,32 +4,38 @@ document.addEventListener("DOMContentLoaded", () => {
      BASIC SETUP
   ===================== */
   const rooms = document.querySelectorAll(".room");
-  const wardrobe = document.querySelector(".wardrobe");
-  const foods = document.querySelectorAll(".food");
-  const schoolIcon = document.querySelector(".school-icon");
-  const homeIcon = document.querySelector(".home-icon");
-  const car = document.querySelector(".car");
-  const schoolDressIcon = document.querySelector(".school-dress-icon");
-  const schoolBasketIcon = document.querySelector(".school-basket-icon");
 
-  // ✅ INTRO
+  // opening buttons
   const introPlayBtn = document.querySelector(".intro-play");
   const introCreditsBtn = document.querySelector(".intro-credits");
 
-  // ✅ CREDITS OVERLAY
+  // credits overlay
   const creditsOverlay = document.querySelector(".credits-overlay");
   const creditsCloseBtn = document.querySelector(".credits-close");
 
+  // story elements
+  const wardrobe = document.querySelector(".wardrobe");
+  const foods = document.querySelectorAll(".food");
+
+  const schoolIcon = document.querySelector(".school-icon");
+  const homeIcon = document.querySelector(".home-icon");
+  const car = document.querySelector(".car");
+
+  const schoolDressIcon = document.querySelector(".school-dress-icon");
+  const schoolBasketIcon = document.querySelector(".school-basket-icon");
+
+  // dialog
   const dialogBox = document.getElementById("dialog-box");
-  const dialogSpeaker = dialogBox?.querySelector(".dialog-speaker");
-  const dialogText = dialogBox?.querySelector(".dialog-text");
+  const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
+  const dialogText = dialogBox.querySelector(".dialog-text");
   const dialogNext = document.getElementById("dialog-next");
 
+  // quiz
   const quiz = document.querySelector(".quiz");
   const answers = document.querySelectorAll(".answer");
 
   /* =====================
-     🚗 CAR RUSH (TapRun) SELECTORS
+     🚗 TAPRUN SELECTORS
   ===================== */
   const tapRunResult = document.querySelector(".taprun-result");
   const tapRunScoreEl = document.querySelector(".taprun-score");
@@ -45,16 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const tapRunSummary = document.querySelector(".taprun-summary");
 
   /* =====================
-     ✅ FIX: Credits overlay jangan muncul saat load
-  ===================== */
-  if (creditsOverlay) creditsOverlay.classList.add("hidden");
-
-  /* =====================
      ✅ NEW FLAGS (PULANG)
   ===================== */
-  let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
-  let allowGoHomeClick = false;         // di map, player wajib klik rumah
-  let showArrivedHomeDialog = false;    // setelah masuk home, tampil dialog "sampai rumah"
+  let goHomeAfterBasketDialog = false;
+  let allowGoHomeClick = false;
+  let showArrivedHomeDialog = false;
 
   /* =====================
      GAME STATE
@@ -155,8 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (gameState.syabilOutfit === "seragam") src = "./assets/child.png";
     if (gameState.syabilOutfit === "sport") src = "./assets/child_sport.png";
 
-    document.querySelectorAll(".person.child img")
-      .forEach(img => img.src = src);
+    document.querySelectorAll(".person.child img").forEach(img => img.src = src);
   }
 
   function loadRoomBackground(name) {
@@ -188,9 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSyabilOutfit();
   }
 
-  // ✅ helper untuk dialog cepat (dipakai fitur pulang)
   function showCustomDialog(speaker, text) {
-    if (!dialogBox) return;
     dialogSpeaker.textContent = speaker;
     dialogText.textContent = text;
     dialogBox.classList.remove("hidden");
@@ -198,8 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showDialog() {
     const chapter = story[gameState.chapter];
-    if (!chapter) return;
-
     const dialogs =
       gameState.afterAction && chapter.afterActionDialogs
         ? chapter.afterActionDialogs
@@ -231,9 +227,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     🚗 CAR RUSH MINI GAME (20 detik)
+     🚗 TAPRUN GAME (20 detik)
   ===================== */
-  let taprunLane = 1; // 0 kiri, 1 tengah, 2 kanan
+  let taprunLane = 1;
   let taprunScore = 0;
   let taprunCoins = 0;
   let taprunSpeed = 2.2;
@@ -242,11 +238,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let taprunLoop = null;
   let taprunSpawnObs = null;
   let taprunSpawnCoin = null;
-
-  let taprunTimeLeft = 20;
   let taprunTimerInt = null;
+  let taprunTimeLeft = 20;
 
-  let taprunSafeUntil = 0; // anti tabrak instan
+  let taprunSafeUntil = 0;
   let taprunStartTimeout = null;
 
   function updateTapRunCar() {
@@ -287,10 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
     obs.dataset.type = "obstacle";
 
     let lane = Math.floor(Math.random() * 3);
-
-    if (Date.now() < taprunSafeUntil && lane === taprunLane) {
-      lane = (lane + 1) % 3;
-    }
+    if (Date.now() < taprunSafeUntil && lane === taprunLane) lane = (lane + 1) % 3;
 
     obs.dataset.lane = String(lane);
     obs.style.left = laneX(lane) + "%";
@@ -339,7 +331,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (tapRunResult) {
       tapRunResult.dataset.status = "win";
-      tapRunResult.dataset.reward = String(reward);
       tapRunResult.style.display = "flex";
       tapRunResult.classList.remove("hidden");
     }
@@ -366,7 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (tapRunResult) {
       tapRunResult.dataset.status = "lose";
-      tapRunResult.dataset.reward = "0";
       tapRunResult.style.display = "flex";
       tapRunResult.classList.remove("hidden");
     }
@@ -375,12 +365,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function startTapRun() {
     if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
 
-    // ✅ FIX overlay
+    // reset overlay
     if (tapRunResult) {
       tapRunResult.classList.add("hidden");
       tapRunResult.style.display = "none";
     }
-
     if (tapRunSummary) tapRunSummary.innerHTML = "";
 
     if (tapRunContinueBtn) {
@@ -408,10 +397,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setPlayerLane(1);
     updateTapRunCar();
 
-    clearInterval(taprunTimerInt);
     taprunTimerInt = setInterval(() => {
       if (!taprunRunning) return;
-
       taprunTimeLeft--;
       tapRunTimerEl.textContent = "Time: " + taprunTimeLeft;
 
@@ -469,6 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 16);
   }
 
+  // taprun touch zones
   tapRunTouchLeft?.addEventListener("click", () => {
     if (!taprunRunning) return;
     setPlayerLane(taprunLane - 1);
@@ -479,18 +467,13 @@ document.addEventListener("DOMContentLoaded", () => {
     setPlayerLane(taprunLane + 1);
   });
 
-  tapRunRestartBtn?.addEventListener("click", () => {
-    startTapRun();
-  });
+  tapRunRestartBtn?.addEventListener("click", () => startTapRun());
 
   tapRunContinueBtn?.addEventListener("click", () => {
     const status = tapRunResult?.dataset?.status;
     if (status !== "win") return;
 
-    if (tapRunResult) {
-      tapRunResult.classList.add("hidden");
-      tapRunResult.style.display = "none";
-    }
+    if (tapRunResult) tapRunResult.classList.add("hidden");
     clearTapRunObjects();
 
     gameState.chapter = 4;
@@ -500,45 +483,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     INTRO BUTTONS
-  ===================== */
-  introPlayBtn?.addEventListener("click", () => {
-    if (creditsOverlay) creditsOverlay.classList.add("hidden");
-
-    // mulai game dari BAB 1
-    gameState.chapter = 1;
-    gameState.dialogIndex = 0;
-    gameState.afterAction = false;
-    gameState.quizStep = 0;
-    gameState.waitingQuiz = false;
-    gameState.syabilOutfit = "piyama";
-    updateSyabilOutfit();
-
-    if (dialogBox) dialogBox.classList.add("hidden");
-
-    switchRoom("room");
-    showDialog();
-  });
-
-  introCreditsBtn?.addEventListener("click", () => {
-    if (!creditsOverlay) return;
-    creditsOverlay.classList.remove("hidden");
-  });
-
-  creditsCloseBtn?.addEventListener("click", () => {
-    if (!creditsOverlay) return;
-    creditsOverlay.classList.add("hidden");
-  });
-
-  // close credits jika klik background gelap
-  creditsOverlay?.addEventListener("click", (e) => {
-    if (e.target === creditsOverlay) creditsOverlay.classList.add("hidden");
-  });
-
-  /* =====================
      DIALOG FLOW
   ===================== */
-  dialogNext?.addEventListener("click", () => {
+  dialogNext.addEventListener("click", () => {
 
     if (goHomeAfterBasketDialog) {
       goHomeAfterBasketDialog = false;
@@ -618,7 +565,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // MAP: klik sekolah -> mobil home ke school -> MASUK CAR RUSH
+  // MAP: klik sekolah -> mobil -> masuk taprun
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
@@ -654,13 +601,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       carEl.classList.add("hidden");
-
       switchRoom("taprun");
       startTapRun();
     }, 1300);
   });
 
-  // MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
+  // MAP klik rumah setelah basket selesai -> balik rumah
   homeIcon?.addEventListener("click", () => {
     if (!allowGoHomeClick) return;
 
@@ -701,14 +647,13 @@ document.addEventListener("DOMContentLoaded", () => {
       schoolIcon.style.pointerEvents = "auto";
 
       switchRoom("room");
-
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
-
       allowGoHomeClick = false;
     }, 1300);
   });
 
+  // quiz click
   answers.forEach(btn => {
     btn.addEventListener("click", () => {
       if (!gameState.waitingQuiz) return;
@@ -739,6 +684,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // dress icon
   schoolDressIcon?.addEventListener("click", () => {
     gameState.syabilOutfit = "sport";
     updateSyabilOutfit();
@@ -751,6 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
     schoolBasketIcon.classList.remove("hidden");
   });
 
+  // basket icon
   schoolBasketIcon?.addEventListener("click", () => {
     schoolBasketIcon.classList.add("hidden");
     switchRoom("basket");
@@ -777,6 +724,7 @@ document.addEventListener("DOMContentLoaded", () => {
     basketScore = 0;
     scoreBox.textContent = "0 / 3";
 
+    clearInterval(interval);
     interval = setInterval(() => {
       power += direction * 2;
       if (power >= 100) direction = -1;
@@ -822,6 +770,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ball.style.transform = "translate(0,0)";
         power = 0;
         direction = 1;
+
+        clearInterval(interval);
         interval = setInterval(() => {
           power += direction * 2;
           if (power >= 100) direction = -1;
@@ -833,9 +783,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
+     ✅ INTRO & CREDITS
+  ===================== */
+  // pastikan credits tidak muncul duluan
+  creditsOverlay?.classList.add("hidden");
+
+  introCreditsBtn?.addEventListener("click", () => {
+    creditsOverlay?.classList.remove("hidden");
+  });
+
+  creditsCloseBtn?.addEventListener("click", () => {
+    creditsOverlay?.classList.add("hidden");
+  });
+
+  // PLAY mulai game
+  introPlayBtn?.addEventListener("click", () => {
+    creditsOverlay?.classList.add("hidden");
+
+    gameState.chapter = 1;
+    gameState.dialogIndex = 0;
+    gameState.afterAction = false;
+    gameState.syabilOutfit = "piyama";
+    gameState.quizStep = 0;
+    gameState.waitingQuiz = false;
+
+    // pindah ke kamar
+    switchRoom("room");
+
+    // mulai dialog
+    dialogBox.classList.remove("hidden");
+    showDialog();
+  });
+
+  /* =====================
      START GAME
-     ✅ mulai dari INTRO
+     (mulai dari INTRO)
   ===================== */
   switchRoom("intro");
+  dialogBox.classList.add("hidden");
 
 });
