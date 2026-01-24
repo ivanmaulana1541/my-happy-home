@@ -163,9 +163,7 @@ body {
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 /* =====================
    ANIMATION
@@ -183,9 +181,7 @@ body {
 /* =====================
    MAP
 ===================== */
-.map {
-  background-color: #e8f7ff;
-}
+.map { background-color: #e8f7ff; }
 
 .map-icon {
   font-size: 48px;
@@ -200,7 +196,6 @@ body {
   cursor: pointer;
 }
 
-/* HOME ICON POS */
 .home-icon{
   position: absolute;
   left: 22%;
@@ -208,7 +203,6 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* SCHOOL ICON POS */
 .school-icon{
   position: absolute;
   left: 43%;
@@ -253,7 +247,6 @@ body {
   text-align: center;
 }
 
-/* SCHOOL: quiz jangan ketutup Miss Putri */
 .school .quiz {
   left: 56%;
   bottom: 180px;
@@ -278,7 +271,7 @@ body {
 }
 
 /* =====================
-   ICON SCHOOL (item interaksi)
+   ICON SCHOOL
 ===================== */
 .school-basket-icon {
   position: absolute;
@@ -340,7 +333,7 @@ body {
   width: 80px;
   height: 14px;
   border-radius: 7px;
-  opacity: 0; /* hitbox only */
+  opacity: 0;
 }
 
 .basket-ball {
@@ -385,9 +378,6 @@ body {
   cursor: pointer;
 }
 
-/* =====================
-   BASKET ROOM BACKGROUND
-===================== */
 .room.basket {
   padding: 0;
   height: 420px;
@@ -397,7 +387,6 @@ body {
   background-color: #e8f7ff;
 }
 
-/* Syabil di basket */
 .basket-child {
   position: absolute;
   bottom: 20px;
@@ -426,7 +415,6 @@ body {
   position: relative;
 }
 
-/* top ui */
 .taprun-top{
   position: absolute;
   top: 12px;
@@ -454,29 +442,20 @@ body {
   box-shadow: 0 6px 14px rgba(0,0,0,.15);
 }
 
-/* road */
 .taprun-road{
   position: absolute;
   left: 0; top: 0;
   width: 100%;
   height: 100%;
-  background: url("./assets/background/road.png") center/cover repeat-y;
-  animation: roadMove 0.7s linear infinite;
+  background: url("./assets/background/road.png") center/cover no-repeat;
 }
 
-@keyframes roadMove{
-  0% { background-position: center 0px; }
-  100% { background-position: center 420px; }
-}
-
-
-/* player car */
 .taprun-player{
   position: absolute;
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999 !important; /* ✅ FIX: mobil selalu terlihat */
+  z-index: 20;
   transition: left 0.12s ease;
 }
 
@@ -485,7 +464,6 @@ body {
   width: auto;
 }
 
-/* touch zones */
 .taprun-touch{
   position: absolute;
   top: 0;
@@ -497,7 +475,6 @@ body {
 .taprun-touch-left{ left: 0; }
 .taprun-touch-right{ right: 0; }
 
-/* hint */
 .taprun-hint{
   position: absolute;
   bottom: 8px;
@@ -511,13 +488,12 @@ body {
   z-index: 50;
 }
 
-/* obstacles & coins */
 .taprun-obstacle, .taprun-coin{
   position: absolute;
   top: -60px;
   width: 46px;
   height: 46px;
-  z-index: 100; /* ✅ FIX: di bawah mobil */
+  z-index: 15;
 }
 
 .taprun-coin{
@@ -531,12 +507,11 @@ body {
   100%{ transform: rotate(360deg); }
 }
 
-/* result overlay */
 .taprun-result{
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,.55);
-  z-index: 1000;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -584,22 +559,77 @@ body {
   color: white;
 }
 
-.taprun-result.hidden{
-  display: none !important;
-}
-
 /* =====================
-   ✅ INTRO SCENE
+   ✅ INTRO OPENING (Keren)
 ===================== */
 .room.intro{
   display: none;
   height: 360px;
-  background: linear-gradient(#ffe0ea, #fff6f9);
   position: relative;
+  overflow: hidden;
+  background: linear-gradient(#b9ecff, #fff7fb);
 }
 
 .room.intro.active{
   display: block;
+}
+
+/* clouds */
+.intro-cloud{
+  position: absolute;
+  top: 30px;
+  width: 140px;
+  height: 70px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 60px;
+  filter: blur(0.2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.06);
+}
+
+.intro-cloud::before,
+.intro-cloud::after{
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+}
+
+.intro-cloud::before{
+  width: 60px; height: 60px;
+  left: 15px; top: -25px;
+}
+
+.intro-cloud::after{
+  width: 80px; height: 80px;
+  left: 55px; top: -40px;
+}
+
+.cloud-1{ top: 35px; left: -160px; animation: cloudMove 14s linear infinite; }
+.cloud-2{ top: 85px; left: -200px; transform: scale(0.8); animation: cloudMove 18s linear infinite; }
+.cloud-3{ top: 55px; left: -240px; transform: scale(0.6); animation: cloudMove 22s linear infinite; }
+
+@keyframes cloudMove{
+  0%{ transform: translateX(0); }
+  100%{ transform: translateX(1200px); }
+}
+
+/* sparkles */
+.intro-sparkle{
+  position: absolute;
+  font-size: 18px;
+  color: rgba(255, 127, 167, 0.85);
+  animation: sparkle 1.6s ease-in-out infinite;
+}
+
+.s1{ top: 40px; left: 70px; animation-delay: 0s; }
+.s2{ top: 110px; left: 140px; animation-delay: .4s; }
+.s3{ top: 60px; right: 90px; animation-delay: .2s; }
+.s4{ top: 130px; right: 160px; animation-delay: .6s; }
+
+@keyframes sparkle{
+  0%{ transform: scale(0.8); opacity: 0.2; }
+  50%{ transform: scale(1.2); opacity: 1; }
+  100%{ transform: scale(0.8); opacity: 0.2; }
 }
 
 .intro-box{
@@ -607,15 +637,16 @@ body {
   inset: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 20px;
+  padding: 22px;
+  z-index: 5;
 }
 
 .intro-title{
-  font-size: 52px;
+  font-size: 48px;
   font-weight: 900;
   letter-spacing: 2px;
   color: #ff4f8b;
@@ -623,25 +654,132 @@ body {
 }
 
 .intro-subtitle{
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   color: #333;
+  margin-bottom: 4px;
+}
+
+/* characters row */
+.intro-characters{
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+.intro-char{
+  width: 92px;
+  padding: 8px 10px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 10px 24px rgba(0,0,0,.10);
+  animation: floaty 2.2s ease-in-out infinite;
+}
+
+.intro-char.main{
+  width: 110px;
+  transform: translateY(-6px);
+  animation: floaty 2.2s ease-in-out infinite;
+}
+
+@keyframes floaty{
+  0%{ transform: translateY(0); }
+  50%{ transform: translateY(-8px); }
+  100%{ transform: translateY(0); }
+}
+
+.intro-char img{
+  height: 95px;
+  width: auto;
+}
+
+.intro-char.main img{
+  height: 105px;
+}
+
+.intro-name{
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 900;
+  color: #ff7fa7;
+}
+
+.intro-buttons{
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .intro-play{
-  margin-top: 8px;
   border: none;
   background: #ff7fa7;
   color: white;
   font-weight: 900;
-  font-size: 18px;
-  padding: 12px 34px;
+  font-size: 16px;
+  padding: 12px 32px;
   border-radius: 16px;
   cursor: pointer;
-  box-shadow: 0 10px 22px rgba(255, 127, 167, .45);
+  box-shadow: 0 12px 25px rgba(255,127,167,.45);
   transition: transform .15s ease;
 }
 
-.intro-play:hover{
-  transform: scale(1.05);
+.intro-play:hover{ transform: scale(1.05); }
+
+.intro-credits{
+  border: 2px solid #ff7fa7;
+  background: white;
+  color: #ff7fa7;
+  font-weight: 900;
+  font-size: 15px;
+  padding: 12px 22px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform .15s ease;
+}
+
+.intro-credits:hover{ transform: scale(1.05); }
+
+.credits-overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.credits-card{
+  width: 90%;
+  max-width: 420px;
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 18px 35px rgba(0,0,0,.30);
+}
+
+.credits-card h2{
+  color: #ff4f8b;
+  margin-bottom: 10px;
+}
+
+.credits-card p{
+  font-weight: bold;
+  margin: 6px 0;
+}
+
+.credits-close{
+  margin-top: 12px;
+  border: none;
+  background: #ff7fa7;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-weight: 900;
+  cursor: pointer;
 }
