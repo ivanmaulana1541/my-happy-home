@@ -12,9 +12,7 @@ body {
   padding: 30px;
 }
 
-/* =====================
-   GAME WRAPPER
-===================== */
+/* GAME WRAPPER */
 .game {
   width: 100%;
   max-width: 900px;
@@ -25,9 +23,26 @@ body {
   position: relative;
 }
 
-/* =====================
-   ROOM (GLOBAL)
-===================== */
+/* TOP BAR */
+.top-bar {
+  background: #ff7fa7;
+  color: white;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav button {
+  border: none;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+/* ROOM GLOBAL */
 .room {
   position: relative;
   height: 360px;
@@ -37,60 +52,67 @@ body {
   background-position: center;
 }
 
-.room.active { display: block; }
-
-.hidden { display: none; }
-
-/* =====================
-   INTRO
-===================== */
-.room.intro{
-  display:none;
-  height: 420px;
-  background: linear-gradient(#ffe7ee,#fff);
-}
-.room.intro.active{ display:block; }
-
-.intro-box{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap: 12px;
-  text-align:center;
+.room.active {
+  display: block;
 }
 
-.intro-title{
-  font-size: 52px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  color: #ff4f86;
-  text-shadow: 0 6px 0 rgba(255, 79, 134, .15);
+/* PERSON GLOBAL */
+.person {
+  position: absolute;
+  bottom: 20px;
+  pointer-events: none;
 }
 
-.intro-subtitle{
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
+.person.child { right: 40px; z-index: 7; }
+.person.father { right: 200px; }
+.person.mother { right: 120px; }
+.person.teacher { left: 60px; }
+
+.person.child img { height: 220px; }
+.person.father img { height: 275px; }
+.person.mother img { height: 265px; }
+.person.teacher img { height: 260px; }
+
+/* KITCHEN FIX */
+.kitchen .person {
+  bottom: -25px;
 }
 
-.intro-play{
-  margin-top: 8px;
-  border: none;
-  background: #ff7fa7;
-  color: white;
-  font-weight: bold;
-  padding: 14px 38px;
-  border-radius: 18px;
+/* SCHOOL POS */
+.school .person.child {
+  right: 60px;
+  left: auto;
+  bottom: 20px;
+  z-index: 5;
+}
+
+.school .person.teacher {
+  left: 260px;
+  bottom: 5px;
+  z-index: 6;
+}
+
+/* ITEM & FOOD */
+.item {
+  font-size: 42px;
   cursor: pointer;
-  box-shadow: 0 10px 24px rgba(255,127,167,.35);
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
 }
 
-/* =====================
-   DIALOG
-===================== */
+.food-container {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+
+.food {
+  font-size: 34px;
+  cursor: pointer;
+}
+
+/* DIALOG */
 .dialog {
   position: absolute;
   bottom: 20px;
@@ -110,7 +132,10 @@ body {
   margin-bottom: 6px;
 }
 
-.dialog-text { font-size: 15px; margin-bottom: 10px; }
+.dialog-text {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
 
 #dialog-next {
   border: none;
@@ -121,207 +146,112 @@ body {
   cursor: pointer;
 }
 
-/* =====================
-   PERSON
-===================== */
-.person {
-  position: absolute;
-  bottom: 20px;
-  pointer-events: none;
+.hidden { display: none; }
+
+/* ANIMATION */
+@keyframes jump {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+  100% { transform: translateY(0); }
 }
 
-.person.child { right: 40px; z-index: 7; }
-.person.father { right: 200px; }
-.person.mother { right: 120px; }
-.person.teacher { left: 60px; }
-
-.person.child img { height: 220px; }
-.person.father img { height: 275px; }
-.person.mother img { height: 265px; }
-.person.teacher img { height: 260px; }
-
-/* =====================
-   ITEM & FOOD
-===================== */
-.item {
-  font-size: 42px;
-  cursor: pointer;
-  position: absolute;
-  left: 40px;
-  bottom: 40px;
+.person.child.jump {
+  animation: jump 0.4s ease;
 }
 
-.food-container {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-}
-
-.food { font-size: 34px; cursor: pointer; }
-
-/* =====================
-   CAR RUSH MINI GAME
-===================== */
-.room.taprun{
-  padding: 0;
-  height: 420px;
-  overflow: hidden;
-}
-
-.taprun-ui{
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-/* road */
-.taprun-road{
-  position: absolute;
-  left: 0; top: 0;
-  width: 100%;
-  height: 100%;
-  background: url("./assets/background/road.png") center/cover no-repeat;
-}
-
-/* top ui */
-.taprun-top{
-  position: absolute;
-  top: 12px;
-  left: 12px;
+/* INTRO */
+.intro {
+  background: #fdecef;
   display: flex;
-  gap: 10px;
-  z-index: 30;
-}
-
-.taprun-score, .taprun-coins{
-  background: white;
-  padding: 6px 12px;
-  border-radius: 14px;
-  font-weight: bold;
-  color: #ff7fa7;
-  box-shadow: 0 6px 14px rgba(0,0,0,.15);
-}
-
-.taprun-timer{
-  background: #000;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 14px;
-  font-weight: bold;
-  box-shadow: 0 6px 14px rgba(0,0,0,.15);
-}
-
-/* player car */
-.taprun-player{
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  transition: left 0.12s ease;
-}
-
-.taprun-player img{
-  height: 85px;
-  width: auto;
-}
-
-/* touch zones */
-.taprun-touch{
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 50%;
-  z-index: 40;
-}
-
-.taprun-touch-left{ left: 0; }
-.taprun-touch-right{ right: 0; }
-
-/* hint */
-.taprun-hint{
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,.55);
-  color: white;
-  padding: 6px 14px;
-  border-radius: 14px;
-  font-size: 13px;
-  z-index: 50;
-}
-
-/* obstacles & coins */
-.taprun-obstacle, .taprun-coin{
-  position: absolute;
-  top: -60px;
-  width: 46px;
-  height: 46px;
-  z-index: 15;
-}
-
-.taprun-coin{
-  width: 40px;
-  height: 40px;
-}
-
-/* result overlay */
-.taprun-result{
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.55);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
-  text-align: center;
-  padding: 18px;
+  align-items: center;
 }
 
-.taprun-title{
-  font-size: 34px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 2px 10px rgba(0,0,0,.4);
+.intro-box{
+  width: 90%;
+  height: 100%;
+  border-radius: 20px;
+  background: rgba(255,255,255,.55);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap: 14px;
+  text-align:center;
 }
 
-.taprun-summary{
-  background: white;
-  border-radius: 16px;
-  padding: 12px 14px;
-  width: 86%;
-  max-width: 420px;
-  font-weight: bold;
-  color: #ff7fa7;
+.intro-title{
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color:#ff4f86;
+  text-shadow: 0 8px 0 rgba(255,0,100,0.08);
 }
 
-.taprun-restart,
-.taprun-continue{
-  border: none;
-  cursor: pointer;
-  border-radius: 16px;
-  padding: 10px 16px;
-  font-weight: bold;
-  width: 80%;
-  max-width: 320px;
+.intro-subtitle{
+  font-size: 18px;
+  font-weight: 700;
+  color:#222;
 }
 
-.taprun-restart{
-  background: #fff;
-  color: #ff7fa7;
-}
-
-.taprun-continue{
+.intro-play{
+  border:none;
+  cursor:pointer;
+  padding: 12px 36px;
+  border-radius: 18px;
   background: #ff7fa7;
-  color: white;
+  color:white;
+  font-weight: 900;
+  font-size: 18px;
+  box-shadow: 0 10px 20px rgba(255, 127, 167, .35);
 }
 
-/* =====================
-   SCHOOL ICONS / QUIZ
-===================== */
+.intro-play:hover{
+  transform: scale(1.04);
+}
+
+/* MAP */
+.map {
+  background-color: #e8f7ff;
+}
+
+.map-icon {
+  font-size: 48px;
+  cursor: pointer;
+  position: absolute;
+}
+
+.map-icon img{
+  display: block;
+  width: 130px;
+  height: auto;
+  cursor: pointer;
+}
+
+.home-icon{
+  position: absolute;
+  left: 22%;
+  top: 62%;
+  transform: translate(-50%, -50%);
+}
+
+.school-icon{
+  position: absolute;
+  left: 43%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.car{
+  position: absolute;
+  width: 70px;
+  height: auto;
+  z-index: 9999;
+  pointer-events: none;
+  transition: left 1.2s ease-in-out, top 1.2s ease-in-out;
+}
+
+/* QUIZ */
 .quiz {
   position: absolute;
   z-index: 50;
@@ -334,7 +264,17 @@ body {
   text-align: center;
 }
 
-.quiz .question { font-weight: bold; margin-bottom: 10px; }
+.school .quiz {
+  left: 56%;
+  bottom: 180px;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+.quiz .question {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
 .quiz .answer {
   display: block;
@@ -347,6 +287,7 @@ body {
   cursor: pointer;
 }
 
+/* ICON SCHOOL */
 .school-basket-icon {
   position: absolute;
   right: 80px;
@@ -355,6 +296,7 @@ body {
   cursor: pointer;
   z-index: 3000;
   pointer-events: auto;
+  animation: bounce 1.5s infinite;
 }
 
 .school-dress-icon {
@@ -365,11 +307,21 @@ body {
   cursor: pointer;
   z-index: 1500;
   pointer-events: auto;
+  animation: pulse 1.6s infinite;
 }
 
-/* =====================
-   BASKET
-===================== */
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* BASKET */
 .room.basket {
   padding: 0;
   height: 420px;
@@ -424,7 +376,11 @@ body {
   overflow: hidden;
 }
 
-.power-indicator { width: 40px; height: 100%; background: #ff7fa7; }
+.power-indicator {
+  width: 40px;
+  height: 100%;
+  background: #ff7fa7;
+}
 
 .shoot-btn {
   position: absolute;
@@ -450,10 +406,163 @@ body {
 
 .basket-child img { height: 160px; }
 
-.room { display:none; }
-.room.active { display:block; }
-
-.room.intro{
-  background: none !important;
+/* TAPRUN */
+.room.taprun{
+  padding: 0;
+  height: 420px;
+  overflow: hidden;
+  background: #ffffff;
 }
 
+.taprun-ui{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.taprun-top{
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 10px;
+  z-index: 30;
+}
+
+.taprun-score, .taprun-coins{
+  background: white;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-weight: bold;
+  color: #ff7fa7;
+  box-shadow: 0 6px 14px rgba(0,0,0,.15);
+}
+
+.taprun-timer{
+  background: #000;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-weight: bold;
+  box-shadow: 0 6px 14px rgba(0,0,0,.15);
+}
+
+.taprun-road{
+  position:absolute;
+  inset: 0;
+  background: url("./assets/background/road.png") center/cover no-repeat;
+}
+
+.taprun-player{
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  transition: left 0.12s ease;
+}
+
+.taprun-player img{
+  height: 85px;
+  width: auto;
+}
+
+.taprun-touch{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  z-index: 40;
+}
+
+.taprun-touch-left{ left: 0; }
+.taprun-touch-right{ right: 0; }
+
+.taprun-hint{
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.55);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  z-index: 50;
+}
+
+.taprun-obstacle, .taprun-coin{
+  position: absolute;
+  top: -60px;
+  width: 46px;
+  height: 46px;
+  z-index: 15;
+}
+
+.taprun-coin{
+  width: 40px;
+  height: 40px;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin{
+  0%{ transform: rotate(0deg); }
+  100%{ transform: rotate(360deg); }
+}
+
+.taprun-result{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 18px;
+}
+
+.taprun-title{
+  font-size: 34px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0,0,0,.4);
+}
+
+.taprun-summary{
+  background: white;
+  border-radius: 16px;
+  padding: 12px 14px;
+  width: 86%;
+  max-width: 420px;
+  font-weight: bold;
+  color: #ff7fa7;
+}
+
+.taprun-restart,
+.taprun-continue{
+  border: none;
+  cursor: pointer;
+  border-radius: 16px;
+  padding: 10px 16px;
+  font-weight: bold;
+  width: 80%;
+  max-width: 320px;
+}
+
+.taprun-restart{
+  background: #fff;
+  color: #ff7fa7;
+}
+
+.taprun-continue{
+  background: #ff7fa7;
+  color: white;
+}
+
+/* ✅ IMPORTANT: syabil-room background support */
+.room.syabil-room{
+  background: #fff0f5;
+}
