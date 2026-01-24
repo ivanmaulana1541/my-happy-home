@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const wardrobe = document.querySelector(".wardrobe");
   const foods = document.querySelectorAll(".food");
   const schoolIcon = document.querySelector(".school-icon");
+  const homeIcon = document.querySelector(".home-icon");
+const car = document.querySelector(".car");
   const schoolDressIcon = document.querySelector(".school-dress-icon");
   const schoolBasketIcon = document.querySelector(".school-basket-icon");
 
