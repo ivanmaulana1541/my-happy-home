@@ -11,7 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const car = document.querySelector(".car");
   const schoolDressIcon = document.querySelector(".school-dress-icon");
   const schoolBasketIcon = document.querySelector(".school-basket-icon");
+
+  // INTRO
   const introPlayBtn = document.querySelector(".intro-play");
+  const introCreditsBtn = document.querySelector(".intro-credits");
+  const creditsOverlay = document.querySelector(".credits-overlay");
+  const creditsCloseBtn = document.querySelector(".credits-close");
 
   const dialogBox = document.getElementById("dialog-box");
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
@@ -40,9 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      ✅ NEW FLAGS (PULANG)
   ===================== */
-  let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
-  let allowGoHomeClick = false;         // di map, player wajib klik rumah
-  let showArrivedHomeDialog = false;    // setelah masuk home, tampil dialog "sampai rumah"
+  let goHomeAfterBasketDialog = false;
+  let allowGoHomeClick = false;
+  let showArrivedHomeDialog = false;
 
   /* =====================
      GAME STATE
@@ -197,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     ✅ INTRO PLAY BUTTON
+     ✅ INTRO BUTTONS
   ===================== */
   introPlayBtn?.addEventListener("click", () => {
     gameState.chapter = 1;
@@ -208,6 +213,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     switchRoom("room");
     showDialog();
+  });
+
+  introCreditsBtn?.addEventListener("click", () => {
+    creditsOverlay?.classList.remove("hidden");
+  });
+
+  creditsCloseBtn?.addEventListener("click", () => {
+    creditsOverlay?.classList.add("hidden");
+  });
+
+  creditsOverlay?.addEventListener("click", (e) => {
+    if (e.target.classList.contains("credits-overlay")) {
+      creditsOverlay.classList.add("hidden");
+    }
   });
 
   /* =====================
@@ -230,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      🚗 CAR RUSH MINI GAME (20 detik)
   ===================== */
-  let taprunLane = 1; // 0 kiri, 1 tengah, 2 kanan
+  let taprunLane = 1;
   let taprunScore = 0;
   let taprunCoins = 0;
   let taprunSpeed = 2.2;
@@ -243,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let taprunTimeLeft = 20;
   let taprunTimerInt = null;
 
-  let taprunSafeUntil = 0; // anti tabrak instan
+  let taprunSafeUntil = 0;
   let taprunStartTimeout = null;
 
   function updateTapRunCar() {
@@ -292,7 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
     obs.dataset.lane = String(lane);
     obs.style.left = laneX(lane) + "%";
     obs.style.transform = "translateX(-50%)";
-
     ui.appendChild(obs);
   }
 
@@ -309,7 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
     coin.dataset.lane = String(lane);
     coin.style.left = laneX(lane) + "%";
     coin.style.transform = "translateX(-50%)";
-
     ui.appendChild(coin);
   }
 
@@ -578,7 +595,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // MAP: klik sekolah -> mobil home ke school -> MASUK CAR RUSH
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
@@ -619,7 +635,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1300);
   });
 
-  // MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
   homeIcon?.addEventListener("click", () => {
     if (!allowGoHomeClick) return;
 
@@ -717,7 +732,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     🏀 BASKET GAME (FIXED)
+     🏀 BASKET GAME
   ===================== */
   let power = 0;
   let direction = 1;
@@ -781,6 +796,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ball.style.transform = "translate(0,0)";
         power = 0;
         direction = 1;
+
         interval = setInterval(() => {
           power += direction * 2;
           if (power >= 100) direction = -1;
