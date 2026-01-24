@@ -12,6 +12,9 @@ body {
   padding: 30px;
 }
 
+/* =====================
+   GAME WRAPPER
+===================== */
 .game {
   width: 100%;
   max-width: 900px;
@@ -60,7 +63,7 @@ body {
 }
 
 /* =====================
-   PERSON
+   PERSON (GLOBAL)
 ===================== */
 .person {
   position: absolute;
@@ -73,18 +76,21 @@ body {
 .person.mother { right: 120px; }
 .person.teacher { left: 60px; }
 
-/* KHUSUS KITCHEN: karakter lebih nempel lantai */
-.kitchen .person {
-  bottom: -25px;   /* coba 0px atau 5px */
-}
-
-
 .person.child img { height: 220px; }
 .person.father img { height: 275px; }
 .person.mother img { height: 265px; }
 .person.teacher img { height: 260px; }
 
-/* KHUSUS SEKOLAH */
+/* =====================
+   KITCHEN FIX (LANTAI)
+===================== */
+.kitchen .person {
+  bottom: -25px;
+}
+
+/* =====================
+   SCHOOL (POSISI KARAKTER)
+===================== */
 .school .person.child {
   right: 60px;
   left: auto;
@@ -92,14 +98,12 @@ body {
   z-index: 5;
 }
 
-/* SCHOOL: posisi Miss Putri lebih pas di karpet dekat papan */
+/* Miss Putri: ke tengah karpet & dekat papan */
 .school .person.teacher {
-  left: 250px;     /* makin besar = makin ke kanan */
-  bottom: 0px;    /* makin besar = makin ke atas (contoh -5 lebih naik dari -25) */
+  left: 260px;
+  bottom: 5px;
   z-index: 6;
 }
-
-
 
 /* =====================
    ITEM & FOOD
@@ -189,26 +193,6 @@ body {
   position: absolute;
 }
 
-.school-icon {
-  position: absolute;
-  left: 43%;        /* ⬅️ geser ke kiri */
-  top: 45%;         /* sesuaikan tinggi pulau */
-  transform: translate(-50%, -50%);
-}
-
-
-.school-icon img {
-  width: 150px;
-  height: auto;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.school-icon img:hover {
-  transform: scale(1.08);
-}
-
-/* MAP ICON IMG */
 .map-icon img{
   display: block;
   width: 130px;
@@ -224,7 +208,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* SCHOOL ICON POS (kamu pakai 43% sudah pas) */
+/* SCHOOL ICON POS */
 .school-icon{
   position: absolute;
   left: 43%;
@@ -232,16 +216,26 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.school-icon img {
+  width: 150px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.school-icon img:hover {
+  transform: scale(1.08);
+}
+
 /* CAR TRANSITION */
 .car{
   position: absolute;
-  width: 80px;
+  width: 70px;
   height: auto;
   z-index: 9999;
   pointer-events: none;
   transition: left 1.2s ease-in-out, top 1.2s ease-in-out;
 }
-
 
 /* =====================
    QUIZ
@@ -267,7 +261,6 @@ body {
   z-index: 50;
 }
 
-
 .quiz .question {
   font-weight: bold;
   margin-bottom: 10px;
@@ -285,7 +278,7 @@ body {
 }
 
 /* =====================
-   ICON SCHOOL
+   ICON SCHOOL (item interaksi)
 ===================== */
 .school-basket-icon {
   position: absolute;
@@ -342,13 +335,13 @@ body {
 
 .basket-ring {
   position: absolute;
-  top: 115px;        /* ⬅️ kita atur */
-  right: 95px;      /* ⬅️ ini kunci */
+  top: 115px;
+  right: 95px;
   width: 80px;
   height: 14px;
   border-radius: 7px;
+  opacity: 0; /* hitbox only */
 }
-
 
 .basket-ball {
   position: absolute;
@@ -393,22 +386,18 @@ body {
 }
 
 /* =====================
-   🔴 FIX FINAL BACKGROUND BASKET
+   BASKET ROOM BACKGROUND
 ===================== */
 .room.basket {
   padding: 0;
   height: 420px;
-
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right center;
   background-color: #e8f7ff;
 }
 
-.basket-ring {
-  opacity: 0;
-}
-
+/* Syabil di basket */
 .basket-child {
   position: absolute;
   bottom: 80px;
@@ -419,13 +408,4 @@ body {
 
 .basket-child img {
   height: 160px;
-}
-
-.car {
-  position: absolute;
-  width: 70px;
-  height: auto;
-  z-index: 9999;
-  pointer-events: none;
-  transition: left 1.2s ease-in-out, top 1.2s ease-in-out;
 }
