@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (tapRunSummary) {
     tapRunSummary.innerHTML =
       `✅ Kamu tidak terlambat!<br>` +
-      `Waktu: <b>30 detik</b><br>` +
+      `Waktu: <b>20 detik</b><br>` +
       `Rintangan terlewati: <b>${taprunScore}</b><br>` +
       `Coins diambil: <b>${taprunCoins}</b><br>` +
       `Reward: <b>+${reward}</b> coin`;
