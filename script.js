@@ -40,9 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      ✅ NEW FLAGS (PULANG)
   ===================== */
-  let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
-  let allowGoHomeClick = false;         // di map, player wajib klik rumah
-  let showArrivedHomeDialog = false;    // setelah masuk home, tampil dialog "sampai rumah"
+  let goHomeAfterBasketDialog = false;
+  let allowGoHomeClick = false;
+  let showArrivedHomeDialog = false;
 
   /* =====================
      GAME STATE
@@ -170,6 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function switchRoom(name) {
     rooms.forEach(r => r.classList.remove("active"));
     const room = document.querySelector(`.${name}`);
+    if (!room) return;
+
     room.classList.add("active");
     loadRoomBackground(name);
     updateSyabilOutfit();
@@ -197,15 +199,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
-     ✅ INTRO PLAY BUTTON
+     ✅ INTRO PLAY BUTTON (FIX)
   ===================== */
   introPlayBtn?.addEventListener("click", () => {
+    // reset state ke BAB 1
     gameState.chapter = 1;
     gameState.dialogIndex = 0;
     gameState.afterAction = false;
+    gameState.quizStep = 0;
+    gameState.waitingQuiz = false;
+
+    // outfit awal
     gameState.syabilOutfit = "piyama";
     updateSyabilOutfit();
 
+    // pindah ke BAB 1
     switchRoom("room");
     showDialog();
   });
@@ -230,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      🚗 CAR RUSH MINI GAME (20 detik)
   ===================== */
-  let taprunLane = 1; // 0 kiri, 1 tengah, 2 kanan
+  let taprunLane = 1;
   let taprunScore = 0;
   let taprunCoins = 0;
   let taprunSpeed = 2.2;
@@ -243,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let taprunTimeLeft = 20;
   let taprunTimerInt = null;
 
-  let taprunSafeUntil = 0; // anti tabrak instan
+  let taprunSafeUntil = 0;
   let taprunStartTimeout = null;
 
   function updateTapRunCar() {
@@ -284,10 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
     obs.dataset.type = "obstacle";
 
     let lane = Math.floor(Math.random() * 3);
-
-    if (Date.now() < taprunSafeUntil && lane === taprunLane) {
-      lane = (lane + 1) % 3;
-    }
+    if (Date.now() < taprunSafeUntil && lane === taprunLane) lane = (lane + 1) % 3;
 
     obs.dataset.lane = String(lane);
     obs.style.left = laneX(lane) + "%";
@@ -619,7 +624,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1300);
   });
 
-  // MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
   homeIcon?.addEventListener("click", () => {
     if (!allowGoHomeClick) return;
 
@@ -663,7 +667,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
-
       allowGoHomeClick = false;
     }, 1300);
   });
@@ -717,7 +720,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     🏀 BASKET GAME (FIXED)
+     🏀 BASKET GAME
   ===================== */
   let power = 0;
   let direction = 1;
@@ -796,5 +799,4 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   switchRoom("intro");
   dialogBox.classList.add("hidden");
-
 });
