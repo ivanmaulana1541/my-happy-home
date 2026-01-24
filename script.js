@@ -391,8 +391,8 @@ document.addEventListener("DOMContentLoaded", () => {
   taprunSafeUntil = Date.now() + 1200;
 
   // ✅ FIX: waktu hanya 30 detik
-  taprunTimeLeft = 30;
-  tapRunTimerEl.textContent = "Time: 30";
+  taprunTimeLeft = 20;
+  tapRunTimerEl.textContent = "Time: 20";
   tapRunTimerEl.style.background = "#000";
 
   tapRunScoreEl.textContent = "Score: 0";
