@@ -73,6 +73,12 @@ body {
 .person.mother { right: 120px; }
 .person.teacher { left: 60px; }
 
+/* KHUSUS KITCHEN: karakter lebih nempel lantai */
+.kitchen .person {
+  bottom: 5px;   /* coba 0px atau 5px */
+}
+
+
 .person.child img { height: 220px; }
 .person.father img { height: 275px; }
 .person.mother img { height: 265px; }
