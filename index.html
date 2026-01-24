@@ -2,13 +2,21 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>My Happy Home</title>
+  <title>Syabil Adventure</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
 <div class="game">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="title">Syabil Adventure</div>
+    <div class="nav">
+      <button onclick="location.reload()">Reset</button>
+    </div>
+  </div>
 
   <!-- ✅ INTRO / OPENING -->
   <div class="room intro active">
@@ -19,7 +27,7 @@
     </div>
   </div>
 
-  <!-- 🛏️ KAMAR SYABIL (START GAME) -->
+  <!-- 🛏️ KAMAR SYABIL (BAB 1) -->
   <div class="room room">
     <div class="item wardrobe">👗</div>
     <div class="person child"><img></div>
@@ -52,9 +60,7 @@
     <img class="car hidden" src="./assets/icons/car.png" alt="car">
   </div>
 
-  <!-- =====================
-       🚗 CAR RUSH (Mini Game)
-  ===================== -->
+  <!-- 🚗 CAR RUSH -->
   <div class="room taprun">
     <div class="taprun-ui">
 
@@ -64,16 +70,16 @@
         <div class="taprun-timer">Time: 20</div>
       </div>
 
-      <div class="taprun-road">
-        <div class="taprun-player">
-          <img src="./assets/icons/car-run.png" alt="car">
-        </div>
+      <div class="taprun-road"></div>
+
+      <div class="taprun-player">
+        <img src="./assets/icons/car-run.png" alt="car-run">
       </div>
 
       <div class="taprun-touch taprun-touch-left"></div>
       <div class="taprun-touch taprun-touch-right"></div>
 
-      <div class="taprun-hint">Kejar waktu! Jangan terlambat ke sekolah! ⏰</div>
+      <div class="taprun-hint">Tap kiri/kanan untuk pindah jalur</div>
 
       <div class="taprun-result hidden">
         <div class="taprun-title">SELESAI!</div>
@@ -91,18 +97,16 @@
     <div class="person child"><img></div>
 
     <div class="quiz hidden">
-      <div class="question">105 + 12 = ?</div>
-      <button class="answer">117</button>
-      <button class="answer">120</button>
+      <div class="question">...</div>
+      <button class="answer">A</button>
+      <button class="answer">B</button>
     </div>
 
     <div class="school-dress-icon hidden">👕</div>
     <div class="school-basket-icon hidden">🏀</div>
   </div>
 
-  <!-- =====================
-       ROOM BASKET
-  ===================== -->
+  <!-- 🏀 BASKET -->
   <div class="room basket">
     <div class="basket-ui">
       <div class="basket-score">0 / 3</div>
@@ -117,6 +121,7 @@
       </div>
 
       <div class="basket-ball"></div>
+
       <button class="shoot-btn">SHOOT</button>
     </div>
   </div>
