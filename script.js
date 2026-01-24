@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const car = document.querySelector(".car");
   const schoolDressIcon = document.querySelector(".school-dress-icon");
   const schoolBasketIcon = document.querySelector(".school-basket-icon");
+  const introPlayBtn = document.querySelector(".intro-play");
+
 
   const dialogBox = document.getElementById("dialog-box");
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
