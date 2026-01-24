@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
   let allowGoHomeClick = false;         // di map, player wajib klik rumah
   let showArrivedHomeDialog = false;    // setelah masuk home, tampil dialog "sampai rumah"
+  let useHomeBackground = false;        // ✅ room background override jadi home.png
 
   /* =====================
      GAME STATE
@@ -154,11 +155,18 @@ document.addEventListener("DOMContentLoaded", () => {
     rooms.forEach(r => r.classList.remove("active"));
     const room = document.querySelector(`.${name}`);
     room.classList.add("active");
-    loadRoomBackground(name);
+
+    // ✅ override khusus saat pulang: room pakai home.png
+    if (name === "room" && useHomeBackground) {
+      room.style.backgroundImage = `url("./assets/background/home.png")`;
+    } else {
+      loadRoomBackground(name);
+    }
+
     updateSyabilOutfit();
   }
 
-  // ✅ helper untuk dialog cepat (dipakai fitur pulang)
+  // ✅ helper untuk dialog cepat
   function showCustomDialog(speaker, text) {
     dialogSpeaker.textContent = speaker;
     dialogText.textContent = text;
@@ -202,22 +210,19 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   dialogNext.addEventListener("click", () => {
 
-    // ✅ NEW: habis basket selesai, dialog capek -> pindah map
+    // ✅ habis basket selesai, dialog capek -> pindah map
     if (goHomeAfterBasketDialog) {
       goHomeAfterBasketDialog = false;
       allowGoHomeClick = true;
 
-      // balik ke map, player wajib klik rumah
       switchRoom("map");
 
-      // dialog box ditutup dulu biar map kelihatan bersih
       dialogBox.classList.add("hidden");
       gameState.dialogIndex = 0;
-
       return;
     }
 
-    // ✅ NEW: sampai rumah -> setelah klik next, tutup dialog
+    // ✅ dialog sampai rumah -> klik next untuk tutup
     if (showArrivedHomeDialog) {
       showArrivedHomeDialog = false;
       dialogBox.classList.add("hidden");
@@ -332,13 +337,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1300);
   });
 
-  // ✅ NEW: MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
+  // ✅ NEW: MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah + background home.png
   homeIcon?.addEventListener("click", () => {
     if (!allowGoHomeClick) return;
 
     const mapRoom = document.querySelector(".room.map");
     if (!mapRoom || !car || !homeIcon || !schoolIcon) {
-      // fallback tanpa animasi
+      useHomeBackground = true;
       switchRoom("room");
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
@@ -347,8 +352,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const mapRect = mapRoom.getBoundingClientRect();
-    const startRect = schoolIcon.getBoundingClientRect(); // start sekolah
-    const endRect = homeIcon.getBoundingClientRect();     // end rumah
+    const startRect = schoolIcon.getBoundingClientRect();
+    const endRect = homeIcon.getBoundingClientRect();
 
     const startX = startRect.left - mapRect.left + startRect.width / 2;
     const startY = startRect.top - mapRect.top + startRect.height / 2;
@@ -365,7 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
     car.style.left = (endX - 35) + "px";
     car.style.top = (endY - 20) + "px";
 
-    // lock click sementara
     homeIcon.style.pointerEvents = "none";
     schoolIcon.style.pointerEvents = "none";
 
@@ -374,10 +378,12 @@ document.addEventListener("DOMContentLoaded", () => {
       homeIcon.style.pointerEvents = "auto";
       schoolIcon.style.pointerEvents = "auto";
 
-      // masuk ke rumah
+      // ✅ aktifkan background home.png saat masuk rumah
+      useHomeBackground = true;
+
       switchRoom("room");
 
-      // tampil dialog sampai rumah
+      // dialog sampai rumah
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
 
@@ -483,22 +489,18 @@ document.addEventListener("DOMContentLoaded", () => {
         basketScore++;
         scoreBox.textContent = basketScore + " / 3";
 
-        // ✅ NEW: kalau sudah 3/3, munculkan dialog capek pulang
+        // ✅ NEW: setelah 3/3, munculkan dialog pulang
         if (basketScore >= 3) {
-          // stop indikator power supaya game berhenti bersih
           clearInterval(interval);
 
-          // kasih sedikit delay biar animasi masuk dulu
           setTimeout(() => {
             goHomeAfterBasketDialog = true;
             showCustomDialog("Syabil", "Syabil sudah lelah... Saatnya pulang ke rumah.");
           }, 400);
         }
-
       }, 450);
 
       setTimeout(() => {
-        // kalau sudah menang, jangan restart shoot lagi
         if (basketScore >= 3) return;
 
         ball.style.opacity = "1";
