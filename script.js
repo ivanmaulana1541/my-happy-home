@@ -248,12 +248,56 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   schoolIcon?.addEventListener("click", () => {
-    if (story[gameState.chapter].action !== "goSchool") return;
+  if (story[gameState.chapter].action !== "goSchool") return;
+
+  const car = document.querySelector(".car");
+  const home = document.querySelector(".home-icon");
+  const school = document.querySelector(".school-icon");
+
+  if (!car || !home || !school) {
+    // fallback: kalau icon belum lengkap
     gameState.chapter = 4;
     gameState.afterAction = false;
     switchRoom("school");
     showDialog();
-  });
+    return;
+  }
+
+  // ambil posisi HOME dan SCHOOL
+  const mapRoom = document.querySelector(".room.map");
+  const mapRect = mapRoom.getBoundingClientRect();
+  const homeRect = home.getBoundingClientRect();
+  const schoolRect = school.getBoundingClientRect();
+
+  const startX = homeRect.left - mapRect.left + homeRect.width / 2;
+  const startY = homeRect.top - mapRect.top + homeRect.height / 2;
+
+  const endX = schoolRect.left - mapRect.left + schoolRect.width / 2;
+  const endY = schoolRect.top - mapRect.top + schoolRect.height / 2;
+
+  // munculkan mobil di HOME
+  car.classList.remove("hidden");
+  car.style.left = (startX - 35) + "px";
+  car.style.top = (startY - 20) + "px";
+
+  // paksa render dulu
+  void car.offsetWidth;
+
+  // gerakkan mobil ke SCHOOL
+  car.style.left = (endX - 35) + "px";
+  car.style.top = (endY - 20) + "px";
+
+  // setelah sampai → masuk sekolah
+  setTimeout(() => {
+    car.classList.add("hidden");
+
+    gameState.chapter = 4;
+    gameState.afterAction = false;
+    switchRoom("school");
+    showDialog();
+  }, 1300);
+});
+
 
   answers.forEach(btn => {
     btn.addEventListener("click", () => {
