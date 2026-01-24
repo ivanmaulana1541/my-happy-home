@@ -21,6 +21,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const answers = document.querySelectorAll(".answer");
 
   /* =====================
+     🚗 CAR RUSH (TapRun) SELECTORS
+  ===================== */
+  const tapRunResult = document.querySelector(".taprun-result");
+  const tapRunScoreEl = document.querySelector(".taprun-score");
+  const tapRunCoinsEl = document.querySelector(".taprun-coins");
+  const tapRunTimerEl = document.querySelector(".taprun-timer");
+  const tapRunPlayer = document.querySelector(".taprun-player");
+  const tapRunPlayerImg = document.querySelector(".taprun-player img");
+
+  const tapRunTouchLeft = document.querySelector(".taprun-touch-left");
+  const tapRunTouchRight = document.querySelector(".taprun-touch-right");
+  const tapRunRestartBtn = document.querySelector(".taprun-restart");
+  const tapRunContinueBtn = document.querySelector(".taprun-continue");
+  const tapRunSummary = document.querySelector(".taprun-summary");
+
+  /* =====================
      ✅ NEW FLAGS (PULANG)
   ===================== */
   let goHomeAfterBasketDialog = false;  // setelah dialog capek -> pindah map
@@ -198,6 +214,235 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =====================
+     🚗 CAR RUSH MINI GAME (1 menit survive)
+  ===================== */
+  let taprunLane = 1; // 0 kiri, 1 tengah, 2 kanan
+  let taprunScore = 0;
+  let taprunCoins = 0;
+  let taprunSpeed = 3.4;
+  let taprunRunning = false;
+
+  let taprunLoop = null;
+  let taprunSpawnObs = null;
+  let taprunSpawnCoin = null;
+
+  let taprunTimeLeft = 60;
+  let taprunTimerInt = null;
+
+  function updateTapRunCar() {
+    if (!tapRunPlayerImg) return;
+    tapRunPlayerImg.src = "./assets/icons/car.png";
+  }
+
+  function laneX(lane) {
+    if (lane === 0) return 30;
+    if (lane === 1) return 50;
+    return 70;
+  }
+
+  function setPlayerLane(lane) {
+    taprunLane = Math.max(0, Math.min(2, lane));
+    if (tapRunPlayer) tapRunPlayer.style.left = laneX(taprunLane) + "%";
+  }
+
+  function clearTapRunObjects() {
+    document.querySelectorAll(".taprun-obstacle, .taprun-coin").forEach(el => el.remove());
+  }
+
+  function stopTapRunLoops() {
+    clearInterval(taprunLoop);
+    clearInterval(taprunSpawnObs);
+    clearInterval(taprunSpawnCoin);
+    clearInterval(taprunTimerInt);
+  }
+
+  function spawnObstacle() {
+    const ui = document.querySelector(".taprun-ui");
+    if (!ui) return;
+
+    const obs = document.createElement("img");
+    obs.className = "taprun-obstacle";
+
+    // sementara pakai icon yang sudah ada di repo kamu
+    obs.src = "./assets/icons/freshmarket.png";
+
+    obs.dataset.type = "obstacle";
+    obs.dataset.lane = String(Math.floor(Math.random() * 3));
+    obs.style.left = laneX(Number(obs.dataset.lane)) + "%";
+    obs.style.transform = "translateX(-50%)";
+
+    ui.appendChild(obs);
+  }
+
+  function spawnCoin() {
+    const ui = document.querySelector(".taprun-ui");
+    if (!ui) return;
+
+    const coin = document.createElement("img");
+    coin.className = "taprun-coin";
+
+    // sementara pakai icon yang sudah ada
+    coin.src = "./assets/icons/citraberkat.png";
+
+    coin.dataset.type = "coin";
+    coin.dataset.lane = String(Math.floor(Math.random() * 3));
+    coin.style.left = laneX(Number(coin.dataset.lane)) + "%";
+    coin.style.transform = "translateX(-50%)";
+
+    ui.appendChild(coin);
+  }
+
+  function winTapRun() {
+    if (!taprunRunning) return;
+    taprunRunning = false;
+    stopTapRunLoops();
+
+    const reward = taprunCoins + 10;
+
+    if (tapRunSummary) {
+      tapRunSummary.innerHTML =
+        `✅ Kamu tidak terlambat!<br>` +
+        `Waktu: <b>60 detik</b><br>` +
+        `Rintangan terlewati: <b>${taprunScore}</b><br>` +
+        `Coins diambil: <b>${taprunCoins}</b><br>` +
+        `Reward: <b>+${reward}</b> coin`;
+    }
+
+    tapRunResult?.classList.remove("hidden");
+    if (tapRunResult) {
+      tapRunResult.dataset.status = "win";
+      tapRunResult.dataset.reward = String(reward);
+    }
+  }
+
+  function loseTapRun() {
+    if (!taprunRunning) return;
+    taprunRunning = false;
+    stopTapRunLoops();
+
+    if (tapRunSummary) {
+      tapRunSummary.innerHTML =
+        `❌ Kamu menabrak!<br>` +
+        `Sisa waktu: <b>${taprunTimeLeft}s</b><br>` +
+        `Rintangan terlewati: <b>${taprunScore}</b><br>` +
+        `Coins diambil: <b>${taprunCoins}</b><br><br>` +
+        `<b>Kamu harus menang dulu ya supaya tidak terlambat 😄</b>`;
+    }
+
+    tapRunResult?.classList.remove("hidden");
+    if (tapRunResult) {
+      tapRunResult.dataset.status = "lose";
+      tapRunResult.dataset.reward = "0";
+    }
+  }
+
+  function startTapRun() {
+    if (!tapRunScoreEl || !tapRunCoinsEl || !tapRunTimerEl) return;
+
+    taprunScore = 0;
+    taprunCoins = 0;
+    taprunSpeed = 3.4;
+    taprunRunning = true;
+
+    taprunTimeLeft = 60;
+    tapRunTimerEl.textContent = "Time: 60";
+    tapRunTimerEl.style.background = "#000";
+
+    tapRunResult?.classList.add("hidden");
+    if (tapRunSummary) tapRunSummary.textContent = "";
+
+    tapRunScoreEl.textContent = "Score: 0";
+    tapRunCoinsEl.textContent = "Coins: 0";
+
+    clearTapRunObjects();
+    setPlayerLane(1);
+    updateTapRunCar();
+
+    clearInterval(taprunTimerInt);
+    taprunTimerInt = setInterval(() => {
+      if (!taprunRunning) return;
+
+      taprunTimeLeft--;
+      tapRunTimerEl.textContent = "Time: " + taprunTimeLeft;
+
+      if (taprunTimeLeft <= 10) tapRunTimerEl.style.background = "#ff2d2d";
+      else tapRunTimerEl.style.background = "#000";
+
+      if (taprunTimeLeft <= 0) winTapRun();
+    }, 1000);
+
+    clearInterval(taprunSpawnObs);
+    clearInterval(taprunSpawnCoin);
+    taprunSpawnObs = setInterval(spawnObstacle, 720);
+    taprunSpawnCoin = setInterval(spawnCoin, 520);
+
+    clearInterval(taprunLoop);
+    taprunLoop = setInterval(() => {
+      if (!taprunRunning) return;
+
+      const ui = document.querySelector(".taprun-ui");
+      const H = ui?.getBoundingClientRect().height || 420;
+
+      document.querySelectorAll(".taprun-obstacle, .taprun-coin").forEach(el => {
+        const y = (parseFloat(el.dataset.y || "0") + taprunSpeed);
+        el.dataset.y = String(y);
+        el.style.top = y + "px";
+
+        if (el.dataset.type === "obstacle" && !el.dataset.passed && y > 270) {
+          el.dataset.passed = "1";
+          taprunScore++;
+          tapRunScoreEl.textContent = "Score: " + taprunScore;
+        }
+
+        if (y > 280 && y < 360) {
+          const objLane = Number(el.dataset.lane);
+          if (objLane === taprunLane) {
+            if (el.dataset.type === "coin") {
+              taprunCoins++;
+              tapRunCoinsEl.textContent = "Coins: " + taprunCoins;
+              el.remove();
+            } else {
+              loseTapRun();
+            }
+          }
+        }
+
+        if (y > H + 80) el.remove();
+      });
+
+      taprunSpeed += 0.008;
+    }, 16);
+  }
+
+  tapRunTouchLeft?.addEventListener("click", () => {
+    if (!taprunRunning) return;
+    setPlayerLane(taprunLane - 1);
+  });
+
+  tapRunTouchRight?.addEventListener("click", () => {
+    if (!taprunRunning) return;
+    setPlayerLane(taprunLane + 1);
+  });
+
+  tapRunRestartBtn?.addEventListener("click", () => {
+    startTapRun();
+  });
+
+  tapRunContinueBtn?.addEventListener("click", () => {
+    const status = tapRunResult?.dataset?.status;
+    if (status !== "win") return;
+
+    tapRunResult?.classList.add("hidden");
+    clearTapRunObjects();
+
+    // lanjut ke school setelah menang
+    gameState.chapter = 4;
+    gameState.afterAction = false;
+    switchRoom("school");
+    showDialog();
+  });
+
+  /* =====================
      DIALOG FLOW
   ===================== */
   dialogNext.addEventListener("click", () => {
@@ -286,7 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // MAP: klik sekolah -> mobil home ke school -> masuk school
+  // MAP: klik sekolah -> mobil home ke school -> MASUK CAR RUSH -> menang -> school
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
@@ -295,10 +540,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const school = document.querySelector(".school-icon");
 
     if (!carEl || !home || !school) {
-      gameState.chapter = 4;
-      gameState.afterAction = false;
-      switchRoom("school");
-      showDialog();
+      // fallback: langsung car rush
+      switchRoom("taprun");
+      startTapRun();
       return;
     }
 
@@ -325,20 +569,19 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       carEl.classList.add("hidden");
 
-      gameState.chapter = 4;
-      gameState.afterAction = false;
-      switchRoom("school");
-      showDialog();
+      // ✅ masuk mini game dulu
+      switchRoom("taprun");
+      startTapRun();
+
     }, 1300);
   });
 
-  // ✅ NEW: MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
+  // ✅ MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
   homeIcon?.addEventListener("click", () => {
     if (!allowGoHomeClick) return;
 
     const mapRoom = document.querySelector(".room.map");
     if (!mapRoom || !car || !homeIcon || !schoolIcon) {
-      // fallback tanpa animasi
       switchRoom("room");
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
@@ -347,8 +590,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const mapRect = mapRoom.getBoundingClientRect();
-    const startRect = schoolIcon.getBoundingClientRect(); // start sekolah
-    const endRect = homeIcon.getBoundingClientRect();     // end rumah
+    const startRect = schoolIcon.getBoundingClientRect();
+    const endRect = homeIcon.getBoundingClientRect();
 
     const startX = startRect.left - mapRect.left + startRect.width / 2;
     const startY = startRect.top - mapRect.top + startRect.height / 2;
@@ -365,7 +608,6 @@ document.addEventListener("DOMContentLoaded", () => {
     car.style.left = (endX - 35) + "px";
     car.style.top = (endY - 20) + "px";
 
-    // lock click sementara
     homeIcon.style.pointerEvents = "none";
     schoolIcon.style.pointerEvents = "none";
 
@@ -374,10 +616,8 @@ document.addEventListener("DOMContentLoaded", () => {
       homeIcon.style.pointerEvents = "auto";
       schoolIcon.style.pointerEvents = "auto";
 
-      // masuk ke rumah
       switchRoom("room");
 
-      // tampil dialog sampai rumah
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
 
@@ -483,12 +723,9 @@ document.addEventListener("DOMContentLoaded", () => {
         basketScore++;
         scoreBox.textContent = basketScore + " / 3";
 
-        // ✅ NEW: kalau sudah 3/3, munculkan dialog capek pulang
         if (basketScore >= 3) {
-          // stop indikator power supaya game berhenti bersih
           clearInterval(interval);
 
-          // kasih sedikit delay biar animasi masuk dulu
           setTimeout(() => {
             goHomeAfterBasketDialog = true;
             showCustomDialog("Syabil", "Syabil sudah lelah... Saatnya pulang ke rumah.");
@@ -498,7 +735,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 450);
 
       setTimeout(() => {
-        // kalau sudah menang, jangan restart shoot lagi
         if (basketScore >= 3) return;
 
         ball.style.opacity = "1";
