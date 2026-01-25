@@ -608,3 +608,10 @@ body {
 .car-run-player{ z-index: 40; }
 .car-run-obstacles{ z-index: 30; }
 .car-run-controls{ z-index: 100; }
+
+.room.home-room{
+  height: 360px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
