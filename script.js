@@ -154,23 +154,22 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function switchRoom(name) {
-  // matikan semua room
-  rooms.forEach(r => r.classList.remove("active"));
+    // matikan semua room
+    rooms.forEach(r => r.classList.remove("active"));
 
-  // ✅ FORCE MATIKAN INTRO (ini kuncinya)
-  document.querySelector(".room.intro")?.classList.remove("active");
+    // ✅ FORCE MATIKAN INTRO (ini kuncinya)
+    document.querySelector(".room.intro")?.classList.remove("active");
 
-  const room = document.querySelector(`.${name}`);
-  if (!room) {
-    console.warn("Room tidak ditemukan:", name);
-    return;
+    const room = document.querySelector(`.${name}`);
+    if (!room) {
+      console.warn("Room tidak ditemukan:", name);
+      return;
+    }
+
+    room.classList.add("active");
+    loadRoomBackground(name);
+    updateSyabilOutfit();
   }
-
-  room.classList.add("active");
-  loadRoomBackground(name);
-  updateSyabilOutfit();
-}
-
 
   // ✅ helper untuk dialog cepat (dipakai fitur pulang)
   function showCustomDialog(speaker, text) {
@@ -291,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     switchRoom("syabil-room");
     showDialog();
   });
-  
+
   wardrobe?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "changeDress") return;
 
@@ -315,54 +314,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // MAP: klik sekolah -> mobil home ke school -> masuk school
+  // MAP: klik sekolah -> masuk mini game car-run
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
-    // 🚗 NEW: masuk mini game car-run dulu
     startCarRun();
     return;
-
-    const carEl = document.querySelector(".car");
-    const home = document.querySelector(".home-icon");
-    const school = document.querySelector(".school-icon");
-
-    if (!carEl || !home || !school) {
-      gameState.chapter = 4;
-      gameState.afterAction = false;
-      switchRoom("school");
-      showDialog();
-      return;
-    }
-
-    const mapRoom = document.querySelector(".room.map");
-    const mapRect = mapRoom.getBoundingClientRect();
-    const homeRect = home.getBoundingClientRect();
-    const schoolRect = school.getBoundingClientRect();
-
-    const startX = homeRect.left - mapRect.left + homeRect.width / 2;
-    const startY = homeRect.top - mapRect.top + homeRect.height / 2;
-
-    const endX = schoolRect.left - mapRect.left + schoolRect.width / 2;
-    const endY = schoolRect.top - mapRect.top + schoolRect.height / 2;
-
-    carEl.classList.remove("hidden");
-    carEl.style.left = (startX - 35) + "px";
-    carEl.style.top = (startY - 20) + "px";
-
-    void carEl.offsetWidth;
-
-    carEl.style.left = (endX - 35) + "px";
-    carEl.style.top = (endY - 20) + "px";
-
-    setTimeout(() => {
-      carEl.classList.add("hidden");
-
-      gameState.chapter = 4;
-      gameState.afterAction = false;
-      switchRoom("school");
-      showDialog();
-    }, 1300);
   });
 
   // ✅ NEW: MAP klik rumah setelah basket selesai -> mobil school ke home -> masuk room + dialog sampai rumah
@@ -468,7 +425,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     🏀 BASKET GAME (FIXED)
+     🏀 BASKET GAME (IMPROVED)
+     ✅ power mempengaruhi distance
+     ✅ lemparan parabola (gravity)
+     ✅ bisa miss / overshoot / short
   ===================== */
   let power = 0;
   let direction = 1;
@@ -487,6 +447,13 @@ document.addEventListener("DOMContentLoaded", () => {
     basketScore = 0;
     scoreBox.textContent = "0 / 3";
 
+    // reset ball
+    ball.style.opacity = "1";
+    ball.style.transition = "none";
+    ball.style.transform = "translate(0,0) scale(1)";
+
+    // start power bar
+    clearInterval(interval);
     interval = setInterval(() => {
       power += direction * 2;
       if (power >= 100) direction = -1;
@@ -495,58 +462,124 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 30);
 
     shootBtn.onclick = () => {
+      if (basketScore >= 3) return;
+
+      // stop power bar ketika shoot
       clearInterval(interval);
+
+      const basketRoom = document.querySelector(".room.basket");
+      const roomRect = basketRoom.getBoundingClientRect();
 
       const ballRect = ball.getBoundingClientRect();
       const ringRect = ring.getBoundingClientRect();
 
-      const dx = ringRect.left - ballRect.left + ringRect.width / 2;
-      const dy = ringRect.top - ballRect.top;
+      // start point bola (tengah bola) pada koordinat room
+      const startX = (ballRect.left - roomRect.left) + ballRect.width / 2;
+      const startY = (ballRect.top - roomRect.top) + ballRect.height / 2;
 
+      // target ring (tengah hitbox) pada koordinat room
+      const ringX = (ringRect.left - roomRect.left) + ringRect.width / 2;
+      const ringY = (ringRect.top - roomRect.top) + ringRect.height / 2;
+
+      // reset ball
       ball.style.transition = "none";
-      ball.style.transform = "translate(0,0)";
       ball.style.opacity = "1";
+      ball.style.transform = "translate(0,0) scale(1)";
       void ball.offsetWidth;
 
-      ball.style.transition = "transform 0.6s cubic-bezier(.3,.8,.4,1)";
-      ball.style.transform = `translate(${dx}px, ${dy}px) scale(0.6)`;
+      // ambil power 0-100
+      const p = power;
 
-      setTimeout(() => {
-        ball.style.opacity = "0";
-        basketScore++;
-        scoreBox.textContent = basketScore + " / 3";
+      // ✅ POWER akan mempengaruhi jarak horizontal:
+      // - kalau power kecil -> bola short
+      // - kalau power pas -> masuk ring
+      // - kalau power besar -> overshoot
+      const idealPower = 65;
+      const distanceFactor = 1 + ((p - idealPower) / 120); // sekitar 0.5x - 1.5x
 
-        // ✅ NEW: kalau sudah 3/3, munculkan dialog capek pulang
-        if (basketScore >= 3) {
-          // stop indikator power supaya game berhenti bersih
-          clearInterval(interval);
+      const targetX = startX + (ringX - startX) * distanceFactor;
+      const targetY = ringY;
 
-          // kasih sedikit delay biar animasi masuk dulu
-          setTimeout(() => {
-            goHomeAfterBasketDialog = true;
-            showCustomDialog("Syabil", "Syabil sudah lelah... Saatnya pulang ke rumah.");
-          }, 400);
+      // tuning fisika
+      const gravity = 0.55;
+      const tMax = 38;   // durasi (frames)
+      const vx = (targetX - startX) / tMax;
+
+      // vy makin besar power makin tinggi
+      let vy = -(9 + (p * 0.17));
+
+      // posisi animasi
+      let x = startX;
+      let y = startY;
+      let t = 0;
+
+      shootBtn.disabled = true;
+
+      function animate() {
+        t++;
+
+        x += vx;
+        y += vy;
+        vy += gravity;
+
+        const dx = x - startX;
+        const dy = y - startY;
+
+        // scaling untuk efek depth
+        const s = 1 - Math.min(0.35, t / tMax * 0.35);
+
+        ball.style.transform = `translate(${dx}px, ${dy}px) scale(${s})`;
+
+        if (t < tMax) {
+          requestAnimationFrame(animate);
+          return;
         }
 
-      }, 450);
+        // selesai
+        shootBtn.disabled = false;
 
-      setTimeout(() => {
-        // kalau sudah menang, jangan restart shoot lagi
-        if (basketScore >= 3) return;
+        // cek apakah masuk ring (gunakan posisi akhir)
+        const endDist = Math.hypot((x - ringX), (y - ringY));
+        const missRange = 26;
 
-        ball.style.opacity = "1";
-        ball.style.transform = "translate(0,0)";
-        power = 0;
-        direction = 1;
-        interval = setInterval(() => {
-          power += direction * 2;
-          if (power >= 100) direction = -1;
-          if (power <= 0) direction = 1;
-          powerIndicator.style.width = power + "%";
-        }, 30);
-      }, 800);
+        // perlu power mendekati ideal juga supaya fair
+        const goodPower = (p >= 50 && p <= 80);
+
+        if (endDist < missRange && goodPower) {
+          basketScore++;
+          scoreBox.textContent = basketScore + " / 3";
+        }
+
+        // reset untuk next shoot
+        setTimeout(() => {
+          ball.style.opacity = "1";
+          ball.style.transform = "translate(0,0) scale(1)";
+
+          if (basketScore < 3) {
+            // restart power bar
+            power = 0;
+            direction = 1;
+
+            clearInterval(interval);
+            interval = setInterval(() => {
+              power += direction * 2;
+              if (power >= 100) direction = -1;
+              if (power <= 0) direction = 1;
+              powerIndicator.style.width = power + "%";
+            }, 30);
+
+          } else {
+            // menang
+            clearInterval(interval);
+            goHomeAfterBasketDialog = true;
+            showCustomDialog("Syabil", "Yaaay! Syabil hebat! Sekarang waktunya pulang ke rumah.");
+          }
+        }, 260);
+      }
+
+      requestAnimationFrame(animate);
     };
-  }
+  } // ✅ end startBasketGame
 
   /* =====================
      🚗 CAR RUN MINI GAME
@@ -577,7 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const road1 = document.querySelector(".road-1");
-const road2 = document.querySelector(".road-2");
+    const road2 = document.querySelector(".road-2");
 
     // reset state
     carRunActive = true;
@@ -590,7 +623,7 @@ const road2 = document.querySelector(".road-2");
     let roadY2 = -100;
     const roadSpeed = 0.8; // naikkan kalau mau lebih cepat (1.2)
 
-    function updateRoad(){
+    function updateRoad() {
       if (!carRunActive) return;
 
       roadY1 += roadSpeed;
@@ -646,7 +679,6 @@ const road2 = document.querySelector(".road-2");
       obs.alt = "obstacle";
       obs.draggable = false;
 
-
       // random lane
       const obsLane = Math.floor(Math.random() * 3);
       obs.style.left = lanes[obsLane] + "%";
@@ -680,7 +712,6 @@ const road2 = document.querySelector(".road-2");
 
         if (hit) {
           carRunCollision = true;
-          // efek kecil: obstacle hilang
           clearInterval(moveInterval);
           obs.style.opacity = "0";
           setTimeout(() => obs.remove(), 100);
@@ -721,24 +752,19 @@ const road2 = document.querySelector(".road-2");
         ? "Aduh... hampir nabrak! Tapi Syabil sudah sampai sekolah."
         : "Yey! Syabil sampai sekolah dengan aman.";
 
-      // next → masuk school (pakai click sekali)
-      const oldHandler = dialogNext.onclick;
-      dialogNext.onclick = () => {
-        // balikin handler default
-        dialogNext.onclick = null;
+      // next → masuk school
+      const handler = () => {
+        dialogNext.removeEventListener("click", handler);
 
-        // close dialog
         dialogBox.classList.add("hidden");
 
-        // lanjut normal ke school
         gameState.chapter = 4;
         gameState.afterAction = false;
         switchRoom("school");
         showDialog();
-
-        // restore (kalau sebelumnya ada)
-        if (oldHandler) dialogNext.addEventListener("click", oldHandler);
       };
+
+      dialogNext.addEventListener("click", handler);
     }
   }
 
@@ -746,6 +772,6 @@ const road2 = document.querySelector(".road-2");
      START GAME
   ===================== */
   switchRoom("intro");
-dialogBox.classList.add("hidden");
+  dialogBox.classList.add("hidden");
 
 });
