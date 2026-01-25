@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const mapRoom = document.querySelector(".room.map");
     if (!mapRoom || !car || !homeIcon || !schoolIcon) {
-      switchRoom("syabil-room");
+      switchRoom("home-room");
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
       allowGoHomeClick = false;
@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
       homeIcon.style.pointerEvents = "auto";
       schoolIcon.style.pointerEvents = "auto";
 
-      switchRoom("syabil-room");
+      switchRoom("home-room");
 
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
