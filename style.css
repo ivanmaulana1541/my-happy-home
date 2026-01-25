@@ -460,7 +460,7 @@ body {
 /* player car */
 .car-run-player {
   position: absolute;
-  bottom: 18px;
+  bottom: 55px;
   left: 50%;
   transform: translateX(-50%);
   width: 90px;
