@@ -431,7 +431,9 @@ body {
 
 /* background image road */
 .room.car-run {
-  background-image: url("./assets/background/road.png");
+  padding: 0;
+  height: 420px;
+  background: #e8f7ff; /* langit */
 }
 
 .room.car-run{
@@ -512,3 +514,32 @@ body {
   cursor: pointer;
   box-shadow: 0 8px 18px rgba(0,0,0,.15);
 }
+
+/* road wrapper */
+.car-run-road{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* 2 road layers */
+.car-run-road .road{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("./assets/background/road.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* start positions */
+.car-run-road .road-1{ top: 0; }
+.car-run-road .road-2{ top: -100%; }
+
+/* pastikan player & obstacle di atas road */
+.car-run-player{ z-index: 40; }
+.car-run-obstacles{ z-index: 30; }
+.car-run-controls{ z-index: 100; }
