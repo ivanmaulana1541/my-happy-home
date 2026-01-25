@@ -134,6 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const room = document.querySelector(`.${name}`);
     if (!room || room.dataset.bgLoaded) return;
 
+    if (name === "car-run") return;
+
     const webp = `./assets/background/${name}.webp`;
     const png = `./assets/background/${name}.png`;
 
