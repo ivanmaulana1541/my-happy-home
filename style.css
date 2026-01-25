@@ -462,7 +462,7 @@ body {
   position: absolute;
   bottom: 55px;
   left: 50%;
-  width: 80px; /* biarin agak besar */
+  width: 60px; /* biarin agak besar */
   height: auto;
   z-index: 40;
   pointer-events: none;
