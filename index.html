@@ -18,7 +18,9 @@
       </div>
     </div>
 
-    <!-- ✅ INTRO / OPENING -->
+    <!-- =====================
+         INTRO / OPENING
+    ====================== -->
     <div class="room intro active">
       <div class="intro-box">
         <h1 class="intro-title">SYABIL ADVENTURE</h1>
@@ -27,43 +29,67 @@
       </div>
     </div>
 
-    <!-- 🛏️ KAMAR SYABIL (BAB 1) -->
+    <!-- =====================
+         ROOM: KAMAR SYABIL
+         background: syabil-room.webp
+    ====================== -->
     <div class="room room">
       <div class="item wardrobe">👗</div>
       <div class="person child">
-        <img src="./assets/piyama.png" alt="Syabil">
+        <img src="./assets/piyama.png" alt="Syabil" />
       </div>
     </div>
 
-    <!-- 🛏️ BEDROOM (PAPA MAMA) -->
-    <div class="room bedroom"></div>
+    <!-- =====================
+         ROOM: BEDROOM (Mama Papa)
+    ====================== -->
+    <div class="room bedroom">
+      <div class="person father">
+        <img src="./assets/father.png" alt="Papa" />
+      </div>
+      <div class="person mother">
+        <img src="./assets/mother.png" alt="Mama" />
+      </div>
+    </div>
 
-    <!-- 🍳 KITCHEN -->
+    <!-- =====================
+         ROOM: KITCHEN
+    ====================== -->
     <div class="room kitchen">
       <div class="food-container">
         <div class="food">🍎</div>
         <div class="food">🍞</div>
       </div>
 
-      <div class="person father"><img src="./assets/father.png" alt="Papa"></div>
-      <div class="person mother"><img src="./assets/mother.png" alt="Mama"></div>
-      <div class="person child"><img src="./assets/piyama.png" alt="Syabil"></div>
+      <div class="person father">
+        <img src="./assets/father.png" alt="Papa" />
+      </div>
+      <div class="person mother">
+        <img src="./assets/mother.png" alt="Mama" />
+      </div>
+      <div class="person child">
+        <img src="./assets/piyama.png" alt="Syabil" />
+      </div>
     </div>
 
-    <!-- 🗺️ MAP -->
+    <!-- =====================
+         ROOM: MAP
+    ====================== -->
     <div class="room map">
-      <div class="map-icon school-icon">
-        <img src="./assets/icons/citraberkat.png" alt="Pergi ke Sekolah">
-      </div>
-
       <div class="map-icon home-icon">
         <img src="./assets/icons/house.png" alt="Home">
       </div>
 
-      <img class="car hidden" src="./assets/icons/car.png" alt="car">
+      <div class="map-icon school-icon">
+        <img src="./assets/icons/citraberkat.png" alt="Pergi ke Sekolah">
+      </div>
+
+      <img class="car hidden" src="./assets/icons/car.png" alt="car" />
     </div>
 
-    <!-- 🚗 CAR RUSH -->
+    <!-- =====================
+         ROOM: TAPRUN (CAR RUN)
+    ====================== -->
     <div class="room taprun">
       <div class="taprun-ui">
 
@@ -76,14 +102,16 @@
         </div>
 
         <div class="taprun-player">
-          <img src="./assets/icons/car-run.png" alt="car run">
+          <img src="./assets/icons/car-run.png" alt="Car Run" />
         </div>
 
+        <!-- touch zones -->
         <div class="taprun-touch taprun-touch-left"></div>
         <div class="taprun-touch taprun-touch-right"></div>
 
-        <div class="taprun-hint">Kejar waktu! Jangan terlambat ke sekolah! ⏰</div>
+        <div class="taprun-hint">Tap kiri/kanan untuk pindah jalur</div>
 
+        <!-- result overlay -->
         <div class="taprun-result hidden">
           <div class="taprun-title">SELESAI!</div>
           <div class="taprun-summary"></div>
@@ -94,11 +122,19 @@
       </div>
     </div>
 
-    <!-- 🏫 SCHOOL -->
+    <!-- =====================
+         ROOM: SCHOOL
+    ====================== -->
     <div class="room school">
-      <div class="person teacher"><img src="./assets/msputri.png" alt="Miss Putri"></div>
-      <div class="person child"><img src="./assets/piyama.png" alt="Syabil"></div>
+      <div class="person teacher">
+        <img src="./assets/msputri.png" alt="Miss Putri" />
+      </div>
 
+      <div class="person child">
+        <img src="./assets/piyama.png" alt="Syabil" />
+      </div>
+
+      <!-- quiz -->
       <div class="quiz hidden">
         <div class="question">...</div>
         <button class="answer">A</button>
@@ -109,29 +145,33 @@
       <div class="school-basket-icon hidden">🏀</div>
     </div>
 
-    <!-- 🏀 BASKET -->
+    <!-- =====================
+         ROOM: BASKET
+    ====================== -->
     <div class="room basket">
       <div class="basket-ui">
         <div class="basket-score">0 / 3</div>
         <div class="basket-ring"></div>
-
-        <div class="person child basket-child">
-          <img src="./assets/child_sport.png" alt="Syabil sport">
-        </div>
+        <div class="basket-ball"></div>
 
         <div class="power-bar">
           <div class="power-indicator"></div>
         </div>
 
-        <div class="basket-ball"></div>
         <button class="shoot-btn">SHOOT</button>
+
+        <div class="basket-child">
+          <img src="./assets/child_sport.png" alt="Syabil Sport" />
+        </div>
       </div>
     </div>
 
-    <!-- DIALOG -->
+    <!-- =====================
+         DIALOG BOX
+    ====================== -->
     <div id="dialog-box" class="dialog hidden">
-      <div class="dialog-speaker"></div>
-      <div class="dialog-text"></div>
+      <div class="dialog-speaker">...</div>
+      <div class="dialog-text">...</div>
       <button id="dialog-next">Next</button>
     </div>
 
