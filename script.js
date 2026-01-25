@@ -559,7 +559,7 @@ document.addEventListener("DOMContentLoaded", () => {
     obstaclesWrap.innerHTML = "";
 
     // posisi mobil (3 lajur)
-    const lanes = [25, 50, 75]; // % left
+    const lanes = [37, 50, 63]; // % left
     let laneIndex = 1; // tengah
 
     function setLane(idx) {
