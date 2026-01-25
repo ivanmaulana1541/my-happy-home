@@ -154,12 +154,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function switchRoom(name) {
-    rooms.forEach(r => r.classList.remove("active"));
-    const room = document.querySelector(`.${name}`);
-    room.classList.add("active");
-    loadRoomBackground(name);
-    updateSyabilOutfit();
+  // matikan semua room
+  rooms.forEach(r => r.classList.remove("active"));
+
+  // ✅ FORCE MATIKAN INTRO (ini kuncinya)
+  document.querySelector(".room.intro")?.classList.remove("active");
+
+  const room = document.querySelector(`.${name}`);
+  if (!room) {
+    console.warn("Room tidak ditemukan:", name);
+    return;
   }
+
+  room.classList.add("active");
+  loadRoomBackground(name);
+  updateSyabilOutfit();
+}
+
 
   // ✅ helper untuk dialog cepat (dipakai fitur pulang)
   function showCustomDialog(speaker, text) {
