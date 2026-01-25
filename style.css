@@ -434,6 +434,16 @@ body {
   background-image: url("./assets/background/road.png");
 }
 
+.room.car-run{
+  animation: roadMove 1.1s linear infinite;
+}
+
+@keyframes roadMove{
+  from { background-position: 0 0; }
+  to   { background-position: 0 300px; }
+}
+
+
 .car-run-timer {
   position: absolute;
   top: 14px;
