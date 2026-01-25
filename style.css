@@ -546,7 +546,7 @@ body {
 
   background-image: url("./assets/background/intro.png");
   background-size: cover;
-  background-position: center;
+  background-position: center 20%;
   background-repeat: no-repeat;
 }
 
@@ -589,7 +589,16 @@ body {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 12px 26px rgba(255,127,167,.35);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
+
+.intro-start-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(255,127,167,.45);
+}
+
+.intro-start-btn:active{
+  transform: translateY(1px);
 
 /* start positions */
 .car-run-road .road-1{ top: 0; }
