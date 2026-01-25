@@ -549,11 +549,36 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const road1 = document.querySelector(".road-1");
+const road2 = document.querySelector(".road-2");
+
     // reset state
     carRunActive = true;
     carRunCollision = false;
     carRunTimer = 12;
     timerBox.textContent = carRunTimer;
+
+    // ✅ ROAD LOOP ANIMATION
+    let roadY1 = 0;
+    let roadY2 = -100;
+    const roadSpeed = 0.8; // naikkan kalau mau lebih cepat (1.2)
+
+    function updateRoad(){
+      if (!carRunActive) return;
+
+      roadY1 += roadSpeed;
+      roadY2 += roadSpeed;
+
+      if (roadY1 >= 100) roadY1 = -100;
+      if (roadY2 >= 100) roadY2 = -100;
+
+      if (road1) road1.style.top = roadY1 + "%";
+      if (road2) road2.style.top = roadY2 + "%";
+
+      requestAnimationFrame(updateRoad);
+    }
+
+    updateRoad();
 
     // bersihin obstacle lama
     obstaclesWrap.innerHTML = "";
