@@ -290,6 +290,10 @@ document.addEventListener("DOMContentLoaded", () => {
   schoolIcon?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "goSchool") return;
 
+    // 🚗 NEW: masuk mini game car-run dulu
+    startCarRun();
+    return;
+
     const carEl = document.querySelector(".car");
     const home = document.querySelector(".home-icon");
     const school = document.querySelector(".school-icon");
@@ -513,6 +517,171 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 30);
       }, 800);
     };
+  }
+
+  /* =====================
+     🚗 CAR RUN MINI GAME
+  ===================== */
+  let carRunActive = false;
+  let carRunTimer = 12;
+  let carRunObstacleInterval = null;
+  let carRunCountdownInterval = null;
+  let carRunCollision = false;
+
+  function startCarRun() {
+    // masuk room car-run
+    switchRoom("car-run");
+
+    const player = document.querySelector(".car-run-player");
+    const obstaclesWrap = document.querySelector(".car-run-obstacles");
+    const timerBox = document.querySelector(".car-run-timer");
+    const btnLeft = document.querySelector(".car-run-left");
+    const btnRight = document.querySelector(".car-run-right");
+
+    if (!player || !obstaclesWrap || !timerBox) {
+      // fallback: kalau scene belum ada, langsung ke school
+      gameState.chapter = 4;
+      gameState.afterAction = false;
+      switchRoom("school");
+      showDialog();
+      return;
+    }
+
+    // reset state
+    carRunActive = true;
+    carRunCollision = false;
+    carRunTimer = 12;
+    timerBox.textContent = carRunTimer;
+
+    // bersihin obstacle lama
+    obstaclesWrap.innerHTML = "";
+
+    // posisi mobil (3 lajur)
+    const lanes = [25, 50, 75]; // % left
+    let laneIndex = 1; // tengah
+
+    function setLane(idx) {
+      laneIndex = Math.max(0, Math.min(2, idx));
+      player.style.left = lanes[laneIndex] + "%";
+      player.style.transform = "translateX(-50%)";
+    }
+
+    setLane(1);
+
+    // keyboard control
+    function onKey(e) {
+      if (!carRunActive) return;
+      if (e.key === "ArrowLeft") setLane(laneIndex - 1);
+      if (e.key === "ArrowRight") setLane(laneIndex + 1);
+    }
+    window.addEventListener("keydown", onKey);
+
+    // mobile buttons
+    const leftHandler = () => carRunActive && setLane(laneIndex - 1);
+    const rightHandler = () => carRunActive && setLane(laneIndex + 1);
+    btnLeft && btnLeft.addEventListener("click", leftHandler);
+    btnRight && btnRight.addEventListener("click", rightHandler);
+
+    // spawn obstacles
+    carRunObstacleInterval = setInterval(() => {
+      if (!carRunActive) return;
+
+      const obs = document.createElement("div");
+      obs.className = "car-run-obstacle";
+
+      // random lane
+      const obsLane = Math.floor(Math.random() * 3);
+      obs.style.left = lanes[obsLane] + "%";
+      obs.style.transform = "translateX(-50%)";
+
+      obstaclesWrap.appendChild(obs);
+
+      // animate turun
+      let y = -80;
+      const speed = 6 + Math.random() * 3; // variasi
+
+      const moveInterval = setInterval(() => {
+        if (!carRunActive) {
+          clearInterval(moveInterval);
+          obs.remove();
+          return;
+        }
+
+        y += speed;
+        obs.style.top = y + "px";
+
+        // collision check (simple)
+        const playerRect = player.getBoundingClientRect();
+        const obsRect = obs.getBoundingClientRect();
+
+        const hit =
+          !(playerRect.right < obsRect.left ||
+            playerRect.left > obsRect.right ||
+            playerRect.bottom < obsRect.top ||
+            playerRect.top > obsRect.bottom);
+
+        if (hit) {
+          carRunCollision = true;
+          // efek kecil: obstacle hilang
+          clearInterval(moveInterval);
+          obs.style.opacity = "0";
+          setTimeout(() => obs.remove(), 100);
+        }
+
+        // keluar layar
+        if (y > 500) {
+          clearInterval(moveInterval);
+          obs.remove();
+        }
+      }, 30);
+
+    }, 800);
+
+    // countdown finish
+    carRunCountdownInterval = setInterval(() => {
+      if (!carRunActive) return;
+
+      carRunTimer--;
+      timerBox.textContent = carRunTimer;
+
+      if (carRunTimer <= 0) finishCarRun();
+
+    }, 1000);
+
+    function finishCarRun() {
+      carRunActive = false;
+      clearInterval(carRunObstacleInterval);
+      clearInterval(carRunCountdownInterval);
+
+      // cleanup listener
+      window.removeEventListener("keydown", onKey);
+
+      // kasih dialog singkat (optional)
+      dialogBox.classList.remove("hidden");
+      dialogSpeaker.textContent = "Syabil";
+      dialogText.textContent = carRunCollision
+        ? "Aduh... hampir nabrak! Tapi Syabil sudah sampai sekolah."
+        : "Yey! Syabil sampai sekolah dengan aman.";
+
+      // next → masuk school (pakai click sekali)
+      const oldHandler = dialogNext.onclick;
+      dialogNext.onclick = () => {
+        // balikin handler default
+        dialogNext.onclick = null;
+
+        // close dialog
+        dialogBox.classList.add("hidden");
+
+        // lanjut normal ke school
+        gameState.chapter = 4;
+        gameState.afterAction = false;
+        switchRoom("school");
+        showDialog();
+
+        // restore (kalau sebelumnya ada)
+        if (oldHandler) dialogNext.addEventListener("click", oldHandler);
+      };
+    }
   }
 
   /* =====================
