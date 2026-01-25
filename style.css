@@ -462,12 +462,16 @@ body {
   position: absolute;
   bottom: 55px;
   left: 50%;
-  transform: translateX(-50%);
-  width: 65px;
+  width: 80px; /* biarin agak besar */
   height: auto;
   z-index: 40;
   pointer-events: none;
+
+  /* ✅ kunci: scale */
+  transform: translateX(-50%) scale(0.72);
+  transform-origin: center bottom;
 }
+
 
 .car-run-obstacles {
   position: absolute;
