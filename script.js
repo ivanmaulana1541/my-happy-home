@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   const story = {
     1: {
-      scene: "room",
+      scene: "syabil-room",
       dialogs: [
         { speaker: "Syabil", text: "Syabil masih memakai piyama." },
         { speaker: "Syabil", text: "Ia harus ganti baju dulu." }
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.syabilOutfit = "piyama";
 
     // masuk kamar syabil (room start)
-    switchRoom("room");
+    switchRoom("syabil-room");
     showDialog();
   });
   
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mapRoom = document.querySelector(".room.map");
     if (!mapRoom || !car || !homeIcon || !schoolIcon) {
       // fallback tanpa animasi
-      switchRoom("room");
+      switchRoom("syabil-room");
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
       allowGoHomeClick = false;
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
       schoolIcon.style.pointerEvents = "auto";
 
       // masuk ke rumah
-      switchRoom("room");
+      switchRoom("syabil-room");
 
       // tampil dialog sampai rumah
       showArrivedHomeDialog = true;
