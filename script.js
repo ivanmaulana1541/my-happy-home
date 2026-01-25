@@ -629,18 +629,29 @@ document.addEventListener("DOMContentLoaded", () => {
         lastVy += gravity;
 
         const s = 1 - Math.min(0.35, t / tMax * 0.35);
-        renderBall(x, y, s);
 
-        if (t < tMax) {
-          requestAnimationFrame(animate);
-          return;
-        }
+// ✅ AUTO-ASSIST: mendekati ring di akhir lintasan (biar gampang masuk)
+if (t > tMax * 0.72) {
+  const assist = 0.28; // 0.1 = lembut, 0.25 = kuat
+  x += (ringX - x) * assist;
+  y += (ringY - y) * assist * 0.35;
+}
+
+renderBall(x, y, s);
+
+if (t < tMax) {
+  requestAnimationFrame(animate);
+  return;
+}
+
 
         const distToRing = Math.hypot((x - ringX), (y - ringY));
 
-        const SWISH_RANGE = 22;
-        const RIM_RANGE = 46;
-        const goodPower = (p >= 50 && p <= 80);
+// ✅ dibuat lebih mudah untuk anak
+const SWISH_RANGE = 38;    // sebelumnya 22
+const RIM_RANGE = 70;      // sebelumnya 46
+const goodPower = (p >= 30 && p <= 95); // sebelumnya 50-80 (terlalu ketat)
+
 
         if (distToRing < SWISH_RANGE && goodPower) {
           swishDrop();
