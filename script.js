@@ -154,10 +154,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function switchRoom(name) {
-    // matikan semua room
     rooms.forEach(r => r.classList.remove("active"));
 
-    // ✅ FORCE MATIKAN INTRO (ini kuncinya)
+    // ✅ FORCE MATIKAN INTRO
     document.querySelector(".room.intro")?.classList.remove("active");
 
     const room = document.querySelector(`.${name}`);
@@ -220,13 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
       goHomeAfterBasketDialog = false;
       allowGoHomeClick = true;
 
-      // balik ke map, player wajib klik rumah
       switchRoom("map");
-
-      // dialog box ditutup dulu biar map kelihatan bersih
       dialogBox.classList.add("hidden");
       gameState.dialogIndex = 0;
-
       return;
     }
 
@@ -278,7 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   // ✅ INTRO START
   introStartBtn?.addEventListener("click", () => {
-    // reset ke awal cerita
     gameState.chapter = 1;
     gameState.dialogIndex = 0;
     gameState.afterAction = false;
@@ -286,7 +280,6 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.waitingQuiz = false;
     gameState.syabilOutfit = "piyama";
 
-    // masuk kamar syabil (room start)
     switchRoom("syabil-room");
     showDialog();
   });
@@ -328,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const mapRoom = document.querySelector(".room.map");
     if (!mapRoom || !car || !homeIcon || !schoolIcon) {
-      // fallback tanpa animasi
       switchRoom("syabil-room");
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
@@ -337,8 +329,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const mapRect = mapRoom.getBoundingClientRect();
-    const startRect = schoolIcon.getBoundingClientRect(); // start sekolah
-    const endRect = homeIcon.getBoundingClientRect();     // end rumah
+    const startRect = schoolIcon.getBoundingClientRect();
+    const endRect = homeIcon.getBoundingClientRect();
 
     const startX = startRect.left - mapRect.left + startRect.width / 2;
     const startY = startRect.top - mapRect.top + startRect.height / 2;
@@ -355,7 +347,6 @@ document.addEventListener("DOMContentLoaded", () => {
     car.style.left = (endX - 35) + "px";
     car.style.top = (endY - 20) + "px";
 
-    // lock click sementara
     homeIcon.style.pointerEvents = "none";
     schoolIcon.style.pointerEvents = "none";
 
@@ -364,10 +355,8 @@ document.addEventListener("DOMContentLoaded", () => {
       homeIcon.style.pointerEvents = "auto";
       schoolIcon.style.pointerEvents = "auto";
 
-      // masuk ke rumah
       switchRoom("syabil-room");
 
-      // tampil dialog sampai rumah
       showArrivedHomeDialog = true;
       showCustomDialog("Syabil", "Aku sudah sampai rumah.");
 
@@ -425,10 +414,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     🏀 BASKET GAME (IMPROVED)
-     ✅ power mempengaruhi distance
-     ✅ lemparan parabola (gravity)
-     ✅ bisa miss / overshoot / short
+     🏀 BASKET GAME (FINAL + EFFECTS)
+     ✅ parabola
+     ✅ power mempengaruhi jarak
+     ✅ swish / rim bounce / airball floor bounce
   ===================== */
   let power = 0;
   let direction = 1;
@@ -452,7 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ball.style.transition = "none";
     ball.style.transform = "translate(0,0) scale(1)";
 
-    // start power bar
     clearInterval(interval);
     interval = setInterval(() => {
       power += direction * 2;
@@ -464,7 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
     shootBtn.onclick = () => {
       if (basketScore >= 3) return;
 
-      // stop power bar ketika shoot
       clearInterval(interval);
 
       const basketRoom = document.querySelector(".room.basket");
@@ -473,90 +460,60 @@ document.addEventListener("DOMContentLoaded", () => {
       const ballRect = ball.getBoundingClientRect();
       const ringRect = ring.getBoundingClientRect();
 
-      // start point bola (tengah bola) pada koordinat room
       const startX = (ballRect.left - roomRect.left) + ballRect.width / 2;
       const startY = (ballRect.top - roomRect.top) + ballRect.height / 2;
 
-      // target ring (tengah hitbox) pada koordinat room
       const ringX = (ringRect.left - roomRect.left) + ringRect.width / 2;
       const ringY = (ringRect.top - roomRect.top) + ringRect.height / 2;
 
-      // reset ball
       ball.style.transition = "none";
       ball.style.opacity = "1";
       ball.style.transform = "translate(0,0) scale(1)";
       void ball.offsetWidth;
 
-      // ambil power 0-100
       const p = power;
 
-      // ✅ POWER akan mempengaruhi jarak horizontal:
-      // - kalau power kecil -> bola short
-      // - kalau power pas -> masuk ring
-      // - kalau power besar -> overshoot
       const idealPower = 65;
-      const distanceFactor = 1 + ((p - idealPower) / 120); // sekitar 0.5x - 1.5x
+      const distanceFactor = 1 + ((p - idealPower) / 120);
 
       const targetX = startX + (ringX - startX) * distanceFactor;
       const targetY = ringY;
 
-      // tuning fisika
       const gravity = 0.55;
-      const tMax = 38;   // durasi (frames)
-      const vx = (targetX - startX) / tMax;
+      const tMax = 38;
 
-      // vy makin besar power makin tinggi
+      const vx = (targetX - startX) / tMax;
       let vy = -(9 + (p * 0.17));
 
-      // posisi animasi
       let x = startX;
       let y = startY;
       let t = 0;
 
+      let lastVx = vx;
+      let lastVy = vy;
+
       shootBtn.disabled = true;
 
-      function animate() {
-        t++;
+      function renderBall(posX, posY, scale = 1) {
+        const dx = posX - startX;
+        const dy = posY - startY;
+        ball.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      }
 
-        x += vx;
-        y += vy;
-        vy += gravity;
-
-        const dx = x - startX;
-        const dy = y - startY;
-
-        // scaling untuk efek depth
-        const s = 1 - Math.min(0.35, t / tMax * 0.35);
-
-        ball.style.transform = `translate(${dx}px, ${dy}px) scale(${s})`;
-
-        if (t < tMax) {
-          requestAnimationFrame(animate);
-          return;
-        }
-
-        // selesai
+      function resetForNextShot(isScore) {
         shootBtn.disabled = false;
 
-        // cek apakah masuk ring (gunakan posisi akhir)
-        const endDist = Math.hypot((x - ringX), (y - ringY));
-        const missRange = 26;
-
-        // perlu power mendekati ideal juga supaya fair
-        const goodPower = (p >= 50 && p <= 80);
-
-        if (endDist < missRange && goodPower) {
+        if (isScore) {
           basketScore++;
           scoreBox.textContent = basketScore + " / 3";
         }
 
-        // reset untuk next shoot
         setTimeout(() => {
+          ball.style.transition = "none";
           ball.style.opacity = "1";
           ball.style.transform = "translate(0,0) scale(1)";
 
           if (basketScore < 3) {
-            // restart power bar
             power = 0;
             direction = 1;
 
@@ -569,12 +526,133 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 30);
 
           } else {
-            // menang
             clearInterval(interval);
             goHomeAfterBasketDialog = true;
             showCustomDialog("Syabil", "Yaaay! Syabil hebat! Sekarang waktunya pulang ke rumah.");
           }
-        }, 260);
+        }, 100);
+      }
+
+      function floorBounce(fromX, fromY, vX, vY, bounces = 2) {
+        const floorY = roomRect.height - 70;
+
+        let px = fromX;
+        let py = fromY;
+        let vx2 = vX;
+        let vy2 = vY;
+
+        let bounceCount = 0;
+
+        function step() {
+          px += vx2;
+          py += vy2;
+          vy2 += gravity;
+
+          renderBall(px, py, 1);
+
+          if (py >= floorY) {
+            py = floorY;
+
+            vy2 = -Math.abs(vy2) * 0.52;
+            vx2 *= 0.75;
+
+            bounceCount++;
+
+            ball.style.transition = "transform 0.06s ease";
+            renderBall(px, py, 0.9);
+            setTimeout(() => {
+              ball.style.transition = "none";
+            }, 70);
+
+            if (bounceCount >= bounces) {
+              setTimeout(() => {
+                ball.style.transition = "opacity 0.25s ease";
+                ball.style.opacity = "0";
+              }, 120);
+
+              setTimeout(() => {
+                resetForNextShot(false);
+              }, 450);
+
+              return;
+            }
+          }
+
+          requestAnimationFrame(step);
+        }
+
+        step();
+      }
+
+      function rimBounce() {
+        ring.style.transition = "transform 0.08s ease";
+        ring.style.transform = "scaleX(1.12)";
+        setTimeout(() => {
+          ring.style.transform = "scaleX(1)";
+        }, 90);
+
+        const dir = Math.random() < 0.5 ? -1 : 1;
+        const bounceVX = dir * (4 + Math.random() * 3);
+        const bounceVY = -(6 + Math.random() * 3);
+
+        floorBounce(ringX, ringY, bounceVX, bounceVY, 2);
+      }
+
+      function swishDrop() {
+        const dropX = ringX;
+        const dropY1 = ringY + 22;
+        const dropY2 = ringY + 120;
+
+        ball.style.transition = "transform 0.18s ease, opacity 0.2s ease";
+        renderBall(dropX, dropY1, 0.55);
+
+        setTimeout(() => {
+          ball.style.transition = "transform 0.35s ease";
+          renderBall(dropX, dropY2, 0.75);
+        }, 190);
+
+        setTimeout(() => {
+          ball.style.transition = "opacity 0.25s ease";
+          ball.style.opacity = "0";
+        }, 560);
+
+        setTimeout(() => {
+          resetForNextShot(true);
+        }, 820);
+      }
+
+      function animate() {
+        t++;
+
+        x += lastVx;
+        y += lastVy;
+        lastVy += gravity;
+
+        const s = 1 - Math.min(0.35, t / tMax * 0.35);
+        renderBall(x, y, s);
+
+        if (t < tMax) {
+          requestAnimationFrame(animate);
+          return;
+        }
+
+        const distToRing = Math.hypot((x - ringX), (y - ringY));
+
+        const SWISH_RANGE = 22;
+        const RIM_RANGE = 46;
+        const goodPower = (p >= 50 && p <= 80);
+
+        if (distToRing < SWISH_RANGE && goodPower) {
+          swishDrop();
+          return;
+        }
+
+        if (distToRing < RIM_RANGE) {
+          rimBounce();
+          return;
+        }
+
+        floorBounce(x, y, lastVx * 0.9, lastVy, 2);
       }
 
       requestAnimationFrame(animate);
@@ -591,7 +669,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let carRunCollision = false;
 
   function startCarRun() {
-    // masuk room car-run
     switchRoom("car-run");
 
     const player = document.querySelector(".car-run-player");
@@ -601,7 +678,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnRight = document.querySelector(".car-run-right");
 
     if (!player || !obstaclesWrap || !timerBox) {
-      // fallback: kalau scene belum ada, langsung ke school
       gameState.chapter = 4;
       gameState.afterAction = false;
       switchRoom("school");
@@ -612,16 +688,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const road1 = document.querySelector(".road-1");
     const road2 = document.querySelector(".road-2");
 
-    // reset state
     carRunActive = true;
     carRunCollision = false;
     carRunTimer = 12;
     timerBox.textContent = carRunTimer;
 
-    // ✅ ROAD LOOP ANIMATION
     let roadY1 = 0;
     let roadY2 = -100;
-    const roadSpeed = 0.8; // naikkan kalau mau lebih cepat (1.2)
+    const roadSpeed = 0.8;
 
     function updateRoad() {
       if (!carRunActive) return;
@@ -637,25 +711,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       requestAnimationFrame(updateRoad);
     }
-
     updateRoad();
 
-    // bersihin obstacle lama
     obstaclesWrap.innerHTML = "";
 
-    // posisi mobil (3 lajur)
-    const lanes = [37, 50, 63]; // % left
-    let laneIndex = 1; // tengah
+    const lanes = [37, 50, 63];
+    let laneIndex = 1;
 
     function setLane(idx) {
       laneIndex = Math.max(0, Math.min(2, idx));
       player.style.left = lanes[laneIndex] + "%";
       player.style.transform = "translateX(-50%)";
     }
-
     setLane(1);
 
-    // keyboard control
     function onKey(e) {
       if (!carRunActive) return;
       if (e.key === "ArrowLeft") setLane(laneIndex - 1);
@@ -663,13 +732,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     window.addEventListener("keydown", onKey);
 
-    // mobile buttons
     const leftHandler = () => carRunActive && setLane(laneIndex - 1);
     const rightHandler = () => carRunActive && setLane(laneIndex + 1);
     btnLeft && btnLeft.addEventListener("click", leftHandler);
     btnRight && btnRight.addEventListener("click", rightHandler);
 
-    // spawn obstacles
     carRunObstacleInterval = setInterval(() => {
       if (!carRunActive) return;
 
@@ -679,16 +746,13 @@ document.addEventListener("DOMContentLoaded", () => {
       obs.alt = "obstacle";
       obs.draggable = false;
 
-      // random lane
       const obsLane = Math.floor(Math.random() * 3);
       obs.style.left = lanes[obsLane] + "%";
       obs.style.transform = "translateX(-50%)";
-
       obstaclesWrap.appendChild(obs);
 
-      // animate turun
       let y = -80;
-      const speed = 6 + Math.random() * 3; // variasi
+      const speed = 6 + Math.random() * 3;
 
       const moveInterval = setInterval(() => {
         if (!carRunActive) {
@@ -700,7 +764,6 @@ document.addEventListener("DOMContentLoaded", () => {
         y += speed;
         obs.style.top = y + "px";
 
-        // collision check (simple)
         const playerRect = player.getBoundingClientRect();
         const obsRect = obs.getBoundingClientRect();
 
@@ -717,7 +780,6 @@ document.addEventListener("DOMContentLoaded", () => {
           setTimeout(() => obs.remove(), 100);
         }
 
-        // keluar layar
         if (y > 500) {
           clearInterval(moveInterval);
           obs.remove();
@@ -726,7 +788,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }, 800);
 
-    // countdown finish
     carRunCountdownInterval = setInterval(() => {
       if (!carRunActive) return;
 
@@ -742,17 +803,14 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInterval(carRunObstacleInterval);
       clearInterval(carRunCountdownInterval);
 
-      // cleanup listener
       window.removeEventListener("keydown", onKey);
 
-      // kasih dialog singkat (optional)
       dialogBox.classList.remove("hidden");
       dialogSpeaker.textContent = "Syabil";
       dialogText.textContent = carRunCollision
         ? "Aduh... hampir nabrak! Tapi Syabil sudah sampai sekolah."
         : "Yey! Syabil sampai sekolah dengan aman.";
 
-      // next → masuk school
       const handler = () => {
         dialogNext.removeEventListener("click", handler);
 
