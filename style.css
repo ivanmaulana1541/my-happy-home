@@ -541,22 +541,29 @@ body {
 .room.intro{
   display: none;
   height: 360px;
-  background: linear-gradient(180deg, #fff0f5, #fdecef);
   text-align: center;
   padding: 30px 18px;
+
+  background-image: url("./assets/background/intro.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 
 .room.intro.active{
   display: block;
 }
 
 .intro-content{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 14px;
+  background: rgba(255,255,255,0.78);
+  border-radius: 22px;
+  padding: 26px 18px;
+  margin: auto;
+  max-width: 760px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
 }
+
 
 .intro-title{
   font-size: 34px;
