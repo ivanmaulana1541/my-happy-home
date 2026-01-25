@@ -588,8 +588,12 @@ document.addEventListener("DOMContentLoaded", () => {
     carRunObstacleInterval = setInterval(() => {
       if (!carRunActive) return;
 
-      const obs = document.createElement("div");
+      const obs = document.createElement("img");
       obs.className = "car-run-obstacle";
+      obs.src = "./assets/icons/mobil-lain.png";
+      obs.alt = "obstacle";
+      obs.draggable = false;
+
 
       // random lane
       const obsLane = Math.floor(Math.random() * 3);
