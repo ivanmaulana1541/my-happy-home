@@ -734,7 +734,7 @@ const road2 = document.querySelector(".road-2");
   /* =====================
      START GAME
   ===================== */
-  switchRoom("room");
-  showDialog();
+  switchRoom("intro");
+dialogBox.classList.add("hidden");
 
 });
