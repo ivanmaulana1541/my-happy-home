@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const car = document.querySelector(".car");
   const schoolDressIcon = document.querySelector(".school-dress-icon");
   const schoolBasketIcon = document.querySelector(".school-basket-icon");
+  const introStartBtn = document.querySelector(".intro-start-btn");
 
   const dialogBox = document.getElementById("dialog-box");
   const dialogSpeaker = dialogBox.querySelector(".dialog-speaker");
@@ -265,6 +266,21 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      ACTIONS
   ===================== */
+  // ✅ INTRO START
+  introStartBtn?.addEventListener("click", () => {
+    // reset ke awal cerita
+    gameState.chapter = 1;
+    gameState.dialogIndex = 0;
+    gameState.afterAction = false;
+    gameState.quizStep = 0;
+    gameState.waitingQuiz = false;
+    gameState.syabilOutfit = "piyama";
+
+    // masuk kamar syabil (room start)
+    switchRoom("room");
+    showDialog();
+  });
+  
   wardrobe?.addEventListener("click", () => {
     if (story[gameState.chapter].action !== "changeDress") return;
 
