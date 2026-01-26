@@ -696,3 +696,69 @@ body {
   touch-action: manipulation;
 }
 
+/* =========================
+   ✅ ANDROID LANDSCAPE FIX
+   Fokus: BASKET + CAR-RUN
+========================= */
+
+.room.basket,
+.room.car-run {
+  overflow: hidden;
+}
+
+/* ✅ khusus HP: 2 mini game dibuat full tinggi layar */
+@media (max-width: 900px) {
+
+  .room.basket.active,
+  .room.car-run.active {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+  }
+
+  .room.basket .basket-ui,
+  .room.car-run .car-run-ui {
+    height: 100% !important;
+  }
+
+  /* tombol basket */
+  .room.basket .shoot-btn {
+    bottom: 20px !important;
+  }
+
+  .room.basket .power-bar {
+    bottom: 70px !important;
+  }
+
+  /* tombol car-run */
+  .room.car-run .car-run-controls {
+    bottom: 12px !important;
+  }
+}
+
+/* ✅ khusus landscape HP (tinggi layar kecil) */
+@media (orientation: landscape) and (max-height: 500px) {
+
+  .room.basket .shoot-btn { bottom: 12px !important; }
+  .room.basket .power-bar { bottom: 56px !important; }
+
+  .room.car-run .car-run-controls button {
+    width: 58px !important;
+    height: 58px !important;
+    font-size: 26px !important;
+  }
+}
+
+/* ✅ PWA Android fullscreen: hilangkan padding body */
+@media (max-width: 900px){
+  body{
+    padding: 0 !important;
+  }
+
+  .game{
+    border-radius: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+  }
+}
