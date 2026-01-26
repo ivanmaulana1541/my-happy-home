@@ -738,20 +738,27 @@ const goodPower = (p >= 30 && p <= 95); // sebelumnya 50-80 (terlalu ketat)
 
     let touchStartX = null;
 
-player.addEventListener("touchstart", (e) => {
+function onTouchStart(e){
   touchStartX = e.touches[0].clientX;
-}, { passive: true });
-
-player.addEventListener("touchend", (e) => {
+}
+function onTouchEnd(e){
   if (touchStartX === null) return;
   const endX = e.changedTouches[0].clientX;
   const diff = endX - touchStartX;
 
-  if (diff > 40) setLane(laneIndex + 1);     // swipe kanan
-  if (diff < -40) setLane(laneIndex - 1);    // swipe kiri
+  if (diff > 40) setLane(laneIndex + 1);
+  if (diff < -40) setLane(laneIndex - 1);
 
   touchStartX = null;
-}, { passive: true });
+}
+
+// ✅ cegah dobel handler kalau startCarRun dipanggil ulang
+player.removeEventListener("touchstart", onTouchStart);
+player.removeEventListener("touchend", onTouchEnd);
+
+player.addEventListener("touchstart", onTouchStart, { passive: true });
+player.addEventListener("touchend", onTouchEnd, { passive: true });
+
 
 
     function onKey(e) {
