@@ -1,20 +1,26 @@
-const CACHE_NAME = "syabil-daily-adventure-v1";
+const CACHE_NAME = "syabil-daily-adventure-v2";
+
+// ✅ ini penting untuk GitHub Pages
+const BASE = "/my-happy-home/";
 
 const ASSETS = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./script.js",
-  "./manifest.json",
-  "./assets/icons/icon-192.png",
-  "./assets/icons/icon-512.png",
-  "./assets/background/intro.png"
+  BASE,
+  BASE + "index.html",
+  BASE + "style.css",
+  BASE + "script.js",
+  BASE + "manifest.json",
+
+  BASE + "assets/icons/icon-192.png",
+  BASE + "assets/icons/icon-512.png",
+
+  BASE + "assets/background/intro.png"
 ];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (e) => {
@@ -23,6 +29,7 @@ self.addEventListener("activate", (e) => {
       Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
     )
   );
+  self.clients.claim();
 });
 
 self.addEventListener("fetch", (e) => {
