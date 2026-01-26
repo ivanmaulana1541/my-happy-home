@@ -799,3 +799,17 @@ body {
     bottom: 6px !important;
   }
 }
+
+/* ✅ QUIZ turun sedikit di HP */
+@media (max-width: 900px){
+  .school .quiz{
+    bottom: 120px;   /* sebelumnya 180px */
+  }
+}
+
+/* ✅ QUIZ turun lebih pas untuk HP landscape */
+@media (orientation: landscape) and (max-height: 520px){
+  .school .quiz{
+    bottom: 90px;    /* lebih turun */
+  }
+}
