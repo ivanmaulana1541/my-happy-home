@@ -810,6 +810,6 @@ body {
 /* ✅ QUIZ turun lebih pas untuk HP landscape */
 @media (orientation: landscape) and (max-height: 520px){
   .school .quiz{
-    bottom: 90px;    /* lebih turun */
+    bottom: 60px;    /* lebih turun */
   }
 }
