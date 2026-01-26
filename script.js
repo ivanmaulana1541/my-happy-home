@@ -736,6 +736,24 @@ const goodPower = (p >= 30 && p <= 95); // sebelumnya 50-80 (terlalu ketat)
     }
     setLane(1);
 
+    let touchStartX = null;
+
+player.addEventListener("touchstart", (e) => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+player.addEventListener("touchend", (e) => {
+  if (touchStartX === null) return;
+  const endX = e.changedTouches[0].clientX;
+  const diff = endX - touchStartX;
+
+  if (diff > 40) setLane(laneIndex + 1);     // swipe kanan
+  if (diff < -40) setLane(laneIndex - 1);    // swipe kiri
+
+  touchStartX = null;
+}, { passive: true });
+
+
     function onKey(e) {
       if (!carRunActive) return;
       if (e.key === "ArrowLeft") setLane(laneIndex - 1);
