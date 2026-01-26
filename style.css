@@ -648,3 +648,38 @@ body{
     bottom: 12px;
   }
 }
+
+.game{
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.dialog{
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+button{
+  min-height: 44px;
+  font-size: 16px;
+}
+
+.car-run-controls button{
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  font-size: 28px;
+}
+
+*{
+  -webkit-tap-highlight-color: transparent;
+}
+
+body{
+  touch-action: manipulation;  /* mengurangi double tap zoom */
+}
+
+  .room.car-run{
+  touch-action: none;
+}
+
+  
+  
