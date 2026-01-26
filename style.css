@@ -762,3 +762,40 @@ body {
     max-width: 100vw !important;
   }
 }
+
+/* ✅ FORCE full height untuk HP landscape */
+@media (orientation: landscape) and (max-height: 520px) {
+
+  .game{
+    height: 100vh !important;
+  }
+
+  .room{
+    height: 100vh !important;
+    min-height: 100vh !important;
+  }
+
+  .room.basket,
+  .room.car-run{
+    height: 100vh !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+  }
+
+  /* pastikan UI nya penuh */
+  .basket-ui,
+  .car-run-ui{
+    height: 100% !important;
+  }
+
+  /* tombol jangan ketutup */
+  .shoot-btn{
+    bottom: 10px !important;
+  }
+  .power-bar{
+    bottom: 55px !important;
+  }
+  .car-run-controls{
+    bottom: 6px !important;
+  }
+}
