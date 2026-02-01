@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
      ✅ NEW: SYABIL ROOM ANIMATION
   ===================== */
   const SYABIL_POSE = {
-    sleep: "./assets/piyama_sleep.png",       // ✅ ganti kalau beda namanya
-    sit: "./assets/piyama_sit.png",           // ✅ ganti kalau beda namanya
+    sleep: "./assets/piyama-tidur.png",       // ✅ ganti kalau beda namanya
+    sit: "./assets/piyama-duduk.png",           // ✅ ganti kalau beda namanya
     standPajama: "./assets/piyama.png",       // kamu sudah punya ini
     uniform: "./assets/child.png"             // kamu sudah punya ini
   };
