@@ -161,6 +161,77 @@ body {
 }
 
 /* =====================
+   ✅ NEW: ANIME WAKE UP ANIMATION (SYABIL ROOM)
+   (tidak mengganggu scene lain)
+===================== */
+
+/* morning overlay */
+.syabil-room .morning-light{
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at 75% 25%, rgba(255,255,255,0.55), rgba(255,255,255,0) 55%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 1.3s ease;
+  pointer-events:none;
+  z-index: 2;
+}
+
+/* zzz */
+.syabil-room .zzz{
+  position:absolute;
+  left: 60%;
+  bottom: 62%;
+  z-index: 50;
+  font-size: 28px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.28);
+  animation: zzzFloat 2.2s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes zzzFloat{
+  0%,100%{ transform: translateY(0px); opacity:0.9; }
+  50%{ transform: translateY(-14px); opacity:1; }
+}
+
+/* breathing (sleep idle) */
+@keyframes sleepBreath {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-0.4deg); }
+}
+
+.syabil-room .person.child.sleeping img{
+  animation: sleepBreath 1.7s ease-in-out infinite;
+}
+
+/* cinematic fade for changing clothes */
+.syabil-room .person.child img{
+  transition: opacity 0.35s ease, transform 0.55s ease;
+}
+
+/* sparkle layer */
+.syabil-room .sparkle-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index: 60;
+}
+.sparkle{
+  position:absolute;
+  font-size: 22px;
+  opacity: 0;
+  animation: sparklePop 0.9s ease forwards;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.22));
+}
+@keyframes sparklePop{
+  0%{ transform: translateY(0px) scale(0.7); opacity:0; }
+  25%{ opacity:1; }
+  70%{ opacity:1; transform: translateY(-18px) scale(1.15); }
+  100%{ transform: translateY(-30px) scale(0.9); opacity:0; }
+}
+
+/* =====================
    MAP
 ===================== */
 .map {
