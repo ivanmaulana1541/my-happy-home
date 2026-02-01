@@ -29,6 +29,123 @@ document.addEventListener("DOMContentLoaded", () => {
   let showArrivedHomeDialog = false;    // setelah masuk home, tampil dialog "sampai rumah"
 
   /* =====================
+     ✅ NEW: SYABIL ROOM ANIMATION
+  ===================== */
+  const SYABIL_POSE = {
+    sleep: "./assets/piyama_sleep.png",       // ✅ ganti kalau beda namanya
+    sit: "./assets/piyama_sit.png",           // ✅ ganti kalau beda namanya
+    standPajama: "./assets/piyama.png",       // kamu sudah punya ini
+    uniform: "./assets/child.png"             // kamu sudah punya ini
+  };
+
+  function getSyabilRoomEls(){
+    const room = document.querySelector(".room.syabil-room");
+    if (!room) return null;
+    return {
+      room,
+      child: room.querySelector(".person.child"),
+      img: room.querySelector(".person.child img"),
+      light: room.querySelector(".morning-light"),
+      zzz: room.querySelector(".zzz"),
+      sparkleLayer: room.querySelector(".sparkle-layer")
+    };
+  }
+
+  function syabilRoomSetMorning(on){
+    const els = getSyabilRoomEls();
+    if (!els) return;
+    if (els.light) els.light.style.opacity = on ? "1" : "0";
+  }
+
+  function syabilRoomSetZzz(show){
+    const els = getSyabilRoomEls();
+    if (!els) return;
+    if (els.zzz) els.zzz.classList.toggle("hidden", !show);
+  }
+
+  function syabilRoomSetPose(pose){
+    const els = getSyabilRoomEls();
+    if (!els || !els.img) return;
+
+    // remove sleeping class
+    els.child?.classList.remove("sleeping");
+
+    if (pose === "sleep") {
+      els.img.src = SYABIL_POSE.sleep;
+      els.child?.classList.add("sleeping");
+      syabilRoomSetZzz(true);
+      syabilRoomSetMorning(false);
+      return;
+    }
+
+    if (pose === "sit") {
+      els.img.src = SYABIL_POSE.sit;
+      syabilRoomSetZzz(false);
+      syabilRoomSetMorning(true);
+      return;
+    }
+
+    if (pose === "standPajama") {
+      els.img.src = SYABIL_POSE.standPajama;
+      syabilRoomSetZzz(false);
+      syabilRoomSetMorning(true);
+      return;
+    }
+
+    if (pose === "uniform") {
+      els.img.src = SYABIL_POSE.uniform;
+      syabilRoomSetZzz(false);
+      syabilRoomSetMorning(true);
+      return;
+    }
+  }
+
+  function spawnSparkles(){
+    const els = getSyabilRoomEls();
+    if (!els || !els.sparkleLayer) return;
+
+    els.sparkleLayer.innerHTML = "";
+
+    // spawn beberapa sparkle
+    const sparkleIcons = ["✨","💫","⭐","🌟"];
+    for(let i=0;i<10;i++){
+      const sp = document.createElement("div");
+      sp.className = "sparkle";
+      sp.textContent = sparkleIcons[Math.floor(Math.random() * sparkleIcons.length)];
+
+      // area sekitar syabil
+      sp.style.left = (48 + Math.random() * 18) + "%";
+      sp.style.top = (42 + Math.random() * 26) + "%";
+      sp.style.animationDelay = (Math.random() * 0.12) + "s";
+
+      els.sparkleLayer.appendChild(sp);
+
+      // auto remove
+      setTimeout(()=> sp.remove(), 950);
+    }
+  }
+
+  async function syabilRoomCinematicChangeToUniform(){
+    const els = getSyabilRoomEls();
+    if (!els || !els.img) return;
+
+    // sparkle + fade out
+    spawnSparkles();
+    els.img.style.opacity = "0";
+
+    // sedikit delay biar cinematic
+    setTimeout(() => {
+      // change to uniform
+      els.img.src = SYABIL_POSE.uniform;
+    }, 350);
+
+    setTimeout(() => {
+      els.img.style.opacity = "1";
+      spawnSparkles();
+    }, 520);
+  }
+
+  /* =====================
      GAME STATE
   ===================== */
   const gameState = {
@@ -129,6 +246,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(".person.child img")
       .forEach(img => img.src = src);
+
+    // ✅ khusus syabil-room kita override supaya animasi bisa jalan
+    if (document.querySelector(".room.syabil-room.active")) {
+      if (gameState.syabilOutfit === "piyama") syabilRoomSetPose("sleep");
+      if (gameState.syabilOutfit === "seragam") syabilRoomSetPose("uniform");
+    }
   }
 
   function loadRoomBackground(name) {
@@ -136,6 +259,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!room || room.dataset.bgLoaded) return;
 
     if (name === "car-run") return;
+
+    // ✅ patch: syabil-room custom file
+    if (name === "syabil-room") {
+      const webpCustom = `./assets/background/syabil-room.webp`;
+      room.style.backgroundImage = `url("${webpCustom}")`;
+      room.dataset.bgLoaded = "true";
+      return;
+    }
 
     const webp = `./assets/background/${name}.webp`;
     const png = `./assets/background/${name}.png`;
@@ -190,6 +321,26 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogSpeaker.textContent = dialog.speaker;
     dialogText.textContent = dialog.text;
     dialogBox.classList.remove("hidden");
+
+    // ✅ NEW: auto animasi syabil bangun
+    if (gameState.chapter === 1 && !gameState.afterAction) {
+      // dialog pertama: tidur
+      if (gameState.dialogIndex === 0) {
+        syabilRoomSetPose("sleep");
+      }
+
+      // dialog kedua: bangun duduk
+      if (gameState.dialogIndex === 1) {
+        setTimeout(() => {
+          syabilRoomSetPose("sit");
+        }, 250);
+      }
+    }
+
+    // ✅ setelah ganti baju: syabil berdiri uniform
+    if (gameState.chapter === 1 && gameState.afterAction) {
+      syabilRoomSetPose("uniform");
+    }
   }
 
   /* =====================
@@ -281,11 +432,17 @@ document.addEventListener("DOMContentLoaded", () => {
     gameState.syabilOutfit = "piyama";
 
     switchRoom("syabil-room");
+
+    // ✅ start scene sleeping
+    syabilRoomSetPose("sleep");
     showDialog();
   });
 
-  wardrobe?.addEventListener("click", () => {
+  wardrobe?.addEventListener("click", async () => {
     if (story[gameState.chapter].action !== "changeDress") return;
+
+    // ✅ cinematic change
+    await syabilRoomCinematicChangeToUniform();
 
     gameState.syabilOutfit = "seragam";
     updateSyabilOutfit();
@@ -630,28 +787,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const s = 1 - Math.min(0.35, t / tMax * 0.35);
 
-// ✅ AUTO-ASSIST: mendekati ring di akhir lintasan (biar gampang masuk)
-if (t > tMax * 0.72) {
-  const assist = 0.28; // 0.1 = lembut, 0.25 = kuat
-  x += (ringX - x) * assist;
-  y += (ringY - y) * assist * 0.35;
-}
+        // ✅ AUTO-ASSIST: mendekati ring di akhir lintasan (biar gampang masuk)
+        if (t > tMax * 0.72) {
+          const assist = 0.28; // 0.1 = lembut, 0.25 = kuat
+          x += (ringX - x) * assist;
+          y += (ringY - y) * assist * 0.35;
+        }
 
-renderBall(x, y, s);
+        renderBall(x, y, s);
 
-if (t < tMax) {
-  requestAnimationFrame(animate);
-  return;
-}
-
+        if (t < tMax) {
+          requestAnimationFrame(animate);
+          return;
+        }
 
         const distToRing = Math.hypot((x - ringX), (y - ringY));
 
-// ✅ dibuat lebih mudah untuk anak
-const SWISH_RANGE = 38;    // sebelumnya 22
-const RIM_RANGE = 70;      // sebelumnya 46
-const goodPower = (p >= 30 && p <= 95); // sebelumnya 50-80 (terlalu ketat)
-
+        // ✅ dibuat lebih mudah untuk anak
+        const SWISH_RANGE = 38;    // sebelumnya 22
+        const RIM_RANGE = 70;      // sebelumnya 46
+        const goodPower = (p >= 30 && p <= 95); // sebelumnya 50-80 (terlalu ketat)
 
         if (distToRing < SWISH_RANGE && goodPower) {
           swishDrop();
@@ -738,28 +893,26 @@ const goodPower = (p >= 30 && p <= 95); // sebelumnya 50-80 (terlalu ketat)
 
     let touchStartX = null;
 
-function onTouchStart(e){
-  touchStartX = e.touches[0].clientX;
-}
-function onTouchEnd(e){
-  if (touchStartX === null) return;
-  const endX = e.changedTouches[0].clientX;
-  const diff = endX - touchStartX;
+    function onTouchStart(e){
+      touchStartX = e.touches[0].clientX;
+    }
+    function onTouchEnd(e){
+      if (touchStartX === null) return;
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - touchStartX;
 
-  if (diff > 40) setLane(laneIndex + 1);
-  if (diff < -40) setLane(laneIndex - 1);
+      if (diff > 40) setLane(laneIndex + 1);
+      if (diff < -40) setLane(laneIndex - 1);
 
-  touchStartX = null;
-}
+      touchStartX = null;
+    }
 
-// ✅ cegah dobel handler kalau startCarRun dipanggil ulang
-player.removeEventListener("touchstart", onTouchStart);
-player.removeEventListener("touchend", onTouchEnd);
+    // ✅ cegah dobel handler kalau startCarRun dipanggil ulang
+    player.removeEventListener("touchstart", onTouchStart);
+    player.removeEventListener("touchend", onTouchEnd);
 
-player.addEventListener("touchstart", onTouchStart, { passive: true });
-player.addEventListener("touchend", onTouchEnd, { passive: true });
-
-
+    player.addEventListener("touchstart", onTouchStart, { passive: true });
+    player.addEventListener("touchend", onTouchEnd, { passive: true });
 
     function onKey(e) {
       if (!carRunActive) return;
