@@ -951,3 +951,18 @@ body {
   animation: wakeFromBed 0.9s ease-out forwards;
 }
 
+/* =========================
+   ✅ SCALE FIX — PIYAMA ONLY
+========================= */
+
+/* pose tidur */
+.syabil-room .person.child.sleeping img{
+  transform: scale(0.78);
+  transform-origin: bottom center;
+}
+
+/* pose duduk */
+.syabil-room .person.child.sitting img{
+  transform: scale(0.82);
+  transform-origin: bottom center;
+}
