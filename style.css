@@ -902,24 +902,26 @@ body {
 }
 
 /* =========================
-   ✅ SYABIL BED POSITION FIX
-   hanya berlaku di syabil-room
+   ✅ SYABIL BED POSITION — FINAL FIX
 ========================= */
 
-/* posisi default (berdiri) */
+/* default berdiri (tidak berubah) */
 .syabil-room .person.child{
   right: 40px;
   bottom: 20px;
 }
 
-/* pose tidur → naik ke kasur */
+/* 🛏 pose tidur — di atas kasur */
 .syabil-room .person.child.sleeping{
-  right: 200px;
-  bottom: 85px;
+  left: 50%;
+  bottom: 110px;
+  transform: translateX(-50%);
 }
 
-/* pose duduk → dekat kasur */
+/* 🪑 pose duduk — dekat kasur */
 .syabil-room .person.child.sitting{
-  right: 185px;
-  bottom: 70px;
+  left: 50%;
+  bottom: 95px;
+  transform: translateX(-50%);
 }
+
