@@ -78,24 +78,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pose === "sleep") {
   syabilRoomSetCinematic(false);
-  els.img.src = SYABIL_POSE.sleep;
+
+  els.child?.classList.remove("sitting");
   els.child?.classList.add("sleeping");
+
+  els.img.src = SYABIL_POSE.sleep;
   syabilRoomSetZzz(true);
   syabilRoomSetMorning(false);
   return;
 }
 
 
+
     if (pose === "sit") {
   syabilRoomSetCinematic(true);
+
+  els.child?.classList.remove("sleeping");
+  els.child?.classList.add("sitting");
+
   els.img.src = SYABIL_POSE.sit;
   syabilRoomSetZzz(false);
   syabilRoomSetMorning(true);
   return;
 }
 
+
 if (pose === "standPajama") {
   syabilRoomSetCinematic(true);
+  els.child?.classList.remove("sleeping", "sitting");
+
   els.img.src = SYABIL_POSE.standPajama;
   syabilRoomSetZzz(false);
   syabilRoomSetMorning(true);
@@ -104,6 +115,8 @@ if (pose === "standPajama") {
 
 if (pose === "uniform") {
   syabilRoomSetCinematic(true);
+  els.child?.classList.remove("sleeping", "sitting");
+
   els.img.src = SYABIL_POSE.uniform;
   syabilRoomSetZzz(false);
   syabilRoomSetMorning(true);
