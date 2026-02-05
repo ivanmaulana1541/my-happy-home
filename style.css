@@ -900,3 +900,26 @@ body {
 .syabil-room.cinematic{
   transform: scale(1.035);
 }
+
+/* =========================
+   ✅ SYABIL BED POSITION FIX
+   hanya berlaku di syabil-room
+========================= */
+
+/* posisi default (berdiri) */
+.syabil-room .person.child{
+  right: 40px;
+  bottom: 20px;
+}
+
+/* pose tidur → naik ke kasur */
+.syabil-room .person.child.sleeping{
+  right: 200px;
+  bottom: 85px;
+}
+
+/* pose duduk → dekat kasur */
+.syabil-room .person.child.sitting{
+  right: 185px;
+  bottom: 70px;
+}
