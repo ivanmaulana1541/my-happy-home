@@ -96,11 +96,18 @@ document.addEventListener("DOMContentLoaded", () => {
   els.child?.classList.remove("sleeping");
   els.child?.classList.add("sitting");
 
+  // ✅ trigger bangun animation
+  els.child?.classList.add("waking");
+  setTimeout(()=>{
+    els.child?.classList.remove("waking");
+  }, 900);
+
   els.img.src = SYABIL_POSE.sit;
   syabilRoomSetZzz(false);
   syabilRoomSetMorning(true);
   return;
 }
+
 
 
 if (pose === "standPajama") {
