@@ -884,3 +884,19 @@ body {
     bottom: 60px;    /* lebih turun */
   }
 }
+
+/* =========================
+   ✅ CINEMATIC CAMERA (SYABIL ROOM)
+   - bikin scene bangun tidur lebih hidup
+   - aman, tidak ganggu room lain
+========================= */
+.syabil-room{
+  overflow: hidden;
+  transform: scale(1);
+  transition: transform 1.4s ease;
+  transform-origin: center;
+}
+
+.syabil-room.cinematic{
+  transform: scale(1.035);
+}
