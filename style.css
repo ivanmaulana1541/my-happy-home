@@ -927,4 +927,27 @@ body {
   transform: translateX(-50%);
 }
 
+/* =========================
+   ✅ WAKE UP FROM BED ANIMATION
+========================= */
+
+@keyframes wakeFromBed {
+  0% {
+    transform: translateX(-50%) translateY(18px) rotate(2deg);
+  }
+  40% {
+    transform: translateX(-50%) translateY(6px) rotate(-1deg);
+  }
+  70% {
+    transform: translateX(-50%) translateY(-4px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0px) rotate(0deg);
+  }
+}
+
+/* apply saat bangun */
+.syabil-room .person.child.waking{
+  animation: wakeFromBed 0.9s ease-out forwards;
+}
 
