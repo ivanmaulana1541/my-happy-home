@@ -911,17 +911,20 @@ body {
   bottom: 20px;
 }
 
-/* 🛏 pose tidur — di atas kasur */
+/* tidur di kasur */
 .syabil-room .person.child.sleeping{
+  right: auto;
   left: 50%;
   bottom: 110px;
   transform: translateX(-50%);
 }
 
-/* 🪑 pose duduk — dekat kasur */
+/* duduk dekat kasur */
 .syabil-room .person.child.sitting{
+  right: auto;
   left: 50%;
   bottom: 95px;
   transform: translateX(-50%);
 }
+
 
